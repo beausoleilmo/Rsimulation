@@ -131,24 +131,53 @@ plot(function.name(1:10)+rnorm(10))
 
 
 
+
 ---
-## Linear model refresher
+## Fucntions useful in simulations (RNG)
 
-$$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
+- When performing simulations, you will have to play with (pseudo-)randomly generated numbers from a random number generator (RNG). 
+- This is a challenge if we want to replicate the analysis we are performing. 
+- `R` has the function `set.seed()` that help us to play with the RNG.
 
-- $Y$ is the response variable
-- $\beta_0$ is the intercept
-- $\beta_1$ is the coefficient of variation for the first explanatory variable ($x_1$)
-- $\beta_p$ is the coefficient of variation for the $p^{th}$ explanatory variable for the $p^{th}$ $x_p$ explanatory variable
-- $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
+The example below uses a RNG to extract numerical value between 1 and 10
+```{r, echo=FALSE}
+set.seed(123)
+```
 
-- The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
+```{r}
+runif(n = 1, min = 1, max = 10) # Gives a random number between 1 and 10
+runif(n = 1, min = 1, max = 10) # RNG wasn't reset, different answer (see above)
+runif(n = 1, min = 1, max = 10) # Different again... 
+
+set.seed(42); runif(n = 1, min = 1, max = 10) # This sets the RNG 
+set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number 
+
+```
+
+---
+## Fucntions useful in simulations (sample)
+
+- The function `sample()` randomly picks a value from a vector (of a number of elements)
+
+The example below uses a RNG to extract numerical value between 1 and 10
+```{r, echo=FALSE}
+set.seed(123)
+```
+
+```{r}
+set.seed(12) # Set the RNG 
+v.1.10 = 1:10 # Make a vector from 1 to 10 
+# Randomly pick 1 (size) value from the vector (x), without replacement 
+sample(x = v.1.10, size = 1, replace = FALSE) 
+
+```
+
 
 
 ---
 ## Challenge 1 ![:cube]()
 
-Select randomly 4 values out of a vector of numbers ranging from 1 to 10 without replacement. 
+Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement. 
 
 Use `sample()` to perform this task. 
 
@@ -160,7 +189,7 @@ sample()
 ---
 ## Challenge 1 - Solution ![:cube]()
 
-Select randomly 4 values out of a vector of numbers ranging from 1 to 10 without replacement. 
+Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement.
 
 ```{r}
 set.seed(12345) # Sets the random nubmer generator to a fix value
@@ -275,6 +304,15 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 
 ---
 ## Normal distribution 
+
+The general form of the probability density function for a normal distribution is 
+$f(x)= {\frac{1}{\sigma\sqrt{2\pi}}}e^{- {\frac {1}{2}} \big( \frac {x-\mu}{\sigma}\big)^2}$
+
+The important part here is the mean $\mu$ and the standard deviation $\sigma$.
+
+
+---
+## Normal distribution 
 .pull-left[
 
 ```{r, fig.width=5,fig.height=5}
@@ -286,6 +324,7 @@ abline(h=seq(0,1, by = .1),
        lty = 3, lwd = .3)
 
 ```
+
 ]
 
 ---
@@ -387,6 +426,23 @@ set.seed(1234)
 n <-10
 rnorm(n)
 ```
+
+- Why are there negative values? 
+
+---
+## Linear model refresher
+
+$$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
+
+- $Y$ is the response variable
+- $\beta_0$ is the intercept
+- $\beta_1$ is the coefficient of variation for the first explanatory variable ($x_1$)
+- $\beta_p$ is the coefficient of variation for the $p^{th}$ explanatory variable for the $p^{th}$ $x_p$ explanatory variable
+- $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
+
+- The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
+
+
 
 ---
 ## Simulate categories (Anova)
