@@ -66,7 +66,13 @@ class: inverse, center, middle
 - It is then possible to test various methods to 
   1. see if they work, 
   2. do power analysis, 
-  3. etc.
+  3. verify assumptions
+  4. learn how data is generated 
+  5. etc. 
+  
+- The idea here is that perhaps we are interested in understanding how a certain process was generated (how X influences Y, which could be written as X -> Y or Y~X). 
+
+This is probably the most important points for simulations in biology as we are trying to understand natural processes (which are themselves manifestations of random processes)
 
 ---
 ## Probability distributions are crucial for simulations
@@ -169,9 +175,16 @@ set.seed(12) # Set the RNG
 v.1.10 = 1:10 # Make a vector from 1 to 10 
 # Randomly pick 1 (size) value from the vector (x), without replacement 
 sample(x = v.1.10, size = 1, replace = FALSE) 
-
 ```
 
+- The values don't have to be numerical: they could be characters or factors
+
+```{r}
+set.seed(3) # Set the RNG 
+# Randomly pick 5 (size) letters from the vector (x), without replacement 
+sample(x = LETTERS, size = 5, replace = FALSE) 
+sample(x = as.factor(month.abb), size = 5, replace = FALSE) 
+```
 
 
 ---
@@ -395,7 +408,7 @@ arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
 
 
 ---
-# Test 
+# Quantile value for a normal distribution 
 
 ```{r}
 qnorm(p = 0.025,lower.tail = F)
@@ -446,7 +459,7 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 
 ---
 ## Simulate categories (Anova)
-
+<!-- Although this is with only 2 groups, I'm showing this as a quick example -->
 .pull-left[
 ```{r}
 
@@ -473,6 +486,74 @@ plot(y~gr, data = df.aov)
 
 ]
 
+
+---
+## Advanced simualtions
+
+- Now that we have the building blocks to make simulations, we are going to add another layer:
+  - We want to simulate a process and then see how, when changing one value, our simulation responds 
+  - For this, we need a certain workflow that resemble this: 
+    1. create a blank vector in which a value of interest will be stored in 
+    2. Within a loop or many `for(){}` loops, we are going to 
+      - simulate data, get a desired result and store the result for future analysis 
+    3. Summarize our findings (in a plot, with calculations, etc.) 
+
+.alert[ATTENTION]. This is an iterative process. Usually, we make small increments writing up the code and then put it all together in a cohesive function that will make exactly what we are looking for. 
+
+
+---
+## Advanced simualtions
+.tiny[
+```{r}
+# Defining the population 
+n = 600 # Number of elements to be generated 
+set.seed(13) # Set RNG 
+x = rnorm(n) # Generate numbers from normal distribution 
+reedddd = scales::alpha("blue",.4) # Make colour transparent 
+
+# Definte the function 
+sample.mean.pop.est <- function(x,n, sample.size, ylim = NULL) {
+  # x: is the actual values of the trait measured 
+  # n: size of the population (number of individuals or items)
+  # sample.size: how big is the sample size from which the MEAN will calculated from 
+  # ylim: add a maximum if needed 
+  # histogram of the population 
+  
+  # Just get the stats from the histogram 
+  pop.hist = hist(x, plot = F) # Make base histogram 
+  
+  # Make empty vector
+  tmp.v = c(NA) 
+  
+  # For loop to calculate the mean based on a sample from the population 
+  for (i in 1:n) {
+    tmp = sample(x = x, size = sample.size, replace = FALSE)
+    # Record that information (mean of the sample)
+    tmp.v[i] = mean(tmp)
+  } # End i
+  
+  # Sample histogram 
+  sample.hist = hist(tmp.v, plot = F)
+  # Population histogram 
+  hist(x, ylim = range(c(0,c(sample.hist$counts, pop.hist$counts), ylim)), 
+       main = paste("Sample n =", sample.size))
+  # Add the sample estimate 
+  sample.hist = hist(tmp.v, col = reedddd, add=T)
+} # End sample.mean.pop.est
+```
+]
+---
+## Advanced simualtions
+
+.small[
+```{r}
+par(mfrow=c(2,2))
+sample.mean.pop.est(x = x, n = n,sample.size = 1, ylim = 300)
+sample.mean.pop.est(x = x, n = n,sample.size = 10, ylim = 300)
+sample.mean.pop.est(x = x, n = n,sample.size = 50, ylim = 300)
+sample.mean.pop.est(x = x, n = n,sample.size = 500, ylim = 300)
+```
+]
 
 ---
 ## References
