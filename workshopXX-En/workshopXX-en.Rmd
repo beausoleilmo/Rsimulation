@@ -43,13 +43,16 @@ For this workshop it is useful to have a solid understanding of
 1. Linear models and generalized linear models (GLMs)
 2. Programming in R 
 
-See the [QCBS R workshops](https://r.qcbs.ca/fr/). 
+See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topics.
+
+- We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop. 
+- We are going to be more explicitly show assumptions of models and use for loops in this workshop 
 
 ---
 ## Learning objectives
 
 1. Develop intuition and skills to perform simulations
-2. Use functions useful when doing simulations 
+2. Explore useful functions when designing simulations 
 3. Articulate what are the assumptions underlying a simulation (for the models tested or the scope of the simulation)
 
 
@@ -62,17 +65,20 @@ class: inverse, center, middle
 ## Find patterns in random processes
 
 - Simulations are useful to test the properties of randomly generated data 
-- Therefore, since we designed the simulation, we know the processes that underlie the data generated
+- Since we designed the simulation, we know parameters of the processes that underlie it.
 - It is then possible to test various methods to 
-  1. see if they work, 
+  1. see if they work and verify their assumptions, 
   2. do power analysis, 
-  3. verify assumptions
-  4. learn how data is generated 
-  5. etc. 
-  
-- The idea here is that perhaps we are interested in understanding how a certain process was generated (how X influences Y, which could be written as X -> Y or Y~X). 
+  3. learn how data is generated 
+  4. etc. 
 
-This is probably the most important points for simulations in biology as we are trying to understand natural processes (which are themselves manifestations of random processes)
+---
+## Find patterns in nature
+
+- The idea here is that perhaps we are interested in understanding how a certain process was generated (how $X$ influences $Y$, which could be written as $X \xrightarrow{Influences} Y$ or $Y \sim X$). 
+
+- This is probably the most important points for simulations in biology as we are trying to understand natural processes (which are themselves manifestations of random processes)
+  
 
 ---
 ## Probability distributions are crucial for simulations
