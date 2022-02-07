@@ -37,7 +37,7 @@ knitr::opts_chunk$set(
 
 ---
 ## Prerequisites
-
+<!-- I will be using base plot for this workshop: this is because it is MUCH EASIER to get quick BEAUTIFUL plots and show stuff -->
 For this workshop it is useful to have a solid understanding of 
 
 1. Linear models and generalized linear models (GLMs)
@@ -56,6 +56,7 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 3. Articulate what are the assumptions underlying a simulation (for the models tested or the scope of the simulation)
 
 
+###############
 ---
 class: inverse, center, middle
 
@@ -86,6 +87,8 @@ class: inverse, center, middle
 - The idea here is that perhaps we are interested in understanding how a certain process was generated (how $X$ influences $Y$, which could be written as $X \xrightarrow{Affects} Y$ or $Y \sim X$). 
 
 - This is probably the most important points for simulations in biology as we are trying to understand **natural processes** (which are themselves manifestations of **random processes**)
+
+- Therefore, being able to do simulations can be a nice addition to your research toolkit. 
   
 
 ---
@@ -153,6 +156,7 @@ plot(function.name(1:10)+rnorm(10))
 
 - We used fewer comments to lighten the presentation, but please add comments. 
 
+###############
 ---
 class: inverse, center, middle
 
@@ -182,7 +186,7 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 ```
 
 ---
-## Fucntions useful in simulations (sample)
+## Functions useful in simulations (sample)
 
 - The function `sample()` randomly picks a value from a vector (of a number of elements)
 
@@ -239,6 +243,26 @@ As you can see in the last example, there are 2 "6"s, since each time a random n
 set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 ```
 
+###############
+---
+class: inverse, center, middle
+
+# Let's explore what underly some statistical processes
+
+---
+## Functions for various distributions
+
+- To help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
+- In `R`, there is a convention on how to call different distributions. 
+
+| Type | Definition | Comment |
+| ---- | ---------- | ------- |
+| p	   | *probability* (*cumulative* distribution function or CDF; gives you the probability for a given quantile) | gives the probability that a random variable takes in a certain *range of values* for that random variable |
+| q	   | *quantile* (inverse of CDF; gives you the x value for a given probability) | gives the position on the x axis where the area under the curve is a certain probability |
+| d	   | *density* density function (probability density function or PDF) | gives probability that a random variables have for a specific value if the random variable  |
+| r	   | *random* random variable coming from a certain distribution | We use this to generate random numbers from a specific distribution |
+
+- In the next slide, you'll see some built in functions to use these distributions 
 
 ---
 ## Functions for various distributions
@@ -263,6 +287,34 @@ set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 | Student t	   | `pt`	| `qt`	| `dt`	| `rt` |
 | Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey` |
 | Uniform	     | `punif`	| `qunif`	| `dunif`	| `runif` |
+| Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull` |
+| Wilcoxon Rank Sum Statistic	   | `pwilcox`	| `qwilcox`	| `dwilcox`	| `rwilcox` |
+| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` |
+]
+
+---
+## Functions for various distributions
+
+.verysmall[
+| Distribution | Probability | Quantile | Density | Random |
+| ------------ | ----------- | -------- | ------- | ------ |
+| Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` |
+| <span style="background-color: #FFFF00">**Binomial**</span>	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` |
+| Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` |
+| <span style="background-color: #FFFF00">**Chi-Square**</span>	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` |
+| <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` |
+| <span style="background-color: #FFFF00">**F**</span>	           | `pf`	     | `qf`	| `df`	| `rf` |
+| Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` |
+| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` |
+| Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` |
+| <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` |
+| <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` |
+| Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom` |
+| <span style="background-color: #FFFF00">**Normal**</span>	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm` |
+| <span style="background-color: #FFFF00">**Poisson**</span>	     | `ppois`	| `qpois`	| `dpois`	| `rpois` |
+| <span style="background-color: #FFFF00">**Student t**</span>	   | `pt`	| `qt`	| `dt`	| `rt` |
+| Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey` |
+| <span style="background-color: #FFFF00">**Uniform**</span>	     | `punif`	| `qunif`	| `dunif`	| `runif` |
 | Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull` |
 | Wilcoxon Rank Sum Statistic	   | `pwilcox`	| `qwilcox`	| `dwilcox`	| `rwilcox` |
 | Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` |
@@ -337,10 +389,35 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 ```
 
 ---
+## Summary of important distribution 
+
+- Distributions of random variables comes in 2 flavors: 
+  1. Discrete (only *countable* number of *distinct* values, e.g., 0, 5, 19,...)
+  2. Continuous (infinite number of possible values, e.g., 0.1,0.62113,...)
+
+- Here is a table explaining important distributions 
+
+.small[
+| Distribution | Definition | Type of data | Example |
+| ------------ | ---------- | ------------ | ------------ |
+| Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
+| Poisson	     | probability of a number of cases happening in a defined range of time or space given a constant rate | discrete; | ticks of a radiation counter, DNA mutation, lightning strikes (something per unit time or space for example) |
+| Logistic	   | probability of an individual to be in one class or another | continuous; | alive or not, yes or no, diseased or not, etc. |
+| Normal	     | probability function which informs how values are distributed | continuous; | height of individuals, beak length, shoe size, time required to run a kilometer, the data shows a 'bell-shaped' curve |
+| Uniform	     | probability of all outcomes are equal | continuous; | angle between 0-360 | 
+<!-- | Exponential	 | | continuous;|  | -->
+<!-- | Student t	   |            | continuous; | | -->
+<!-- | Beta	       |            |              | -->
+<!-- | Chi-Square	 |            |              | -->
+<!-- | F	           |            |              | -->
+]
+
+---
 ## Normal distribution 
 
 The general form of the probability density function for a normal distribution is 
-$f(x)= {\frac{1}{\sigma\sqrt{2\pi}}}e^{- {\frac {1}{2}} \big( \frac {x-\mu}{\sigma}\big)^2}$
+
+$$f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$$
 
 The important part here is the mean $\mu$ and the standard deviation $\sigma$.
 
@@ -382,8 +459,8 @@ For the density distribution, the *area* under the curve between two points is t
 
 ```{r, echo=FALSE, fig.width=5,fig.height=5}
 x <- seq(-5, 5, 0.1)
-
-plot(x, dnorm(x, 0, 1), main = "Density normal", type = "l", lwd = 2, col = "blue", ylab = "", xlab = "x", ylim = c(0,1))
+cex  = .7
+plot(x, dnorm(x, 0, 1), main = "Density normal", type = "l", lwd = 3, col = "black", ylab = "", xlab = "x", ylim = c(0,1))
 # quantile.normal = qnorm(seq(0,1, by = .05))
 quantile.normal = qnorm(c(.999,0.001,.975,.025, .95, .05, .9, .1))
 abline(v = quantile.normal[!is.infinite(quantile.normal)], lty = 3, lwd = .3) 
@@ -397,10 +474,11 @@ ub <- qnorm(p)   # Upper bound
 x2 <- seq(min(x), ub, length = 100) # New Grid
 y <- dnorm(x2, 0, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
 polygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
-text(x = ub, y = p+0.04,labels = paste0(p*100,"%"),adj = 0,pos = 2)
+text(x = ub, y = p+0.04,labels = paste0("pnorm(qnorm(p)) = \n",p*100,"%"),adj = 0,pos = 2, cex=cex)
 
-text(x = ub, y = .2,labels = paste0(round(qnorm(p),2)),adj = 0,pos = 1,offset = -1)
+text(x = ub-.6, y = .2,labels = paste0("qnorm(p) = ", round(qnorm(p),2)),adj = 0,pos = 1,offset = -1, cex=cex)
 arrows(x0 = ub,x1 = ub, y0 = .2,y1 = .1,code = 2,length=.1)
+
 
 # add the polygon to the right 
 lb <- qnorm(1-p) # Lower bound
@@ -408,9 +486,9 @@ ub <- max(x)   # Upper bound
 x2 <- seq(lb, max(x), length = 100) # New Grid
 y <- dnorm(x2, 0, 1) # Density
 polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
-text(x = lb, y = p+0.04,labels = paste0(p*100,"%"),adj = 0,pos = 4)
+text(x = lb, y = p+0.04,labels = paste0(p*100,"%"),adj = 0,pos = 4, cex=cex)
 
-text(x = lb, y = .2,labels = paste0(round(qnorm(1-p),2)),adj = 0,pos = 1,offset = -1)
+text(x = lb+.7, y = .2,labels = paste0(round(qnorm(1-p),2)," = qnorm(1-p)"),adj = 0,pos = 1,offset = -1, cex=cex)
 arrows(x0 = lb,x1 = lb, y0 = .2,y1 = .1,code = 2,length=.1)
 
 # Add the middle (red) polygon 
@@ -419,10 +497,32 @@ ub <- qnorm(1-p)   # Upper bound
 x2 <- seq(lb, ub, length = 100) # New Grid
 y <- dnorm(x2, 0, 1) # Density
 polygon(c(lb, x2, ub), c(0,y,0), col = rgb(1, 0, 0, alpha = 0.5))
-text(x = mean(x2), y = .2,labels = paste0((1-2*p)*100,"%"),adj = 0,pos = 1)
+text(x = mean(x2), y = .2,labels = paste0((1-2*p)*100,"% \n=", "\npnorm(qnorm(1-p)) - \npnorm(qnorm(p))"),adj = 0,pos = 1, cex=cex)
 
-text(x = 0, y = .55,labels = paste0(quote("Mean")),adj = 0,pos = 1,offset = 0)
+text(x = 0, y = .55,labels = paste0(quote("Mean")),adj = 0,pos = 1,offset = 0, cex=cex)
 arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
+
+legend("topright",legend = c("Density normal (dnorm)","Density rnorm(100)"), lwd = 1, lty = 1, col = c("black", "green"))
+
+set.seed(123)
+rndat =rnorm(100)
+# mean(rndat)
+dens.nor = density(rndat)
+lines(dens.nor, lwd = 3,col = scales::alpha("green",.8))
+mybins=hist(rndat, plot = F, density = T, breaks = 100)
+crn = mybins$density
+brn = mybins$breaks
+# # par(new=TRUE)
+# # hist(rndat,axes = F, ylab = "", xlab = "", main = "", col = NA, border = NA)
+# for (i in 1:c(length(brn)-1)) {
+#   x = mean(brn[i],brn[i+1])
+#   y = crn[i]
+#   points(x,y, col = scales::alpha("black",.2), pch = 19)
+# }
+
+# text(x = 2.2, y = .38,labels = paste0("qnorm(1-p)"),adj = 0,pos = 1,offset = 0)
+# arrows(x0 = 2.2,x1 = qnorm(1-p), y0 = .35,y1 = .27,code = 2,length=.1)
+
 
 ```
 ]
@@ -462,6 +562,12 @@ rnorm(n)
 ```
 
 - Why are there negative values? 
+
+###############
+---
+class: inverse, center, middle
+
+# Simulating data for models
 
 ---
 ## Linear model refresher
@@ -564,15 +670,15 @@ sample.mean.pop.est <- function(x,n, sample.size, ylim = NULL) {
 ```
 ]
 ---
-## Advanced simualtions
+## Advanced simulations
 
 .small[
 ```{r}
 par(mfrow=c(2,2))
-sample.mean.pop.est(x = x, n = n,sample.size = 1, ylim = 300)
-sample.mean.pop.est(x = x, n = n,sample.size = 10, ylim = 300)
-sample.mean.pop.est(x = x, n = n,sample.size = 50, ylim = 300)
-sample.mean.pop.est(x = x, n = n,sample.size = 500, ylim = 300)
+sample.mean.pop.est(x = x, n = n, sample.size = 1, ylim = 300)
+sample.mean.pop.est(x = x, n = n, sample.size = 10, ylim = 300)
+sample.mean.pop.est(x = x, n = n, sample.size = 50, ylim = 300)
+sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 ```
 ]
 
