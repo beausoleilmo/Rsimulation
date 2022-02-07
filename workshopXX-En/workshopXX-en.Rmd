@@ -1,0 +1,445 @@
+---
+title: "Workshop 11: Simulations in R"
+subtitle: "QCBS R Workshop Series"
+author: "Québec Centre for Biodiversity Science"
+output:
+  xaringan::moon_reader:
+    includes:
+      in_header: qcbsR-header.html
+    lib_dir: assets
+    seal: true
+    css: ["default", "qcbsR.css", "qcbsR-fonts.css"]
+    nature:
+      beforeInit: "qcbsR-macros.js"
+      highlightLines: true
+---
+
+
+```{r setup, echo = F}
+# in the end, should be abour 1500 lines
+knitr::opts_chunk$set(
+  comment = "#",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width=6, fig.height=6,
+  fig.retina = 3,
+  fig.align = 'center'
+)
+```
+
+## Outline
+
+1. Why are simulations relevant? 
+2. What you need to know before doing simulations (assumptions)? 
+3. How to perform simulations
+4. 
+
+---
+## Prerequisites
+
+For this workshop it is useful to have a solid understanding of 
+
+1. Linear models and generalized linear models (GLMs)
+2. Programming in R 
+
+See the [QCBS R workshops](https://r.qcbs.ca/fr/). 
+
+---
+## Learning objectives
+
+1. Develop intuition and skills to perform simulations
+2. Use functions useful when doing simulations 
+3. Articulate what are the assumptions underlying a simulation (for the models tested or the scope of the simulation)
+
+
+---
+class: inverse, center, middle
+
+# Why are simulations relevant?
+
+---
+## Find patterns in random processes
+
+- Simulations are useful to test the properties of randomly generated data 
+- Therefore, since we designed the simulation, we know the processes that underlie the data generated
+- It is then possible to test various methods to 
+  1. see if they work, 
+  2. do power analysis, 
+  3. etc.
+
+---
+## Probability distributions are crucial for simulations
+
+- When performing simulations, once has to keep in mind 
+  1. the type of distribution underlying the data of interest
+  2. the parameters of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
+  3. the statistical model making the relationship between the response variable and the explanatory variable. 
+  4. what we want to show or learn with the simulation
+
+---
+## Tips when performing simulation
+
+.alert[Description section]. Add a 'Description' section to all your simulation scripts to introduce what the script is about. You can add information how to use important arguments or a step-by-step description on how to use the script. You can add some references that you used to build your scrip. 
+
+.small[
+```r
+# Description  ------------------------------------------------------------
+#### ### ### ## #### ### ### ## #### ### ### ## 
+# TITLE OF THE SCRIPT
+# Created by YOUR_NAME
+# 
+# Why: 
+# Requires:
+# NOTES: 
+# Reference : 
+#### ### ### ## #### ### ### ## #### ### ### ## 
+
+# Code here ... 
+
+```
+]
+
+
+---
+## Tips when performing simulation
+
+.alert[Comments]. Be extra generous when commenting your code to describe as precisely as possible for the information that is not variable. 
+
+
+.small[
+```r
+# Description  ------------------------------------------------------------
+## This is the description section as previously presented 
+
+# Libraries ---------------------------------------------------------------
+## Here load the libraries used in the script 
+library(ggplot2)
+
+# Functions ---------------------------------------------------------------
+## Add and describe the functions used in the script 
+## Add more information
+function.name = function(var){tmp=2+var; return(tmp)}
+
+# Plots -------------------------------------------------------------------
+## Ploting the data simulated 
+## Add more information
+plot(function.name(1:10)+rnorm(10))
+
+```
+]
+
+
+
+---
+## Linear model refresher
+
+$$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
+
+- $Y$ is the response variable
+- $\beta_0$ is the intercept
+- $\beta_1$ is the coefficient of variation for the first explanatory variable ($x_1$)
+- $\beta_p$ is the coefficient of variation for the $p^{th}$ explanatory variable for the $p^{th}$ $x_p$ explanatory variable
+- $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
+
+- The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
+
+
+---
+## Challenge 1 ![:cube]()
+
+Select randomly 4 values out of a vector of numbers ranging from 1 to 10 without replacement. 
+
+Use `sample()` to perform this task. 
+
+```{r, eval=FALSE}
+sample()
+```
+
+
+---
+## Challenge 1 - Solution ![:cube]()
+
+Select randomly 4 values out of a vector of numbers ranging from 1 to 10 without replacement. 
+
+```{r}
+set.seed(12345) # Sets the random nubmer generator to a fix value
+vec.1.10 = 1:10 # Make the vector to chose from 
+sample(x = vec.1.10, size = 4, replace = FALSE) # Sample 4 nb without replacement
+sample(x = vec.1.10, size = 4, replace = TRUE) # Sample 4 nb with replacement
+```
+
+As you can see in the last example, there are 2 "6"s, since each time a random number was picked, all numbers could be randomly chosen. 
+
+1000 draws with replacement from 0 or 1, with equal probability for each. 
+```{r}
+set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
+```
+
+
+---
+## Functions for various distributions
+
+.verysmall[
+| Distribution | Probability | Quantile | Density | Random |
+| ------------ | ----------- | -------- | ------- | ------ |
+| Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` |
+| Binomial	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` |
+| Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` |
+| Chi-Square	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` |
+| Exponential	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` |
+| F	           | `pf`	     | `qf`	| `df`	| `rf` |
+| Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` |
+| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` |
+| Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` |
+| Logistic	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` |
+| Log Normal	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` |
+| Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom` |
+| Normal	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm` |
+| Poisson	     | `ppois`	| `qpois`	| `dpois`	| `rpois` |
+| Student t	   | `pt`	| `qt`	| `dt`	| `rt` |
+| Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey` |
+| Uniform	     | `punif`	| `qunif`	| `dunif`	| `runif` |
+| Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull` |
+| Wilcoxon Rank Sum Statistic	   | `pwilcox`	| `qwilcox`	| `dwilcox`	| `rwilcox` |
+| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` |
+]
+
+
+---
+## Common statistical distributions
+<!-- ![:scale 90%](images/distributions_all.png) -->
+
+```{r, echo=FALSE, out.width=750, out.height=600, fig.width=9,fig.height=7.5}
+par(mfrow = c(3,3), bg = NA)
+# par(mfrow = c(1,1), bg = NA)
+col = scales::alpha("black",.5)
+col.r = scales::alpha("red",.5)
+col.g = scales::alpha("green",.5)
+col.b = scales::alpha("blue",.5)
+lwd=2
+# Binom
+#define range of "successes"
+success <- 0:20
+plot(success, dbinom(x = success, size=20, prob=0.4),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Binomial")
+curve(expr = dbinom(x = x, size=20, prob=0.6),col = col, lwd=lwd, ylim = c(0,1), type = 'h',add = T)
+curve(expr = dbinom(x = x, size=1, prob=0.5),col = col.r, lwd=lwd, ylim = c(0,1), type = 'h',add = T)
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+legend("topright",legend = c("n = 20, p = .4","n = 20, p = .6","n = 1, p = .5"),lty = c(1,1,1), col =c(col.b,col, col.r), lwd = 2)
+
+# Logistic
+curve(dlogis(x,location = 0, scale = 1), from=-10, to=10, col = col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Logistic, l = 0, s = 1")
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+
+# Chi-sq
+curve(dchisq(x, df = 10), from = 0, to = 40, col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Chi-square")
+curve(dchisq(x, df = 4), from = 0, to = 40, col = col, lwd=lwd, ylim = c(0,1), add = T)
+curve(dchisq(x, df = 1), from = 0, to = 40, col = col.r, lwd=lwd, ylim = c(0,1), add = T)
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+legend("topright",legend = c("df = 10","df = 4","df = 1"),lty = c(1,1,1), col =c(col.b,col, col.r), lwd = 2)
+
+# Exponential 
+curve(dexp(x, rate = .5), from=0, to=10, col=col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Exponential")
+curve(dexp(x, rate = .2), from=0, to=10, col=col, lwd=lwd, ylim = c(0,1),add = T)
+curve(dexp(x, rate = .8), from=0, to=10, col=col.r, lwd=lwd, ylim = c(0,1),add = T)
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+legend("topright",legend = c("rate = 0.8","rate = 0.5","rate = 0.2"),lty = c(1,1,1), col =c(col.b,col,col.r), lwd = 2)
+
+# F-distribution
+curve(df(x, df1 = 10, df2 = 20), from = 0, to = 4, n = 5000, col= col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "F-distribution, df1 = 10, df2 = 20")
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+
+# normal 
+curve(expr = dnorm(x = x, mean=0,sd=1), from = -5, to = 5, col=col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Normal")
+curve(expr = dnorm(x = x, mean=0,sd=2), from = -5, to = 5, col=col, lwd=lwd, ylim = c(0,1), add = T)
+curve(expr = dnorm(x = x, mean=2,sd=1), from = -5, to = 5, col=col.r, lwd=lwd, ylim = c(0,1), add = T)
+curve(dt(x, df=1), from=-5, to=5, col=col.g, lty = 1, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "t-distribution df = 10", add=TRUE)
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+legend("topright",legend = c("Normal, m = 0, sd = 1","Normal, m = 0, sd = 2","Normal, m = 2, sd = 1","t-distribution, df =1"),lty = c(1,1,1,1), col =c(col.b,col,col.r,col.g), lwd = 2)
+
+# Log normal 
+curve(dlnorm(x, meanlog=0, sdlog=1), from=0, to=10, col=col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Log-normal, m = 0 sd = 1")
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+
+# Poisson
+plot(success, dpois(success, lambda=5), type='h', col=col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Poisson, lambda = 5")
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+
+# unifrom
+curve(dunif(x, min = 8,max = 9), from=5, to=25, col=col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Uniform") 
+curve(dunif(x, min = 10,max = 15), from=5, to=25, col=col, lwd=lwd, ylim = c(0,1), add=T) 
+curve(dunif(x, min = 16,max = 18), from=5, to=25, col=col.r, lwd=lwd, ylim = c(0,1), add = T) 
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, max = 18"),lty = c(1,1,1), col =c(col.b,col,col.r), lwd = 2)
+```
+
+---
+## Normal distribution 
+.pull-left[
+
+```{r, fig.width=5,fig.height=5}
+curve(expr = dnorm(x = x, mean=0,sd=1), 
+      from = -5, to = 5, ylim = c(0,1),
+      col="black", ylab = "Density",
+      main = "Density normal") 
+abline(h=seq(0,1, by = .1), 
+       lty = 3, lwd = .3)
+
+```
+]
+
+---
+## Normal distribution 
+.pull-left[
+
+```{r, fig.width=5,fig.height=5}
+curve(expr = dnorm(x = x, mean=0,sd=1), 
+      from = -5, to = 5, ylim = c(0,1),
+      col="black", ylab = "Density",
+      main = "Density normal") 
+abline(h=seq(0,1, by = .1), 
+       lty = 3, lwd = .3)
+
+```
+]
+
+.pull-right[
+
+For the density distribution, the *area* under the curve between two points is the *probability*. For example, the 95% probability (red region), and 2 tails 2.5% (blue region).
+
+```{r, echo=FALSE, fig.width=5,fig.height=5}
+x <- seq(-5, 5, 0.1)
+
+plot(x, dnorm(x, 0, 1), main = "Density normal", type = "l", lwd = 2, col = "blue", ylab = "", xlab = "x", ylim = c(0,1))
+# quantile.normal = qnorm(seq(0,1, by = .05))
+quantile.normal = qnorm(c(.999,0.001,.975,.025, .95, .05, .9, .1))
+abline(v = quantile.normal[!is.infinite(quantile.normal)], lty = 3, lwd = .3) 
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+
+p = 0.025 
+
+# add the polygon to the left  
+lb <- min(x) # Lower bound
+ub <- qnorm(p)   # Upper bound
+x2 <- seq(min(x), ub, length = 100) # New Grid
+y <- dnorm(x2, 0, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
+polygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
+text(x = ub, y = p+0.04,labels = paste0(p*100,"%"),adj = 0,pos = 2)
+
+text(x = ub, y = .2,labels = paste0(round(qnorm(p),2)),adj = 0,pos = 1,offset = -1)
+arrows(x0 = ub,x1 = ub, y0 = .2,y1 = .1,code = 2,length=.1)
+
+# add the polygon to the right 
+lb <- qnorm(1-p) # Lower bound
+ub <- max(x)   # Upper bound
+x2 <- seq(lb, max(x), length = 100) # New Grid
+y <- dnorm(x2, 0, 1) # Density
+polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
+text(x = lb, y = p+0.04,labels = paste0(p*100,"%"),adj = 0,pos = 4)
+
+text(x = lb, y = .2,labels = paste0(round(qnorm(1-p),2)),adj = 0,pos = 1,offset = -1)
+arrows(x0 = lb,x1 = lb, y0 = .2,y1 = .1,code = 2,length=.1)
+
+# Add the middle (red) polygon 
+lb <- qnorm(p) # Lower bound
+ub <- qnorm(1-p)   # Upper bound
+x2 <- seq(lb, ub, length = 100) # New Grid
+y <- dnorm(x2, 0, 1) # Density
+polygon(c(lb, x2, ub), c(0,y,0), col = rgb(1, 0, 0, alpha = 0.5))
+text(x = mean(x2), y = .2,labels = paste0((1-2*p)*100,"%"),adj = 0,pos = 1)
+
+text(x = 0, y = .55,labels = paste0(quote("Mean")),adj = 0,pos = 1,offset = 0)
+arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
+
+```
+]
+
+
+---
+# Test 
+
+```{r}
+qnorm(p = 0.025,lower.tail = F)
+```
+
+
+---
+## Challenge 2 ![:cube]()
+
+Let's say you want to simulate the length of different beak sizes for 10 birds. 
+
+Use `rnorm()` to generate 10 random normal numbers. 
+
+```{r, eval=FALSE}
+rnorm()
+```
+
+
+---
+## Challenge 2 - Solution ![:cube]()
+
+Let's say you want to simulate the length of different beak sizes for 10 birds. 
+
+Use `rnorm()` to generate 10 random normal numbers. 
+
+```{r}
+set.seed(1234)
+n <-10
+rnorm(n)
+```
+
+---
+## Simulate categories (Anova)
+
+.pull-left[
+```{r}
+
+set.seed(1234); n = 1000
+y1 = rnorm(n, mean = 15, sd = 1)
+y2 = rnorm(n, mean = 15.5, sd = 1)
+
+sim.aov1 = data.frame(y = y1, gr = "A")
+sim.aov2 = data.frame(y = y2, gr = "B")
+df.aov = rbind(sim.aov1, sim.aov2)
+df.aov$gr = factor(df.aov$gr)
+
+aov.out = aov(y~gr, data = df.aov)
+#summary(aov.out)
+tk.test = TukeyHSD(aov.out)
+round(tk.test$gr,2)
+```
+]
+
+.pull-right[
+```{r, fig.width=5,fig.height=5}
+plot(y~gr, data = df.aov)
+```
+
+]
+
+
+---
+## References
+
+https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html
+https://bookdown.org/rdpeng/rprogdatascience/simulation.html
+https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9
+https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/
+https://it.unt.edu/simple-data-simulations
+https://www.youtube.com/watch?v=tvv4IA8PEzw
+http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/simRreg.pdf
+https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/
+https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.html
+https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html
+https://nickch-k.github.io/introcausality/Cheat%20Sheets/Simulation_Cheat_Sheet.pdf
+https://debruine.github.io/tutorials/sim-lmer.html
+
+
+---
+class: inverse, center, bottom
+
+# Thank you for attending this workshop!
+
+![:scale 50%](images/qcbs_logo.png)
+
+
