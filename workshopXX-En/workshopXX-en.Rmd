@@ -31,9 +31,10 @@ knitr::opts_chunk$set(
 ## Outline
 
 1. Why are simulations relevant? 
-2. What you need to know before doing simulations (assumptions)? 
-3. How to perform simulations
-4. 
+2. What you need to know before doing simulations? 
+3. Let's explore what underlie some statistical processes
+3. Simulating data for power analysis (in development)
+4. Simulating data for models (lm, lmm, in development)
 
 ---
 ## Prerequisites
@@ -67,8 +68,18 @@ class: inverse, center, middle
 ## Simulations are games 
 
 - Simulations are games that we make up the rules
-- This equips us with a very powerful tool to create 'alternative worlds'. 
+- It equips us with a very powerful tool to create 'alternative worlds'. 
 - The challenge in this game is to figure out what the parameters are for the processes existing in the natural world. 
+
+
+.alert[Are these two distribution showing the same random process? ] 
+```{r echo=FALSE, fig.width=8, fig.height=4}
+par(mfrow=c(1,2))
+set.seed(12345)
+curve(dnorm(x), from = -5,to = 5, ylim = c(0,1), ylab = "Density", lwd =3)
+plot(density(rnorm(6)), ylim = c(0,1),main = "", xlim = c(-5,5), xlab = "x", lwd =3)
+```
+
 
 ---
 ## Find patterns in random processes
@@ -76,29 +87,27 @@ class: inverse, center, middle
 - Simulations are useful to test the properties of randomly generated data 
 - Since we designed the simulation, we know parameters of the processes that underlie it.
 - It is then possible to test various methods to 
-  1. see if they work and verify their assumptions, 
-  2. do power analysis, 
-  3. learn how data is generated 
-  4. etc. 
+1. see if they work and verify their assumptions, 
+2. do power analysis, 
+3. learn how data is generated
+4. etc. 
 
 ---
 ## Find patterns in the natural world
 
 - The idea here is that perhaps we are interested in understanding how a certain process was generated (how $X$ influences $Y$, which could be written as $X \xrightarrow{Affects} Y$ or $Y \sim X$). 
-
 - This is probably the most important points for simulations in biology as we are trying to understand **natural processes** (which are themselves manifestations of **random processes**)
-
 - Therefore, being able to do simulations can be a nice addition to your research toolkit. 
-  
+
 
 ---
 ## Probability distributions are crucial for simulations
 
 - When performing simulations, once has to keep in mind the
-  1. **type of distribution** underlying the data of interest
-  2. **parameters** of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
-  3. **statistical model** making the relationship between the response variable and the explanatory variable. 
-  4. ideas or things we *want to show or learn* with the simulation
+1. **type of distribution** underlying the data of interest
+2. **parameters** of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
+3. **statistical model** making the relationship between the response variable and the explanatory variable. 
+4. ideas or things we *want to show or learn* with the simulation
 
 ---
 ## Tips when performing simulation
@@ -154,7 +163,9 @@ plot(function.name(1:10)+rnorm(10))
 ```
 ]
 
-- We used fewer comments to lighten the presentation, but please add comments. 
+.small[
+(We used fewer comments to lighten the presentation, but please add comments.)
+]
 
 ###############
 ---
@@ -188,7 +199,7 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 ---
 ## Functions useful in simulations (sample)
 
-- The function `sample()` randomly picks a value from a vector (of a number of elements)
+- The function `sample()` randomly picks a value from a vector.
 
 The example below uses a RNG to extract numerical value between 1 and 10
 ```{r, echo=FALSE}
@@ -211,6 +222,81 @@ sample(x = LETTERS, size = 5, replace = FALSE)
 sample(x = as.factor(month.abb), size = 5, replace = FALSE) 
 ```
 
+---
+## Functions useful in simulations (sample)
+<!-- SEE http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf -->
+
+- The function `sample()` can actually be used in order to do permutations 
+- Let's say we have a data frame with 2 columns 
+
+.small[
+.pull-left[
+```{r, echo=FALSE}
+library(viridis)
+```
+
+```{r, fig.width=4,fig.height=3}
+set.seed(123)
+n = 40; col = viridis::viridis(n = n)
+x = 1:n ; y = 2+.5*x + rnorm(n, sd=7)
+df.xy = data.frame(x,y, col )
+```
+]
+
+.pull-right[
+```{r, fig.width=4,fig.height=3}
+df.xy$x.s = sample(x)
+```
+We break up the link of X and Y 
+]
+
+```{r, fig.width=7,fig.height=3}
+par(mfrow=c(1,2), mar=c(4,4,1,1))
+plot(y~x,  col=col, data=df.xy, pch=19);abline(lm(y~x,  data=df.xy)) # Original 
+plot(y~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permutated 
+```
+]
+
+---
+## Functions useful in simulations (rep)
+
+- You will not only see numerical values in simulations. Characters (or factors) can be generated in R easily. 
+- The `rep()` function can help you with this
+
+```{r}
+(let4first = LETTERS[1:4])
+rep(let4first, times = 2) # Repeat the WHOLE sequence twice 
+rep(let4first, each = 2) # Repeat each element twice 
+# Set the number of repeat for each element in the vector 
+rep(let4first, times = c(1,2,3,6))
+# Complete replication: replicate each element twice and do this three times 
+rep(let4first, each = 2, times = 3)
+rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum length
+
+```
+
+---
+## Functions useful in simulations
+
+- In some cases, you want to replicate a process, for example when you want to generate multiple populations at once with the same parameters
+- The `replicate()` can be used instead of a for loop and make simulations faster (I assume). 
+
+```{r}
+set.seed(1234)
+data.replicated = replicate(n = 2,expr = data.frame(gr = rep(LETTERS[1:3],each = 2),
+                                                    y = rnorm(6)), 
+                            simplify = FALSE)
+```
+.pull-left[
+```{r}
+data.replicated[[1]]
+```
+]
+.pull-right[
+```{r}
+data.replicated[[2]]
+```
+]
 
 ---
 ## Challenge 1 ![:cube]()
@@ -242,6 +328,22 @@ As you can see in the last example, there are 2 "6"s, since each time a random n
 ```{r}
 set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 ```
+
+---
+## Challenge 2 ![:cube]()
+
+Create a data frame with variable x ranging from 1 to 10, $y = 2+ 3 * x$ and a grouping factor (gr) with one group with the smallest values and another group with the largest values. 
+
+---
+## Challenge 2 - Solution ![:cube]()
+```{r fig.width=8, fig.height=5}
+x = 1:10
+y = 2 + 3 * x
+gr = rep(letters[1:2],each = 5)
+linear.df = data.frame(x,y,gr)
+plot(y~x, col = as.factor(gr), data = linear.df, pch = 19)
+```
+
 
 ###############
 ---
@@ -391,13 +493,12 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 ---
 ## Summary of important distribution 
 
-- Distributions of random variables comes in 2 flavors: 
-  1. Discrete (only *countable* number of *distinct* values, e.g., 0, 5, 19,...)
-  2. Continuous (infinite number of possible values, e.g., 0.1,0.62113,...)
-
-- Here is a table explaining important distributions 
-
 .small[
+- Distributions of random variables comes in 2 flavors: 
+1. Discrete (only *countable* number of *distinct* values, e.g., 0, 5, 19,...)
+2. Continuous (infinite number of possible values, e.g., 0.1,0.62113,...)
+
+
 | Distribution | Definition | Type of data | Example |
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
@@ -423,7 +524,7 @@ The important part here is the mean $\mu$ and the standard deviation $\sigma$.
 
 
 ---
-## Normal distribution 
+## Normal distribution (dissection)
 .pull-left[
 
 ```{r, fig.width=5,fig.height=5}
@@ -439,7 +540,7 @@ abline(h=seq(0,1, by = .1),
 ]
 
 ---
-## Normal distribution 
+## Normal distribution (dissection)
 .pull-left[
 
 ```{r, fig.width=5,fig.height=5}
@@ -537,7 +638,7 @@ qnorm(p = 0.025,lower.tail = F)
 
 
 ---
-## Challenge 2 ![:cube]()
+## Challenge 3 ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -549,7 +650,7 @@ rnorm()
 
 
 ---
-## Challenge 2 - Solution ![:cube]()
+## Challenge 3 - Solution ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -561,7 +662,60 @@ n <-10
 rnorm(n)
 ```
 
-- Why are there negative values? 
+- Why are there negative values? Because the mean = 0, so some values spill over the mean on both sides, and in the negative numbers. 
+
+
+###############
+---
+class: inverse, center, middle
+
+# Simulating data for power analysis
+
+---
+# Power analysis
+
+For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+
+.tiny[
+```{r, fig.width=3,fig.height=3}
+set.seed(1234)
+n = 30
+group1 <- rnorm(n = n, mean = 1, sd = 2)
+group2 <- rnorm(n = n, mean = 0, sd = 2)
+hist(group1, breaks = 10, main = "Histogram of both groups", xlab = "")
+hist(group2, add = TRUE, breaks = 10, col= scales::alpha("blue",.5))
+t.test(group1, group2, paired = FALSE, var.equal = TRUE, conf.level = 0.9)
+
+set.seed(1)
+n_sims <- 10 # we want 1000 simulations
+p_vals <- c()
+power_at_n <- c(0) # this vector will contain the power for each sample-size (it needs the initial 0 for the while-loop to work)
+cohens_ds <- c()
+cohens_ds_at_n <- c() 
+n <- 30 # sample-size 
+i <- 2
+while(power_at_n[i-1] < .95){
+  for(sim in 1:n_sims){
+    group1 <- rnorm(n,1,2) # simulate group 1
+    group2 <- rnorm(n,0,2) # simulate group 2
+    p_vals[sim] <- t.test(group1, group2, paired = FALSE, var.equal = TRUE, conf.level = 0.9)$p.value # run t-test and extract the p-value
+    cohens_ds[sim] <- abs((mean(group1)-mean(group2))/(sqrt((sd(group1)^2+sd(group2)^2)/2))) # we also save the cohens ds that we observed in each simulation
+  }
+  power_at_n[i] <- mean(p_vals < .10) # check power (i.e. proportion of p-values that are smaller than alpha-level of .10)
+  cohens_ds_at_n[i] <- mean(cohens_ds) # calculate means of cohens ds for each sample-size
+  n <- n+1 # increase sample-size by 1
+  i <- i+1 # increase index of the while-loop by 1 to save power and cohens d to vector
+}
+power_at_n <- power_at_n[-1] # delete first 0 from the vector
+cohens_ds_at_n <- cohens_ds_at_n[-1] # delete first NA from the vector
+plot(30:(n-1), power_at_n, xlab = "Number of participants per group", ylab = "Power", ylim = c(0,1), axes = TRUE)
+abline(h = .95, col = "red")
+
+plot(30:(n-1), cohens_ds_at_n, xlab = "Number of participants per group", ylab = "Cohens D", ylim = c(0.45,0.55), axes = TRUE)
+abline(h = .50, col = "red")
+```
+]
+
 
 ###############
 ---
@@ -579,10 +733,7 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - $\beta_1$ is the coefficient of variation for the first explanatory variable ($x_1$)
 - $\beta_p$ is the coefficient of variation for the $p^{th}$ explanatory variable for the $p^{th}$ $x_p$ explanatory variable
 - $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
-
 - The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
-
-
 
 ---
 ## Simulate categories (Anova)
@@ -618,12 +769,11 @@ plot(y~gr, data = df.aov)
 ## Advanced simulations
 
 - Now that we have the building blocks to make simulations, we are going to add another layer:
-  - We want to simulate a process and then see how, when changing one value, our simulation responds 
-  - For this, we need a certain workflow that resembles this: 
-    1. create a blank vector in which a value of interest will be stored in 
-    2. Within a loop or many `for(){}` loops, we are going to 
-      - simulate data, get a desired result and store the result for future analysis 
-    3. Summarize our findings (in a plot, with calculations, etc.) 
+- We want to simulate a process and then see how our simulation responds to a fluctuation in a parameter
+- For this, we need a certain workflow that resembles this: 
+  1. create a blank vector in which a value of interest will be stored in 
+  2. Within a loop or many `for(){}` loops, we are going to simulate data, get a desired result and store the result for future analysis 
+  3. Summarize our findings (in a plot, with calculations, etc.) 
 
 .alert[ATTENTION]. This is an iterative process. Usually, we make small increments writing up the code and then put it all together in a cohesive function that will make exactly what we are looking for. 
 
@@ -669,12 +819,13 @@ sample.mean.pop.est <- function(x,n, sample.size, ylim = NULL) {
 } # End sample.mean.pop.est
 ```
 ]
+
 ---
 ## Advanced simulations
 
 .small[
 ```{r}
-par(mfrow=c(2,2))
+par(mfrow=c(2,2), lwd = .3)
 sample.mean.pop.est(x = x, n = n, sample.size = 1, ylim = 300)
 sample.mean.pop.est(x = x, n = n, sample.size = 10, ylim = 300)
 sample.mean.pop.est(x = x, n = n, sample.size = 50, ylim = 300)
