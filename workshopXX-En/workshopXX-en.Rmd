@@ -38,7 +38,7 @@ knitr::opts_chunk$set(
 2. What you need to know before doing simulations? 
 3. Let's explore what underlie some statistical processes
 3. Simulating data for power analysis (in development)
-4. Simulating data for models (lm, lmm, in development)
+4. Simulating data for models (lm, glm, lmm, in development)
 
 ---
 ## Prerequisites
@@ -48,7 +48,7 @@ For this workshop it is useful to have a solid understanding of
 1. Linear models and generalized linear models (GLMs)
 2. Programming in R 
 
-See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topics.
+See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topics. Select the [R workshops](http://r.qcbs.ca/workshops/) needed.
 
 - We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop. 
 - We are going to be more explicitly show assumptions of models and use for loops in this workshop 
@@ -67,6 +67,8 @@ In addition, this is a work in progress. Any input you have is more than welcome
 1. Develop intuition and skills to perform simulations
 2. Explore useful functions when designing simulations 
 3. Articulate what are the assumptions underlying a simulation (for the models tested or the scope of the simulation)
+4. Know how and hwne to use important statistical distributions
+5. Simulate different data structure to perform LMs, GLMs, and (G)LMMs. 
 
 
 ###############
@@ -316,7 +318,7 @@ for (l in n.id.pop) {
   - What is the type of selection? 
   - What is being selected? What is that type of data (continuous [range?], discrete [counts?])? 
 
-<!-- .pull-left[ -->
+
 ```{r echo=FALSE, fig.width=8,fig.height=5}
 # Fake fitness landscapes 
 # Fitness test theoretical fitness landscapes 
@@ -367,34 +369,8 @@ q.fun(-70:70,factor = 1,xlab = "(Disruptive)",lwd = 5,cex.text = 2,
 - But what all of these mean? 
 - What do they assume? 
 - What is the data generated to make these lines and curves? 
-<!-- ] -->
 
-<!-- .pull-right[ -->
-<!-- ```{r, echo=FALSE, fig.width=4,fig.height=4} -->
-<!-- library(rgl) -->
-<!-- color = "green" -->
-<!-- border = NA -->
-<!-- par(mfrow=c(1,1), mar=c(4,4,4,4)) -->
-<!-- # One peak only (Fisher) -------------------------------------------------- -->
-<!-- x <- seq(-10, 10, length = 100) -->
-<!-- y <- x -->
-<!-- norm <- function(x,y, mean1 = 0, var1 = 2, mean2 = 0, var2 = 2) { -->
-<!--   1/sqrt(2*var1^2*1)*exp(-((x-mean1)^2/(2*var1^2))) * -->
-<!--     1/sqrt(2*var2^2*1)*exp(-((y-mean2)^2/(2*var2^2)))} -->
-<!-- z <- outer(x, y, norm) -->
-<!-- z[is.na(z)] <- 1 -->
-<!-- persp(x, y, z, col = color,  -->
-<!--       xlab = "Trait 2",  -->
-<!--       ylab = "Trait 1",  -->
-<!--       zlab = "Fitness",  -->
-<!--       theta = 60, -->
-<!--       phi = 15,d = 10, -->
-<!--       border = border, -->
-<!--       shade = 0.6, -->
-<!--       zlim=c(0,.2)) -->
 
-<!-- ``` -->
-<!-- ] -->
 
 ###############
 ---
@@ -421,6 +397,8 @@ y.2 = rnorm(n, mean = 5, sd = .5)
 # marginal_plot(x.2,y.2,ylim = range(c(y.1,y.2)), xlim = range(c(x.1,x.2)), pch = 19, col = scales::alpha("black",.8), ylab = "Y",xlab = "X")
 
 library(ggplot2)
+# Use base R here 
+# https://stackoverflow.com/questions/71052975/how-to-plot-histograms-in-base-r-in-the-margin-of-a-plot?noredirect=1#comment125604177_71052975 
 library(ggExtra)
 
 size.line = .8
@@ -632,7 +610,7 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 ---
 ## Functions useful in simulations (sample)
 
-- The function `sample()` randomly picks a value from a vector.
+- The function `sample()` randomly picks a value from a vector (i.e., random sampling).
 
 The example below uses a RNG to extract numerical value between 1 and 10
 ```{r, echo=FALSE}
@@ -662,7 +640,7 @@ sample(x = as.factor(month.abb), size = 5, replace = FALSE)
 - The function `sample()` can actually be used in order to do permutations 
 - Let's say we have a data frame with 2 columns 
 
-.small[
+.verysmall[
 .pull-left[
 ```{r, echo=FALSE}
 library(viridis)
@@ -678,15 +656,17 @@ df.xy = data.frame(x,y, col )
 
 .pull-right[
 ```{r, fig.width=4,fig.height=3}
-df.xy$x.s = sample(x)
+df.xy$x.s = sample(df.xy$x)
+df.xy$y.s = sample(df.xy$y)
 ```
 We break up the link of X and Y 
 ]
 
-```{r, fig.width=7,fig.height=3}
-par(mfrow=c(1,2), mar=c(4,4,1,1))
+```{r, fig.width=9,fig.height=3}
+par(mfrow=c(1,3), mar=c(4,4,1,1), cex = 1.2)
 plot(y~x,  col=col, data=df.xy, pch=19);abline(lm(y~x,  data=df.xy)) # Original 
 plot(y~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permutated 
+plot(y.s~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permutated 
 ```
 ]
 
@@ -1174,11 +1154,11 @@ ppois(q = 2, lambda = 2)
 ---
 ## Poisson distribution
 
-- Examples: 
+- Examples (something per unit time or space for example): 
   - Nb of deaths due to a disease (e.g., SARS-CoV 2) for a period of time 
   - Ticks of a radiation counter (Geiger counter which detects and measures ionizing radiation)
   - DNA mutation
-  - Colonization of animals on remote islands (something per unit time or space for example)
+  - Colonization of animals on remote islands
   - Mutation models
   - Recombination models 
   - Bacterial colony growing on an agar plate 
@@ -1789,7 +1769,7 @@ class: inverse, center, middle
 # Simulating data for models
 
 ---
-## Linear model refresher
+## Linear model (lm) refresher
 
 $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 
@@ -1800,8 +1780,13 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
 - The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
 
+Reference for the section 
+- [Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/) and [Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
+- [Poisson model](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/)
+- [binomial generalized linear mixed model](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/)
+
 ---
-## Generalized linear model refresher
+## Generalized linear model (GLM) refresher
 
 | Type | Equation |
 | ---- | -------- |
@@ -1820,7 +1805,9 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 <!-- Simulate logistic regression https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525 -->
 
 ---
-## Generalized linear model: Logistic
+## GLM: Logistic
+
+- Recall that logistic is $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) 
 
 <!-- Inspiration : https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525
 -->
@@ -1841,7 +1828,7 @@ df = data.frame(y = y, x1 = x1, x2 = x2)
 ```
 
 ---
-## Generalized linear model: Logistic
+## GLM: Logistic
 
 ```{r sim_logistic_glm, fig.width=5,fig.height=5}
 #now feed it to glm:
@@ -1854,7 +1841,7 @@ lines(x = newdata$x1,
 ```
 
 ---
-## Generalized linear model: Logistic
+## GLM: Logistic
 
 .tiny[
 ```{r sim_logistic_glm_3D}
@@ -1871,6 +1858,38 @@ fig <- fig %>%add_markers() %>% layout(scene = list(xaxis = list(title = 'x1'),
 fig
 ```
 ]
+
+---
+## GLM: Poisson
+
+- Recall that Poisson is $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ (no separate error term as $\lambda$ determines both the mean and variance)
+
+```{r sim_poisson_glm}
+set.seed(42)
+n = 1000
+x = rnorm(n = n, mean = 0, sd = 1)
+# Rescale the data
+xz = scale(x)
+log.mu = 1 + 2*xz
+y = rpois(n = n, lambda = exp(log.mu)) 
+
+# Combine the data in a dataframe 
+df = data.frame(y = y, x = x)
+```
+
+---
+## GLM: Poisson
+```{r sim_poisson_glm_plot, fig.width=5,fig.height=5}
+#now feed it to glm:
+glm.poisson = glm( y~x, data=df, family="poisson")
+plot(y~x, data = df, col = scales::alpha("black",.5), pch = 19)
+newdata <- data.frame(x=seq(min(x), max(x),len=n))
+newdata$y = predict(object = glm.poisson, newdata = newdata, type = "response") 
+lines(x = newdata$x,
+      y = newdata$y, col = "red",lwd = 2)
+```
+
+
 
 ---
 ## Simulate categories (t-test, Anova)
@@ -1903,7 +1922,7 @@ plot(y~gr, data = df.aov)
 ]
 
 ---
-## Linear mixed model refresher
+## Linear mixed model (LMMs) refresher
 
 - A simple linear model is actually the 'simplest' mixed model (although the convention is that we don't called it mixed)
 - What is the random effect in a linear model? 
@@ -1911,7 +1930,7 @@ plot(y~gr, data = df.aov)
 $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 
 ---
-## Linear mixed model refresher
+## Linear mixed model (LMMs) refresher
 
 - A simple linear model is actually the 'simplest' mixed model (although the convention is that we don't called it mixed)
 - What is the random effect in a linear model? 
@@ -1921,7 +1940,81 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - The residual of the model ($\epsilon$) is actually the 'random effect' since it is drawn from a distribution which can change for each data point $\epsilon \sim N(\mu=0,sd = \sigma)$. 
 
 ---
-## Simulating a linear mixed model 
+## Linear mixed model (LMMs) refresher
+
+- to simplify the linear model equation we are going to write it this way:
+$$\mathbf{Y} = \mathbf{X}\beta + \epsilon$$
+- This only means that $\mathbf{Y}$ is a vector (or matrix) made up of the linear combination of fixed effects $\mathbf{X}\beta$ and a random part $\epsilon$. 
+
+- In this type of notation, LMMs is (random intercept):
+$$\mathbf{Y} = \mathbf{X}\beta + \mathbf{Z\upsilon} + \epsilon$$
+
+- With all the previous elements being the same but the random part which is composed of $\mathbf{Z \upsilon} + \epsilon$, for all categories $\mathbf{\upsilon}$. $\mathbf{X}$ is the *design matrix* and $\mathbf{Z}$  is the *block matrix*.
+- Just keep in mind that, as before, $\epsilon \sim N(\mu=0,sd = \sigma)$ and $\mathbf{\upsilon} \sim N(\mu=0,sd = \mathbf{D})$, where $\mathbf{D}$ is a variance-covariance matrix. Also, $\mathbf{\upsilon}$ and $\epsilon$ are independent. 
+
+<!-- 
+See 
+https://towardsdatascience.com/linear-mixed-model-from-scratch-f29b2e45f0a4 
+https://www.bristol.ac.uk/cmm/learning/videos/random-slopes.html
+-->
+
+---
+## Linear mixed model (LMMs) refresher
+
+- This is just another way to write the model (there is a part that specify the random slopes)
+
+$$y_{ij} = \beta_{0} + \beta_{1} x_{1ij} + \upsilon_{1j} x_{1ij} + \upsilon_{0ij} + \epsilon_{0ij}$$
+- $\epsilon_{0ij} \sim N(\mu=0,sd = \sigma_{e0})$ and $\mathbf{\upsilon_{0j}} \text{ and } \mathbf{\upsilon_{1j}} \sim N(\mu=0,sd = \Omega_{\upsilon})$ and $\Omega_{\upsilon} = \left[\begin{align*} \sigma_{\upsilon0}^2 & \sigma_{\upsilon10} \\ \sigma_{\upsilon01} & \sigma_{\upsilon1}^2 \end{align*}\right]$
+
+
+---
+## Linear mixed model (LMMs) refresher
+
+- Just so that everything is extra clear
+$$\mathbf{Y} = \mathbf{X}\beta + \mathbf{Z \upsilon} + \epsilon$$
+
+One implementation of that could be ($\beta_1$ and $\beta_2$ could represent different treatments):
+
+$$
+\left[\begin{align}{l}
+y_{11} \\
+y_{21} \\
+y_{12} \\
+y_{22}
+\end{array}\right] =
+\left[\begin{array}{ll}
+1 & 0 \\
+0 & 1 \\
+1 & 0 \\
+0 & 1
+\end{array}\right]
+\left[\begin{array}{l}
+\beta_{1} \\
+\beta_{2}
+\end{array}\right] + 
+\left[\begin{array}{ll}
+1 & 0 \\
+1 & 0 \\
+0 & 1 \\
+0 & 1
+\end{array}\right]
+\left[\begin{array}{l}
+\upsilon_{1} \\
+\upsilon_{2}
+\end{array}\right] + 
+\left[\begin{array}{l}
+\epsilon_{11} \\
+\epsilon_{21} \\
+\epsilon_{12} \\
+\epsilon_{22}
+\end{array}\right]
+$$
+
+
+---
+## LMMs simulation
+
+- (G)LMMs are a neat extention of the LM models that can take into account (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
 
 For now, please see [this link](https://debruine.github.io/tutorials/sim-lmer.html). 
 
@@ -2015,18 +2108,21 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973. Available at: http://www.zoology.ubc.ca/biomath/.
 ![:scale 10%](images/Otto_Day.2007. Biologist Guide to Mathematical Modeling in Ecology and Evolution.jpg)
 
-https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html
-https://bookdown.org/rdpeng/rprogdatascience/simulation.html
-https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9
-https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/
-https://it.unt.edu/simple-data-simulations
-https://www.youtube.com/watch?v=tvv4IA8PEzw
-http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/simRreg.pdf
-https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/
-https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.html
-https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html
-https://nickch-k.github.io/introcausality/Cheat%20Sheets/Simulation_Cheat_Sheet.pdf
-https://debruine.github.io/tutorials/sim-lmer.html
+[bios221; Lab 3: Simulations in R](https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html)
+[R Programming for Data Science; See 20 Simulation](https://bookdown.org/rdpeng/rprogdatascience/simulation.html)
+[Statistical Simulation in R with Code — Part 1](https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9)
+[](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/)
+[](https://it.unt.edu/simple-data-simulations)
+[](https://www.youtube.com/watch?v=tvv4IA8PEzw)
+[Introduction to Simulations in R](http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/simRreg.pdf)
+[](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
+[Crump Lab; see Chapter 5 Simulating and Analyzing Data in R](https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.html)
+[Intro to R Lecture Notes; see Chapter 13 Simulations](https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html)
+[](https://nickch-k.github.io/introcausality/Cheat%20Sheets/Simulation_Cheat_Sheet.pdf)
+[Simulating mixed effets; see chapter 4](https://debruine.github.io/tutorials/sim-lmer.html)
+[Cours 'Econ 224'; Lab #9 - Logistic Regression Part I](https://ditraglia.com/econ224/lab09.pdf)
+[ECON 41 Labs; useful ressources about distributions](https://bookdown.org/gabriel_butler/ECON41Labs/)
+[Binomial regression in R](https://kkorthauer.org/fungeno2019/methylation/vignettes/1-binomial-regression.html#4_pitfalls_of_glm)
 ]
 
 ---
