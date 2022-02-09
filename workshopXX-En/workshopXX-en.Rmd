@@ -380,26 +380,34 @@ class: inverse, center, middle
 ---
 ## Probability and odds 
 
-- When describing the chance of an outcome, you can use a probability, odds, or log-odds
+- When describing the chance of an outcome, you can use a probability or odds
 - They are related: odds of an event is $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
 - Why bother? 
-  - probability ranges between 0 and 1, but odds can range from 0 to infinity. Log (natural log, or ln) odds can range from negative infinity to infinity. 
+  - probability ranges between 0 and 1, 
+  - odds range from 0 to $\infty$. 
+  - Log (natural log, or ln) odds can range from $-\infty$ to $\infty$. It is calculated as $ln (odds) = ln(p/(1-p))$.
   - This will become handy when building a logistic model as this is the 'logit' transformation. 
 
 <!-- .alert[Careful!] This is not the same as saying $success/(success + failure)$. This last calculation is the probability -->
-- Example
-  - a horse runs 100 races and wins 20 of them.  What is the *odd* of winning?
+
+---
+## Probability and odds
+
+- Example: a horse runs 100 races and wins 20 of them.  What is the *odd* of winning?
+- $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
+  
 ```{r}
 totl.nb.events = 100
 successes = 20
 odds.favor = (successes)/(totl.nb.events-successes) # Odds in favor of the event (here 1 in 4)
 odds.against = (totl.nb.events-successes)/(successes) # Odds in against of the event (here 4 to 1)
-
 library(MASS)
 ```
+
 <!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example -->
 
 So the horse wins 1 race for 4 fails or the odds of winning is `r fractions(odds.favor)`.
+<!-- In other words, for 5 races the horse will win 1 and loose 4 -->
 
 Conversely, the horse the odds of failing is `r paste0(odds.against,":1")` (read 4 *to* 1). 
 <!-- In other words, the horse is 4 times more likely to fail than to succeed in a race. (???)  -->
@@ -417,7 +425,7 @@ probability.favor = (successes)/(totl.nb.events) # probability of the event (her
 probability.favor
 fractions(probability.favor)
 ```
-So the horse *wins* `r fractions(probability.favor)` of the times. 
+So the horse *wins* `r fractions(probability.favor)` or `r paste0(probability.favor*100,"%")` of the times. 
 
 ---
 ## Probability and odds 
@@ -442,6 +450,7 @@ https://www.statisticshowto.com/probability-and-statistics/probability-main-inde
 -->
 <!-- Good example on odds ration 
   https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_Confidence_Intervals10.html -->
+  
 ---
 ## Probability and odds 
 
@@ -450,7 +459,7 @@ https://www.statisticshowto.com/probability-and-statistics/probability-main-inde
 par(mfrow = c(1,3), mar =c(4,4,1,1), cex = 1.4)
 plot(d$odds~d$log_odds, type = "l", ylab = "Odds", xlab = "Log odds", lwd = 3) ; abline(v = 0, lty = 3)
 plot(d$p~d$odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
-plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
+plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
 ```
 ]
 
@@ -651,11 +660,11 @@ hist(rnorm(10000, 5, 1.5), xlim = c(0,10), main = "Normal")
 - Some distributions can be recreated in R even if they haven't their own functino name (e.g., Bernoulli). 
   - Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
 
-```{r, fig.width=5,fig.height=3}
+.tiny[
+```{r, echo=FALSE, fig.width=7,fig.height=4}
 par(mfrow = c(1,2), cex = 1.4)
 # install.packages("Rlab")
 library("Rlab")
-
 # Bernoulli 
 x <- seq(0, 1, by = 1) 
 y_dbern <- dbern(x, prob = 0.7)
@@ -671,9 +680,10 @@ barplot(height = y_binom,
         ylim = c(0, 1), xlab = '', ylab = 'probability', main = 'Binomial, n = 1, p = 0.7')
 
 # Simulate 10 (fair) coin flips
-set.seed(98765)
-rbinom(n = 10, size = 1, prob = 0.5)
+# set.seed(98765)
+# rbinom(n = 10, size = 1, prob = 0.5)
 ```
+]
 
 ```{r, echo=FALSE, eval=FALSE}
 # Coin flips visualize
@@ -1005,10 +1015,6 @@ brn = mybins$breaks
 
 ```
 ]
-
-
----
-## Normal distribution (dissection)
 
 
 
