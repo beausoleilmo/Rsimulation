@@ -14,6 +14,10 @@ output:
       highlightLines: true
 ---
 
+<!-- 
+Math equations in Markdown 
+https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
+-->
 
 ```{r setup, echo = F}
 # in the end, should be about 1500 lines
@@ -171,6 +175,22 @@ plot(function.name(1:10)+rnorm(10))
 ---
 class: inverse, center, middle
 
+# When could a simulation be useful? 
+
+---
+## ALL THE TIME!!!! 
+
+Whether you want to 
+- test a statistical method or a hypothesis, 
+- learn how a mechanism work (i.e., genetic drift, natural selection), 
+- play with data before your field work, 
+- etc. 
+
+
+###############
+---
+class: inverse, center, middle
+
 # What you need to know before doing simulations? 
 
 
@@ -287,19 +307,19 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum len
 - In some cases, you want to replicate a process, for example when you want to generate multiple populations at once with the same parameters
 - The `replicate()` can be used instead of a for loop and make simulations faster (I assume). 
 
-```{r}
+```{r data_replicate}
 set.seed(1234)
 data.replicated = replicate(n = 2,expr = data.frame(gr = rep(LETTERS[1:3],each = 2),
                                                     y = rnorm(6)), 
                             simplify = FALSE)
 ```
 .pull-left[
-```{r}
+```{r data_replicate1}
 data.replicated[[1]]
 ```
 ]
 .pull-right[
-```{r}
+```{r data_replicate2}
 data.replicated[[2]]
 ```
 ]
@@ -311,7 +331,7 @@ Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. wi
 
 Use `sample()` to perform this task. 
 
-```{r, eval=FALSE}
+```{r show_sample, eval=FALSE}
 sample()
 ```
 
@@ -321,7 +341,7 @@ sample()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement.
 
-```{r}
+```{r sample_replacement}
 set.seed(12345) # Sets the random number generator to a fix value
 vec.1.10 = 1:10 # Make the vector to choose from 
 sample(x = vec.1.10, size = 4, replace = FALSE) # Sample 4 nb without replacement
@@ -331,7 +351,7 @@ sample(x = vec.1.10, size = 4, replace = TRUE) # Sample 4 nb with replacement
 As you can see in the last example, there are 2 "6"s, since each time a random number was picked, all numbers could be randomly chosen. 
 
 1000 draws with replacement from 0 or 1, with equal probability for each. 
-```{r}
+```{r sample_example}
 set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 ```
 
@@ -342,7 +362,7 @@ Create a data frame with variable x ranging from 1 to 10, $y = 2+ 3 * x$ and a g
 
 ---
 ## Challenge 2 - Solution ![:cube]()
-```{r fig.width=8, fig.height=5}
+```{r linear_no_error, fig.width=8, fig.height=5}
 x = 1:10
 y = 2 + 3 * x
 gr = rep(letters[1:2],each = 5)
@@ -356,6 +376,83 @@ plot(y~x, col = as.factor(gr), data = linear.df, pch = 19)
 class: inverse, center, middle
 
 # Let's explore what underly some statistical processes
+
+---
+## Probability and odds 
+
+- When describing the chance of an outcome, you can use a probability, odds, or log-odds
+- They are related: odds of an event is $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
+- Why bother? 
+  - probability ranges between 0 and 1, but odds can range from 0 to infinity. Log (natural log, or ln) odds can range from negative infinity to infinity. 
+  - This will become handy when building a logistic model as this is the 'logit' transformation. 
+
+<!-- .alert[Careful!] This is not the same as saying $success/(success + failure)$. This last calculation is the probability -->
+- Example
+  - a horse runs 100 races and wins 20 of them.  What is the *odd* of winning?
+```{r}
+totl.nb.events = 100
+successes = 20
+odds.favor = (successes)/(totl.nb.events-successes) # Odds in favor of the event (here 1 in 4)
+odds.against = (totl.nb.events-successes)/(successes) # Odds in against of the event (here 4 to 1)
+
+library(MASS)
+```
+<!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example -->
+
+So the horse wins 1 race for 4 fails or the odds of winning is `r fractions(odds.favor)`.
+
+Conversely, the horse the odds of failing is `r paste0(odds.against,":1")` (read 4 *to* 1). 
+<!-- In other words, the horse is 4 times more likely to fail than to succeed in a race. (???)  -->
+
+
+---
+## Probability and odds 
+
+- Example
+  - a horse runs 100 races and wins 20 of them. What is the *probability* of winning?
+```{r}
+totl.nb.events = 100
+successes = 20
+probability.favor = (successes)/(totl.nb.events) # probability of the event (here 20%)
+probability.favor
+fractions(probability.favor)
+```
+So the horse *wins* `r fractions(probability.favor)` of the times. 
+
+---
+## Probability and odds 
+
+```{r odds_prob, fig.width=9,fig.height=7.5}
+log_odds = seq(from = -5, to = 5, by = 1)
+odds = exp(log_odds)
+inv.logit <- function(x) {exp(x)/(1 + exp(x))}
+p = inv.logit(log_odds)
+p2 = odds/(1 + odds)
+# Probability of failure (1-p)
+q = 1-p
+# store log_odds and y in data frame for use with ggplot
+d = data.frame(log_odds, odds, p, p2, q) 
+head(d, 4)
+```
+
+<!-- Reference 
+https://www.montana.edu/rotella/documents/502/Prob_odds_log-odds.pdf 
+https://stats.oarc.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/
+https://www.statisticshowto.com/probability-and-statistics/probability-main-index/odds-ratio/
+-->
+<!-- Good example on odds ration 
+  https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_Confidence_Intervals10.html -->
+---
+## Probability and odds 
+
+.tiny[
+```{r odds_prob_plot, fig.width=10,fig.height=5.5}
+par(mfrow = c(1,3), mar =c(4,4,1,1), cex = 1.4)
+plot(d$odds~d$log_odds, type = "l", ylab = "Odds", xlab = "Log odds", lwd = 3) ; abline(v = 0, lty = 3)
+plot(d$p~d$odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
+plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
+```
+]
 
 ---
 ## Why statistical distributions matter? 
@@ -1288,11 +1385,74 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 | Type | Equation |
 | ---- | -------- |
 | Linear | $Y = \beta_{0} + \beta_{1} x_{1}  + \epsilon$ |
-| Poisson | $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ (there is no 'error' term like linear regression, since there is inherent variability)|
-| Logistic | $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood |
+| Poisson | $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ (no separate error term as $\lambda$ determines both the mean and variance) |
+| Logistic | $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) |
+
+<!-- 
+In GLM, we don'T model the individual Y values, but the mean
+https://www.theanalysisfactor.com/generalized-linear-models-no-error-term/
+In other words "there's no common error distribution independent of predictor values"
+see https://stats.stackexchange.com/questions/124818/logistic-regression-error-term-and-its-distribution
+-->
+<!-- For poisson (there is no 'error' term like linear regression, since there is inherent variability)?? -->
+<!-- logistic regression there is an error (or randomness hidden in the Bernoulli (or binomial(size =1)) with probability p)  -->
+<!-- Simulate logistic regression https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525 -->
 
 ---
-## Simulate categories (Anova)
+## Generalized linear model: Logistic
+
+<!-- Inspiration : https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525
+-->
+```{r sim_logistic}
+set.seed(987654)
+n = 1000
+x1 = rnorm(n = n, mean = 6, sd = 1)
+x2 = rnorm(n = n, mean = 0, sd = 1)
+# Rescale the data
+x1z = scale(x1)
+x2z = scale(x2)
+z = 1 + 2*x1z + 3*x2
+pr = 1/(1+exp(-z)) # inverse-logit function; Note that 1/(1+exp(-x))== exp(x)/(1+exp(x)), same as pr2 = boot::inv.logit(z)
+y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable (which is a special case of the binomial with size =1 )
+
+# Combine the data in a dataframe 
+df = data.frame(y = y, x1 = x1, x2 = x2)
+```
+
+---
+## Generalized linear model: Logistic
+
+```{r sim_logistic_glm, fig.width=5,fig.height=5}
+#now feed it to glm:
+glm.logist = glm( y~x1+x2, data=df, family="binomial")
+plot(y~x1, data = df, col = scales::alpha("black",.5), pch = 19)
+newdata <- data.frame(x1=seq(min(x1), max(x1),len=n), x2 = seq(min(x2), max(x2),len=n))
+newdata$y = predict(object = glm.logist, newdata = newdata, type = "response") 
+lines(x = newdata$x1,
+      y = newdata$y, col = "red",lwd = 2)
+```
+
+---
+## Generalized linear model: Logistic
+
+.tiny[
+```{r sim_logistic_glm_3D}
+# scatterplot3d::scatterplot3d(x = x1,y = x2,z = y)
+library(plotly)
+fig <- plot_ly(df, x = ~x1, y = ~x2, z = ~y,
+               marker = list(color = ~y, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE))
+fig <- fig %>%add_markers() %>% layout(scene = list(xaxis = list(title = 'x1'),
+                                   yaxis = list(title = 'x2'),
+                                   zaxis = list(title = 'y')),
+                      annotations = list(x = 1.08,y = 1.05,
+                        text = 'Scale', xref = 'paper',yref = 'paper',
+                        showarrow = FALSE)) 
+fig
+```
+]
+
+---
+## Simulate categories (t-test, Anova)
 <!-- Although this is with only 2 groups, I'm showing this as a quick example -->
 .pull-left[
 ```{r}
@@ -1306,6 +1466,7 @@ sim.aov2 = data.frame(y = y2, gr = "B")
 df.aov = rbind(sim.aov1, sim.aov2)
 df.aov$gr = factor(df.aov$gr)
 
+# t.test(y~gr, data = df.aov) or
 aov.out = aov(y~gr, data = df.aov)
 #summary(aov.out)
 tk.test = TukeyHSD(aov.out)
@@ -1429,7 +1590,7 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 
 ---
 ## References
-
+.small[
 https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html
 https://bookdown.org/rdpeng/rprogdatascience/simulation.html
 https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9
@@ -1442,7 +1603,7 @@ https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.
 https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html
 https://nickch-k.github.io/introcausality/Cheat%20Sheets/Simulation_Cheat_Sheet.pdf
 https://debruine.github.io/tutorials/sim-lmer.html
-
+]
 
 ---
 class: inverse, center, bottom
