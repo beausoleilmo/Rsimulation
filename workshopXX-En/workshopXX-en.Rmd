@@ -54,6 +54,14 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 - We are going to be more explicitly show assumptions of models and use for loops in this workshop 
 
 ---
+## Disclaimer
+
+I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
+
+In addition, this is a work in progress. Any input you have is more than welcome. 
+
+
+---
 ## Learning objectives
 
 1. Develop intuition and skills to perform simulations
@@ -184,7 +192,412 @@ Whether you want to
 - test a statistical method or a hypothesis, 
 - learn how a mechanism work (i.e., genetic drift, natural selection), 
 - play with data before your field work, 
+- respond to reviewers for a paper you want to publish,
 - etc. 
+
+Simulations can help you at all stages of your research from planning to publishing and beyond! 
+
+---
+## Quick example: Genetic drift
+
+- Here we have 4 plots showing genetic drift with the same simulation. 
+- The only difference is the number of individuals in each population
+- Your can deduce many things from the allele frequency change.
+
+```{r, echo=FALSE, fig.width=13,fig.height=7}
+# Description  ------------------------------------------------------------
+#### ### ### ## #### ### ### ## #### ### ### ## 
+# Genetic drift simulation
+# Created by Marc-Olivier Beausoleil
+# 2022-01-07
+# Why: 
+# Requires:
+# NOTES: 
+# Drift is (from Futuyma)
+# - unbiased
+# - random fluctuations in allele frequency are larger in smaller populations
+# - drift causes genetic variation to be lost
+# - drift causes populations that are initially identical to become different
+# - an allele can become fixed without the benefit of natural selection
+# Reference : 
+# Futuyma p. 167, figure 7.2
+#### ### ### ## #### ### ### ## #### ### ### ## 
+
+# graphing parameters -----------------------------------------------------
+par(mfrow = c(2,2), cex = 1.2)
+# Random seed -------------------------------------------------------------
+set.seed(1245)
+
+# Simulation parameters ---------------------------------------------------
+# Number of gametes to chose from 
+n.sperm = 2
+n.eggs = 2
+# Number of generations (x axis)
+gen = 500
+# Number of replicate populations 
+popu = 5
+
+# variance = p*(1-p)/(2*N)
+# Variation is smaller when the population size is bigger 
+
+# Loops -------------------------------------------------------------------
+# Loops for all population replicates, tracking allele frequency change over the generations 
+# number of individual per population 
+n.id.pop = 5*10^seq(0,3, by=1)
+# Loop that will change the maximum number of individual per population 
+for (l in n.id.pop) {
+  # Initial allele frequency 
+  p.init = .5 
+  # Maximum population size 
+  max.pop = l
+  # Total number of gametes in the population 
+  n.gametes = c(max.pop*(n.sperm+n.eggs))
+  # Make an empty object to record the population information 
+  all.pops = NULL
+  # Loop to track the all population allele frequency change 
+  for (j in 1:popu) {
+    all.fq.change = .5
+    # Loop to track the within population allele frequency change 
+    for (i in 1:gen) {
+      # If the first iteration, make the probability equal the initial allele frequency 
+      if (i == 1) {prob.p = p.init} else {prob.p = prop.all[2]}
+      # binomial function to generate the new allele frequency (0 = q, 1 = p)
+      allele.fq = rbinom(n = n.gametes, size = 1, prob = prob.p)
+      # Randomly sample the population (this is the drift, a random sample of the population)
+      all.drift = sample(x = allele.fq, size = max.pop, replace = F)
+      # Get the proportion of the alleles in the new population 
+      prop.all = prop.table(table(all.drift))
+      # Record the p allele only 
+      all.fq.change = c(all.fq.change, prop.all[2])
+      # If there is an allele that goes to fixation, it'll print NA. In this case, break the for loop and go to the next iteration
+      if(is.na(prop.all[2])) {break}
+    } # End i
+    # Record all population information
+    one.pop = data.frame(p.fq = as.numeric(all.fq.change), pop = j)
+    all.pops = rbind(all.pops,one.pop)
+  } # End j
+  
+  
+  # Remove all NAs ----------------------------------------------------------
+  all.pops = na.omit(all.pops)
+  
+  
+  # Plot --------------------------------------------------------------------
+  # Make the empty plot 
+  plot(all.pops$p.fq~c(1:nrow(all.pops)), 
+       col = as.factor(all.pops$pop),
+       main = paste0("Pop N=",max.pop, ", Start p=",p.init),
+       ylab = "Allele frq p",
+       xlab = "Generations",
+       ylim = c(0,1),
+       xlim = c(1,gen),
+       type = "n")
+  
+  # Add the lines per population and colour them 
+  for (k in 1:popu) {
+    pttmp = all.pops[all.pops$pop==k,]
+    points(c(1:nrow(pttmp)), pttmp$p.fq, 
+           type = "l",
+           col = k)
+  } # End k
+} # End l
+
+```
+
+---
+## Quick (?) example: Natural selection 
+
+- How would you model natural selection?
+
+---
+## Quick (?) example: Natural selection 
+
+- How would you model natural selection?
+  - What is the type of selection? 
+  - What is being selected? What is that type of data (continuous [range?], discrete [counts?])? 
+
+<!-- .pull-left[ -->
+```{r echo=FALSE, fig.width=8,fig.height=5}
+# Fake fitness landscapes 
+# Fitness test theoretical fitness landscapes 
+par(mfrow=c(1,3))
+q.fun = function(x, 
+                 exponent = 2,
+                 factor = -1,
+                 xlab = xlab,
+                 ylab = "Fitness",
+                 lwd = 3,
+                 ylim = c(0,4000),
+                 cex.text = 1,
+                 col.main = "black", 
+                 col.line = "red", 
+                 col.box = "black", 
+                 col.text = "black") {
+  y = x^exponent*factor
+  plot(y~x, type = "l", 
+       axes=FALSE,
+       xaxs="i",yaxs="i",
+       frame.plot=FALSE, 
+       xlab="", ylab = "",lwd = lwd, col = col.main,
+       # ylim = c(min(y),max(y)+5000)
+       ylim = ylim)
+  box(bty="l", lwd = 3)
+  mtext(side=2,text=ylab,line = 1.1, col = col.text, cex = cex.text)
+  mtext(side=1,text=xlab,line = 1.6, col = col.text, cex = cex.text)
+  # axis(side = 1, labels = FALSE, tck = 0.000000001, lwd = 4, col = col.box)
+  # axis(side = 2, labels = FALSE, tck = 0.000000001, lwd = 4, col = col.box)
+  # y2 = -3*x^2+2500
+  # points(y2~x, type = "l", lty = 2, lwd = lwd,
+  #        col = col.line)
+}
+# col.main = "white"
+col.main = "black"
+xlab = ""
+q.fun(-100:100,exponent = 1,factor = 10,xlab = "(Directional)",lwd = 5,cex.text = 2,
+      ylab = "Fitness", col.line = NA,ylim = c(-1000, 2000),
+      col.main = col.main,col.box = col.main, col.text = col.main)
+q.fun(-100:100,xlab = "(Stabilizing)",lwd = 5,cex.text = 2,
+      ylab = "", col.line = NA,ylim = c(-5000, 2000),
+      col.main = col.main,col.box = col.main, col.text = col.main)
+q.fun(-70:70,factor = 1,xlab = "(Disruptive)",lwd = 5,cex.text = 2,
+      ylab = "", col.line = NA,ylim = c(-200, 7000),
+      col.main = col.main,col.box = col.main, col.text = col.main)
+
+```
+- But what all of these mean? 
+- What do they assume? 
+- What is the data generated to make these lines and curves? 
+<!-- ] -->
+
+<!-- .pull-right[ -->
+<!-- ```{r, echo=FALSE, fig.width=4,fig.height=4} -->
+<!-- library(rgl) -->
+<!-- color = "green" -->
+<!-- border = NA -->
+<!-- par(mfrow=c(1,1), mar=c(4,4,4,4)) -->
+<!-- # One peak only (Fisher) -------------------------------------------------- -->
+<!-- x <- seq(-10, 10, length = 100) -->
+<!-- y <- x -->
+<!-- norm <- function(x,y, mean1 = 0, var1 = 2, mean2 = 0, var2 = 2) { -->
+<!--   1/sqrt(2*var1^2*1)*exp(-((x-mean1)^2/(2*var1^2))) * -->
+<!--     1/sqrt(2*var2^2*1)*exp(-((y-mean2)^2/(2*var2^2)))} -->
+<!-- z <- outer(x, y, norm) -->
+<!-- z[is.na(z)] <- 1 -->
+<!-- persp(x, y, z, col = color,  -->
+<!--       xlab = "Trait 2",  -->
+<!--       ylab = "Trait 1",  -->
+<!--       zlab = "Fitness",  -->
+<!--       theta = 60, -->
+<!--       phi = 15,d = 10, -->
+<!--       border = border, -->
+<!--       shade = 0.6, -->
+<!--       zlim=c(0,.2)) -->
+
+<!-- ``` -->
+<!-- ] -->
+
+###############
+---
+class: inverse, center, middle
+
+# Let's build some simulation intuitions 
+
+---
+## What do you see here? 
+
+- Can you give me *as much information* as you can from this graph 
+
+```{r normalX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4}
+# source(file = "scripts/marginal_plot.R")
+set.seed(123)
+# par(mfrow = c(1,2), mar =c(4,4,3,3), cex = 1.4)
+n = 250
+x.1 = rnorm(n, mean = 15, sd = 5)
+y.1 = rnorm(n, mean = 5, sd = 2)
+
+x.2 = rnorm(n, mean = 15, sd = 1)
+y.2 = rnorm(n, mean = 5, sd = .5)
+# marginal_plot(x.1,y.1,ylim = range(c(y.1,y.2)), xlim = range(c(x.1,x.2)), pch = 19, col = scales::alpha("black",.8), ylab = "Y",xlab = "X")
+# marginal_plot(x.2,y.2,ylim = range(c(y.1,y.2)), xlim = range(c(x.1,x.2)), pch = 19, col = scales::alpha("black",.8), ylab = "Y",xlab = "X")
+
+library(ggplot2)
+library(ggExtra)
+
+size.line = .8
+col.line = alpha("black",.5)
+df.1 <- data.frame(x = x.1, y = y.1)
+df.2 <- data.frame(x = x.2, y = y.2)
+p.1 <- ggplot(df.1, aes(x, y)) + 
+  geom_point() + 
+  lims(x = range(c(x.1,x.2)), y = range(c(y.1,y.2))) +
+  theme_classic() + 
+  theme(axis.ticks = element_line(colour = "black"),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 12, colour = "black"),
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 12))
+
+p.2 <- ggplot(df.2, aes(x, y)) + 
+  geom_point() + 
+  lims(x = range(c(x.1,x.2)), y = range(c(y.1,y.2))) +
+  theme_classic() + 
+  theme(axis.ticks = element_line(colour = "black"),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 12, colour = "black"),
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 12))
+p.1
+p.2
+
+p.h1 <- p.1 + geom_hline(yintercept=mean(y.1), linetype="dashed", color = col.line, size=size.line)
+p.h1
+p.h.v1 <- p.h1 + geom_vline(xintercept=mean(x.1), linetype="dashed", color = col.line, size=size.line)
+p.h.v1
+p.h2 <- p.2 + geom_hline(yintercept=mean(y.2), linetype="dashed", color = col.line, size=size.line)
+p.h2
+p.h.v2 <- p.h2 + geom_vline(xintercept=mean(x.2), linetype="dashed", color = col.line, size=size.line)
+p.h.v2
+
+positions.1 <- data.frame(
+  x = c(mean(x.1)-sd(x.1), mean(x.1)+sd(x.1), mean(x.1)+sd(x.1), mean(x.1)-sd(x.1)),
+  y = c(mean(y.1)-sd(y.1), mean(y.1)-sd(y.1), mean(y.1)+sd(y.1), mean(y.1)+sd(y.1))
+)
+positions.2 <- data.frame(
+  x = c(mean(x.2)-sd(x.2), mean(x.2)+sd(x.2), mean(x.2)+sd(x.2), mean(x.2)-sd(x.2)),
+  y = c(mean(y.2)-sd(y.2), mean(y.2)-sd(y.2), mean(y.2)+sd(y.2), mean(y.2)+sd(y.2))
+)
+
+positions.x1 <- data.frame(
+  x = c(mean(x.1)-sd(x.1), mean(x.1)+sd(x.1), mean(x.1)+sd(x.1), mean(x.1)-sd(x.1)),
+  y = c(-Inf, -Inf, Inf, Inf)
+)
+positions.x2 <- data.frame(
+  x = c(mean(x.2)-sd(x.2), mean(x.2)+sd(x.2), mean(x.2)+sd(x.2), mean(x.2)-sd(x.2)),
+  y = c(-Inf, -Inf, Inf, Inf)
+)
+positions.y1 <- data.frame(
+  x = c(Inf, -Inf, -Inf, Inf),
+  y = c(mean(y.1)-sd(y.1), mean(y.1)-sd(y.1), mean(y.1)+sd(y.1), mean(y.1)+sd(y.1))
+)
+positions.y2 <- data.frame(
+  x = c(Inf, -Inf, -Inf, Inf),
+  y = c(mean(y.2)-sd(y.2), mean(y.2)-sd(y.2), mean(y.2)+sd(y.2), mean(y.2)+sd(y.2))
+)
+# p.h.v + geom_polygon(data = positions, aes(x = x, y = y),fill = alpha("gray70",.6))
+p.h.v.sd.x1 = p.h.v1 + geom_polygon(data = positions.x1, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x1
+p.h.v.sd.x2 = p.h.v2 + geom_polygon(data = positions.x2, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x2
+
+p.h.v.sd.x.sd.y1 = p.h.v.sd.x1 + geom_polygon(data = positions.y1, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x.sd.y1
+p.h.v.sd.x.sd.y2 = p.h.v.sd.x2 + geom_polygon(data = positions.y2, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x.sd.y2
+
+p.h.v.sd.x.sd.y.l1 = p.h.v.sd.x.sd.y1 +  geom_smooth(method = "lm", se = TRUE, col =alpha("red",.5))
+p.h.v.sd.x.sd.y.l1
+p.h.v.sd.x.sd.y.l2 = p.h.v.sd.x.sd.y2 +  geom_smooth(method = "lm", se = TRUE, col =alpha("red",.5))
+p.h.v.sd.x.sd.y.l2
+
+p.marg1 = ggExtra::ggMarginal(p.h.v.sd.x.sd.y.l1, type = "histogram", fill = "gray80", col = "gray70")
+p.marg1
+p.marg2 = ggExtra::ggMarginal(p.h.v.sd.x.sd.y.l2, type = "histogram", fill = "gray80", col = "gray70")
+p.marg2
+# plot(y.1~x.1, ylim = range(c(y.1,y.2)), xlim = range(c(x.1,x.2)), pch = 19, col = scales::alpha("black",.8), ylab = "Y",xlab = "X")
+# plot(y.2~x.2, ylim = range(c(y.1,y.2)), xlim = range(c(x.1,x.2)), pch = 19, col = scales::alpha("black",.8), ylab = "Y",xlab = "X")
+
+```
+.pull-left[
+```{r normalX_Y1, echo=FALSE, fig.width=5,fig.height=4}
+p.1
+```
+]
+
+.pull-right[
+```{r normalX_Y2, echo=FALSE, fig.width=5,fig.height=4}
+p.2
+```
+]
+
+Find correlation and covariance
+
+- The correlation of the first graph is `r round(cor(x.1,y.1),2)` and the covariance is `r round(cov(x.1,y.1),2)`.
+- The correlation of the second graph is `r round(cor(x.2,y.2),2)` and the covariance is `r round(cov(x.2,y.2),2)`.
+
+---
+## What do you see here? 
+
+- Can you give me *as much information* as you can from this graph 
+
+.pull-left[
+```{r normalX_Y3, echo=FALSE, fig.width=5,fig.height=4}
+# p.h1
+p.h.v1
+```
+]
+
+.pull-right[
+```{r normalX_Y4, echo=FALSE, fig.width=5,fig.height=4}
+# p.h2
+p.h.v2
+
+```
+]
+
+---
+## What do you see here? 
+
+- Can you give me *as much information* as you can from this graph 
+
+.pull-left[
+```{r normalX_Y5, echo=FALSE, fig.width=5,fig.height=4}
+# p.h.v.sd.x1
+p.h.v.sd.x.sd.y1
+```
+]
+
+.pull-right[
+```{r normalX_Y6, echo=FALSE, fig.width=5,fig.height=4}
+# p.h.v.sd.x2
+p.h.v.sd.x.sd.y2
+```
+]
+
+---
+## What do you see here? 
+
+- Can you give me *as much information* as you can from this graph 
+
+.pull-left[
+```{r normalX_Y7, echo=FALSE, fig.width=5,fig.height=4}
+p.h.v.sd.x.sd.y.l1
+```
+]
+
+.pull-right[
+```{r normalX_Y8, echo=FALSE, fig.width=5,fig.height=4}
+p.h.v.sd.x.sd.y.l2
+```
+]
+
+---
+## What do you see here? 
+
+- Can you give me *as much information* as you can from this graph 
+
+.pull-left[
+```{r normalX_Y9, echo=FALSE, fig.width=5,fig.height=4}
+p.marg1
+```
+]
+
+.pull-right[
+```{r normalX_Y10, echo=FALSE, fig.width=5,fig.height=4}
+p.marg2
+```
+]
+
+
 
 
 ###############
@@ -544,6 +957,8 @@ plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline
 <!-- 
 PDF for continuous 
 PMF for discrete 
+# See also how to convert them from one another
+https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 -->
 
 ---
@@ -1597,6 +2012,9 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 ---
 ## References
 .small[
+Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973. Available at: http://www.zoology.ubc.ca/biomath/.
+![:scale 10%](images/Otto_Day.2007. Biologist Guide to Mathematical Modeling in Ecology and Evolution.jpg)
+
 https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html
 https://bookdown.org/rdpeng/rprogdatascience/simulation.html
 https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9
