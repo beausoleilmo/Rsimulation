@@ -40,6 +40,8 @@ knitr::opts_chunk$set(
 3. Simulating data for power analysis (in development)
 4. Simulating data for models (lm, glm, lmm, in development)
 
+Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p)
+
 ---
 ## Prerequisites
 <!-- I will be using base plot for this workshop: this is because it is MUCH EASIER to get quick BEAUTIFUL plots and show stuff -->
@@ -67,7 +69,7 @@ In addition, this is a work in progress. Any input you have is more than welcome
 1. Develop intuition and skills to perform simulations
 2. Explore useful functions when designing simulations 
 3. Articulate what are the assumptions underlying a simulation (for the models tested or the scope of the simulation)
-4. Know how and hwne to use important statistical distributions
+4. Know how and when to use important statistical distributions
 5. Simulate different data structure to perform LMs, GLMs, and (G)LMMs. 
 
 
@@ -381,7 +383,7 @@ class: inverse, center, middle
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from this graph 
+- Can you give me *as much information* as you can from these graphs
 
 ```{r normalX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4}
 # source(file = "scripts/marginal_plot.R")
@@ -389,10 +391,10 @@ set.seed(123)
 # par(mfrow = c(1,2), mar =c(4,4,3,3), cex = 1.4)
 n = 250
 x.1 = rnorm(n, mean = 15, sd = 5)
-y.1 = rnorm(n, mean = 5, sd = 2)
+y.1 = 2*x.1 +rnorm(n, mean = 0, sd = 4)#rnorm(n, mean = 5, sd = 2)
 
 x.2 = rnorm(n, mean = 15, sd = 1)
-y.2 = rnorm(n, mean = 5, sd = .5)
+y.2 = 2*x.2 +rnorm(n, mean = 0, sd = .5) # rnorm(n, mean = 5, sd = .5)
 # marginal_plot(x.1,y.1,ylim = range(c(y.1,y.2)), xlim = range(c(x.1,x.2)), pch = 19, col = scales::alpha("black",.8), ylab = "Y",xlab = "X")
 # marginal_plot(x.2,y.2,ylim = range(c(y.1,y.2)), xlim = range(c(x.1,x.2)), pch = 19, col = scales::alpha("black",.8), ylab = "Y",xlab = "X")
 
@@ -505,7 +507,7 @@ Find correlation and covariance
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from this graph 
+- Can you give me *as much information* as you can from these graphs
 
 .pull-left[
 ```{r normalX_Y3, echo=FALSE, fig.width=5,fig.height=4}
@@ -525,7 +527,7 @@ p.h.v2
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from this graph 
+- Can you give me *as much information* as you can from these graphs
 
 .pull-left[
 ```{r normalX_Y5, echo=FALSE, fig.width=5,fig.height=4}
@@ -544,7 +546,7 @@ p.h.v.sd.x.sd.y2
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from this graph 
+- Can you give me *as much information* as you can from these graphs
 
 .pull-left[
 ```{r normalX_Y7, echo=FALSE, fig.width=5,fig.height=4}
@@ -561,7 +563,7 @@ p.h.v.sd.x.sd.y.l2
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from this graph 
+- Can you give me *as much information* as you can from these graphs
 
 .pull-left[
 ```{r normalX_Y9, echo=FALSE, fig.width=5,fig.height=4}
@@ -768,7 +770,7 @@ plot(y~x, col = as.factor(gr), data = linear.df, pch = 19)
 ---
 class: inverse, center, middle
 
-# Let's explore what underly some statistical processes
+# Let's explore what underlies some statistical processes
 
 ---
 ## Probability and odds 
@@ -2034,6 +2036,14 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 ```
 
 
+###############
+---
+class: inverse, center, middle
+
+# Advanced simulations
+
+
+
 ---
 ## Advanced simulations
 
@@ -2104,25 +2114,32 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 
 ---
 ## References
-.small[
-Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973. Available at: http://www.zoology.ubc.ca/biomath/.
-![:scale 10%](images/Otto_Day.2007. Biologist Guide to Mathematical Modeling in Ecology and Evolution.jpg)
+.tiny[
+Book
+- Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973.
 
-[bios221; Lab 3: Simulations in R](https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html)
-[R Programming for Data Science; See 20 Simulation](https://bookdown.org/rdpeng/rprogdatascience/simulation.html)
-[Statistical Simulation in R with Code — Part 1](https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9)
-[](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/)
-[](https://it.unt.edu/simple-data-simulations)
-[](https://www.youtube.com/watch?v=tvv4IA8PEzw)
-[Introduction to Simulations in R](http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/simRreg.pdf)
-[](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
-[Crump Lab; see Chapter 5 Simulating and Analyzing Data in R](https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.html)
-[Intro to R Lecture Notes; see Chapter 13 Simulations](https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html)
-[](https://nickch-k.github.io/introcausality/Cheat%20Sheets/Simulation_Cheat_Sheet.pdf)
-[Simulating mixed effets; see chapter 4](https://debruine.github.io/tutorials/sim-lmer.html)
-[Cours 'Econ 224'; Lab #9 - Logistic Regression Part I](https://ditraglia.com/econ224/lab09.pdf)
-[ECON 41 Labs; useful ressources about distributions](https://bookdown.org/gabriel_butler/ECON41Labs/)
-[Binomial regression in R](https://kkorthauer.org/fungeno2019/methylation/vignettes/1-binomial-regression.html#4_pitfalls_of_glm)
+<!-- ![:scale 5%](images/Otto_Day.2007. Biologist Guide to Mathematical Modeling in Ecology and Evolution.jpg) -->
+
+Links 
+- [Getting started simulating data in R: some helpful functions and how to use them (Ariel Muldoon)](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
+- [Simulate Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/) and [Simulate Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/) by Ariel Muldoon
+- [Simulate Poisson model (Ariel Muldoon)](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/)
+- [Simulate binomial generalized linear mixed model (Ariel Muldoon)](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/)
+- [Statistical Simulation in R with Code — Part 1](https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9)
+- [Power Analysis by Data Simulation in R – Part 2](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/)
+- [bios221; Lab 3: Simulations in R](https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html)
+- [R Programming for Data Science; See 20 Simulation](https://bookdown.org/rdpeng/rprogdatascience/simulation.html)
+- [Simulation in R (YouTube)](https://www.youtube.com/watch?v=tvv4IA8PEzw)
+- [Introduction to Simulations in R](http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/simRreg.pdf)
+- [Crump Lab; see Chapter 5 Simulating and Analyzing Data in R](https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.html)
+- [Intro to R Lecture Notes; see Chapter 13 Simulations](https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html)
+- [Simulation Cheat Sheet, by Nick Huntington-Klein](https://nickch-k.github.io/introcausality/Cheat%20Sheets/Simulation_Cheat_Sheet.pdf)
+- [Simulating mixed effets; see chapter 4](https://debruine.github.io/tutorials/sim-lmer.html)
+- [Cours 'Econ 224'; Lab #9 - Logistic Regression Part I](https://ditraglia.com/econ224/lab09.pdf)
+- [ECON 41 Labs; useful ressources about distributions](https://bookdown.org/gabriel_butler/ECON41Labs/)
+- [Binomial regression in R](https://kkorthauer.org/fungeno2019/methylation/vignettes/1-binomial-regression.html#4_pitfalls_of_glm)
+- [Simple Data Simulations in R, of course](https://it.unt.edu/simple-data-simulations)
+- [Probability Cheat sheet](https://static1.squarespace.com/static/54bf3241e4b0f0d81bf7ff36/t/55e9494fe4b011aed10e48e5/1441352015658/probability_cheatsheet.pdf)
 ]
 
 ---
