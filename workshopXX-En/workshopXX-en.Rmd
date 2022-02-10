@@ -32,6 +32,11 @@ Math equations in Markdown
 https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
 -->
 
+<!-- For developers  -->
+<!-- 
+Please consult the presentation template at the following link  http://r.qcbs.ca/templateWorkshops/presentation-template/index.html#1
+-->
+
 ```{r setup, echo = F}
 # in the end, should be about 1500 lines
 knitr::opts_chunk$set(
@@ -434,20 +439,20 @@ p.1 <- ggplot(df.1, aes(x, y)) +
   lims(x = range(c(x.1,x.2)), y = range(c(y.1,y.2))) +
   theme_classic() + 
   theme(axis.ticks = element_line(colour = "black"),
-    axis.title = element_text(size = 12),
-    axis.text = element_text(size = 12, colour = "black"),
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 12))
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 12, colour = "black"),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12))
 
 p.2 <- ggplot(df.2, aes(x, y)) + 
   geom_point() + 
   lims(x = range(c(x.1,x.2)), y = range(c(y.1,y.2))) +
   theme_classic() + 
   theme(axis.ticks = element_line(colour = "black"),
-    axis.title = element_text(size = 12),
-    axis.text = element_text(size = 12, colour = "black"),
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 12))
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 12, colour = "black"),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12))
 p.1
 p.2
 
@@ -659,6 +664,7 @@ sample(x = as.factor(month.abb), size = 5, replace = FALSE)
 
 ---
 ## Functions useful in simulations (sample)
+
 <!-- SEE http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf -->
 
 - The function `sample()` can actually be used in order to do permutations 
@@ -700,6 +706,24 @@ plot(y.s~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permuta
 <!-- - Keep in mind that permutations are valid if the null hypothesis tested is that there is *no association* between the variables studied.
 http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf
 -->
+
+---
+## Functions useful in simulations (sample)
+
+- You can also simulate random dates in a time interval. 
+
+```{r}
+set.seed(42)
+# GEt a sequence of dates
+datae.seq = seq(from = as.Date('2010/01/01'), 
+                to = as.Date('2022/01/01'), 
+                by = "day")
+# Look at beginning and end of sequence 
+head(datae.seq, 4); tail(datae.seq, 4)
+# Get only 5 elements of the generated sequence 
+sample(datae.seq, 5)
+```
+
 
 ---
 ## Functions useful in simulations (rep)
@@ -801,10 +825,10 @@ class: inverse, center, middle
 - When describing the chance of an outcome, you can use a probability or odds
 - They are related: odds of an event is $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
 - Why bother? 
-  - probability ranges between 0 and 1, 
-  - odds range from 0 to $\infty$. 
-  - Log (natural log, or ln) odds can range from $-\infty$ to $\infty$. It is calculated as $ln (odds) = ln(p/(1-p))$.
-  - This will become handy when building a logistic model as this is the 'logit' transformation. 
+- probability ranges between 0 and 1, 
+- odds range from 0 to $\infty$. 
+- Log (natural log, or ln) odds can range from $-\infty$ to $\infty$. It is calculated as $ln (odds) = ln(p/(1-p))$.
+- This will become handy when building a logistic model as this is the 'logit' transformation. 
 
 <!-- .alert[Careful!] This is not the same as saying $success/(success + failure)$. This last calculation is the probability -->
 
@@ -813,7 +837,7 @@ class: inverse, center, middle
 
 - Example: a horse runs 100 races and wins 20 of them.  What is the *odd* of winning?
 - $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
-  
+
 ```{r odds_example}
 totl.nb.events = 100
 successes = 20
@@ -835,7 +859,7 @@ Conversely, the horse the odds of failing is `r paste0(odds.against,":1")` (read
 ## Probability and odds 
 
 - Example
-  - a horse runs 100 races and wins 20 of them. What is the *probability* of winning?
+- a horse runs 100 races and wins 20 of them. What is the *probability* of winning?
 ```{r probability_example}
 totl.nb.events = 100
 successes = 20
@@ -867,8 +891,8 @@ https://stats.oarc.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-od
 https://www.statisticshowto.com/probability-and-statistics/probability-main-index/odds-ratio/
 -->
 <!-- Good example on odds ration 
-  https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_Confidence_Intervals10.html -->
-  
+https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_Confidence_Intervals10.html -->
+
 ---
 ## Probability and odds 
 
@@ -886,8 +910,98 @@ plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline
 
 - To help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
 - The idea here is to find the distribution underlying a random process which generate a particular phenomenon in nature and use it to output values to be used in your simulation.
-  - After generating the data, you can analyze it and see how it can be manipulated. 
-  
+- After generating the data, you can analyze it and see how it can be manipulated. 
+
+---
+## What is a random variable? 
+
+- Imagine a number is presented to you like so:
+
+```{r feel_random_var, echo=FALSE}
+set.seed(123)
+n = 1000
+rnorm.val = rnorm(n = n, mean = 15, sd = 2)
+random.var.normal = round(rnorm.val,1)
+```
+
+```{r, echo=FALSE}
+random.var.normal[1]
+```
+
+--
+
+- From which distribution is this variable coming from?
+
+--
+
+- Would be helpful to have more information 
+
+???
+
+This is an exercice to let the attendees feel what are random variables and why staitstical distributions are interesting. 
+
+---
+## What is a random variable? 
+
+- Now imagine you are able to get more numbers from the same process:
+
+```{r, echo=FALSE}
+random.var.normal[1:5]
+```
+
+--
+
+- This is more informative. We can take the mean and the standard deviation of these numbers: mean = `r round(mean(random.var.normal[1:5]),1)`, sd = `r round(sd(random.var.normal[1:5]),1)`. 
+
+--
+
+- Again, from which distribution is this variable coming from?
+
+--
+
+- We could plot the result to get a feel of the distribution: 
+
+.pull-right2[
+
+```{r feel_random_var_hist_5, echo=FALSE, fig.width=6, fig.height=5}
+par(mfrow=c(1,1),cex = 1.5)
+hist(random.var.normal[1:5], main = "Hisogram of random variable", xlab = "x")
+```
+
+]
+
+--
+
+- still hard to definitly tell 
+
+
+---
+## What is a random variable? 
+
+- What if you get even more numbers (say 100) from the same random process:
+
+.tiny[
+```{r, echo=FALSE}
+random.var.normal[1:100]
+```
+]
+
+--
+
+- The mean = `r round(mean(random.var.normal[1:5]),1)`, sd = `r round(sd(random.var.normal[1:5]),1)`. 
+- Check the graph
+
+.pull-right2[
+
+```{r feel_random_var_hist_100, echo=FALSE, fig.width=6, fig.height=5}
+par(mfrow=c(1,1),cex = 1.5)
+hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
+```
+] 
+
+--
+
+- That looks normal! 
 
 ---
 ## Functions for various distributions
@@ -1078,7 +1192,7 @@ hist(rnorm(10000, 5, 1.5), xlim = c(0,10), main = "Normal")
 
 - Other packages have other distributions. See the [CRAN Task View: Probability Distributions](https://cran.r-project.org/web/views/Distributions.html) if you need a funky distribution that doesn't come in `base R`.
 - Some distributions can be recreated in R even if they haven't their own functino name (e.g., Bernoulli). 
-  - Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
+- Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
 
 .tiny[
 ```{r equivalence_between_distributions_Bern_binom, echo=FALSE, fig.width=7,fig.height=4}
@@ -1126,8 +1240,8 @@ for (i in 1:nb.flips) {
     pos = pos + 2.5
     w = 0
   }
-   
- # prepare "circle data"
+  
+  # prepare "circle data"
   radius = 1
   center_x = w + 1
   center_y = pos
@@ -1148,20 +1262,20 @@ for (i in 1:nb.flips) {
 ## Poisson distribution
 
 - Poisson distribution assume that 
-  - the probability of some event is small over a short period of time (or area), but that there are a lot of events (as there would be a lot of time passing, or a lot of space) in which the process could happen 
-  - The number of event reported is independent from one time point to the other. 
-  - In summary, it models *rare* events that happen at a certain *rate*. In other words, there are many opportunities to succeed (n is large), but the probability of success (for each trial) is small
-  
-  $$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$ where $\mu = \sigma = \lambda$
-  
+- the probability of some event is small over a short period of time (or area), but that there are a lot of events (as there would be a lot of time passing, or a lot of space) in which the process could happen 
+- The number of event reported is independent from one time point to the other. 
+- In summary, it models *rare* events that happen at a certain *rate*. In other words, there are many opportunities to succeed (n is large), but the probability of success (for each trial) is small
+
+$$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$ where $\mu = \sigma = \lambda$
+
 
 ---
 ## Poisson distribution vs binomial
 
 - Difference with Binomial :
-  - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
-  - Number of trials is finite ( $n$ ) in Binomial distribution 
-  
+- Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
+- Number of trials is finite ( $n$ ) in Binomial distribution 
+
 ```{r equivalence_between_distributions_Binom_poisson, echo=FALSE}
 par(mfrow = c(2,2))
 x <- 0:10
@@ -1180,18 +1294,18 @@ ppois(q = 2, lambda = 2)
 ## Poisson distribution
 
 - Examples (something per unit time or space for example): 
-  - Nb of deaths due to a disease (e.g., SARS-CoV 2) for a period of time 
-  - Ticks of a radiation counter (Geiger counter which detects and measures ionizing radiation)
-  - DNA mutation
-  - Colonization of animals on remote islands
-  - Mutation models
-  - Recombination models 
-  - Bacterial colony growing on an agar plate 
-  
+- Nb of deaths due to a disease (e.g., SARS-CoV 2) for a period of time 
+- Ticks of a radiation counter (Geiger counter which detects and measures ionizing radiation)
+- DNA mutation
+- Colonization of animals on remote islands
+- Mutation models
+- Recombination models 
+- Bacterial colony growing on an agar plate 
+
 <!-- Examples taken from
 https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 -->
-  
+
 ```{r petri_dish_bacteria_colonny, echo=FALSE, fig.width=5,fig.height=3}
 set.seed(1235)
 # initialize a plot
@@ -1238,10 +1352,10 @@ for (i in 1:length(x.pos)) {
 ## Binomial distribution
 
 - Binomial distribution assume that 
-  - Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
-    * Note that a 'success' or 'failure' is a *contrast* between 2 elements. 
-    * These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.  
-  - There is a *fixed* number of trials and the probability on each trial is constant.
+- Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
+* Note that a 'success' or 'failure' is a *contrast* between 2 elements. 
+* These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.  
+- There is a *fixed* number of trials and the probability on each trial is constant.
 
 <!-- , 'cancer cell death/alive' -->
 
@@ -1259,9 +1373,9 @@ where
 ## Binomial distribution
 
 - Examples 
-  - Number of heads in a row after 3 tosses
-  - Genetic drift 
-  - Wright-Fisher model 
+- Number of heads in a row after 3 tosses
+- Genetic drift 
+- Wright-Fisher model 
 
 <!-- Examples taken from 
 http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html
@@ -1273,14 +1387,14 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probabili
 ## Binomial distribution
 
 - Examples 
-  - probability of having a certain number of offspring given the genotypes of the parents 
-    - for example, if a male is AA and female Aa, what is the probability that 6 of their 7 offspring has Aa
-      - Find the probability of getting Aa from AA x Aa [1/2 AA and 1/2 Aa], 
-      - then out of n=7 offspring from that couple, 6 are of genotype Aa, $P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128$)
-  - Probability of a certain number of your children being daughters 
-    - if you have 5 children, these are independent trials, so n = 5
-    - "success" is the probability that the child is a daughter (p = 1/2)
-    - $P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16$
+- probability of having a certain number of offspring given the genotypes of the parents 
+- for example, if a male is AA and female Aa, what is the probability that 6 of their 7 offspring has Aa
+- Find the probability of getting Aa from AA x Aa [1/2 AA and 1/2 Aa], 
+- then out of n=7 offspring from that couple, 6 are of genotype Aa, $P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128$)
+- Probability of a certain number of your children being daughters 
+- if you have 5 children, these are independent trials, so n = 5
+- "success" is the probability that the child is a daughter (p = 1/2)
+- $P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16$
 
 
 ---
@@ -1305,10 +1419,10 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 ## Normal distribution (Gaussian)
 
 - Examples: 
-  - Distribution of a lot of continuous phenotypes 
-    - Arm length, or human height in a population
-  - velocity of a collection of molecules in a gas of liquid
-  - the error from measurements (length of beak).
+- Distribution of a lot of continuous phenotypes 
+- Arm length, or human height in a population
+- velocity of a collection of molecules in a gas of liquid
+- the error from measurements (length of beak).
 
 
 ---
@@ -1492,51 +1606,51 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
   p = prob 
   
   if(where=="both"){
-  # add the polygon to the left  
-  lb <- min(x) # Lower bound
-  ub <- qnorm(p)   # Upper bound
-  x2 <- seq(min(x), ub, length = 100) # New Grid
-  y <- dnorm(x2, 0, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
-  polygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
-  text(x = -2, y = .2,
-       labels = paste0(p*100,"%"),adj = 0,pos = 2, cex=cex)
-  
-  if (text) {
-    text(x = ub, y = .2,
-         labels = paste0(round(qnorm(p),2)),adj = 0,pos = 1,offset = 0, cex=cex)
-    arrows(x0 = ub,x1 = ub, y0 = .2,y1 = .1,code = 2,length=.1)
+    # add the polygon to the left  
+    lb <- min(x) # Lower bound
+    ub <- qnorm(p)   # Upper bound
+    x2 <- seq(min(x), ub, length = 100) # New Grid
+    y <- dnorm(x2, 0, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
+    text(x = -2, y = .2,
+         labels = paste0(p*100,"%"),adj = 0,pos = 2, cex=cex)
+    
+    if (text) {
+      text(x = ub, y = .2,
+           labels = paste0(round(qnorm(p),2)),adj = 0,pos = 1,offset = 0, cex=cex)
+      arrows(x0 = ub,x1 = ub, y0 = .2,y1 = .1,code = 2,length=.1)
+    }
+    
+    # add the polygon to the right 
+    lb <- qnorm(1-p) # Lower bound
+    ub <- max(x)   # Upper bound
+    x2 <- seq(lb, max(x), length = 100) # New Grid
+    y <- dnorm(x2, 0, 1) # Density
+    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
+    text(x = 2, y = .2,
+         labels = paste0(p*100,"%"),adj = 0,pos = 4, cex=cex)
+    
+    if (text) {
+      text(x = lb, y = .2,
+           labels = paste0(round(qnorm(1-p),2)),adj = 0,pos = 1,offset = 0, cex=cex)
+      arrows(x0 = lb,x1 = lb, y0 = .2,y1 = .1,code = 2,length=.1)
+    }
+    
+    # Add the middle (red) polygon 
+    lb <- qnorm(p) # Lower bound
+    ub <- qnorm(1-p)   # Upper bound
+    x2 <- seq(lb, ub, length = 100) # New Grid
+    y <- dnorm(x2, 0, 1) # Density
+    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(1, 0, 0, alpha = 0.5))
+    text(x = mean(x2), y = text.height,
+         labels = paste0((1-2*p)*100,"%"),adj = 0,pos = 1, cex=cex)
+    
+    if (text) {
+      text(x = 0, y = .55,
+           labels = paste0(quote("Mean")),adj = 0,pos = 1,offset = 0, cex=cex)
+      arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
+    }
   }
-  
-  # add the polygon to the right 
-  lb <- qnorm(1-p) # Lower bound
-  ub <- max(x)   # Upper bound
-  x2 <- seq(lb, max(x), length = 100) # New Grid
-  y <- dnorm(x2, 0, 1) # Density
-  polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
-  text(x = 2, y = .2,
-       labels = paste0(p*100,"%"),adj = 0,pos = 4, cex=cex)
-  
-  if (text) {
-    text(x = lb, y = .2,
-         labels = paste0(round(qnorm(1-p),2)),adj = 0,pos = 1,offset = 0, cex=cex)
-    arrows(x0 = lb,x1 = lb, y0 = .2,y1 = .1,code = 2,length=.1)
-  }
-  
-  # Add the middle (red) polygon 
-  lb <- qnorm(p) # Lower bound
-  ub <- qnorm(1-p)   # Upper bound
-  x2 <- seq(lb, ub, length = 100) # New Grid
-  y <- dnorm(x2, 0, 1) # Density
-  polygon(c(lb, x2, ub), c(0,y,0), col = rgb(1, 0, 0, alpha = 0.5))
-  text(x = mean(x2), y = text.height,
-       labels = paste0((1-2*p)*100,"%"),adj = 0,pos = 1, cex=cex)
-  
-  if (text) {
-    text(x = 0, y = .55,
-         labels = paste0(quote("Mean")),adj = 0,pos = 1,offset = 0, cex=cex)
-    arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
-  }
-}
   
   if (where=="left") {
     # add the polygon to the left  
@@ -1626,12 +1740,50 @@ Find the probability of finding data relative to a standard deviation number
 
 ```{r Normal_pdf_important_values}
 sd = 1
-probability.left.side = (pnorm(q = -c(sd*1,sd*2,sd*3),lower.tail = T)*100)
-probability.right.side = (pnorm(q =  c(sd*1,sd*2,sd*3),lower.tail = T)*100)
+probability.left.side = (pnorm(q = c(sd*1,sd*2,sd*3),lower.tail = F)*100)
+probability.right.side = (pnorm(q = c(sd*1,sd*2,sd*3),lower.tail = T)*100)
 percent.data.under.curve = probability.right.side - probability.left.side
-round(percent.data.under.curve,2)
+p.from.mean = round(percent.data.under.curve,2)
+```
 
-qnorm(p = c(.75,.975, .995),lower.tail = T)
+- So from the mean of the standard normal distribution, if you are at $1 \times \sigma$ from both sides of the mean, you have about `r paste0(p.from.mean[1],"%")` of the data. At $2 \times \sigma$ it's `r paste0(p.from.mean[2],"%")` and at $3 \times \sigma$ it's `r paste0(p.from.mean[3],"%")`
+
+```{r normal_dist_area2, echo=FALSE, fig.width=11,fig.height=3}
+par(mfrow=c(1,3), mar = c(4,4,1,1), cex = 1.1)
+draw.normal(where = "both",  prob = round(probability.left.side[1]/100,3))
+draw.normal(where = "both",  prob = round(probability.left.side[2]/100,3))
+draw.normal(where = "both",  prob = round(probability.left.side[3]/100,3))
+
+```
+
+---
+## Normal distribution 
+
+Find the "x" value (quantile) based on the probability (area under the curve)
+
+```{r Normal_pdf_important_values2}
+qnorm(p = c(.75, .95,.975, .995),lower.tail = F)
+```
+
+```{r normal_dist_area3, echo=FALSE, fig.width=14,fig.height=3}
+par(mfrow=c(1,4), mar = c(4,4,1,1), cex = 1.1)
+length.arrow.head = 0.10
+draw.normal(where = "left",  prob = .25); x.val = qnorm(p = c(.25),lower.tail = T)
+arrows(x0 = x.val, x1 = x.val, y0 = .5,y1 = .4, length = length.arrow.head)
+text(x.val, y = .6, labels = round(x.val,2))
+
+draw.normal(where = "left",  prob = .05); x.val = qnorm(p = c(.05),lower.tail = T)
+arrows(x0 = x.val, x1 = x.val, y0 = .5,y1 = .2, length = length.arrow.head)
+text(x.val, y = .6, labels = round(x.val,2))
+
+draw.normal(where = "both",  prob = .025); x.val = qnorm(p = c(.025),lower.tail = T)
+arrows(x0 = x.val, x1 = x.val, y0 = .5,y1 = .15, length = length.arrow.head)
+text(x.val, y = .6, labels = round(x.val,2))
+
+draw.normal(where = "left",  prob = .005); x.val = qnorm(p = c(.005),lower.tail = T)
+arrows(x0 = x.val, x1 = x.val, y0 = .5,y1 = .15, length = length.arrow.head)
+text(x.val, y = .6, labels = round(x.val,2))
+
 ```
 
 
@@ -1709,6 +1861,89 @@ rnorm(n)
 
 - Why are there negative values? Because the mean = 0, so some values spill over the mean on both sides, and in the negative numbers. 
 
+---
+## Central limit theorem (CLT)
+
+- The Central limit theorem (CLT) stipulates that:
+  * The more you add (sum) identically distributed random variables, the probability of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
+
+- We will use simulations to test this assertion! 
+  
+
+
+---
+## Central limit theorem (CLT)
+
+- The CLT could be shown by adding more and more random variables distributed as an exponential with rate = 1. 
+
+.tiny[
+```{r, fig.width=8,fig.height=5}
+n = 1000 # Number of points 
+par(mfrow=c(2,2)) # set window 
+# Generate multiple addition of random variables 
+for(i in c(2,50,1000,5000)){
+  clt = replicate(i, rexp(n, rate = 1), simplify = FALSE)
+  hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"), xlab = "x") # Draw the histogram 
+}
+```
+]
+
+---
+## Central limit theorem (CLT)
+
+- Same thing as above, but for a random variable coming from a uniform *discrete* distribution!
+
+.pull-right2[
+```{r , echo=FALSE, fig.width=3,fig.height=3}
+# Define uniform discrete 
+dunifdisc<-function(x, min=0, max=1) ifelse(x>=min & x<=max & round(x)==x, 1/(max-min+1), 0)
+punifdisc<-function(q, min=0, max=1) ifelse(q<min, 0, ifelse(q>=max, 1, (floor(q)-min+1)/(max-min+1)))
+qunifdisc<-function(p, min=0, max=1) floor(p*(max-min+1))
+runifdisc<-function(n, min=0, max=1) sample(min:max, n, replace=T)
+curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col="black", lwd=1, ylim = c(0,1), ylab = "Density", main = "Uniform") 
+```
+]
+
+.tiny[
+```{r CLT_uniform_example_dice, fig.width=8,fig.height=5}
+par(mfrow=c(2,2)) # set window 
+# Generate multiple addition of random variables 
+for(i in c(2,50,1000,5000)){
+  clt = replicate(i, runifdisc(n),simplify = FALSE)
+  # Draw the histogram 
+  hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x")
+}
+```
+]
+
+---
+## Central limit theorem (CLT)
+
+- You are asked to throw 20 dice. If the sum of all 20 dice is $\geq 100$, you get a candy, if not, you don't get one. What is the probability of having the candy? 
+
+.tiny[
+```{r, fig.width=8,fig.height=3}
+n = 1e6 # Number of points 
+par(mfrow=c(1,2), cex = 1) # set window 
+i = 20 # flip 20 dice
+# Generate multiple addition of random variables 
+clt = replicate(i, runifdisc(n,1,6), simplify = FALSE)
+sum.rdm.var = apply(do.call(cbind, clt),1,sum) # mean
+mean.rdmv = mean(sum.rdm.var); sd.rdmv = sd(sum.rdm.var) #sd
+hist(sum.rdm.var, main = paste("Histogram of",i,"variables"), xlab = "x")
+# underlying distribution 
+curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
+      from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
+```
+]
+
+--
+
+- Using the CLT, the probability of getting a sum $\geq 100$ is approx. `r format(pnorm(100,mean = mean(sum.rdm.var),sd(sum.rdm.var),lower.tail = F),digits = 3)`.
+
+.tiny[
+- This example was taken from [this video](https://www.youtube.com/watch?v=vWTKVMf5HQI&ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)
+]
 
 ###############
 ---
@@ -1780,6 +2015,13 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
 - The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
 
+- Also  don't forget the assumption of the linear model 
+- In order to interpret your results correctly when using a linear model, be sure you are not crossing the *LINE*: 
+  * L: Linearity, 
+  * I: Independence, 
+  * N: normally distributed residuals, 
+  * E: Equality of variance 
+
 Reference for the section 
 - [Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/) and [Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
 - [Poisson model](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/)
@@ -1850,11 +2092,11 @@ library(plotly)
 fig <- plot_ly(df, x = ~x1, y = ~x2, z = ~y,
                marker = list(color = ~y, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE))
 fig <- fig %>%add_markers() %>% layout(scene = list(xaxis = list(title = 'x1'),
-                                   yaxis = list(title = 'x2'),
-                                   zaxis = list(title = 'y')),
-                      annotations = list(x = 1.08,y = 1.05,
-                        text = 'Scale', xref = 'paper',yref = 'paper',
-                        showarrow = FALSE)) 
+                                                    yaxis = list(title = 'x2'),
+                                                    zaxis = list(title = 'y')),
+                                       annotations = list(x = 1.08,y = 1.05,
+                                                          text = 'Scale', xref = 'paper',yref = 'paper',
+                                                          showarrow = FALSE)) 
 fig
 ```
 ]
@@ -2032,6 +2274,55 @@ lines(density(sim.df[sim.df$gr%in%"tall","values"]), col = "red")
 legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 ```
 
+---
+## Time series simulation
+
+- We suggest that for the moment, you consult the [Time Series Analysis CRAN Task View](https://cran.r-project.org/web/views/TimeSeries.html) which contains packages that can simualte time series for you to analyze. 
+- You can also see [this guide to better understand Time series](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
+- There is a neat tutorial by [Daniel Pinedo called Time series analysis in R](https://rpubs.com/odenipinedo/time-series-analysis-in-R)
+
+
+---
+## Spatial simulation
+
+- The examples here were taken from [this post on Stack Overflow](https://stackoverflow.com/questions/68761166/create-random-points-inside-a-shape-in-r)
+- See also the help for `st_sample()`. In the *Examples* section, there are some neat simulations of points in polygons. 
+
+```{r}
+library(sf)
+library(ggplot2)
+
+polygon =
+  list(
+    matrix(
+      c(2, 1, 3, 3, 2, 5, 3, 7, 2, 9, 1, 7, 0, 5, 1, 3, 2, 1),
+      ncol=2, byrow=T
+    )
+  ) 
+
+# Create an sf polygon
+polygon = sf::st_polygon(polygon)
+# Sample 50 random points within the polygon
+points = sf::st_sample(polygon, size=50)
+
+# Plot using the ggplot geom_sf function.
+ggplot() + 
+  geom_sf(aes(), data=polygon) + 
+  geom_sf(aes(), data=points) + theme_classic()
+```
+
+```{r}
+library(spatstat)
+#> For an introduction to spatstat, type 'beginner'
+W1 <- ellipse(a=5, b=2, centre=c(2,7), phi=80*pi/180)
+W2 <- ellipse(a=5, b=2, centre=c(2,3), phi=-80*pi/180)
+W <- union.owin(W1, W2)
+plot(W, lwd=3, main = "")
+
+```
+
+
+
 
 ###############
 ---
@@ -2047,9 +2338,9 @@ class: inverse, center, middle
 - Now that we have the building blocks to make simulations, we are going to add another layer:
 - We want to simulate a process and then see how our simulation responds to a fluctuation in a parameter
 - For this, we need a certain workflow that resembles this: 
-  1. create a blank vector in which a value of interest will be stored in 
-  2. Within a loop or many `for(){}` loops, we are going to simulate data, get a desired result and store the result for future analysis 
-  3. Summarize our findings (in a plot, with calculations, etc.) 
+1. create a blank vector in which a value of interest will be stored in 
+2. Within a loop or many `for(){}` loops, we are going to simulate data, get a desired result and store the result for future analysis 
+3. Summarize our findings (in a plot, with calculations, etc.) 
 
 .alert[ATTENTION]. This is an iterative process. Usually, we make small increments writing up the code and then put it all together in a cohesive function that will make exactly what we are looking for. 
 
