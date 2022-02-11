@@ -1801,26 +1801,33 @@ text(x.val+1, y = .6, labels = round(x.val,2))
 .pull-left[
 ```{r, echo=FALSE}
 par(mfrow=c(1,1), mar = c(4,4,0,1))
-hypothesis.testing <- function(mean.pop=2, sd = 1, n=NULL) {
+hypothesis.testing <- function(mean.pop=2, prob = .05, sd = 1, n=NULL) {
   
 if(!is.null(n)){
   se = sd/sqrt(n)
   sd = se
+  # print(se)
 }
   
 set.seed=1;cex =1
 mean = 0
-p = 0.025
+p = prob
 x = -6:10
 mean2 = mean.pop
 col1=rgb(0, 0, 1, alpha = 0.5)
 col2=rgb(0, 1, 0, alpha = 0.5)
 col3=rgb(0.8, 0.4, 0.2, alpha = 0.5)
-curve(dnorm(x, mean = mean, sd = sd),-6,10, xlim = c(-5, 7), ylim = c(0,1),xlab = "", lwd =3 )
+
+dval=dnorm(x, mean = mean, sd = sd)
+
+curve(dnorm(x, mean = mean, sd = sd),-6,10, n = 10000,xlim = c(-5, 7), 
+      ylim = range(0,1,max(dval)),
+      xlab = "", lwd =3 )
+# dnorm can have values that are GREATER THAN 1 # see https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1
 text(x = -4, y = .25,labels = "Sampling \ndistribution \nif H0 is true",adj = 0,pos = 4, cex=cex)
 arrows(x0 = -3,x1 = -2, y0 = .2,y1 = .1,code = 2,length=.1)
 
-null.test =qnorm(p = .05, mean = mean, sd=sd,lower.tail = F)
+null.test =qnorm(p = p, mean = mean, sd=sd,lower.tail = F)
 abline(v = null.test)
 
 
@@ -1834,7 +1841,7 @@ polygon(c(lb, x2, ub), c(0,y,0), col = col3,
         # density = 10, angle = -45, 
         lwd = 2)
 
-curve(dnorm(x, mean = mean2, sd = sd),-6,10, xlim = c(-5, 8), ylim = c(0,0.6),col = "red",add = T, lwd =3 )
+curve(dnorm(x, mean = mean2, sd = sd),-6,10, n = 10000, xlim = c(-5, 8), ylim = c(0,0.6),col = "red",add = T, lwd =3 )
 text(x = 4, y = .25,labels = "Sampling \ndistribution \nof population",adj = 0,pos = 4, cex=cex)
 arrows(x0 = 5,x1 = 4, y0 = .2,y1 = .1,code = 2,length=.1)
 
@@ -1867,7 +1874,6 @@ legend("topright",
 # text(x = 2, y = .2,labels = paste0((1-p)*100,"%"),adj = 0,pos = 4, cex=cex)
 
 }
-
 hypothesis.testing(1)
 ```
 
@@ -1881,6 +1887,35 @@ hypothesis.testing(2)
 ```
 
 ]
+
+??? 
+
+It is NOT a problem if the y value in the probability density function (PDF) is GREATER than one. The important point here is that the AREA UNDER THE CURVE must sum to 1. 
+
+---
+## Normal distribution
+
+- Now, if we have distributions that have a standard deviation of 5 and a sample size of 10 
+
+.pull-left[
+```{r, echo=FALSE}
+par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
+hypothesis.testing(2,sd = 5, n = 10)
+```
+]
+
+--
+
+- Let's see what happens if we increase the sample size 
+
+.pull-right[
+```{r, echo=FALSE}
+par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
+hypothesis.testing(2,sd = 5, n = 100)
+```
+
+]
+
 
 ---
 ## Convert a Normal dist. to Standard normal 
