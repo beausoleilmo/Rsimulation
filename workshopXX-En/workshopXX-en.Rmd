@@ -410,7 +410,7 @@ class: inverse, center, middle
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from these graphs
+- Can you give me *as much information* as you can within and between each graphs.
 
 ```{r normalX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4}
 # source(file = "scripts/marginal_plot.R")
@@ -526,10 +526,26 @@ p.2
 ```
 ]
 
+--
+
 Find correlation and covariance
 
 - The correlation of the first graph is `r round(cor(x.1,y.1),2)` and the covariance is `r round(cov(x.1,y.1),2)`.
 - The correlation of the second graph is `r round(cor(x.2,y.2),2)` and the covariance is `r round(cov(x.2,y.2),2)`.
+
+???
+
+What can be seen? 
+- Points, continuous x and y
+- mean (dashed lines), sd (the shades)
+- Correlation, covariance 
+- Linear model
+- Assumptions of linear model 
+  - Linearity
+  - Independence? Don't know
+  - Normal residuals (not shown)
+  - Equality of variance (see residuals)
+- Distribution of x and y to better understand what could have PRODUCED these variables. 
 
 ---
 ## What do you see here? 
@@ -1799,9 +1815,12 @@ text(x.val+1, y = .6, labels = round(x.val,2))
 ## Normal distribution
 
 .pull-left[
+
+- Mean of population is = 1
+
 ```{r, echo=FALSE}
 par(mfrow=c(1,1), mar = c(4,4,0,1))
-hypothesis.testing <- function(mean.pop=2, prob = .05, sd = 1, n=NULL) {
+hypothesis.testing <- function(mean.pop=2, mean.sn = 0,prob = .05, sd.sn =1, sd = 1, n=NULL) {
   
 if(!is.null(n)){
   se = sd/sqrt(n)
@@ -1810,7 +1829,7 @@ if(!is.null(n)){
 }
   
 set.seed=1;cex =1
-mean = 0
+mean = mean.sn
 p = prob
 x = -6:10
 mean2 = mean.pop
@@ -1818,25 +1837,25 @@ col1=rgb(0, 0, 1, alpha = 0.5)
 col2=rgb(0, 1, 0, alpha = 0.5)
 col3=rgb(0.8, 0.4, 0.2, alpha = 0.5)
 
-dval=dnorm(x, mean = mean, sd = sd)
-
-curve(dnorm(x, mean = mean, sd = sd),-6,10, n = 10000,xlim = c(-5, 7), 
-      ylim = range(0,1,max(dval)),
+dval=dnorm(x, mean = mean, sd = sd.sn)
+dval2= dnorm(x, mean = mean2, sd = sd)
+curve(dnorm(x, mean = mean, sd = sd.sn),-6,10, n = 10000,xlim = c(-5, 7), 
+      ylim = range(0,1,max(dval,dval2)),
       xlab = "", lwd =3 )
 # dnorm can have values that are GREATER THAN 1 # see https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1
 text(x = -4, y = .25,labels = "Sampling \ndistribution \nif H0 is true",adj = 0,pos = 4, cex=cex)
 arrows(x0 = -3,x1 = -2, y0 = .2,y1 = .1,code = 2,length=.1)
 
-null.test =qnorm(p = p, mean = mean, sd=sd,lower.tail = F)
+null.test =qnorm(p = p, mean = mean, sd=sd.sn,lower.tail = F)
 abline(v = null.test)
 
 
 
-# Add the right (green) polygon 
-lb <- qnorm(pnorm(null.test,mean = mean),mean) # Lower bound
+# Add the right (solid) polygon 
+lb <- qnorm(pnorm(null.test,mean = mean,sd = sd.sn),mean,sd = sd.sn) # Lower bound
 ub <- max(x)   # Upper bound
 x2 <- seq(lb, ub, length = 100) # New Grid
-y <- dnorm(x2, mean, sd) # Density
+y <- dnorm(x2, mean = mean, sd = sd.sn) # Density
 polygon(c(lb, x2, ub), c(0,y,0), col = col3,
         # density = 10, angle = -45, 
         lwd = 2)
@@ -1862,42 +1881,45 @@ polygon(c(lb, x2, ub), c(0,y,0), col = col2,density = 16, angle = -45, lwd = 2)
 # text(x = 2, y = .2,labels = paste0((1-p)*100,"%"),adj = 0,pos = 4, cex=cex)
 
 
-legend("topright",
+legend("topleft",
        legend = c("Type 1 error", "Type 2 error", "Power"),
        density = c(NA,10,16),
        angle = c( NA, 45, -45), 
        col =c(col3, col1,col2),
        fill = c(col3,col1,col2),
-       ncol = 3,
-       cex = 1, bg = NA
+       ncol = 1,
+       cex = 1, bg = "white"
 )
 # text(x = 2, y = .2,labels = paste0((1-p)*100,"%"),adj = 0,pos = 4, cex=cex)
 
 }
-hypothesis.testing(1)
+hypothesis.testing(mean.pop = 1)
 ```
 
 ]
 
 .pull-right[
 
+- Mean of population is = 2 
 ```{r, echo=FALSE}
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
-hypothesis.testing(2)
+hypothesis.testing(mean.pop = 2)
 ```
 
 ]
 
-??? 
+???
 
-It is NOT a problem if the y value in the probability density function (PDF) is GREATER than one. The important point here is that the AREA UNDER THE CURVE must sum to 1. 
+- It is NOT a problem if the y value in the probability density function (PDF) is GREATER than one. The important point here is that the AREA UNDER THE CURVE must sum to 1. 
+- see https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1 
 
 ---
 ## Normal distribution
 
-- Now, if we have distributions that have a standard deviation of 5 and a sample size of 10 
-
 .pull-left[
+
+- Now, if we have distributions that have a standard deviation of 5 and a sample size of 10.
+
 ```{r, echo=FALSE}
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
 hypothesis.testing(2,sd = 5, n = 10)
@@ -1906,7 +1928,7 @@ hypothesis.testing(2,sd = 5, n = 10)
 
 --
 
-- Let's see what happens if we increase the sample size 
+- Let's see what happens if we increase the sample size from 10 to 100.
 
 .pull-right[
 ```{r, echo=FALSE}
@@ -2529,6 +2551,83 @@ sample.mean.pop.est(x = x, n = n, sample.size = 50, ylim = 300)
 sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 ```
 ]
+
+---
+## Advanced simulations (natural selection)
+
+- The sentence "METHINKS IT IS LIKE A WEASEL" is from Shakespeare's *Hamlet*
+- Richard Dawkins, in his 1986 book *The Blind Watchmaker*, used it to simulate natural selection on random genetic mutation. 
+
+```{r, echo=FALSE}
+set.seed(12345, kind="Mersenne-Twister")
+
+## Easier if the string is a character vector
+target <- unlist(strsplit("METHINKS IT IS LIKE A WEASEL", ""))
+# target <- unlist(strsplit("MORE GIDDY IN MY DESIRES THAN A MONKEY", ""))
+# http://shakespeare.mit.edu/hamlet/full.html 
+
+charset <- c(LETTERS, " ")
+rdm <- sample(charset, length(target), replace=TRUE)
+parent <- sample(charset, length(target), replace=TRUE)
+
+mutaterate <- 0.01
+
+## Number of offspring in each generation
+C <- 100
+
+## Hamming distance between strings normalized by string length is used
+## as the fitness function.
+fitness <- function(parent, target) {
+  sum(parent == target) / length(target)
+}
+
+mutate <- function(parent, rate, charset) {
+  p <- runif(length(parent))
+  nMutants <- sum(p < rate)
+  if (nMutants) {
+    parent[ p < rate ] <- sample(charset, nMutants, replace=TRUE)
+  }
+  parent
+}
+
+evolve <- function(parent, mutate, fitness, C, mutaterate, charset) {
+  children <- replicate(C, mutate(parent, mutaterate, charset),
+                        simplify=FALSE)
+  children <- c(list(parent), children)
+  children[[which.max(sapply(children, fitness, target=target))]]
+}
+
+.printGen <- function(parent, target, gen) {
+  cat(format(i, width=3),
+      formatC(fitness(parent, target), digits=2, format="f"),
+      paste(parent, collapse=""), "\n")
+}
+
+i <- 0
+.printGen(parent, target, i)
+while ( ! all(parent == target)) {
+  i <- i + 1
+  parent <- evolve(parent, mutate, fitness, C, mutaterate, charset)
+  
+  if (i %% 20 == 0) {
+    .printGen(parent, target, i)
+  }
+}
+.printGen(parent, target, i)
+```
+
+- After the same number of generations, but if a monkey would randomly be typing on a keyboard! 
+```{r, echo=FALSE}
+.printGen(rdm, target, i)
+```
+
+- Source: [Evolutionary algorithm from Rosettacode.org](https://rosettacode.org/wiki/Evolutionary_algorithm).
+
+???
+
+- The full tradgedy's name is *The Tragedy of Hamlet, Prince of Denmark*
+- Get more information here https://en.wikipedia.org/wiki/Weasel_program 
+
 
 ---
 ## References
