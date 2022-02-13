@@ -1,0 +1,73 @@
+<!-- --------------------- -->
+  <!-- NOTE TO THE PRESENTER -->
+  <!-- --------------------- -->
+  
+  <!-- Presenter mode -->
+  <!-- 
+  Pressing "h" will show you important keyboard shortcuts
+Select the presentation window and press "c" on the keyboard to "clone" the slides (the clones are in sync with each other) 
+Click in one of the 2 presentation window, You can use the presenter mode by pressing "p" on the keyboard 
+For more keyboard shortcuts, please visit 
+https://bookdown.org/yihui/rmarkdown/xaringan-key.html 
+-->
+  
+  <!-- 
+  Math equations in Markdown 
+https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
+-->
+  
+  <!-- --------------------- -->
+  <!-- For developers  -->
+  <!-- --------------------- -->
+  <!-- 
+  Please consult the presentation template at the following link  http://r.qcbs.ca/templateWorkshops/presentation-template/index.html#1
+
+###
+I added a bunch of 
+"
+???
+
+#################################
+"
+to delineate section (makes it easier to follow in the document outline)
+- You can remove them if needed. BUT, by adding the "???", it create a separation in the outline, which makes it WAY easier to follow the presentation sections 
+
+###
+Incremental Slides
+Be careful when using the "--" to increment slides.
+
+If you use it between bullet points: 
+
+---  
+# YO! 
+  
+  - First point 
+--
+  
+  - another point
+
+When using a class from css
+
+---
+# Yo! 
+.pull-left[
+  - Sup!
+]
+
+--
+  - I'm good! 
+
+###
+See the "HOW TO" markdown here
+https://github.com/gnab/remark/wiki/Markdown#incremental-slides
+
+### 
+Search for all the slide increments by opening the search box.
+-> type "^--$", without the quote 
+-> click the "Regex" box 
+-> start searching! 
+
+###
+Take a look at extra tools here
+https://github.com/gadenbuie/xaringanExtra 
+-->
