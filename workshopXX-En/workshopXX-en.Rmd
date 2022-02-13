@@ -14,29 +14,6 @@ output:
       highlightLines: true
 ---
 
-<!-- --------------------- -->
-<!-- NOTE TO THE PRESENTER -->
-<!-- --------------------- -->
-
-<!-- Presenter mode -->
-<!-- 
-Pressing "h" will show you important keyboard shortcuts
-Select the presentation window and press "c" on the keyboard to "clone" the slides (the clones are in sync with each other) 
-Click in one of the 2 presentation window, You can use the presenter mode by pressing "p" on the keyboard 
-For more keyboard shortcuts, please visit 
-https://bookdown.org/yihui/rmarkdown/xaringan-key.html 
--->
-
-<!-- 
-Math equations in Markdown 
-https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
--->
-
-<!-- For developers  -->
-<!-- 
-Please consult the presentation template at the following link  http://r.qcbs.ca/templateWorkshops/presentation-template/index.html#1
--->
-
 ```{r setup, echo = F}
 # in the end, should be about 1500 lines
 knitr::opts_chunk$set(
@@ -62,7 +39,9 @@ Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/prese
 
 ???
 
-This workshop was designed to give the tools for attendees to perform simulations. Simulations to get data in order to perform a statistical model, but also to be able to simulate a situation and verify how a parameter change the outcome of a model. 
+This workshop was designed to give the tools for attendees to perform simulations. 
+- Simulations to get data in order to perform a statistical model, 
+- but also to be able to simulate a situation and verify how a parameter change the outcome of a model. 
 
 ---
 ## Prerequisites
@@ -84,10 +63,12 @@ This workshop builds on the previous workshops. But don't worry, we are going to
 ---
 ## Disclaimer
 
-I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
+- I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
+- In addition, this is a work in progress. Any input you have is more than welcome. 
 
-In addition, this is a work in progress. Any input you have is more than welcome. 
+???
 
+Might not apply to you
 
 ---
 ## Learning objectives
@@ -98,58 +79,115 @@ In addition, this is a work in progress. Any input you have is more than welcome
 4. Know how and when to use important statistical distributions
 5. Simulate different data structure to perform LMs, GLMs, and (G)LMMs. 
 
+???
 
-###############
+Hopefully, this is what people will get out of this workshop. 
+
+
+#################################
 ---
 class: inverse, center, middle
 
 # Why are simulations relevant?
 
+???
+
+In this section, we will explore 
+- What are simulations 
+- What is the idea behind simulations
+- What statistics has to do with simulations.
 
 ---
 ## Simulations are games 
 
 - Simulations are games that we make up the rules
 - It equips us with a very powerful tool to create 'alternative worlds'. 
-- The challenge in this game is to figure out what the parameters are for the processes existing in the natural world. 
+- It makes us more responsible about the conscious choices we need to make in order to get an answer. 
+- The challenge in this game is to figure out what the parameters are for the processes that make up the natural world. 
 
 
 .alert[Are these two distribution showing the same random process? ] 
 ```{r normal_compare_theoretical_simulated, echo=FALSE, fig.width=8, fig.height=4}
 par(mfrow=c(1,2))
 set.seed(12345)
-curve(dnorm(x), from = -5,to = 5, ylim = c(0,1), ylab = "Density", lwd =3)
-plot(density(rnorm(6)), ylim = c(0,1),main = "", xlim = c(-5,5), xlab = "x", lwd =3)
+curve(expr = dnorm(x), 
+      from = -5,
+      to = 5, 
+      ylim = c(0,1), 
+      xlab = "x", 
+      ylab = "Density", 
+      lwd =3)
+plot(density(rnorm(6)), 
+     main = "", 
+     xlab = "x", 
+     ylab = "Density", 
+     xlim = c(-5,5), 
+     ylim = c(0,1),
+     lwd = 3)
 ```
 
+???
+
+What are simulations? Games! 
+
+Are these two distribution showing the same random process?
+- Yes! They are both normally distributed 
+  * the one on the left is the standard normal curve and 
+  * the one on the right is the density plot of 6 points randomly drawn from a normal distribution
+
+- "responsible about the conscious choices we need to make in order to get an answer.": 
+  * What I mean here is that when we design a simulation, we have to build in the assumptions of the models or the process we are trying to recreate. So we need to *decide*, what is going to make up the process. 
+- In a nutshell, you need to be *statistically aware* of what you are modeling and what you want to know. 
 
 ---
 ## Find patterns in random processes
 
 - Simulations are useful to test the properties of randomly generated data 
 - Since we designed the simulation, we know parameters of the processes that underlie it.
+???
+You probably have had extensive course on how to use statistical models on certain types of data. 
+- This requires some data, which needs to be collected. 
+- But even if we have the data, we have an a posteriori understanding of the parameters that make up the phenomenon we are interested in. 
+- Simulations help you, 
+  * bypass the requirement of data, AND
+  * Let you SET the exact parameters you think are relevant for the pattern you are trying to characterize. (perhaps based on the literature you read on the subject.)
+--
+
 - It is then possible to test various methods to 
-1. see if they work and verify their assumptions, 
-2. do power analysis, 
-3. learn how data is generated
-4. etc. 
+    1. see if they work and verify their assumptions, 
+    2. do power analysis, 
+    3. learn how data is generated
+    4. etc. 
 
 ---
 ## Find patterns in the natural world
 
+- We might start with a research question or simply want to understand a process.
 - The idea here is that perhaps we are interested in understanding how a certain process was generated (how $X$ influences $Y$, which could be written as $X \xrightarrow{Affects} Y$ or $Y \sim X$). 
 - This is probably the most important points for simulations in biology as we are trying to understand **natural processes** (which are themselves manifestations of **random processes**)
 - Therefore, being able to do simulations can be a nice addition to your research toolkit. 
 
+???
+
+Everything that we measure (a phenotype, the number of eggs a bird lays, the survival of individuals in a population, etc.), is caused by factors that we, as scientists, try to make sense. 
+- the question here is how these measures came to be? 
+  * What process governs the value that I have measured? 
+  * In other words, 
+     1. how is the data that I've measured distributed? and 
+     2. What causes my data to be deistributed that way?
 
 ---
 ## Probability distributions are crucial for simulations
 
 - When performing simulations, once has to keep in mind the
-1. **type of distribution** underlying the data of interest
-2. **parameters** of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
-3. **statistical model** making the relationship between the response variable and the explanatory variable. 
-4. ideas or things we *want to show or learn* with the simulation
+  1. **type of distribution** underlying the data of interest
+  2. **parameters** of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
+  3. **statistical model** making the relationship between the response variable and the explanatory variable. 
+  4. ideas or things we *want to show or learn* with the simulation
+???
+- That might not apply to all sorts of simulations, but will at least cover the ones that relate to statistical models.
+- It is still very useful to know the different types of distributions that random variables can take. 
+
 
 ---
 ## Tips when performing simulation
@@ -177,6 +215,9 @@ plot(density(rnorm(6)), ylim = c(0,1),main = "", xlim = c(-5,5), xlab = "x", lwd
 ```
 ]
 
+???
+- Here we present a 'header' that you could use at the beginning of EACH of you script
+- Believe us, it makes it much easier when you go back to an old script if you have at least this information in the header. 
 
 ---
 ## Tips when performing simulation
@@ -209,23 +250,43 @@ plot(function.name(1:10)+rnorm(10))
 (We used fewer comments to lighten the presentation, but please add comments.)
 ]
 
-###############
+???
+- Also don't forget to add sections in your script. 
+  - On macOS press Alt + Shift + K to get the shortcut list of RStudio. 
+  - See the "Cmd + Shift + R" to automatically add a section that will be visible in the document outline. 
+
+#################################
 ---
 class: inverse, center, middle
 
 # When could a simulation be useful? 
 
+???
+You might be wondering: "OK, I somewhat understand how learning to perform simulations in R might be useful to me. But WHEN should I use simulations in my work?"
+
 ---
 ## ALL THE TIME!!!! 
 
-Whether you want to 
-- test a statistical method or a hypothesis, 
-- learn how a mechanism work (i.e., genetic drift, natural selection), 
-- play with data before your field work, 
-- respond to reviewers for a paper you want to publish,
-- etc. 
+Whether you want to: 
+
+1. Learn about science in general
+  - learn how a mechanism work (i.e., genetic drift, natural selection), 
+
+2. Design a particular study 
+  - test a statistical method or a hypothesis for research question you have, 
+  - play with data before your field work, 
+  - simulate random point on a map to sample it, 
+
+3. Publish an article 
+  - respond to reviewers for a paper you want to publish,
+  
+4. etc. 
 
 Simulations can help you at all stages of your research from planning to publishing and beyond! 
+
+???
+- The surprising answer is that it can be used at all stages of research. 
+- Here is a short list of elements for when you could be using it
 
 ---
 ## Quick example: Genetic drift
@@ -338,7 +399,6 @@ for (l in n.id.pop) {
 ## Quick (?) example: Natural selection 
 
 - How would you model natural selection?
-
 --
 
 - What is the type of selection? 
@@ -392,7 +452,6 @@ q.fun(-70:70,factor = 1,xlab = "(Disruptive)",lwd = 5,cex.text = 2,
       col.main = col.main,col.box = col.main, col.text = col.main)
 
 ```
-
 --
 
 - But what all of these mean? 
@@ -400,8 +459,10 @@ q.fun(-70:70,factor = 1,xlab = "(Disruptive)",lwd = 5,cex.text = 2,
 - What is the data generated to make these lines and curves? 
 
 
+???
 
-###############
+
+#################################
 ---
 class: inverse, center, middle
 
@@ -410,7 +471,7 @@ class: inverse, center, middle
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can within and between each graphs.
+- Can you give *as much information* as you can within and between each graphs.
 
 ```{r normalX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4}
 # source(file = "scripts/marginal_plot.R")
@@ -529,12 +590,9 @@ p.2
 --
 
 Find correlation and covariance
-
 - The correlation of the first graph is `r round(cor(x.1,y.1),2)` and the covariance is `r round(cov(x.1,y.1),2)`.
 - The correlation of the second graph is `r round(cor(x.2,y.2),2)` and the covariance is `r round(cov(x.2,y.2),2)`.
-
 ???
-
 What can be seen? 
 - Points, continuous x and y
 - mean (dashed lines), sd (the shades)
@@ -550,7 +608,7 @@ What can be seen?
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from these graphs
+- Can you give *as much information* as you can within and between each graphs.
 
 .pull-left[
 ```{r normalX_Y3, echo=FALSE, fig.width=5,fig.height=4}
@@ -567,10 +625,14 @@ p.h.v2
 ```
 ]
 
+???
+What can be seen? 
+- mean (dashed lines), sd (the shades)
+
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from these graphs
+- Can you give *as much information* as you can within and between each graphs.
 
 .pull-left[
 ```{r normalX_Y5, echo=FALSE, fig.width=5,fig.height=4}
@@ -586,10 +648,15 @@ p.h.v.sd.x.sd.y2
 ```
 ]
 
+???
+What can be seen? 
+- mean (dashed lines), sd (the shades)
+
+
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from these graphs
+- Can you give *as much information* as you can within and between each graphs.
 
 .pull-left[
 ```{r normalX_Y7, echo=FALSE, fig.width=5,fig.height=4}
@@ -603,10 +670,21 @@ p.h.v.sd.x.sd.y.l2
 ```
 ]
 
+???
+What can be seen? 
+- Correlation, covariance 
+- Linear model
+- Assumptions of linear model 
+  - Linearity
+  - Independence? Don't know
+  - Normal residuals (not shown)
+  - Equality of variance (see residuals)
+- Distribution of x and y to better understand what could have PRODUCED these variables. 
+
 ---
 ## What do you see here? 
 
-- Can you give me *as much information* as you can from these graphs
+- Can you give *as much information* as you can within and between each graphs.
 
 .pull-left[
 ```{r normalX_Y9, echo=FALSE, fig.width=5,fig.height=4}
@@ -620,15 +698,21 @@ p.marg2
 ```
 ]
 
+???
+What can be seen? 
+- Distribution of x and y to better understand what could have PRODUCED these variables. 
 
 
+???
 
-###############
+#################################
 ---
 class: inverse, center, middle
 
 # What you need to know before doing simulations? 
 
+???
+We'll explore the functions that you can use in R to help you develop simulations and play with random number generators. 
 
 ---
 ## Functions useful in simulations (RNG)
@@ -651,6 +735,10 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # This sets the RNG
 set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number 
 
 ```
+
+???
+- To go deeper: The actual pseudorandom number generator (PRNG) which is default in R is called the Mersenne Twister (see ??set.seed) https://en.wikipedia.org/wiki/Mersenne_Twister
+- set.seed(seed, kind = "Mersenne-Twister")
 
 ---
 ## Functions useful in simulations (sample)
@@ -776,6 +864,7 @@ data.replicated = replicate(n = 2,expr = data.frame(gr = rep(LETTERS[1:3],each =
 data.replicated[[1]]
 ```
 ]
+
 .pull-right[
 ```{r data_replicate2}
 data.replicated[[2]]
@@ -829,7 +918,9 @@ plot(y~x, col = as.factor(gr), data = linear.df, pch = 19)
 ```
 
 
-###############
+???
+
+#################################
 ---
 class: inverse, center, middle
 
@@ -838,20 +929,49 @@ class: inverse, center, middle
 ---
 ## Probability and odds 
 
-- When describing the chance of an outcome, you can use a probability or odds
+- When describing the "chance" or "likelihood" of an outcome, you can use a probability or odds
 - They are related: odds of an event is $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
 - Why bother? 
+--
+
 - probability ranges between 0 and 1, 
 - odds range from 0 to $\infty$. 
-- Log (natural log, or ln) odds can range from $-\infty$ to $\infty$. It is calculated as $ln (odds) = ln(p/(1-p))$.
+
+```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+par(mar = c(0,0,0,0), cex = 1.2)
+plot(0, type ="n", xlim = c(0,10), axes = F,ylab = "", xlab = "")
+segments(0,0,10,0)
+yval = .1
+lwd = 2
+for (i in 0:10) {
+  segments(i,-yval,i,yval)
+}
+ytext = .65
+text(0:10,y = -.25,labels = c(0:10))
+text(.5,y = ytext,labels = c("Odds \nlosing"))
+text((10+1)/2,y = ytext,labels = c("Odds \nwinning"))
+arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
+arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
+```
+
+
+--
+
+- Log (natural log, or ln) odds can range from $-\infty$ to $\infty$ and makes the odds symetric. It is calculated as $ln (odds) = ln(p/(1-p))$ (and called the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
 
 <!-- .alert[Careful!] This is not the same as saying $success/(success + failure)$. This last calculation is the probability -->
+???
+- See how log(1/6) = -1.791759 and log(6/1) = 1.791759
+- Seriously, check this post: https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4. It is amazing! 
+- And check this video for odds: https://www.youtube.com/watch?v=ARfXDSkQf1Y&ab_channel=StatQuestwithJoshStarmer
+- And this video for odds ratio: https://www.youtube.com/watch?v=8nm0G-1uJzA&ab_channel=StatQuestwithJoshStarmer
+  - The odds ratio and the log odds ratio is a bit like the R-squared: it indicates a relationship between 2 things (it's an effect size, or how one is a good predictor of the other (if the value is large))
 
 ---
 ## Probability and odds
 
-- Example: a horse runs 100 races and wins 20 of them.  What is the *odd* of winning?
+- Example: a horse runs 100 races and wins 20 of them.  What is the *odds* of winning?
 - $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
 
 ```{r odds_example}
@@ -864,18 +984,56 @@ library(MASS)
 
 <!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example -->
 
-So the horse wins 1 race for 4 fails or the odds of winning is `r fractions(odds.favor)`.
-<!-- In other words, for 5 races the horse will win 1 and loose 4 -->
+So the horse wins 1 race to 4 fails or the odds of winning is `r fractions(odds.favor)`.
+In other words, for 5 races the horse will win 1 and loose 4. 
+
+```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+par(mar = c(0,0,0,0))
+# Get circles
+nb.flips = 5
+radius =1 
+# initialize a plot
+plot(x = c(0, nb.flips*(radius+.5)+5), y = c(-1, 1), type = "n", 
+     axes = F,
+     asp = 1,ylab = "", xlab = "")
+w = 0
+pos=0
+col.v = c("white",rep("black",nb.flips-1))
+for (i in 1:nb.flips) {
+  # prepare "circle data"
+  radius = 1
+  center_x = w + 1
+  center_y = pos
+  theta = seq(0, 2 * pi, length = 200) # angles for drawing points around the circle
+  # draw the circle
+  lines(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y)
+  polygon(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y, col = col.v[i])
+  text(center_x,center_y+1.5,labels = c("Win",rep("Lose",nb.flips-1))[i], cex = 2)
+  w = w + 2*radius+.5
+}
+
+```
+
 
 Conversely, the horse the odds of failing is `r paste0(odds.against,":1")` (read 4 *to* 1). 
-<!-- In other words, the horse is 4 times more likely to fail than to succeed in a race. (???)  -->
+In other words, the horse is 4 times more *likely* to fail than to succeed in a race.
 
+???
+- If the odds = 1: 
+  - it means that we are as likely to win, as we are likely to lose 
+
+- Another example: 
+  - for a 6-sided die, 
+    * the odds of rolling a 6 is 1:5 (one TO 5)
+    * the odds of rolling a 5 OR a 6 is 2:4 (2 TO 4)
 
 ---
 ## Probability and odds 
 
 - Example
 - a horse runs 100 races and wins 20 of them. What is the *probability* of winning?
+- $p = odds/(1+odds)$
+
 ```{r probability_example}
 totl.nb.events = 100
 successes = 20
@@ -884,6 +1042,12 @@ probability.favor
 fractions(probability.favor)
 ```
 So the horse *wins* `r fractions(probability.favor)` or `r paste0(probability.favor*100,"%")` of the times. 
+--
+
+You can see that $odds = p/(1-p) = (1/5)/(1-(1/5)) = (1/5)/(4/5) = 5/20 = 1/4$
+--
+
+So the probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particualr outcome divided by the total number of results from the event. 
 
 ---
 ## Probability and odds 
@@ -943,11 +1107,9 @@ random.var.normal = round(rnorm.val,1)
 ```{r, echo=FALSE}
 random.var.normal[1]
 ```
-
 --
 
 - From which distribution is this variable coming from?
-
 --
 
 - Would be helpful to have more information 
@@ -964,15 +1126,12 @@ This is an exercice to let the attendees feel what are random variables and why 
 ```{r, echo=FALSE}
 random.var.normal[1:5]
 ```
-
 --
 
 - This is more informative. We can take the mean and the standard deviation of these numbers: mean = `r round(mean(random.var.normal[1:5]),1)`, sd = `r round(sd(random.var.normal[1:5]),1)`. 
-
 --
 
 - Again, from which distribution is this variable coming from?
-
 --
 
 - We could plot the result to get a feel of the distribution: 
@@ -1013,7 +1172,7 @@ random.var.normal[1:100]
 par(mfrow=c(1,1),cex = 1.5)
 hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 ```
-] 
+]
 
 --
 
@@ -2097,7 +2256,9 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
 - This example was taken from [this video](https://www.youtube.com/watch?v=vWTKVMf5HQI&ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)
 ]
 
-###############
+???
+
+#################################
 ---
 class: inverse, center, middle
 
@@ -2149,7 +2310,9 @@ abline(h = .50, col = "red")
 ]
 
 
-###############
+???
+
+#################################
 ---
 class: inverse, center, middle
 
@@ -2476,7 +2639,9 @@ plot(W, lwd=3, main = "")
 
 
 
-###############
+???
+
+#################################
 ---
 class: inverse, center, middle
 
