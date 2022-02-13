@@ -2637,6 +2637,109 @@ plot(W, lwd=3, main = "")
 ```
 
 
+---
+## Spatial simulation
+
+```{r echo=FALSE}
+library(sf)
+library(mapview)
+
+# Read the park layer
+bot.gardp = st_read("data/GIS/Park_mtl.gpkg",layer = "Park_mtl")
+# Read the building layer
+bot.gardb = st_read("data/GIS/Park_mtl.gpkg",layer = "buildings_mtl")
+# Show the layers 
+# mapView(bot.gardb, col.regions = c("red")) + 
+#   mapView(bot.gardp, col.regions = c("green"))
+
+# Remove the buildings so that we can only have the 'green park' if we want to sample in the park 
+only.park = st_difference(bot.gardp, st_union(bot.gardb))
+
+# Get a specific point where we want to sample and get points around it  
+selected.point = st_point(c(-73.566190,45.560516)) # Get point in CRS EPSG:4326
+selected.point.no.tree = st_point(c(-73.56407,45.56502)) # Get point in CRS EPSG:4326
+selected.point = st_sfc(selected.point) %>% 
+  st_set_crs(4326)
+selected.point.no.tree = st_sfc(selected.point.no.tree) %>% 
+  st_set_crs(4326)
+
+# Transform all the data to be in "NAD83 / MTM zone 8" or EPSG:32188
+selected.point = st_transform(x = selected.point, crs = 32188)
+selected.point.no.tree = st_transform(x = selected.point.no.tree, crs = 32188)
+only.park = st_transform(x = only.park, crs = 32188)
+
+# Get random points
+set.seed(456)
+rdm.n = 5
+rdm.pt = st_sample(x = only.park, 
+                   size = rdm.n)
+mapView(only.park, 
+        col.regions = c("green"))+
+  mapView(rdm.pt)  # Random points
+```
+
+---
+## Spatial simulation
+
+```{r, echo=FALSE}
+# Add a buffer around the point we want to look at 
+n = 10*2
+min.buff = units::set_units(x = 0, value = "m")
+max.buff = units::set_units(x = 100, value = "m")
+buffer = st_buffer(x = c(selected.point,selected.point.no.tree), dist = units::set_units(x = 100, value = "m"))
+
+
+mapView(only.park, 
+        col.regions = c("green"))+
+  mapView(c(selected.point,selected.point.no.tree), # Get the poitn that was added to be looked at 
+          col.regions = c("red")) +
+  mapView(buffer, col.regions = c("red")) 
+```
+
+
+---
+## Spatial simulation
+
+```{r, echo=FALSE}
+# Get random distance 
+# rdm.disttmp = rexp(n = n, rate = 1)*20
+# hist(rdm.disttmp)
+set.seed(6543)
+rdm.disttmp = runif(n = n, min = 0, max = max.buff)
+# get random angle
+rdm.angtmp = runif(n = n, min=0, max = 360)
+
+# Conversion between Radians and Degrees
+rad = rdm.angtmp * pi/180
+rdm.ppt_x = rdm.disttmp*cos(rad) + c(st_coordinates(selected.point)[1],st_coordinates(selected.point.no.tree)[1])
+rdm.ppt_y = rdm.disttmp*sin(rad) + c(st_coordinates(selected.point)[2],st_coordinates(selected.point.no.tree)[2])
+rmd.ptdf = data.frame(rdm.ppt_x,
+                      rdm.ppt_y, length(rdm.ppt_x))
+
+rmd.ptdf.sf = sf::st_as_sf(rmd.ptdf, coords = c("rdm.ppt_x","rdm.ppt_y"), crs = 32188)#4326)
+# rmd.ptdf.sf = st_transform(rmd.ptdf.sf, crs = 32188)
+
+set.seed(456)
+mapView(only.park, col.regions = c("green"))+
+  mapView(st_sample(only.park,5)) + 
+  mapView(c(selected.point,selected.point.no.tree),col.regions = c("red")) + 
+  mapView(buffer, col.regions = c("red")) + 
+  mapview(rmd.ptdf.sf,col.regions = c("pink"))
+```
+
+
+---
+## Spatial simulation
+
+```{r, echo=FALSE}
+
+# Add random points that are occupying the space of the polygon (grid )
+rdm.pt = st_sample(x = only.park, 
+                   size = 100,type ="hexagonal")
+
+mapView(only.park, col.regions = c("green"))+
+  mapView(rdm.pt) 
+```
 
 
 ???
