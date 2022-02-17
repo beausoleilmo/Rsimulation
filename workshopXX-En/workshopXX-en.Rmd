@@ -96,13 +96,16 @@ In this section, we will explore
 - What are simulations 
 - What is the idea behind simulations
 - What statistics has to do with simulations.
+- Understand, with all of these, wy simulations are relevant.
+
+- See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
 
 ---
 ## Simulations are games 
 
 - Simulations are games that we make up the rules
 - It equips us with a very powerful tool to create 'alternative worlds'. 
-- It makes us more responsible about the conscious choices we need to make in order to get an answer. 
+- It makes us more responsible about the conscious choices we need to make in order to get an answer (and we sometimes need to make a lot of them). 
 - The challenge in this game is to figure out what the parameters are for the processes that make up the natural world. 
 
 
@@ -136,7 +139,7 @@ Are these two distribution showing the same random process?
   * the one on the right is the density plot of 6 points randomly drawn from a normal distribution
 
 - "responsible about the conscious choices we need to make in order to get an answer.": 
-  * What I mean here is that when we design a simulation, we have to build in the assumptions of the models or the process we are trying to recreate. So we need to *decide*, what is going to make up the process. 
+  * What I mean here is that when we design a simulation, we have to build in the assumptions of the models or the process we are trying to recreate. So we need to *decide* (or plan), what is going to make up the process. In the simulation, the parameters and variable are chosen by you, but they need to be plausible (from the literature, or maybe a collegue could help you on this with data that has already been collected).
 - In a nutshell, you need to be *statistically aware* of what you are modeling and what you want to know. 
 
 ---
@@ -153,11 +156,13 @@ You probably have had extensive course on how to use statistical models on certa
   * Let you SET the exact parameters you think are relevant for the pattern you are trying to characterize. (perhaps based on the literature you read on the subject.)
 --
 
-- It is then possible to test various methods to 
+- It is then possible to test various methods or analysis to 
     1. see if they work and verify their assumptions, 
     2. do power analysis, 
-    3. learn how data is generated
-    4. etc. 
+    3. learn how data is generated,
+    4. prepare your analysis script before data collection (or preregistration),
+    5. "see" what a mathematical model or equation predicts,
+    6. etc. 
 
 ---
 ## Find patterns in the natural world
@@ -187,7 +192,8 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 ???
 - That might not apply to all sorts of simulations, but will at least cover the ones that relate to statistical models.
 - It is still very useful to know the different types of distributions that random variables can take. 
-
+- Note that a "parameter" is a quantity that is CONSTANT. A variable can take multiple values. BUT a parameter could become a variable if this is the thing we want to see how it affects our models. 
+- Greek letters are often used to denote these parameters 
 
 ---
 ## Tips when performing simulation
@@ -848,6 +854,24 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum len
 ```
 
 ---
+## Functions useful in simulations (gl)
+
+- There are functions in `R` that can help you generate factor levels (with the `gl` function). 
+
+```{r}
+number.of.levels = 2
+number.of.replicates = 8
+labels.for.the.factors = c("Control", "Treat")
+## First control, then treatment:
+gl(n = number.of.levels, k = number.of.replicates, labels = labels.for.the.factors)
+## 20 alternating 1s and 2s
+gl(n = 2, k = 1, length = 20)
+## alternating pairs of 1s and 2s
+gl(n = 2, k = 2, length = 20)
+```
+
+
+---
 ## Functions useful in simulations
 
 - In some cases, you want to replicate a process, for example when you want to generate multiple populations at once with the same parameters
@@ -952,12 +976,30 @@ text((10+1)/2,y = ytext,labels = c("Odds \nwinning"))
 arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
 arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 ```
-
-
 --
 
 - Log (natural log, or ln) odds can range from $-\infty$ to $\infty$ and makes the odds symetric. It is calculated as $ln (odds) = ln(p/(1-p))$ (i.e., the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
+
+```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+par(mar = c(0,0,0,0), cex = 1.2)
+plot(0, type ="n", xlim = c(-5,5), axes = F,ylab = "", xlab = "")
+segments(-5,0,5,0)
+yval = .1
+lwd = 2
+for (i in -5:5) {
+  segments(i,-yval,i,yval)
+}
+ytext = .65
+text(-5:5,y = -.25,labels = c(-5:5))
+text(-5/2,y = ytext,labels = c("Log odds \nlosing"))
+text((5)/2,y = ytext,labels = c("Log odds \nwinning"))
+arrows(-5,.3,0,.3,length = .1,code = 1, lwd = lwd, col = "red")
+arrows(0,.3,5,.3,length = .1,code = 2, lwd = lwd, col = "blue")
+points(0,.3, pch =19)
+
+```
+
 
 <!-- .alert[Careful!] This is not the same as saying $success/(success + failure)$. This last calculation is the probability -->
 ???
@@ -966,6 +1008,8 @@ arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 - And check this video for odds: https://www.youtube.com/watch?v=ARfXDSkQf1Y&ab_channel=StatQuestwithJoshStarmer
 - And this video for odds ratio: https://www.youtube.com/watch?v=8nm0G-1uJzA&ab_channel=StatQuestwithJoshStarmer
   - The odds ratio and the log odds ratio is a bit like the R-squared: it indicates a relationship between 2 things (it's an effect size, or how one is a good predictor of the other (if the value is large))
+
+- Also, the Geometric mean (which is the mean of logs) is BETTER when using log-based data (qPCR, where the data doubles each round) and is less sensitive to outliers (which the arithmetic mean is actually VERY sensitive)
 
 ---
 ## Probability and odds
@@ -1025,6 +1069,9 @@ In other words, the horse is 4 times more *likely* to fail than to succeed in a 
   - for a 6-sided die, 
     * the odds of rolling a 6 is 1:5 (one TO 5)
     * the odds of rolling a 5 OR a 6 is 2:4 (2 TO 4)
+
+- in French, Odds is the "cote" (https://fr.wikipedia.org/wiki/Cote_(probabilités))
+- Also, be careful. Probability and likelihood IS NOT THE SAME
 
 ---
 ## Probability and odds 
@@ -1218,7 +1265,7 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | Binomial	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` | $f(x) = {n \choose x} p^x(1-p)^{n-x}$ |
 | Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` ||
 | Chi-Square	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` | |
-| Exponential	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` ||
+| Exponential	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
 | F	           | `pf`	     | `qf`	| `df`	| `rf` | |
 | Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` | |
 | Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | |
@@ -1246,7 +1293,7 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | <span style="background-color: #FFFF00">**Binomial**</span>	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` | $f(x) = {n \choose x} p^x(1-p)^{n-x}$ |
 | Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` ||
 | <span style="background-color: #FFFF00">**Chi-Square**</span>	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` ||
-| <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` ||
+| <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
 | <span style="background-color: #FFFF00">**F**</span>	           | `pf`	     | `qf`	| `df`	| `rf` ||
 | Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` ||
 | Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` ||
@@ -1345,8 +1392,10 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 - Distributions of random variables comes in 2 flavors: 
 1. Discrete (only *countable* number of *distinct* values, e.g., 0, 5, 19,...)
 2. Continuous (infinite number of possible values, e.g., 0.1,0.62113,...)
+]
 
 
+.tiny[
 | Distribution | Definition | Type of data | Example |
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
@@ -1354,7 +1403,7 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 | Logistic	   | probability of an individual to be in one class or another | continuous; | alive or not, yes or no, diseased or not, etc. |
 | Normal	     | probability function which informs how values are distributed | continuous; | height of individuals, beak length, shoe size, time required to run a kilometer, the data shows a 'bell-shaped' curve |
 | Uniform	     | probability of all outcomes are equal | continuous; | angle between 0-360 | 
-<!-- | Exponential	 | | continuous;| Generating genealofies | -->
+| Exponential	 | | continuous;| Used in maximum likelihood, Generating genealogies, continuous rate |
 <!-- | Student t	   |            | continuous; | | -->
 <!-- | Geometric	   |            | continuous; | Gene conversion (recombination) | -->
 <!-- | Beta	       |            |              | -->
@@ -1781,7 +1830,7 @@ arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
 ## Normal distribution 
 
 ```{r normal_area_function, echo=FALSE, eval=TRUE}
-draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE, text.height = .55, where = c("both","left","right")) {
+draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE, text.height = .55, where = c("both","left","right","middle"), middle = c(-1,1)) {
   set.seed(set.seed)
   x <- seq(-5, 5, 0.1)
   cex = 1
@@ -1907,7 +1956,20 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
       arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
     }
     
-  }  
+  }
+  
+    if (where=="middle"){
+    # Add the middle (red) polygon 
+    lb <- (middle[1]) # Lower bound
+    ub <- (middle[2])   # Upper bound
+    x2 <- seq(lb, ub, length = 100) # New Grid
+    y <- dnorm(x2, 0, 1) # Density
+    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
+    text(x = mean(middle), y = dnorm(mean(middle))+.2,
+         labels = paste0(round(pnorm(middle[2])-pnorm(middle[1]),digits = 4)*100,"%"),adj = 0,pos = 1, cex=cex)
+    
+  }
+
 }
 ```
 
@@ -2113,7 +2175,6 @@ hypothesis.testing(2,sd = 5, n = 100)
 
 ]
 
-
 ---
 ## Convert a Normal dist. to Standard normal 
 
@@ -2189,14 +2250,35 @@ rnorm(n)
 - Why are there negative values? Because the mean = 0, so some values spill over the mean on both sides, and in the negative numbers. 
 
 ---
+## Multivariate normal distribution
+
+- There is a way to generate multiple normal distributions at once. 
+
+
+```{r}
+set.seed(24601) # setting this so the random results will be repeatable 
+
+library(MASS)
+covmat <- matrix(c(1.0,   0.2,   0.6, 
+                   0.2,   1.0,  -0.5, 
+                   0.6,  -0.5,   1.0), nrow=3) # variance covariance matrix of the data
+data <- mvrnorm(n = 300, mu = c(0,0,0), Sigma=covmat) # generate random data that match that variance covariance matrix
+plot(data)
+```
+
+
+---
 ## Central limit theorem (CLT)
 
 - The Central limit theorem (CLT) stipulates that:
   * The more you add (sum) identically distributed random variables, the probability of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
 
 - We will use simulations to test this assertion! 
-  
 
+???
+See 
+- [Demonstrating The Central Limit Theorem in R](https://www.r-bloggers.com/2020/08/demonstrating-the-central-limit-theorem-in-r/)
+- [Dice Rolls - Theoretical and Empirical](https://rpubs.com/careybaldwin/346995)
 
 ---
 ## Central limit theorem (CLT)
@@ -2258,6 +2340,8 @@ clt = replicate(i, runifdisc(n,1,6), simplify = FALSE)
 sum.rdm.var = apply(do.call(cbind, clt),1,sum) # mean
 mean.rdmv = mean(sum.rdm.var); sd.rdmv = sd(sum.rdm.var) #sd
 hist(sum.rdm.var, main = paste("Histogram of",i,"variables"), xlab = "x")
+# If you dived by the number of dice that were rolled, you can see that it actually tends towards the mean or rolling 1 die a lot of time: 3.5! 
+# hist(sum.rdm.var/i, main = paste("Histogram of",i,"variables"), xlab = "x")
 # underlying distribution 
 curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
       from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
@@ -2273,6 +2357,44 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
 ]
 
 ???
+- See [Demonstrating The Central Limit Theorem in R](https://medium.com/@orrymr/demonstrating-the-central-limit-theorem-in-r-a5fef67cbbb)
+- In other words, the distribution shown here is the sampling distribution of the mean. Its mean is the same as the original mean of the population, its standard deviation is called the standard error of the mean (SEM) and it is normally distributed! SEM is the variability in the collection of sample means. 
+- See what happens when the sample size increases: $SEM = \sigma/\sqrt{n}$. This means that as $n \to \infty$, the standard error gets smaller. 
+- Therefore, the *sampling distribution* of the *sample mean* (so the mean taken out of a sample, multiple times with various samples), approximate a normal distribution, even if the underlying process is not from a normal distribution. $\bar X \sim N(\mu,\frac{\sigma}{\sqrt {n}})$ or the mean of x is approximately normally distributed as with mean mu and variance 
+- See also [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
+
+```{r, echo=FALSE}
+# modified from [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
+set.seed(2345)
+# Simulation of central limit theorem #=================================================
+layout(matrix(c(1,2,3,4),2,2,byrow=TRUE))
+clt.fun <- function(size = 1, repeats = 10000,min = 0,max = 1, get.mean = TRUE) {
+  v=runif(n = size*repeats, min = min,max = max) # Vector of uniform random variables. 
+  w=matrix(data = v,nrow = size, ncol = repeats) # Enter v into a matrixsizeXrepeats). 
+  dim(w)
+  # w[1:4,1:4]
+  y=colSums(w) # Sum the columns.
+  
+  if (get.mean) {
+  y.mean=colSums(w)/size # Sum the columns.
+  hist(y.mean,freq=FALSE,ann=FALSE, xlim = c(min, max)) # Histogram. 
+  } else {
+    hist(y,freq=FALSE,ann=FALSE) # Histogram.
+    }
+  title(paste("size",size))
+  
+}
+#Sum of 1 uniform random variables simulated 10000 times 
+clt.fun(size = 1)
+#Sum of 2 uniform random variables simulated 10000 times 
+clt.fun(size = 2)
+#Sum of 4 uniform random variables simulated 10000 times 
+clt.fun(size = 4)
+#Sum of 20 uniform random variables simulated 10000 times 
+clt.fun(size = 20)
+
+```
+
 
 #################################
 ---
@@ -2345,8 +2467,9 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - $\beta_p$ is the coefficient of variation for the $p^{th}$ explanatory variable for the $p^{th}$ $x_p$ explanatory variable
 - $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
 - The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
+- We use the least-squares in order to fit the line to the data. 
 
-- Also  don't forget the assumption of the linear model 
+- Also, don't forget the assumption of the linear model 
 - In order to interpret your results correctly when using a linear model, be sure you are not crossing the *LINE*: 
   * L: Linearity, 
   * I: Independence, 
@@ -2357,6 +2480,7 @@ Reference for the section
 - [Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/) and [Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
 - [Poisson model](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/)
 - [binomial generalized linear mixed model](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/)
+
 
 ---
 ## Generalized linear model (GLM) refresher
@@ -2378,9 +2502,251 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 <!-- Simulate logistic regression https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525 -->
 
 ---
+## GLM: Linear model
+
+```{r, echo=FALSE}
+set.seed(12345678)
+n = 100
+x.lm = rnorm(n = n, mean = 10, sd = 1)
+beta0 = 2.5
+beta1 = .8
+err = rnorm(n = n, mean = 0, sd = 1)
+
+# Linear combination 
+y.lm = beta0 + beta1*x.lm + err
+
+# Make a dataframe of the data 
+df.lm = data.frame(x = x.lm, y = y.lm)
+# Colour 
+b.5 = scales::alpha("black",alpha = .5)
+# PLot the data 
+plot(y~x, data = df.lm, pch = 19, col = b.5)
+
+# Model the data 
+lm.out = lm(y~x, data = df.lm)
+# Add a line to the plot 
+abline(lm.out)
+summary(lm.out)
+```
+
+
+---
+## GLM: Linear model
+
+```{r, echo=FALSE, fig.width=8,fig.height=5}
+set.seed(12345678)
+n = 100
+x1 = rnorm(n = n, mean = 10, sd = 1)
+x2 = rnorm(n = n, mean = 15, sd = 6)
+# x1 = scale(x1)
+# x2 = scale(x2)
+beta0 = 2.5
+beta1 = .8
+beta2 = .5
+err = rnorm(n = n, mean = 0, sd = 1)
+
+# Linear combination 
+y.lm = beta0 + beta1*x1 + beta2*x2 + err
+
+# Make a dataframe of the data 
+df.lm = data.frame(x1 = x1, x2 = x2, y = y.lm)
+
+# Colour 
+b.5 = scales::alpha("black",alpha = .5)
+
+par(mfrow=c(1,2))
+# PLot the data 
+plot(y~x1, data = df.lm, pch = 19, col = b.5)
+
+# Model the data 
+lm.out = lm(y~x1+x2, data = df.lm)
+# Add a line to the plot 
+abline(a = coef(lm.out)["(Intercept)"]+mean(x2)*coef(lm.out)["x2"], b = coef(lm.out)["x1"])
+
+# PLot the data 
+plot(y~x2, data = df.lm, pch = 19, col = b.5)
+# Add a line to the plot 
+abline(a = coef(lm.out)["(Intercept)"]+mean(x1)*coef(lm.out)["x1"], b = coef(lm.out)["x2"])
+# abline(lm.out)
+summary(lm.out)
+vcov(lm.out)
+```
+
+---
+## GLM: Linear model (categorical)
+
+```{r sim_lm_cat, fig.width=5,fig.height=5}
+set.seed(12345678)
+n = 100
+x.lm = rnorm(n = n, mean = 10, sd = 1)
+catego.lm = c("Control", "Treatment")
+# Note that gl is creating factors by default 
+gr = gl(n = length(catego.lm), k = n/2, labels = catego.lm)
+# Make a dummy matrix
+dummy.mat = matrix(data = 0,
+                   nrow = n,
+                   ncol = length(catego.lm))
+colnames(dummy.mat) <- paste0(c(catego.lm))
+dummy.mat[,1] <- 1
+dummy.mat[,2] <- ifelse(gr=="Treatment",1,0)
+
+# betaControl = .8
+beta1 = .8
+betaControl = .2
+betaTreament = .7
+
+lin.pred.x = dummy.mat %*% c(betaControl,betaTreament) + beta1 * x.lm
+err = rnorm(n = n, mean = 0, sd = 1)
+y.lm = lin.pred.x + err
+df.lm = data.frame(x = x.lm, y = y.lm, gr = gr)
+b.5 = scales::alpha("black",alpha = .5)
+r.5 = scales::alpha("red",alpha = .5)
+```
+
+???
+- see [Simulating from regression model with categorical variable with 4 categories?](https://stats.stackexchange.com/questions/471947/simulating-from-regression-model-with-categorical-variable-with-4-categories)
+
+---
+## GLM: Linear model (categorical)
+
+```{r sim_lm_cat_plot, fig.width=8,fig.height=5}
+par(mfrow=c(1,2))
+plot(y~x, data = df.lm, pch = 19, col = ifelse(gr=="Treatment",r.5,b.5))
+lm.out = lm(y~x+gr, data = df.lm)
+abline(a = lm.out$coefficients[1] + lm.out$coefficients[3], b = lm.out$coefficients[2], col = "red")
+abline(a = lm.out$coefficients[1], b = lm.out$coefficients[2], col = "black")
+boxplot(y~gr, data = df.lm, pch = 19, col = ifelse(gr=="Treatment",r.5,b.5))
+summary(lm.out)
+```
+
+
+---
+## GLM: Linear model (interaction; discrete)
+
+- Linear models can also take interactions in consideration. 
+- $y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2+\epsilon$
+- In this simple example $\beta_1$ and $\beta_2$ is the effect that the predictor $x_1$ and $x_2$ have, and $\beta_3$ is the effect that both $x_1$ and $x_2$ predictor have (or that the effect of one variable (e.g., $x_1$) *depends* on the value of the other (e.g., $x_2$)). 
+
+```{r sim_lm_interaction_discrete, echo=FALSE, fig.width=8,fig.height=5}
+set.seed(1)
+n = 100
+x.lm1 = rbinom(n = n, size = 1, prob = 0.5)
+x.lm2 = rnorm(n = n, mean = 0, sd = 1) # Note that this doesn't have to be normally distributed. This could be a uniform distribution or from a binomial.
+
+x.lm2 = scale(x.lm2)
+beta0 = 2.5
+beta1 = 1.5
+beta2 = 2
+beta3 = -3
+err.lm = rnorm(n = n, mean = 0, sd = 1)
+y.lm = beta0 + beta1*x.lm1 + beta2*x.lm2 + beta3*x.lm1*x.lm2 + err.lm
+
+
+df.lm = data.frame(x1 = x.lm1, x2 = x.lm2, y = y.lm)
+b.5 = scales::alpha("black",alpha = .5)
+par(mfrow=c(1,3))
+# apply(df.lm, 2, hist)
+hist(df.lm$x1)
+hist(df.lm$x2)
+hist(df.lm$y)
+
+lm.out = lm(y~x1*x2, data = df.lm)
+summary(lm.out)
+coef(lm.out)
+
+par(mfrow=c(1,1))
+# Binary x1 
+plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, 
+     col = rgb(red = 0, green = 0, blue = 1, alpha = 0.25), pch = 19,
+     xlab = "x2", ylab = "y")
+abline(a = coef(lm.out)[1], b = coef(lm.out)[3], col = "blue", pch = 19, lwd = 2)
+points(x = df.lm[df.lm$x1 == 1, ]$x2, y = df.lm[df.lm$x1 == 1, ]$y, 
+       col = rgb(red = 1, green = 0, blue = 0, alpha = 0.25), pch = 19)
+# If x1 = 1
+# $\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2$
+# $\hat{y}=\beta_0+\beta_1 (1)+\beta_2x_2+\beta_3(1)x_2$
+# $\hat{y}=(\beta_0+\beta_1)+x_2(\beta_2+\beta_3)$
+abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)[4], 
+       col = "red", lwd = 2)
+abline(h = 0, v = 0,lty = 3)
+```
+
+???
+See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
+
+
+---
+## GLM: Linear model (interaction; continuous)
+
+```{r sim_lm_interaction, echo=FALSE, fig.width=8,fig.height=5}
+set.seed(1)
+n = 100
+# x.lm1 = rbinom(n = n, size = 1, prob = 0.5)
+x.lm1 = rnorm(n = n, mean = 5, sd = 1)
+x.lm2 = rnorm(n = n, mean = 2, sd = 1) # Note that this doesn't have to be normally distributed. This could be a uniform distribution or from a binomial.
+# x.lm1 = scale(x.lm1)
+# x.lm2 = scale(x.lm2)
+beta0 = 2.5
+beta1 = 1.5
+beta2 = 2
+beta3 = 3
+err.lm = rnorm(n = n, mean = 0, sd = 1)
+y.lm = beta0 + beta1*x.lm1 + beta2*x.lm2 + beta3*x.lm1*x.lm2 + err.lm
+
+df.lm = data.frame(x1 = x.lm1, x2 = x.lm2, y = y.lm)
+b.5 = scales::alpha("black",alpha = .5)
+par(mfrow=c(1,3))
+# apply(df.lm, 2, hist)
+hist(df.lm$x1)
+hist(df.lm$x2)
+hist(df.lm$y)
+
+lm.out = lm(y~x1*x2, data = df.lm)
+# summary(lm.out)
+# coef(lm.out)
+
+# To show the plot of an interaction between 2 continuous variables, we need to use the marginal effects or the conditional effect (effect of x1 conditional on the values of x2)
+# The marginal effect of x_1 is $x_1 = \beta_1+\beta_3\times x_2$
+# The marginal effect of x_2 is $x_2 = \beta_2+\beta_3\times x_1$
+
+# MAke a new range of x2 values on which we will test the effect of x1 
+x2r = range(x.lm2)
+# x2.sim = seq(floor(x2r[1]),ceiling(x2r[2]), by = 1)
+x2.sim = seq(x2r[1],x2r[2], by = .5)
+# this is the effect of x1 at different values of x2 (which moderates the effect of x1)
+eff.x1 <- coef(lm.out)["x1"] + coef(lm.out)["x1:x2"] * x2.sim # this gets you the slopes  
+eff.x1.int <- coef(lm.out)["(Intercept)"] + coef(lm.out)["x2"] * x2.sim # this gets you the intercepts  
+eff.dat <- data.frame(x2.sim, eff.x1, eff.x1.int)
+virPal <- viridis::viridis(length(x2.sim))
+eff.dat$x2.col <- virPal[as.numeric(cut(eff.dat$x2.sim,breaks = length(x2.sim)))]
+# eff.dat
+df.lm$x2.col <- virPal[as.numeric(cut(df.lm$x2,breaks = length(x2.sim)))]
+# plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",
+#      # xlim=range(x2.sim),
+#      pch = 19, xlab = "Level of x2", ylab = "Marginal effect of x1")
+par(mfrow=c(1,1), mar =c(4,4,1,1))
+plot(x = df.lm$x1, y = df.lm$y, col = df.lm$x2.col, 
+     # xlim=range(x2.sim),
+     pch = 19, xlab = "x1", ylab = "y")
+apply(eff.dat, 1, function(x) abline(a = x[3], b = x[2], col = x[4]))
+abline(h = 0, v = 0,lty = 3)
+legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1,col = eff.dat$x2.col, bg = scales::alpha("white",.5))
+# summary(lm.out)
+```
+
+???
+See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
+
+[DECOMPOSING, PROBING, AND PLOTTING INTERACTIONS IN R](https://stats.oarc.ucla.edu/r/seminars/interactions-r/)
+[HOW CAN I EXPLAIN A CONTINUOUS BY CONTINUOUS INTERACTION? | R FAQ](https://stats.oarc.ucla.edu/r/faq/how-can-i-explain-a-continuous-by-continuous-interaction/)
+
+---
 ## GLM: Logistic
 
 - Recall that logistic is $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) 
+- We use maximum likelihood to fit a line to the data. It doesn't have 'residuals' and don't have an $R^2$
+- Remember that is order to make the domain $]-\infty,\infty[$ for the y values (instead of $[0,1]$), we need to transform the probability to the $log(odds)$. 
+- This simulation concerns a continuous variable. 
 
 <!-- Inspiration : https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525
 -->
@@ -2392,8 +2758,9 @@ x2 = rnorm(n = n, mean = 0, sd = 1)
 # Rescale the data
 x1z = scale(x1)
 x2z = scale(x2)
-z = 1 + 2*x1z + 3*x2
-pr = 1/(1+exp(-z)) # inverse-logit function; Note that 1/(1+exp(-x))== exp(x)/(1+exp(x)), same as pr2 = boot::inv.logit(z)
+z = 1 + 2*x1z + 3*x2 # this is the equation that gives the LOG odds. Note $p = odds/(1+odds)$
+pr = 1/(1+exp(-z)) # Transform to get the LOG(odds) # inverse-logit function; Note that 1/(1+exp(-x))== exp(x)/(1+exp(x)), same as pr2 = boot::inv.logit(z)
+# pr2 = exp(z)/(1+exp(z)) #  z being the log odds. Using the exp (exponential with natural number), you get the odds. The use the $p = odds/(1+odds)$ formula to get teh probability
 y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable (which is a special case of the binomial with size =1 )
 
 # Combine the data in a dataframe 
@@ -2413,24 +2780,219 @@ lines(x = newdata$x1,
       y = newdata$y, col = "red",lwd = 2)
 ```
 
+- The coefficients are given in log(odds)
+
+```{r, echo=FALSE}
+# Note that the output of the GLM is the logit of the model 
+glm.sum = summary(glm.logist)
+glm.sum$coefficients[,1]/glm.sum$coefficients[,2]
+```
+
+- The z-values are the number of standard deviations the estimate is from a standard normal distribution (Wald's test, as this value is given by the ratio of the *estimate* value divided by the *standard error*). 
+- For every one unit in X, the log(odds) increases by about `r round(glm.sum$coefficients[2,1])`.
+
+
+
 ---
 ## GLM: Logistic
 
-.tiny[
-```{r sim_logistic_glm_3D}
-# scatterplot3d::scatterplot3d(x = x1,y = x2,z = y)
-library(plotly)
-fig <- plot_ly(df, x = ~x1, y = ~x2, z = ~y,
-               marker = list(color = ~y, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE))
-fig <- fig %>%add_markers() %>% layout(scene = list(xaxis = list(title = 'x1'),
-                                                    yaxis = list(title = 'x2'),
-                                                    zaxis = list(title = 'y')),
-                                       annotations = list(x = 1.08,y = 1.05,
-                                                          text = 'Scale', xref = 'paper',yref = 'paper',
-                                                          showarrow = FALSE)) 
-fig
+```{r, echo=FALSE, fig.width=8,fig.height=3}
+set.seed(6)
+n = 20
+x1 = rnorm(n = n, mean = 6, sd = 1)
+# Rescale the data
+x1z = scale(x1)
+z = 0 + 2*x1z  # this is the equation that gives the LOG odds. Note $p = odds/(1+odds)$
+pr = 1/(1+exp(-z)) # Transform to get the LOG(odds) # inverse-logit function; Note that 1/(1+exp(-x))== exp(x)/(1+exp(x)), same as pr2 = boot::inv.logit(z)
+# pr2 = exp(z)/(1+exp(z)) #  z being the log odds. Using the exp (exponential with natural number), you get the odds. The use the $p = odds/(1+odds)$ formula to get teh probability
+y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable (which is a special case of the binomial with size =1 )
+
+# Combine the data in a dataframe 
+df = data.frame(y = y, x1 = x1)
+
+#now feed it to glm:
+glm.logist = glm( y~x1, data=df, family="binomial")
+glm.sum = summary(glm.logist)
+
+par(mfrow=c(1,3))
+b.5 = scales::alpha("black",.5)
+plot(z~x1z, ylab = "Log Odds", main = "Theoretical logistic in log(odds)",
+     pch = 19, col = b.5, xlim = c(-5,5), ylim = c(-12,11))
+abline(a = 0,
+       b = 2, col = "red")
+abline(h=0, v=0,lty = 3)
+
+plot(z~x1, ylab = "Log Odds", main = "Estimated logistic in log(odds)",
+     pch = 19, col = b.5, xlim = c(0,10), ylim = c(-12,11))
+abline(a = glm.sum$coefficients[1,1],
+       b = glm.sum$coefficients[2,1])
+abline(h=0, v=0,lty = 3)
+points(x = 0, y=glm.sum$coefficients[1,1], pch = 19, col = "red")
+text(x = 0, y=glm.sum$coefficients[1,1], labels = c("Intercept"), pos =4)
+
+glm.sum$coefficients
+
+plot(y~x1, data = df, main = "Estimated logistic in probability",
+     ylab = "Probability of outcome",
+     col = scales::alpha("black",.5), pch = 19)
+abline(h=0.5, v=mean(x1),lty = 3)
+newdata <- data.frame(x1=seq(min(x1), max(x1),len=n))
+newdata$y = predict(object = glm.logist, newdata = newdata, type = "response") 
+lines(x = newdata$x1,
+      y = newdata$y, col = "red",lwd = 2)
+
+1/(1+exp(-glm.sum$coefficients[1,1]))
+1/(1+exp(-glm.sum$coefficients[2,1]))
+
 ```
-]
+
+
+
+
+---
+## GLM: Logistic (categories)
+
+- We can also simulate a model with categorical variables 
+
+```{r, echo=FALSE}
+set.seed(12345678)
+n <- 10000
+# generate categories 
+categories = c("A","B", "C")
+categories = c("A","B", "C")
+
+x <- sample(x = categories, 
+            size = n, 
+            replace = TRUE, 
+            prob = rep(x = 1/length(categories), length(categories)))
+
+# Here is another way to generate factors 
+# cat.fact = gl(n = 3,k = 1,length = n,labels = categories)
+
+# Make a dummy matrix
+dummy.mat = matrix(data = 0,
+                   nrow = length(x),
+                   ncol = length(categories))
+colnames(dummy.mat) <- paste0("x",c(categories))
+dummy.mat[,1] <- 1
+dummy.mat[,2] <- ifelse(x=="B",1,0)
+dummy.mat[,3] <- ifelse(x=="C",1,0)
+
+# contrasts(as.factor(x))
+
+# Easier
+library(dummies)
+# dummy(x)
+
+# Set some coefficients
+beta0 <- 0.07
+betaB <- 0.1
+betaC <- -0.15
+beta1 <- .5
+
+xxx = rnorm(n)
+
+# linpred <- cbind(1, dummy(x)[, -1]) %*% c(beta0, betaB, betaC) + beta1 * xxx
+linpred <- 
+  dummy.mat[,'xA']*beta0 + 
+  dummy.mat[,"xB"] * betaB + 
+  dummy.mat[,"xC"] * betaC + 
+  beta1 * xxx
+
+prob_i <- exp(linpred) / (1 + exp(linpred))
+y <- rbinom(n = n, size = 1, prob = prob_i)
+data <- data.frame(x=x,xxx = xxx, y=y)
+mod <- glm(y ~ x+xxx, family="binomial", data=data)
+# summary(mod)
+
+#------ initialisation ------
+beta0Hat <- rep(NA, 1000)
+betaBHat <- rep(NA, 1000)
+betaCHat <- rep(NA, 1000)
+#----------------------------
+
+#------ simulations ------
+# for(i in 1:100)
+# {
+#  #data generation
+#  x <- sample(x=c("A","B", "C"), 
+#              size=n, replace=TRUE, prob=rep(1/3, 3))  #(a)
+#  linpred <- cbind(1, dummy(x)[, -1]) %*% c(beta0, betaB, betaC)  #(b)
+#  prob_i <- exp(linpred) / (1 + exp(linpred))  #(c)
+#  y <- rbinom(n=n, size=1, prob=prob_i)  #(d)
+#  data <- data.frame(x=x, y=y)
+#  
+#  #fit the logistic model
+#  mod <- glm(y ~ x, family="binomial", data=data)
+#  
+#  #save the estimates
+#  beta0Hat[i] <- mod$coef[1]
+#  betaBHat[i] <- mod$coef[2]
+#  betaCHat[i] <- mod$coef[3]
+# }
+# #-------------------------
+# 
+# #------ results ------
+# round(c(beta0 = mean(beta0Hat), 
+#        betaB = mean(betaBHat), 
+#        betaC = mean(betaCHat)), 3)
+
+```
+
+```{r, echo=FALSE}
+b0 <- mod$coef[1] # intercept
+xb <- mod$coef[2]
+xc <- mod$coef[3]
+XXX <- mod$coef[4]
+
+xrange <- seq(from=min(data$xxx), to=max(data$xxx), length.out = n)
+
+a_logits <- b0 + 
+  XXX*xrange + 
+  xb*0 + 
+  xc*0 
+b_logits <- b0 + 
+  XXX*xrange + 
+  xb*1 + 
+  xc*0 
+c_logits <- b0 + 
+  XXX*xrange + 
+  xb*0 + 
+  xc*1 
+
+a_probs <- exp(a_logits)/(1 + exp(a_logits))
+b_probs <- exp(b_logits)/(1 + exp(b_logits))
+c_probs <- exp(c_logits)/(1 + exp(c_logits))
+
+
+plot(xrange, sort(a_probs), 
+     ylim=c(0,1),
+     type="l", lwd=3, lty=2, 
+     col="gold", 
+     xlab="x", ylab="P(outcome)", 
+     main="Probability of outcome")
+
+
+# Add the line for people who are in the b group
+lines(xrange, sort(b_probs), 
+      type="l", lwd=3, lty=3, 
+      col="turquoise2")
+
+# Add the line for people who are in the c group
+lines(xrange, sort(c_probs), 
+      type="l", lwd=3, lty=4, 
+      col="orangered")
+
+# add a horizontal line at p=.5
+abline(h=.5, lty=2)
+```
+
+???
+See https://stats.stackexchange.com/questions/49916/simulating-data-for-logistic-regression-with-a-categorical-variable
+
+See https://blogs.uoregon.edu/rclub/2016/04/05/plotting-your-logistic-regression-models/
+
+
 
 ---
 ## GLM: Poisson
@@ -2619,18 +3181,13 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 - The examples here were taken from [this post on Stack Overflow](https://stackoverflow.com/questions/68761166/create-random-points-inside-a-shape-in-r)
 - See also the help for `st_sample()`. In the *Examples* section, there are some neat simulations of points in polygons. 
 
+.small[
+
 ```{r}
-library(sf)
-library(ggplot2)
-
-polygon =
-  list(
-    matrix(
-      c(2, 1, 3, 3, 2, 5, 3, 7, 2, 9, 1, 7, 0, 5, 1, 3, 2, 1),
-      ncol=2, byrow=T
-    )
-  ) 
-
+library(sf); library(ggplot2)
+polygon = list(matrix(c(2, 1, 3, 3, 2, 5, 
+                        3, 7, 2, 9, 1, 7, 
+                        0, 5, 1, 3, 2, 1), ncol=2, byrow=T)) 
 # Create an sf polygon
 polygon = sf::st_polygon(polygon)
 # Sample 50 random points within the polygon
@@ -2641,22 +3198,13 @@ ggplot() +
   geom_sf(aes(), data=polygon) + 
   geom_sf(aes(), data=points) + theme_classic()
 ```
-
-```{r}
-library(spatstat)
-#> For an introduction to spatstat, type 'beginner'
-W1 <- ellipse(a=5, b=2, centre=c(2,7), phi=80*pi/180)
-W2 <- ellipse(a=5, b=2, centre=c(2,3), phi=-80*pi/180)
-W <- union.owin(W1, W2)
-plot(W, lwd=3, main = "")
-
-```
-
+]
 
 ---
 ## Spatial simulation
 
 - [QGIS](https://qgis.org/en/site/) was used to draw the Jardin Botanique de Montréal. Buildings were added to remove them from the Jardin Botanique polygon. 
+- Here, 5 random points were generated and added to the polygon
 
 ```{r echo=FALSE}
 library(sf, warn.conflicts = FALSE)
@@ -2699,6 +3247,9 @@ mapView(only.park,
 ---
 ## Spatial simulation
 
+- 2 points were added to that polygon with known location. 
+- But we'd like to add random points in the 100m buffer around these points 
+
 ```{r, echo=FALSE}
 # Add a buffer around the point we want to look at 
 n = 10*2
@@ -2715,6 +3266,8 @@ mapView(only.park,
 ```
 
 
+
+
 ---
 ## Spatial simulation
 
@@ -2723,14 +3276,17 @@ mapView(only.park,
 # rdm.disttmp = rexp(n = n, rate = 1)*20
 # hist(rdm.disttmp)
 set.seed(6543)
+n = 10*2
+min.buff = units::set_units(x = 0, value = "m")
+max.buff = units::set_units(x = 100, value = "m")
 rdm.disttmp = runif(n = n, min = 0, max = max.buff)
 # get random angle
 rdm.angtmp = runif(n = n, min=0, max = 360)
 
 # Conversion between Radians and Degrees
 rad = rdm.angtmp * pi/180
-rdm.ppt_x = rdm.disttmp*cos(rad) + c(st_coordinates(selected.point)[1],st_coordinates(selected.point.no.tree)[1])
-rdm.ppt_y = rdm.disttmp*sin(rad) + c(st_coordinates(selected.point)[2],st_coordinates(selected.point.no.tree)[2])
+rdm.ppt_x = rdm.disttmp*cos(rad) + c(st_coordinates(selected.point)[1], st_coordinates(selected.point.no.tree)[1])
+rdm.ppt_y = rdm.disttmp*sin(rad) + c(st_coordinates(selected.point)[2], st_coordinates(selected.point.no.tree)[2])
 rmd.ptdf = data.frame(rdm.ppt_x,
                       rdm.ppt_y, length(rdm.ppt_x))
 
@@ -2745,12 +3301,13 @@ mapView(only.park, col.regions = c("green"))+
   mapview(rmd.ptdf.sf,col.regions = c("pink"))
 ```
 
-
 ---
 ## Spatial simulation
 
-```{r, echo=FALSE}
+- What if we want to add a grid to the polygon:
 
+```{r, echo=FALSE}
+set.seed(456)
 # Add random points that are occupying the space of the polygon (grid )
 rdm.pt = st_sample(x = only.park, 
                    size = 100,type ="hexagonal")
@@ -2760,6 +3317,9 @@ mapView(only.park, col.regions = c("green"))+
 ```
 
 
+
+
+
 ???
 
 #################################
@@ -2767,7 +3327,6 @@ mapView(only.park, col.regions = c("green"))+
 class: inverse, center, middle
 
 # Advanced simulations
-
 
 
 ---
