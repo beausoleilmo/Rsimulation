@@ -1011,6 +1011,21 @@ points(0,.3, pch =19)
 
 - Also, the Geometric mean (which is the mean of logs) is BETTER when using log-based data (qPCR, where the data doubles each round) and is less sensitive to outliers (which the arithmetic mean is actually VERY sensitive)
 
+```{r}
+raw.num = c(1,2,8) # numbers NOT on the log scale (simulate a DOUBLING process like qPCR)
+mean(raw.num) # Arithmetic average (which would be WRONG)
+mean.log = mean(log(raw.num)/log(2)) # Taking the mean of the log (this is the geometric mean)
+mean.log # This is the mean that we would find on the log scale for the log(raw.num)
+2^mean.log
+# gm = exp(mean(log(raw.num))) # calculating the geometric mean 
+gm = 2^(mean(log(raw.num)/log(2))) # Here we calculate the geometric mean with a base 2
+
+# Now compare the geometric mean of the raw numbers with the mean of the log which was transformed baed into the raw number scale 
+gm
+2^mean.log
+```
+
+
 ---
 ## Probability and odds
 
@@ -2531,7 +2546,21 @@ summary(lm.out)
 
 
 ---
-## GLM: Linear model
+## GLM:library(splines)
+
+n = 1000
+set.seed(1234)
+x <- rnorm(n)
+
+bsx <- bs(x)
+eps <- rnorm(n,0,0.25)
+
+y = 1 + x + bsx[,1] + bsx[,2] + bsx[,3] + eps
+
+des <- cbind(x,bsx)
+
+lm(y~ des)
+ Linear model
 
 ```{r, echo=FALSE, fig.width=8,fig.height=5}
 set.seed(12345678)
@@ -2678,7 +2707,14 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 ---
 ## GLM: Linear model (interaction; continuous)
 
+- Here is the simulation of a linear model with an interaction term between two continuous variables. 
+- The plot is to show that the relationship between $y$ and $x_1$ is modulated by $x_2$ 
+- If $\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2$, but you want to show the graph for $x_1$, we can rearrange the equation to this: 
+  * $\hat{y}=(\beta_0+\beta_2x_2)+(\beta_1+\beta_3x_2)x_1$
+  * You can see from the equation above that in order to get an intercept and slope for $x_1$, you need to specify a $x_2$ value. Therefore, if you want to show the effect of $x_1$ on $y$ you need to set $x_2$ to a certain value. So for a *given value of* $x_2$, the intercept on the y-axis is the first term $(\beta_0+\beta_2x_2)$ while the slope of $x_1$ is $(\beta_1+\beta_3x_2)$.
+
 ```{r sim_lm_interaction, echo=FALSE, fig.width=8,fig.height=5}
+library(viridis)
 set.seed(1)
 n = 100
 # x.lm1 = rbinom(n = n, size = 1, prob = 0.5)
@@ -2717,20 +2753,22 @@ x2.sim = seq(x2r[1],x2r[2], by = .5)
 eff.x1 <- coef(lm.out)["x1"] + coef(lm.out)["x1:x2"] * x2.sim # this gets you the slopes  
 eff.x1.int <- coef(lm.out)["(Intercept)"] + coef(lm.out)["x2"] * x2.sim # this gets you the intercepts  
 eff.dat <- data.frame(x2.sim, eff.x1, eff.x1.int)
-virPal <- viridis::viridis(length(x2.sim))
+virPal <- viridis::viridis(length(x2.sim),alpha = .8)
 eff.dat$x2.col <- virPal[as.numeric(cut(eff.dat$x2.sim,breaks = length(x2.sim)))]
 # eff.dat
 df.lm$x2.col <- virPal[as.numeric(cut(df.lm$x2,breaks = length(x2.sim)))]
+df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2,breaks = length(x2.sim))) %% 2 + 1]
 # plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",
 #      # xlim=range(x2.sim),
 #      pch = 19, xlab = "Level of x2", ylab = "Marginal effect of x1")
 par(mfrow=c(1,1), mar =c(4,4,1,1))
-plot(x = df.lm$x1, y = df.lm$y, col = df.lm$x2.col, 
+plot(x = df.lm$x1, y = df.lm$y, bg = df.lm$x2.col, #col =df.lm$line,
      # xlim=range(x2.sim),
-     pch = 19, xlab = "x1", ylab = "y")
-apply(eff.dat, 1, function(x) abline(a = x[3], b = x[2], col = x[4]))
+     pch = 21, xlab = "x1", ylab = "y")
+apply(eff.dat, 1, function(x) abline(a = x[3], b = x[2], col = x[4], lwd  = 2))
 abline(h = 0, v = 0,lty = 3)
-legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1,col = eff.dat$x2.col, bg = scales::alpha("white",.5))
+legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 3,
+       col = eff.dat$x2.col, bg = scales::alpha("white",.5))
 # summary(lm.out)
 ```
 
@@ -2739,6 +2777,8 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 
 [DECOMPOSING, PROBING, AND PLOTTING INTERACTIONS IN R](https://stats.oarc.ucla.edu/r/seminars/interactions-r/)
 [HOW CAN I EXPLAIN A CONTINUOUS BY CONTINUOUS INTERACTION? | R FAQ](https://stats.oarc.ucla.edu/r/faq/how-can-i-explain-a-continuous-by-continuous-interaction/)
+
+[how to interpret the interaction term in lm formula in R?](https://stats.stackexchange.com/questions/56784/how-to-interpret-the-interaction-term-in-lm-formula-in-r)
 
 ---
 ## GLM: Logistic
