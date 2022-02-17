@@ -71,3 +71,38 @@ Search for all the slide increments by opening the search box.
 Take a look at extra tools here
 https://github.com/gadenbuie/xaringanExtra 
 -->
+
+
+
+
+
+
+
+#### 
+<!-- ```{r, fig.width=8,fig.height=5} -->
+<!-- par(mfrow=c(1,2)) -->
+<!-- b.5 = scales::alpha("black",.5) -->
+<!-- plot(z~x1, ylab = "Log Odds", pch = 19, col = b.5) -->
+<!-- abline(glm.sum) -->
+<!-- plot(z~x2, ylab = "Log Odds", pch = 19, col = b.5) -->
+<!-- ``` -->
+
+
+<!-- --- -->
+<!-- ## GLM: Logistic -->
+
+<!-- .tiny[ -->
+<!-- ```{r sim_logistic_glm_3D} -->
+<!-- # scatterplot3d::scatterplot3d(x = x1,y = x2,z = y) -->
+<!-- library(plotly) -->
+<!-- fig <- plot_ly(df, x = ~x1, y = ~x2, z = ~y, -->
+<!--                marker = list(color = ~y, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE)) -->
+<!-- fig <- fig %>%add_markers() %>% layout(scene = list(xaxis = list(title = 'x1'), -->
+<!--                                                     yaxis = list(title = 'x2'), -->
+<!--                                                     zaxis = list(title = 'y')), -->
+<!--                                        annotations = list(x = 1.08,y = 1.05, -->
+<!--                                                           text = 'Scale', xref = 'paper',yref = 'paper', -->
+<!--                                                           showarrow = FALSE))  -->
+<!-- fig -->
+<!-- ``` -->
+<!-- ] -->
