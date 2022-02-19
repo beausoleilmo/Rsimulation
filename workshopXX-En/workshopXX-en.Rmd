@@ -101,6 +101,18 @@ In this section, we will explore
 - See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
 
 ---
+## Defining simulations
+
+<br>
+<br>
+
+.center[
+[...] the term 'simulation' describes a wealth of varied and useful techniques, all connected with the mimicking of the rules of a model of some kind.
+]
+
+.right[— Byron J. T. Morgan 1984]
+
+---
 ## Simulations are games 
 
 - Simulations are games that we make up the rules
@@ -132,6 +144,15 @@ plot(density(rnorm(6)),
 ???
 
 What are simulations? Games! 
+- Like Étienne Low-Décarie said it "it eliminates the need for dice when playing Dungeons and Dragons"
+```
+library(TeachingDemos)
+dice(rolls=3,
+     ndice=4,
+     sides=6,
+     plot.it=T,
+     load=rep(1, 6))
+```
 
 Are these two distribution showing the same random process?
 - Yes! They are both normally distributed 
@@ -156,13 +177,21 @@ You probably have had extensive course on how to use statistical models on certa
   * Let you SET the exact parameters you think are relevant for the pattern you are trying to characterize. (perhaps based on the literature you read on the subject.)
 --
 
-- It is then possible to test various methods or analysis to 
+- It is then possible to test various methods or statistical analysis to 
     1. see if they work and verify their assumptions, 
-    2. do power analysis, 
+    2. do [power analysis](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) and dry run [an experimental design](https://low-decarie.github.io/Introduction-to-simulation-for-experimental-design-using-R/#/),
     3. learn how data is generated,
     4. prepare your analysis script before data collection (or preregistration),
-    5. "see" what a mathematical model or equation predicts,
-    6. etc. 
+    5. understand and "see" what a mathematical model or equation predicts,
+    6. [give you teaching material](https://serc.carleton.edu/sp/library/datasim//examples.html), 
+    8. explore ideas, theories, hypothesis, the existence of a phenomenon or a slow process,
+    7. etc. 
+    
+???
+- BUT! Do not simulate data to generate FAKE data. 
+- Forest management: could be long to get data: simulations can help to take faster decision
+- epidemics, road congestion
+See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
 
 ---
 ## Find patterns in the natural world
@@ -180,6 +209,7 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
   * In other words, 
      1. how is the data that I've measured distributed? and 
      2. What causes my data to be deistributed that way?
+- See also `power.prop.test()`
 
 ---
 ## Probability distributions are crucial for simulations
@@ -260,6 +290,8 @@ plot(function.name(1:10)+rnorm(10))
 - Also don't forget to add sections in your script. 
   - On macOS press Alt + Shift + K to get the shortcut list of RStudio. 
   - See the "Cmd + Shift + R" to automatically add a section that will be visible in the document outline. 
+
+- Time to run a simulation is important: knowing that some functions are faster in R can make a difference for a slow simulation with a fast one.
 
 #################################
 ---
@@ -836,6 +868,27 @@ sample(datae.seq, 5)
 
 
 ---
+## Functions useful in simulations (sample)
+
+- You can also generate a die and randomly toss it. 
+- But the interesting part is that you can change the probability of landing on one face more than the other. 
+
+.small[
+```{r, echo=-1, fig.width=8, fig.height=4}
+par(mar=c(4,4,0.1,0.1))
+set.seed(50)
+p_dice = c(1,1,1,1,1,5) # Here we have twice the change of landing on 6
+                        # Same as writing p_dice/sum(p_dice) or the prob.
+nb.tosses = 100
+die_results <- sample(x = 1:6, # or seq(from = 1, to=6, by=1)
+                      size = nb.tosses,
+                      replace = T, prob = p_dice) 
+barplot(table(die_results)) # table(die_results)/nb.tosses
+```
+]
+
+
+---
 ## Functions useful in simulations (rep)
 
 - You will not only see numerical values in simulations. Characters (or factors) can be generated in R easily. 
@@ -955,13 +1008,28 @@ class: inverse, center, middle
 
 - When describing the "chance" or "likelihood" of an outcome, you can use a probability or odds
 - They are related: odds of an event is $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
-- Why bother? 
+- Why bother using probability or odds? 
 --
 
 - probability ranges between 0 and 1, but odds range from 0 to $\infty$. 
 
-```{r, echo=FALSE, fig.width=4.7,fig.height=2}
-par(mar = c(0,0,0,0), cex = 1.2)
+```{r, echo=FALSE, fig.width=8.7,fig.height=2}
+par(mar = c(0,0,0,0), mfrow=c(1,2),cex = 1.2)
+# Probability
+plot(0, type ="n", xlim = c(0,1), axes = F,ylab = "", xlab = "")
+segments(0,0,1,0)
+yval = .1
+lwd = 2
+seqp=seq(0,1,by = .1)
+for (i in seqp) {
+  segments(i,-yval,i,yval)
+}
+ytext = .65
+text(seqp,y = -.25,labels = seqp)
+text(.5,y = ytext,labels = c("Probability"))
+arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "gray10")
+
+# Odds
 plot(0, type ="n", xlim = c(0,10), axes = F,ylab = "", xlab = "")
 segments(0,0,10,0)
 yval = .1
@@ -969,16 +1037,22 @@ lwd = 2
 for (i in 0:10) {
   segments(i,-yval,i,yval)
 }
-ytext = .65
 text(0:10,y = -.25,labels = c(0:10))
 text(.5,y = ytext,labels = c("Odds \nlosing"))
 text((10+1)/2,y = ytext,labels = c("Odds \nwinning"))
 arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
 arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 ```
---
+???
+- See how log(1/6) = -1.791759 and log(6/1) = 1.791759
+- Seriously, check this post: https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4. It is amazing! 
+- And check this video for odds: https://www.youtube.com/watch?v=ARfXDSkQf1Y&ab_channel=StatQuestwithJoshStarmer
 
-- Log (natural log, or ln) odds can range from $-\infty$ to $\infty$ and makes the odds symetric. It is calculated as $ln (odds) = ln(p/(1-p))$ (i.e., the logit function).
+
+---
+## Probability and odds 
+
+- Log (natural log, or ln) odds can range from $-\infty$ to $\infty$ and makes the odds symmetric. It is calculated as $ln (odds) = ln(p/(1-p))$ (i.e., the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
 
 ```{r, echo=FALSE, fig.width=4.7,fig.height=2}
@@ -1003,10 +1077,7 @@ points(0,.3, pch =19)
 
 <!-- .alert[Careful!] This is not the same as saying $success/(success + failure)$. This last calculation is the probability -->
 ???
-- See how log(1/6) = -1.791759 and log(6/1) = 1.791759
-- Seriously, check this post: https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4. It is amazing! 
-- And check this video for odds: https://www.youtube.com/watch?v=ARfXDSkQf1Y&ab_channel=StatQuestwithJoshStarmer
-- And this video for odds ratio: https://www.youtube.com/watch?v=8nm0G-1uJzA&ab_channel=StatQuestwithJoshStarmer
+- And this video for odds ratio: [Odds Ratios and Log(Odds Ratios), Clearly Explained!!!](https://www.youtube.com/watch?v=8nm0G-1uJzA&ab_channel=StatQuestwithJoshStarmer)
   - The odds ratio and the log odds ratio is a bit like the R-squared: it indicates a relationship between 2 things (it's an effect size, or how one is a good predictor of the other (if the value is large))
 
 - Also, the Geometric mean (which is the mean of logs) is BETTER when using log-based data (qPCR, where the data doubles each round) and is less sensitive to outliers (which the arithmetic mean is actually VERY sensitive)
@@ -1032,18 +1103,17 @@ gm
 - Example: a horse runs 100 races and wins 20 of them.  What is the *odds* of winning?
 - $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
 
-```{r odds_example}
-totl.nb.events = 100
-successes = 20
+```{r odds_example, echo=-1}
+library(MASS)
+totl.nb.events = 100; successes = 20
 odds.favor = (successes)/(totl.nb.events-successes) # Odds in favor of the event (here 1 in 4)
 odds.against = (totl.nb.events-successes)/(successes) # Odds in against of the event (here 4 to 1)
-library(MASS)
 ```
 
 <!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example -->
 
-So the horse wins 1 race to 4 fails or the odds of winning is `r fractions(odds.favor)`.
-In other words, for 5 races the horse will win 1 and loose 4. 
+The horse wins 1 race to 4 fails (odds of winning = `r fractions(odds.favor)`).
+So, for 5 races it will win 1 and loose 4. 
 
 ```{r, echo=FALSE, fig.width=4.7,fig.height=2}
 par(mar = c(0,0,0,0))
@@ -1073,8 +1143,8 @@ for (i in 1:nb.flips) {
 ```
 
 
-Conversely, the horse the odds of failing is `r paste0(odds.against,":1")` (read 4 *to* 1). 
-In other words, the horse is 4 times more *likely* to fail than to succeed in a race.
+Conversely, the horse  odds of failing is `r paste0(odds.against,":1")` (read 4 *to* 1). 
+The horse is 4 times more *likely* to fail than to succeed in a race.
 
 ???
 - If the odds = 1: 
@@ -1095,8 +1165,7 @@ In other words, the horse is 4 times more *likely* to fail than to succeed in a 
 - $p = odds/(1+odds)$
 
 ```{r probability_example}
-totl.nb.events = 100
-successes = 20
+totl.nb.events = 100; successes = 20
 probability.favor = (successes)/(totl.nb.events) # probability of the event (here 20%)
 probability.favor # fractions(probability.favor)
 ```
@@ -1106,7 +1175,7 @@ So the horse *wins* `r fractions(probability.favor)` or `r paste0(probability.fa
 - You can see that $odds = p/(1-p) = (.2)/(1-.2) = .2/.8 = 1/4$
 --
 
-- So the probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particualr outcome divided by the total number of results from the event. 
+- So the probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particular outcome divided by the total number of results from the event. 
 
 ---
 ## Probability and odds 
@@ -1138,7 +1207,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
 .tiny[
 ```{r odds_prob_plot, fig.width=12,fig.height=4}
 par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.2)
-plot(d$odds~d$log_odds, type = "l", ylab = "Odds", xlab = "Log odds", lwd = 3) ; abline(v = 0, lty = 3)
+plot(d$odds~d$log_odds, type = "l", ylab = "Odds", xlab = "Ln odds", lwd = 3) ; abline(v = 0, lty = 3)
 plot(d$p~d$odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
 plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
 ```
@@ -1147,16 +1216,16 @@ plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline
 ---
 ## Probability and odds 
 
-- What is the difference between a probability and a p-value? 
+- What is the difference between a probability and a p-value?
 --
 
-- A p-value consists of 3 parts. They are the : 
-    1. *Probability* that random chance generated the data (or would give the result we got) **PLUS**
-    2. *Probability* of observing something else that is equally rare **PLUS**
-    3. *Probability* of observing something else that is rarer (or more extreme). 
+- A p-value consists of 3 parts. They are the :
+  1. *Probability* that random chance generated the data (or would give the result we got) **PLUS**
+  2. *Probability* of observing something else that is equally rare **PLUS**
+  3. *Probability* of observing something else that is rarer (or more extreme).
 --
 
-- .alert[NOTE:] the probability of an event occurring *is not the same* as the p-value, since the p-value is the sum of 3 parts. 
+- **NOTE:** the probability of an event occurring *is not the same* as the p-value, since the p-value is the sum of 3 parts.
   - We add part 2. and 3. because it gives us information about the *specialness* of this rare event. 
   - In other words, we want to know if the event we measured is statistically special or, as you might have heard it, statistically significant!
 
@@ -1401,6 +1470,15 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 ```
 
 ---
+## Selecting the right distribution
+
+- See "Figure 6A.15 from Probabilistic approaches to risk by Aswath Damodaran"
+
+<!-- ![:scale 100%](images/probabilistic.png) -->
+![:scale 100%](images/Prob.distrib.choices.png)
+
+
+---
 ## Summary of important distribution 
 
 .small[
@@ -1517,9 +1595,9 @@ for (i in 1:nb.flips) {
 ## Poisson distribution
 
 - Poisson distribution assume that 
-- the probability of some event is small over a short period of time (or area), but that there are a lot of events (as there would be a lot of time passing, or a lot of space) in which the process could happen 
-- The number of event reported is independent from one time point to the other. 
-- In summary, it models *rare* events that happen at a certain *rate*. In other words, there are many opportunities to succeed (n is large), but the probability of success (for each trial) is small
+  - the probability of some event is small over a short period of time (or area), but that there are a lot of events (as there would be a lot of time passing, or a lot of space) in which the process could happen 
+  - The number of event reported is independent from one time point to the other. 
+  - In summary, it models *rare* events that happen at a certain *rate*. In other words, there are many opportunities to succeed (n is large), but the probability of success (for each trial) is small
 
 $$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$ where $\mu = \sigma = \lambda$
 
@@ -1528,8 +1606,8 @@ $$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$ where $\mu = \sigma = \lambda$
 ## Poisson distribution vs binomial
 
 - Difference with Binomial :
-- Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
-- Number of trials is finite ( $n$ ) in Binomial distribution 
+  - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
+  - Number of trials is finite ( $n$ ) in Binomial distribution 
 
 ```{r equivalence_between_distributions_Binom_poisson, echo=FALSE}
 par(mfrow = c(2,2))
@@ -1549,13 +1627,13 @@ ppois(q = 2, lambda = 2)
 ## Poisson distribution
 
 - Examples (something per unit time or space for example): 
-- Nb of deaths due to a disease (e.g., SARS-CoV 2) for a period of time 
-- Ticks of a radiation counter (Geiger counter which detects and measures ionizing radiation)
-- DNA mutation
-- Colonization of animals on remote islands
-- Mutation models
-- Recombination models 
-- Bacterial colony growing on an agar plate 
+  - Nb of deaths due to a disease (e.g., SARS-CoV 2) for a period of time 
+  - Ticks of a radiation counter (Geiger counter which detects and measures ionizing radiation)
+  - DNA mutation
+  - Colonization of animals on remote islands
+  - Mutation models
+  - Recombination models 
+  - Bacterial colony growing on an agar plate 
 
 <!-- Examples taken from
 https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
@@ -1628,9 +1706,9 @@ where
 ## Binomial distribution
 
 - Examples 
-- Number of heads in a row after 3 tosses
-- Genetic drift 
-- Wright-Fisher model 
+  - Number of heads in a row after 3 tosses
+  - Genetic drift 
+  - Wright-Fisher model 
 
 <!-- Examples taken from 
 http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html
@@ -1642,14 +1720,14 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probabili
 ## Binomial distribution
 
 - Examples 
-- probability of having a certain number of offspring given the genotypes of the parents 
-- for example, if a male is AA and female Aa, what is the probability that 6 of their 7 offspring has Aa
-- Find the probability of getting Aa from AA x Aa [1/2 AA and 1/2 Aa], 
-- then out of n=7 offspring from that couple, 6 are of genotype Aa, $P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128$)
-- Probability of a certain number of your children being daughters 
-- if you have 5 children, these are independent trials, so n = 5
-- "success" is the probability that the child is a daughter (p = 1/2)
-- $P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16$
+  - probability of having a certain number of offspring given the genotypes of the parents 
+  - for example, if a male is AA and female Aa, what is the probability that 6 of their 7 offspring has Aa
+  - Find the probability of getting Aa from AA x Aa [1/2 AA and 1/2 Aa], 
+  - then out of n=7 offspring from that couple, 6 are of genotype Aa, $P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128$)
+  - Probability of a certain number of your children being daughters 
+  - if you have 5 children, these are independent trials, so n = 5
+  - "success" is the probability that the child is a daughter (p = 1/2)
+  - $P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16$
 
 
 ---
@@ -1674,10 +1752,10 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 ## Normal distribution (Gaussian)
 
 - Examples: 
-- Distribution of a lot of continuous phenotypes 
-- Arm length, or human height in a population
-- velocity of a collection of molecules in a gas of liquid
-- the error from measurements (length of beak).
+  - Distribution of a lot of continuous phenotypes 
+  - Arm length, or human height in a population
+  - velocity of a collection of molecules in a gas of liquid
+  - the error from measurements (length of beak).
 
 
 ---
@@ -2037,9 +2115,9 @@ Find the "x" value (quantile) based on the probability (area under the curve bet
 qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 ```
 - for a probability of $50\%$ between the "x" value is `r round(qnorm(p = c(.75, .25),lower.tail = F),2)`. 
-- for a probability of $95\%$ between the "x" value is `r round(qnorm(p = c(.95, .05),lower.tail = F),2)`. 
-- for a probability of $97.5\%$ between the "x" value is `r round(qnorm(p = c(.975, .025),lower.tail = F),2)`. 
-- for a probability of $99.5\%$ between the "x" value is `r round(qnorm(p = c(.995, .005),lower.tail = F),2)`. 
+- for a probability of $90\%$ between the "x" value is `r round(qnorm(p = c(.95, .05),lower.tail = F),2)`. 
+- for a probability of $95\%$ between the "x" value is `r round(qnorm(p = c(.975, .025),lower.tail = F),2)`. 
+- for a probability of $99\%$ between the "x" value is `r round(qnorm(p = c(.995, .005),lower.tail = F),2)`. 
 
 ```{r normal_dist_area3, echo=FALSE, fig.width=14,fig.height=3}
 par(mfrow=c(1,4), mar = c(4,4,1,1), cex = 1.1)
@@ -2270,9 +2348,8 @@ rnorm(n)
 - There is a way to generate multiple normal distributions at once. 
 
 
-```{r}
+```{r, fig.width=8,fig.height=4}
 set.seed(24601) # setting this so the random results will be repeatable 
-
 library(MASS)
 covmat <- matrix(c(1.0,   0.2,   0.6, 
                    0.2,   1.0,  -0.5, 
@@ -2418,52 +2495,70 @@ class: inverse, center, middle
 # Simulating data for power analysis
 
 ---
-## Power analysis
+## Power analysis (proportions)
 
-For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+- The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains very clearly how to perform power analysis. 
+- Here is an example for tossing a coin, which we believe has a 75% chance of landing on 'heads'.
 
 .tiny[
-```{r feel_the_power, fig.width=3,fig.height=3}
-set.seed(1234)
-n = 30
-group1 <- rnorm(n = n, mean = 1, sd = 2)
-group2 <- rnorm(n = n, mean = 0, sd = 2)
-hist(group1, breaks = 10, main = "Histogram of both groups", xlab = "")
-hist(group2, add = TRUE, breaks = 10, col= scales::alpha("blue",.5))
-t.test(group1, group2, paired = FALSE, var.equal = TRUE, conf.level = 0.9)
+```{r}
+p1 = .75 # Proportion to test 
+p2 = .50 # proportion of the null hypothesis 
+alpha = 0.05 # Type 1 error 
+power = 0.80 # power or 1-beta = power. Beta is the type II error 
+coin.prop.power = power.prop.test(p1 = p1, 
+                                  p2 = p2, 
+                                  sig.level = alpha,
+                                  power = power)
+n = ceiling(coin.prop.power$n)
 
-set.seed(1)
-n_sims <- 10 # we want 1000 simulations
-p_vals <- c()
-power_at_n <- c(0) # this vector will contain the power for each sample-size (it needs the initial 0 for the while-loop to work)
-cohens_ds <- c()
-cohens_ds_at_n <- c() 
-n <- 30 # sample-size 
-i <- 2
-while(power_at_n[i-1] < .95){
-  for(sim in 1:n_sims){
-    group1 <- rnorm(n,1,2) # simulate group 1
-    group2 <- rnorm(n,0,2) # simulate group 2
-    p_vals[sim] <- t.test(group1, group2, paired = FALSE, var.equal = TRUE, conf.level = 0.9)$p.value # run t-test and extract the p-value
-    cohens_ds[sim] <- abs((mean(group1)-mean(group2))/(sqrt((sd(group1)^2+sd(group2)^2)/2))) # we also save the cohens ds that we observed in each simulation
-  }
-  power_at_n[i] <- mean(p_vals < .10) # check power (i.e. proportion of p-values that are smaller than alpha-level of .10)
-  cohens_ds_at_n[i] <- mean(cohens_ds) # calculate means of cohens ds for each sample-size
-  n <- n+1 # increase sample-size by 1
-  i <- i+1 # increase index of the while-loop by 1 to save power and cohens d to vector
-}
-power_at_n <- power_at_n[-1] # delete first 0 from the vector
-cohens_ds_at_n <- cohens_ds_at_n[-1] # delete first NA from the vector
-plot(30:(n-1), power_at_n, xlab = "Number of participants per group", ylab = "Power", ylim = c(0,1), axes = TRUE)
-abline(h = .95, col = "red")
-
-plot(30:(n-1), cohens_ds_at_n, xlab = "Number of participants per group", ylab = "Cohens D", ylim = c(0.45,0.55), axes = TRUE)
-abline(h = .50, col = "red")
+coin.pip = rbinom(n, size = 1, prob = p1)
+# coin.pip = rbinom(1,size = n,prob = p1) # similar to above 
+# prop.test(x = coin.pip, n = n,alternative = "greater")
+p.table = table(coin.pip)[c(2,1)]
+ptest = prop.test(p.table, alternative = "greater")
+ptest
+curve(dchisq(x, df = ptest$parameter), 
+      xlim = c(0, ceiling(max(ptest$statistic))))
+abline(v = ptest$statistic, lty = 3)
 ```
 ]
 
+???
+- For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+
+---
+## Power analysis (linear model)
+
+.pull-left[
+```{r, fig.width=7,fig.height=4}
+library(pwr)
+r2 = seq(0,0.9,by =.1)
+f2 <- function(r2) {
+  r2/(1-r2)}
+```
+]
+
+.pull-right[
+```{r, echo=-1, fig.width=7,fig.height=4}
+par(mar=c(4,4,0.1,0.1))
+plot(f2(r2)~r2)
+curve(expr = (x/(1-x)),add = T)
+```
+]
+
+```{r, fig.width=7,fig.height=4}
+nb.coef.in.model = 2
+pwr.lm = pwr.f2.test(u = nb.coef.in.model, f2 = f2(.3), sig.level = 0.001, power = 0.8)
+
+# sample size (n = v + u + 1)
+n = ceiling(pwr.lm$v + nb.coef.in.model + 1)
+n
+```
+
 
 ???
+- See also the package `pwr2ppl`
 
 #################################
 ---
@@ -2481,16 +2576,19 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - $\beta_1$ is the coefficient of variation for the first explanatory variable ($x_1$)
 - $\beta_p$ is the coefficient of variation for the $p^{th}$ explanatory variable for the $p^{th}$ $x_p$ explanatory variable
 - $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
-- The goal is to find the **best estimation** of the parameters ($\beta$s), while minimizing the residuals, and assess the goodness of fit of the model
-- We use the least-squares in order to fit the line to the data. 
 
-- Also, don't forget the assumption of the linear model 
+---
+## Linear model (lm) refresher
+
+- The goal is to find the **best estimation** of the parameters ( $\beta$ s), while minimizing the residuals, and assess the goodness of fit of the model
+- We use the least-squares in order to fit the line to the data.
 - In order to interpret your results correctly when using a linear model, be sure you are not crossing the *LINE*: 
   * L: Linearity, 
   * I: Independence, 
   * N: normally distributed residuals, 
   * E: Equality of variance 
 
+???
 Reference for the section 
 - [Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/) and [Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
 - [Poisson model](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/)
@@ -2519,7 +2617,10 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 ---
 ## GLM: Linear model
 
-```{r, echo=FALSE}
+.pull-left[
+.small[
+```{r, echo=-1, fig.width=4,fig.height=2}
+par(mar=c(4,4,0.1,0.1))
 set.seed(12345678)
 n = 100
 x.lm = rnorm(n = n, mean = 10, sd = 1)
@@ -2534,6 +2635,12 @@ y.lm = beta0 + beta1*x.lm + err
 df.lm = data.frame(x = x.lm, y = y.lm)
 # Colour 
 b.5 = scales::alpha("black",alpha = .5)
+```
+]
+]
+
+.pull-right[
+```{r, echo=FALSE, fig.width=4,fig.height=4}
 # PLot the data 
 plot(y~x, data = df.lm, pch = 19, col = b.5)
 
@@ -2541,28 +2648,41 @@ plot(y~x, data = df.lm, pch = 19, col = b.5)
 lm.out = lm(y~x, data = df.lm)
 # Add a line to the plot 
 abline(lm.out)
+```
+]
+
+```{r}
 summary(lm.out)
+```
+
+---
+## GLM: Linear model
+
+- You can simulate the response (fitted line), from a model that you created. 
+
+```{r, fig.width=8,fig.height=4}
+sim.lm = simulate(lm.out,nsim = 2000,seed = 12)
+par(mfrow = c(1,3), cex = 1.2)
+hist(rowMeans(sim.lm))
+hist(fitted(lm.out))
+mean(rowMeans(sim.lm))
+hist(x.lm)
+mean(x.lm)
+# compare 
+head(rowMeans(sim.lm))
+head(fitted(lm.out))
+
+mean(rowMeans(sim.lm))
+mean(fitted(lm.out))
 ```
 
 
 ---
-## GLM:library(splines)
+## GLM: Linear model
 
-n = 1000
-set.seed(1234)
-x <- rnorm(n)
+- Simulate 2 independent variables. 
 
-bsx <- bs(x)
-eps <- rnorm(n,0,0.25)
-
-y = 1 + x + bsx[,1] + bsx[,2] + bsx[,3] + eps
-
-des <- cbind(x,bsx)
-
-lm(y~ des)
- Linear model
-
-```{r, echo=FALSE, fig.width=8,fig.height=5}
+```{r, echo=FALSE, fig.width=8,fig.height=4}
 set.seed(12345678)
 n = 100
 x1 = rnorm(n = n, mean = 10, sd = 1)
@@ -2604,6 +2724,7 @@ vcov(lm.out)
 ---
 ## GLM: Linear model (categorical)
 
+.small[
 ```{r sim_lm_cat, fig.width=5,fig.height=5}
 set.seed(12345678)
 n = 100
@@ -2631,6 +2752,7 @@ df.lm = data.frame(x = x.lm, y = y.lm, gr = gr)
 b.5 = scales::alpha("black",alpha = .5)
 r.5 = scales::alpha("red",alpha = .5)
 ```
+]
 
 ???
 - see [Simulating from regression model with categorical variable with 4 categories?](https://stats.stackexchange.com/questions/471947/simulating-from-regression-model-with-categorical-variable-with-4-categories)
@@ -2638,7 +2760,7 @@ r.5 = scales::alpha("red",alpha = .5)
 ---
 ## GLM: Linear model (categorical)
 
-```{r sim_lm_cat_plot, fig.width=8,fig.height=5}
+```{r sim_lm_cat_plot, echo=-1, fig.width=8,fig.height=5}
 par(mfrow=c(1,2))
 plot(y~x, data = df.lm, pch = 19, col = ifelse(gr=="Treatment",r.5,b.5))
 lm.out = lm(y~x+gr, data = df.lm)
@@ -2656,7 +2778,7 @@ summary(lm.out)
 - $y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2+\epsilon$
 - In this simple example $\beta_1$ and $\beta_2$ is the effect that the predictor $x_1$ and $x_2$ have, and $\beta_3$ is the effect that both $x_1$ and $x_2$ predictor have (or that the effect of one variable (e.g., $x_1$) *depends* on the value of the other (e.g., $x_2$)). 
 
-```{r sim_lm_interaction_discrete, echo=FALSE, fig.width=8,fig.height=5}
+```{r sim_lm_interaction_discrete, echo=FALSE, fig.width=8,fig.height=3}
 set.seed(1)
 n = 100
 x.lm1 = rbinom(n = n, size = 1, prob = 0.5)
@@ -2682,7 +2804,12 @@ hist(df.lm$y)
 lm.out = lm(y~x1*x2, data = df.lm)
 summary(lm.out)
 coef(lm.out)
+```
 
+---
+## GLM: Linear model (interaction; discrete)
+
+```{r, echo=-1, fig.width=8,fig.height=3}
 par(mfrow=c(1,1))
 # Binary x1 
 plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, 
@@ -2698,7 +2825,9 @@ points(x = df.lm[df.lm$x1 == 1, ]$x2, y = df.lm[df.lm$x1 == 1, ]$y,
 abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)[4], 
        col = "red", lwd = 2)
 abline(h = 0, v = 0,lty = 3)
+
 ```
+
 
 ???
 See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
@@ -2731,11 +2860,24 @@ y.lm = beta0 + beta1*x.lm1 + beta2*x.lm2 + beta3*x.lm1*x.lm2 + err.lm
 
 df.lm = data.frame(x1 = x.lm1, x2 = x.lm2, y = y.lm)
 b.5 = scales::alpha("black",alpha = .5)
+```
+
+???
+See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
+
+[DECOMPOSING, PROBING, AND PLOTTING INTERACTIONS IN R](https://stats.oarc.ucla.edu/r/seminars/interactions-r/)
+[HOW CAN I EXPLAIN A CONTINUOUS BY CONTINUOUS INTERACTION? | R FAQ](https://stats.oarc.ucla.edu/r/faq/how-can-i-explain-a-continuous-by-continuous-interaction/)
+
+[how to interpret the interaction term in lm formula in R?](https://stats.stackexchange.com/questions/56784/how-to-interpret-the-interaction-term-in-lm-formula-in-r)
+
+
+---
+## GLM: Linear model (interaction; continuous)
+
+```{r, echo=-c(1:2), fig.width=8,fig.height=3}
 par(mfrow=c(1,3))
 # apply(df.lm, 2, hist)
-hist(df.lm$x1)
-hist(df.lm$x2)
-hist(df.lm$y)
+hist(df.lm$x1);hist(df.lm$x2);hist(df.lm$y)
 
 lm.out = lm(y~x1*x2, data = df.lm)
 # summary(lm.out)
@@ -2758,6 +2900,13 @@ eff.dat$x2.col <- virPal[as.numeric(cut(eff.dat$x2.sim,breaks = length(x2.sim)))
 # eff.dat
 df.lm$x2.col <- virPal[as.numeric(cut(df.lm$x2,breaks = length(x2.sim)))]
 df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2,breaks = length(x2.sim))) %% 2 + 1]
+```
+
+
+---
+## GLM: Linear model (interaction; continuous)
+
+```{r, echo=-c(1:3), fig.width=8,fig.height=4}
 # plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",
 #      # xlim=range(x2.sim),
 #      pch = 19, xlab = "Level of x2", ylab = "Marginal effect of x1")
@@ -2772,13 +2921,6 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
 # summary(lm.out)
 ```
 
-???
-See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
-
-[DECOMPOSING, PROBING, AND PLOTTING INTERACTIONS IN R](https://stats.oarc.ucla.edu/r/seminars/interactions-r/)
-[HOW CAN I EXPLAIN A CONTINUOUS BY CONTINUOUS INTERACTION? | R FAQ](https://stats.oarc.ucla.edu/r/faq/how-can-i-explain-a-continuous-by-continuous-interaction/)
-
-[how to interpret the interaction term in lm formula in R?](https://stats.stackexchange.com/questions/56784/how-to-interpret-the-interaction-term-in-lm-formula-in-r)
 
 ---
 ## GLM: Logistic
@@ -2786,6 +2928,10 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 - Recall that logistic is $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) 
 - We use maximum likelihood to fit a line to the data. It doesn't have 'residuals' and don't have an $R^2$
 - Remember that is order to make the domain $]-\infty,\infty[$ for the y values (instead of $[0,1]$), we need to transform the probability to the $log(odds)$. 
+
+---
+## GLM: Logistic
+
 - This simulation concerns a continuous variable. 
 
 <!-- Inspiration : https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525
@@ -2798,7 +2944,7 @@ x2 = rnorm(n = n, mean = 0, sd = 1)
 # Rescale the data
 x1z = scale(x1)
 x2z = scale(x2)
-z = 1 + 2*x1z + 3*x2 # this is the equation that gives the LOG odds. Note $p = odds/(1+odds)$
+z = 0 + 2*x1z + 3*x2 # this is the equation that gives the LOG odds. Note $p = odds/(1+odds)$
 pr = 1/(1+exp(-z)) # Transform to get the LOG(odds) # inverse-logit function; Note that 1/(1+exp(-x))== exp(x)/(1+exp(x)), same as pr2 = boot::inv.logit(z)
 # pr2 = exp(z)/(1+exp(z)) #  z being the log odds. Using the exp (exponential with natural number), you get the odds. The use the $p = odds/(1+odds)$ formula to get teh probability
 y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable (which is a special case of the binomial with size =1 )
@@ -3147,43 +3293,9 @@ $$y_{ij} = \beta_{0} + \beta_{1} x_{1ij} + \upsilon_{1j} x_{1ij} + \upsilon_{0ij
 - Just so that everything is extra clear
 $$\mathbf{Y} = \mathbf{X}\beta + \mathbf{Z \upsilon} + \epsilon$$
 
-One implementation of that could be ($\beta_1$ and $\beta_2$ could represent different treatments):
+One implementation of that could be ( $\beta_1$ and $\beta_2$ would represent different treatments):
 
-$$
-\left[\begin{align}{l}
-y_{11} \\
-y_{21} \\
-y_{12} \\
-y_{22}
-\end{array}\right] =
-\left[\begin{array}{ll}
-1 & 0 \\
-0 & 1 \\
-1 & 0 \\
-0 & 1
-\end{array}\right]
-\left[\begin{array}{l}
-\beta_{1} \\
-\beta_{2}
-\end{array}\right] + 
-\left[\begin{array}{ll}
-1 & 0 \\
-1 & 0 \\
-0 & 1 \\
-0 & 1
-\end{array}\right]
-\left[\begin{array}{l}
-\upsilon_{1} \\
-\upsilon_{2}
-\end{array}\right] + 
-\left[\begin{array}{l}
-\epsilon_{11} \\
-\epsilon_{21} \\
-\epsilon_{12} \\
-\epsilon_{22}
-\end{array}\right]
-$$
-
+$$\left[\begin{array}{l} y_{11} \\ y_{21} \\ y_{12} \\ y_{22} \end{array} \right] = \left[ \begin{array}{ll} 1 & 0 \\ 0 & 1 \\ 1 & 0 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} \beta_{1} \\ \beta_{2} \end{array}\right]+\left[\begin{array}{ll} 1 & 0 \\ 1 & 0 \\ 0 & 1 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} u_{1} \\ u_{2} \end{array}\right]+\left[\begin{array}{l} \epsilon_{11} \\ \epsilon_{21} \\ \epsilon_{12} \\ \epsilon_{22} \end{array}\right]$$
 
 ---
 ## LMMs simulation
@@ -3192,10 +3304,9 @@ $$
 
 For now, please see [this link](https://debruine.github.io/tutorials/sim-lmer.html). 
 
-```{r lmmmmmmmmms}
-library(lmerTest)
-n = 20
-sd.n = 2
+```{r lmmmmmmmmms, fig.width=8, fig.height=3}
+library(lmerTest, warn.conflicts = F)
+n = 20; sd.n = 2
 # Generate dataframe 
 x = 1:n
 values = rnorm(n = n,mean = 0,sd = sd.n)
@@ -3214,6 +3325,10 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 - You can also see [this guide to better understand Time series](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
 - There is a neat tutorial by [Daniel Pinedo called Time series analysis in R](https://rpubs.com/odenipinedo/time-series-analysis-in-R)
 
+```{r}
+??arima.sim
+```
+
 
 ---
 ## Spatial simulation
@@ -3221,22 +3336,20 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 - The examples here were taken from [this post on Stack Overflow](https://stackoverflow.com/questions/68761166/create-random-points-inside-a-shape-in-r)
 - See also the help for `st_sample()`. In the *Examples* section, there are some neat simulations of points in polygons. 
 
-.small[
+.tiny[
 
-```{r}
+```{r, fig.width=8, fig.height=3}
 library(sf); library(ggplot2)
-polygon = list(matrix(c(2, 1, 3, 3, 2, 5, 
-                        3, 7, 2, 9, 1, 7, 
-                        0, 5, 1, 3, 2, 1), ncol=2, byrow=T)) 
-# Create an sf polygon
-polygon = sf::st_polygon(polygon)
-# Sample 50 random points within the polygon
-points = sf::st_sample(polygon, size=50)
+polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4, 
+                        3, 4, 2.5, 5, 1, 4, 
+                        0, 5, 1, 3, 2, 2), ncol=2, byrow=T)) 
+polygon = sf::st_polygon(polygon) # Create an sf polygon
+points = sf::st_sample(polygon, size=50) # Sample 50 random points within the polygon
 
 # Plot using the ggplot geom_sf function.
 ggplot() + 
   geom_sf(aes(), data=polygon) + 
-  geom_sf(aes(), data=points) + theme_classic()
+  geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 ```
 ]
 
@@ -3310,6 +3423,10 @@ mapView(only.park,
 
 ---
 ## Spatial simulation
+
+- 5 random points were generated and added to the polygon
+- 2 points were added to that polygon with known location.
+- Uniformly distributed in the 100m buffer 
 
 ```{r, echo=FALSE}
 # Get random distance 
