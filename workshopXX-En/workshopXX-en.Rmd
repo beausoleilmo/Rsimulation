@@ -112,6 +112,9 @@ In this section, we will explore
 
 .right[— Byron J. T. Morgan 1984]
 
+???
+- and models are lke maps: they are an abstraction of the real worl. It is not the real world. No same person thinks a map is "right". The only map that is right is the 1:1 real map. But this map woulb not be interesting to get a sense of how the world is. 
+
 ---
 ## Simulations are games 
 
@@ -142,39 +145,37 @@ plot(density(rnorm(6)),
 ```
 
 ???
-
-What are simulations? Games! 
 - Like Étienne Low-Décarie said it "it eliminates the need for dice when playing Dungeons and Dragons"
 ```
 library(TeachingDemos)
-dice(rolls=3,
-     ndice=4,
-     sides=6,
-     plot.it=T,
+dice(rolls=3, ndice=4, sides=6, plot.it=T,
      load=rep(1, 6))
 ```
 
 Are these two distribution showing the same random process?
 - Yes! They are both normally distributed 
-  * the one on the left is the standard normal curve and 
-  * the one on the right is the density plot of 6 points randomly drawn from a normal distribution
+  * left: standard normal curve and 
+  * right: density plot of 6 pts randomly drawn from a normal distribution
 
-- "responsible about the conscious choices we need to make in order to get an answer.": 
-  * What I mean here is that when we design a simulation, we have to build in the assumptions of the models or the process we are trying to recreate. So we need to *decide* (or plan), what is going to make up the process. In the simulation, the parameters and variable are chosen by you, but they need to be plausible (from the literature, or maybe a collegue could help you on this with data that has already been collected).
+- "responsible about the conscious choices [...]": 
+  * What I mean here is that when we design a simulation, we have to build in the assumptions of the models or the process we are trying to recreate. 
+  * So we need to *decide* (or plan), what is going to make up the process. 
+  * In the simulation, the parameters and variable are chosen by you, but they need to be plausible (from the literature, or maybe a collegue could help you on this with data that has already been collected).
 - In a nutshell, you need to be *statistically aware* of what you are modeling and what you want to know. 
 
 ---
 ## Find patterns in random processes
 
 - Simulations are useful to test the properties of randomly generated data 
-- Since we designed the simulation, we know parameters of the processes that underlie it.
+- Since we design the simulation, we know parameters of the processes.
 ???
-You probably have had extensive course on how to use statistical models on certain types of data. 
-- This requires some data, which needs to be collected. 
-- But even if we have the data, we have an a posteriori understanding of the parameters that make up the phenomenon we are interested in. 
+You probably learned how to use statistical models on certain types of data. 
+- In order to answer your research question, you need to collect data. 
+- We then have an a posteriori understanding of the parameters that make up the phenomenon we are interested in. 
 - Simulations help you, 
   * bypass the requirement of data, AND
-  * Let you SET the exact parameters you think are relevant for the pattern you are trying to characterize. (perhaps based on the literature you read on the subject.)
+  * Let you SET the exact parameters you think are relevant for the pattern you want to characterize (perhaps based on the literature on a subject.)
+  * BUT! Do not simulate data to generate FAKE data. 
 --
 
 - It is then possible to test various methods or statistical analysis to 
@@ -182,16 +183,15 @@ You probably have had extensive course on how to use statistical models on certa
     2. do [power analysis](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) and dry run [an experimental design](https://low-decarie.github.io/Introduction-to-simulation-for-experimental-design-using-R/#/),
     3. learn how data is generated,
     4. prepare your analysis script before data collection (or preregistration),
-    5. understand and "see" what a mathematical model or equation predicts,
+    5. understand and "see" what a model or equation predicts,
     6. [give you teaching material](https://serc.carleton.edu/sp/library/datasim//examples.html), 
-    8. explore ideas, theories, hypothesis, the existence of a phenomenon or a slow process,
-    7. etc. 
+    7. explore ideas, theories, hypothesis, the existence of a phenomenon or a slow process,
+    8. etc. 
     
 ???
-- BUT! Do not simulate data to generate FAKE data. 
 - Forest management: could be long to get data: simulations can help to take faster decision
 - epidemics, road congestion
-See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
+- See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
 
 ---
 ## Find patterns in the natural world
@@ -203,18 +203,18 @@ See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press
 
 ???
 
-Everything that we measure (a phenotype, the number of eggs a bird lays, the survival of individuals in a population, etc.), is caused by factors that we, as scientists, try to make sense. 
+Everything that we measure (a phenotype, the number of eggs a bird lays, the survival of individuals in a population, etc.), is caused by factors that scientists, try to make sense. 
 - the question here is how these measures came to be? 
-  * What process governs the value that I have measured? 
+  * What process governs the value that we measured? 
   * In other words, 
      1. how is the data that I've measured distributed? and 
-     2. What causes my data to be deistributed that way?
+     2. What causes my data to be distributed that way?
 - See also `power.prop.test()`
 
 ---
 ## Probability distributions are crucial for simulations
 
-- When performing simulations, once has to keep in mind the
+- When performing simulations, one has to keep in mind the
   1. **type of distribution** underlying the data of interest
   2. **parameters** of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
   3. **statistical model** making the relationship between the response variable and the explanatory variable. 
@@ -252,8 +252,10 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 ]
 
 ???
+- Before the meat of the presentation, I want to give you this tip. 
 - Here we present a 'header' that you could use at the beginning of EACH of you script
 - Believe us, it makes it much easier when you go back to an old script if you have at least this information in the header. 
+
 
 ---
 ## Tips when performing simulation
@@ -288,8 +290,8 @@ plot(function.name(1:10)+rnorm(10))
 
 ???
 - Also don't forget to add sections in your script. 
-  - On macOS press Alt + Shift + K to get the shortcut list of RStudio. 
-  - See the "Cmd + Shift + R" to automatically add a section that will be visible in the document outline. 
+  - On macOS press `Alt + Shift + K` to get the shortcut list of RStudio. 
+  - See the `Cmd + Shift + R` to automatically add a section that will be visible in the document outline. 
 
 - Time to run a simulation is important: knowing that some functions are faster in R can make a difference for a slow simulation with a fast one.
 
@@ -300,18 +302,20 @@ class: inverse, center, middle
 # When could a simulation be useful? 
 
 ???
-You might be wondering: "OK, I somewhat understand how learning to perform simulations in R might be useful to me. But WHEN should I use simulations in my work?"
+You might be wondering: 
+- "OK, I somewhat understand how learning to perform simulations in R might be useful to me. 
+- But WHEN should I use simulations in my work?"
 
 ---
 ## ALL THE TIME!!!! 
 
-Whether you want to: 
-
+- Simulations can help you at all stages of your research from planning to publishing and beyond! 
+- Whether you want to: 
 1. Learn about science in general
   - learn how a mechanism work (i.e., genetic drift, natural selection), 
 
 2. Design a particular study 
-  - test a statistical method or a hypothesis for research question you have, 
+  - test a statistical method or a research question you have, 
   - play with data before your field work, 
   - simulate random point on a map to sample it, 
 
@@ -320,10 +324,9 @@ Whether you want to:
   
 4. etc. 
 
-Simulations can help you at all stages of your research from planning to publishing and beyond! 
 
 ???
-- The surprising answer is that it can be used at all stages of research. 
+- The surprising answer is that it can be **used at all stages of research**. 
 - Here is a short list of elements for when you could be using it
 
 ---
@@ -433,6 +436,17 @@ for (l in n.id.pop) {
 
 ```
 
+???
+- Here is an example of simulation that was made in R to show genetic drift without natural selection. 
+- The same script, or function, can be used to generate patterns like these. 
+- Each plot contains 5 populations that started with an allele which had a frequency of 50%. 
+- You can see now see with the simulation that 
+  * No *particular* allele will be fixated (unbiased)
+  * the number of individuals seems an important factor in the fixation of alleles. The fluctuations in allele fq are largers in smaller pop. 
+  * some genetic variation can be lost
+  * makes populations different, even if the pop are identical at the beginning. 
+  * Fixation of an allele without natural selection 
+
 ---
 ## Quick (?) example: Natural selection 
 
@@ -498,13 +512,17 @@ q.fun(-70:70,factor = 1,xlab = "(Disruptive)",lwd = 5,cex.text = 2,
 
 
 ???
-
+- In order to build a natural selection simulator in R, we need a couple of tools. 
 
 #################################
 ---
 class: inverse, center, middle
 
 # Let's build some simulation intuitions 
+
+???
+- In this section, I want to explore a graph and try to extract all of its juice
+- NOTE: The TACIT idea here is to find the underlying DISTRIBUTIONS or HOW THE RANDOM VARIABLE WAS GENERATED.
 
 ---
 ## What do you see here? 
@@ -625,6 +643,8 @@ p.2
 ```
 ]
 
+???
+Here are 2 plots with an independent variable X and a response variable y. 
 --
 
 Find correlation and covariance
@@ -641,7 +661,6 @@ What can be seen?
   - Independence? Don't know
   - Normal residuals (not shown)
   - Equality of variance (see residuals)
-- Distribution of x and y to better understand what could have PRODUCED these variables. 
 
 ---
 ## What do you see here? 
@@ -717,7 +736,6 @@ What can be seen?
   - Independence? Don't know
   - Normal residuals (not shown)
   - Equality of variance (see residuals)
-- Distribution of x and y to better understand what could have PRODUCED these variables. 
 
 ---
 ## What do you see here? 
@@ -740,8 +758,6 @@ p.marg2
 What can be seen? 
 - Distribution of x and y to better understand what could have PRODUCED these variables. 
 
-
-???
 
 #################################
 ---
@@ -775,8 +791,8 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 ```
 
 ???
-- To go deeper: The actual pseudorandom number generator (PRNG) which is default in R is called the Mersenne Twister (see ??set.seed) https://en.wikipedia.org/wiki/Mersenne_Twister
-- set.seed(seed, kind = "Mersenne-Twister")
+- To go deeper: The actual pseudorandom number generator (PRNG) which is default in R is called the Mersenne Twister (see `??set.seed`) https://en.wikipedia.org/wiki/Mersenne_Twister
+- `set.seed(seed, kind = "Mersenne-Twister")`
 
 ---
 ## Functions useful in simulations (sample)
@@ -803,6 +819,9 @@ set.seed(3) # Set the RNG
 sample(x = LETTERS, size = 5, replace = FALSE) 
 sample(x = as.factor(month.abb), size = 5, replace = FALSE) 
 ```
+
+???
+- Very versatile 
 
 ---
 ## Functions useful in simulations (sample)
@@ -843,6 +862,12 @@ plot(y.s~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permuta
 ```
 ]
 
+???
+- for permutations 
+  * 1st plot: not permutated
+  * 2nd plot: x permutated
+  * 3rd plot: x and y permutated
+  
 <!-- --- -->
 <!-- ## Functions useful in simulations (sample) -->
 <!-- - Keep in mind that permutations are valid if the null hypothesis tested is that there is *no association* between the variables studied.
@@ -865,16 +890,17 @@ head(datae.seq, 4); tail(datae.seq, 4)
 # Get only 5 elements of the generated sequence 
 sample(datae.seq, 5)
 ```
-
+???
+- for dates and time as well. 
 
 ---
 ## Functions useful in simulations (sample)
 
 - You can also generate a die and randomly toss it. 
-- But the interesting part is that you can change the probability of landing on one face more than the other. 
+- You can change the probability of landing on one face more than the other. 
 
 .small[
-```{r, echo=-1, fig.width=8, fig.height=4}
+```{r, echo=-1, fig.width=8, fig.height=3.5}
 par(mar=c(4,4,0.1,0.1))
 set.seed(50)
 p_dice = c(1,1,1,1,1,5) # Here we have twice the change of landing on 6
@@ -886,6 +912,9 @@ die_results <- sample(x = 1:6, # or seq(from = 1, to=6, by=1)
 barplot(table(die_results)) # table(die_results)/nb.tosses
 ```
 ]
+
+???
+- simulate a die and change the probability of landing on a particular face 
 
 
 ---
@@ -906,6 +935,11 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum len
 
 ```
 
+???
+- It is useful to make a vector with multiple copies of some values
+- rather than doing it by hand, you can use `rep()`
+
+
 ---
 ## Functions useful in simulations (gl)
 
@@ -923,12 +957,14 @@ gl(n = 2, k = 1, length = 20)
 gl(n = 2, k = 2, length = 20)
 ```
 
+???
+- rather than using rep and then factors, you can use the Generate Factor Levels `gl()` function
 
 ---
 ## Functions useful in simulations
 
-- In some cases, you want to replicate a process, for example when you want to generate multiple populations at once with the same parameters
-- The `replicate()` can be used instead of a for loop and make simulations faster (I assume). 
+- In some cases, you want to replicate data, for example when you want to generate multiple populations at once with the same parameters
+- `replicate()` can be used instead of a for loop and make simulations faster. 
 
 ```{r data_replicate}
 set.seed(1234)
@@ -947,6 +983,10 @@ data.replicated[[1]]
 data.replicated[[2]]
 ```
 ]
+
+???
+- Not entirely sure of that one. 
+- In this case, it generates 2 simulated (different) dataframes which can be used in a simulation to get some replication all at once. I think this comes handy with the `apply`, `do.call`, etc. 
 
 ---
 ## Challenge 1 ![:cube]()
@@ -979,19 +1019,27 @@ As you can see in the last example, there are 2 "6"s, since each time a random n
 set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 ```
 
+???
+- I added a bonus here *1000 draws with replacement from 0 or 1*
+
+
 ---
 ## Challenge 2 ![:cube]()
 
-Create a data frame with variable x ranging from 1 to 10, $y = 2+ 3 * x$ and a grouping factor (gr) with one group with the 5 smallest values and another group with the 5 largest values. 
+Create a data frame with variable 
+- x ranging from 1 to 10, 
+- $y = 2+ 3 * x$ and 
+- a grouping factor (gr) with one group with the 5 smallest values and another group with the 5 largest values. 
 
 ---
 ## Challenge 2 - Solution ![:cube]()
-```{r linear_no_error, fig.width=8, fig.height=5}
+```{r linear_no_error, echo=-1, fig.width=8, fig.height=5}
+par(mar=c(4,4,.5,.5), cex = 1.3)
 x = 1:10
 y = 2 + 3 * x
 gr = rep(letters[1:2],each = 5)
 linear.df = data.frame(x,y,gr)
-plot(y~x, col = as.factor(gr), data = linear.df, pch = 19)
+plot(y~x, col = as.factor(gr), data = linear.df, pch = 19, cex = 1.5)
 ```
 
 
@@ -1003,6 +1051,10 @@ class: inverse, center, middle
 
 # Let's explore what underlies some statistical processes
 
+???
+- This is where the statistical background is important. 
+- we will revise some concepts to make sure we can continue on programming simulations
+
 ---
 ## Probability and odds 
 
@@ -1013,8 +1065,11 @@ class: inverse, center, middle
 
 - probability ranges between 0 and 1, but odds range from 0 to $\infty$. 
 
-```{r, echo=FALSE, fig.width=8.7,fig.height=2}
-par(mar = c(0,0,0,0), mfrow=c(1,2),cex = 1.2)
+.pull-left[
+```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+par(mar = c(0,0,0,0), 
+    # mfrow=c(1,2),
+    cex = 1.2)
 # Probability
 plot(0, type ="n", xlim = c(0,1), axes = F,ylab = "", xlab = "")
 segments(0,0,1,0)
@@ -1029,6 +1084,14 @@ text(seqp,y = -.25,labels = seqp)
 text(.5,y = ytext,labels = c("Probability"))
 arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "gray10")
 
+```
+]
+
+.pull.right[
+```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+par(mar = c(0,0,0,0), 
+    # mfrow=c(1,2),
+    cex = 1.2)
 # Odds
 plot(0, type ="n", xlim = c(0,10), axes = F,ylab = "", xlab = "")
 segments(0,0,10,0)
@@ -1043,6 +1106,8 @@ text((10+1)/2,y = ytext,labels = c("Odds \nwinning"))
 arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
 arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 ```
+]
+
 ???
 - See how log(1/6) = -1.791759 and log(6/1) = 1.791759
 - Seriously, check this post: https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4. It is amazing! 
@@ -1086,12 +1151,11 @@ points(0,.3, pch =19)
 raw.num = c(1,2,8) # numbers NOT on the log scale (simulate a DOUBLING process like qPCR)
 mean(raw.num) # Arithmetic average (which would be WRONG)
 mean.log = mean(log(raw.num)/log(2)) # Taking the mean of the log (this is the geometric mean)
-mean.log # This is the mean that we would find on the log scale for the log(raw.num)
+mean.log # Mean, on the log scale, for the raw numbers transformed: log(raw.num)
 2^mean.log
 # gm = exp(mean(log(raw.num))) # calculating the geometric mean 
 gm = 2^(mean(log(raw.num)/log(2))) # Here we calculate the geometric mean with a base 2
-
-# Now compare the geometric mean of the raw numbers with the mean of the log which was transformed baed into the raw number scale 
+# Now compare the geometric mean of the raw numbers with the mean of the log, transformed back into the raw number scale 
 gm
 2^mean.log
 ```
@@ -1352,7 +1416,7 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | Exponential	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
 | F	           | `pf`	     | `qf`	| `df`	| `rf` | |
 | Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` | |
-| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | |
+| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | $f(x)=p(1-p)^{x-1}$ |
 | Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` ||
 | Logistic	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` | |
 | Log Normal	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` | |
@@ -1380,7 +1444,7 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
 | <span style="background-color: #FFFF00">**F**</span>	           | `pf`	     | `qf`	| `df`	| `rf` ||
 | Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` ||
-| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` ||
+| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` |$f(x)=p(1-p)^{x-1}$|
 | Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` ||
 | <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` ||
 | <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` ||
@@ -1488,13 +1552,14 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 ]
 
 
+
 .tiny[
 | Distribution | Definition | Type of data | Example |
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
 | Poisson	     | probability of a number of cases happening in a defined range of time or space given a constant rate | discrete; | ticks of a radiation counter, DNA mutation, colonization of animals on remote islands (something per unit time or space for example) |
 | Logistic	   | probability of an individual to be in one class or another | continuous; | alive or not, yes or no, diseased or not, etc. |
-| Normal	     | probability function which informs how values are distributed | continuous; | height of individuals, beak length, shoe size, time required to run a kilometer, the data shows a 'bell-shaped' curve |
+| Normal	     | probability function which informs how values are distributed, centered on a mean, being symmetric, and having a specific variance | continuous; | height of individuals, beak length, shoe size, time required to run a kilometer, the data shows a 'bell-shaped' curve |
 | Uniform	     | probability of all outcomes are equal | continuous; | angle between 0-360 | 
 | Exponential	 | | continuous;| Used in maximum likelihood, Generating genealogies, continuous rate |
 <!-- | Student t	   |            | continuous; | | -->
@@ -1502,6 +1567,8 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 <!-- | Beta	       |            |              | -->
 <!-- | Chi-Square	 |            |              | -->
 <!-- | F	           |            |              | -->
+
+- see [Probability Cheat Sheet](https://web.cs.elte.hu/~mesti/valszam/kepletek) for more details
 ]
 
 ---
@@ -1511,7 +1578,7 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 
 - Some distribution are similar but don't show the same process 
 
-```{r similar_plot_from_different_distributions, echo=FALSE}
+```{r similar_plot_from_different_distributions, echo=FALSE, fig.width=7,fig.height=3}
 par(mfrow = c(1,2))
 set.seed(1234)
 hist(rbinom(10000, 10, 0.5), #breaks = seq(-0.5, 10.5, by = 1), 
