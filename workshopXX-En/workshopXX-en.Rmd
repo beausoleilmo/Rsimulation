@@ -1444,7 +1444,7 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
 | <span style="background-color: #FFFF00">**F**</span>	           | `pf`	     | `qf`	| `df`	| `rf` ||
 | Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` ||
-| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` |$f(x)=p(1-p)^{x-1}$|
+| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | $f(x)=p(1-p)^{x-1}$ |
 | Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` ||
 | <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` ||
 | <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` ||
@@ -2500,8 +2500,7 @@ sum.rdm.var = apply(do.call(cbind, clt),1,sum) # mean
 mean.rdmv = mean(sum.rdm.var); sd.rdmv = sd(sum.rdm.var) #sd
 hist(sum.rdm.var, main = paste("Histogram of",i,"variables"), xlab = "x")
 # If you dived by the number of dice that were rolled, you can see that it actually tends towards the mean or rolling 1 die a lot of time: 3.5! 
-# hist(sum.rdm.var/i, main = paste("Histogram of",i,"variables"), xlab = "x")
-# underlying distribution 
+# hist(sum.rdm.var/i, main = paste("Histogram of",i,"variables"), xlab = "x") underlying distribution 
 curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
       from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
 ```
@@ -2564,9 +2563,10 @@ class: inverse, center, middle
 ---
 ## Power analysis (proportions)
 
-- The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains very clearly how to perform power analysis. 
-- Here is an example for tossing a coin, which we believe has a 75% chance of landing on 'heads'.
+- The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
+- Example for tossing a coin, which we believe has a 75% chance of landing on 'heads':
 
+.pull-left[
 .tiny[
 ```{r}
 p1 = .75 # Proportion to test 
@@ -2585,6 +2585,13 @@ coin.pip = rbinom(n, size = 1, prob = p1)
 p.table = table(coin.pip)[c(2,1)]
 ptest = prop.test(p.table, alternative = "greater")
 ptest
+```
+]
+]
+
+.pull-right[
+```{r, echo=-1, fig.width=7,fig.height=4}
+par(mar=c(4,4,0.1,0.1))
 curve(dchisq(x, df = ptest$parameter), 
       xlim = c(0, ceiling(max(ptest$statistic))))
 abline(v = ptest$statistic, lty = 3)
@@ -2718,9 +2725,11 @@ abline(lm.out)
 ```
 ]
 
+.small[
 ```{r}
 summary(lm.out)
 ```
+]
 
 ---
 ## GLM: Linear model
