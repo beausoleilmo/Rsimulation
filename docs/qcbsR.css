@@ -199,15 +199,19 @@ a:hover {
 }
 
 .small {
-  font-size: .9em;
+  font-size: .9rem;
+}
+
+.verysmall {
+  font-size: .8rem;
 }
 
 .xsmall {
-  font-size: .75em;
+  font-size: .75rem;
 }
 
 .tiny {
-  font-size: .6em;
+  font-size: .6rem;
   font-weight: 200;
 }
 
