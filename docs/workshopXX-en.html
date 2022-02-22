@@ -23,8 +23,8 @@
     <script src="assets/clipboard-0.0.1/setClipboardText.js"></script>
     <link href="assets/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
     <link href="assets/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/academicons-1.8.1/css/academicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
     <link rel="stylesheet" href="qcbsR.css" type="text/css" />
     <link rel="stylesheet" href="qcbsR-fonts.css" type="text/css" />
   </head>
@@ -41,7 +41,7 @@ class: center, middle, inverse, title-slide
 
 
 
-## Outline
+# Outline
 
 1. Why are simulations relevant? 
 2. What you need to know before doing simulations? 
@@ -58,7 +58,7 @@ This workshop was designed to give the tools for attendees to perform simulation
 - but also to be able to simulate a situation and verify how a parameter change the outcome of a model. 
 
 ---
-## Prerequisites
+# Prerequisites
 &lt;!-- I will be using base plot for this workshop: this is because it is MUCH EASIER to get quick BEAUTIFUL plots and show stuff --&gt;
 For this workshop it is useful to have a solid understanding of 
 
@@ -75,7 +75,7 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 This workshop builds on the previous workshops. But don't worry, we are going to refresh some of the concepts here. 
 
 ---
-## Disclaimer
+# Disclaimer
 
 - I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
 - In addition, this is a work in progress. Any input you have is more than welcome. 
@@ -85,7 +85,7 @@ This workshop builds on the previous workshops. But don't worry, we are going to
 Might not apply to you
 
 ---
-## Learning objectives
+# Learning objectives
 
 1. Develop intuition and skills to perform simulations
 2. Explore useful functions when designing simulations 
@@ -115,8 +115,10 @@ In this section, we will explore
 - See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
 
 ---
-## Defining simulations
+# Defining simulations
 
+&lt;br&gt;
+&lt;br&gt;
 &lt;br&gt;
 &lt;br&gt;
 
@@ -127,10 +129,10 @@ In this section, we will explore
 .right[— Byron J. T. Morgan 1984]
 
 ???
-- and models are lke maps: they are an abstraction of the real worl. It is not the real world. No same person thinks a map is "right". The only map that is right is the 1:1 real map. But this map woulb not be interesting to get a sense of how the world is. 
+- and models are like maps: they are an abstraction of the real worl. It is not the real world. No same person thinks a map is "right". The only map that is right is the 1:1 real map. But this map woulb not be interesting to get a sense of how the world is. 
 
 ---
-## Simulations are games 
+# Simulations are games 
 
 - Simulations are games that we make up the rules
 - It equips us with a very powerful tool to create 'alternative worlds'. 
@@ -161,7 +163,7 @@ Are these two distribution showing the same random process?
 - In a nutshell, you need to be *statistically aware* of what you are modeling and what you want to know. 
 
 ---
-## Find patterns in random processes
+# Find patterns in random processes
 
 - Simulations are useful to test the properties of randomly generated data 
 - Since we design the simulation, we know parameters of the processes.
@@ -191,7 +193,7 @@ You probably learned how to use statistical models on certain types of data.
 - See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
 
 ---
-## Find patterns in the natural world
+# Find patterns in the natural world
 
 - We might start with a research question or simply want to understand a process.
 - The idea here is that perhaps we are interested in understanding how a certain process was generated (how `\(X\)` influences `\(Y\)`, which could be written as `\(X \xrightarrow{Affects} Y\)` or `\(Y \sim X\)`). 
@@ -209,7 +211,7 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 - See also `power.prop.test()`
 
 ---
-## Probability distributions are crucial for simulations
+# Probability distributions are crucial for simulations
 
 - When performing simulations, one has to keep in mind the
   1. **type of distribution** underlying the data of interest
@@ -223,7 +225,7 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 - Greek letters are often used to denote these parameters 
 
 ---
-## Tips when performing simulation
+# Tips when performing simulation
 
 .alert[Description section]. Add a 'Description' section to all your simulation scripts to introduce what the script is about. 
 
@@ -255,7 +257,7 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 
 
 ---
-## Tips when performing simulation
+# Tips when performing simulation
 
 .alert[Comments]. Be extra generous when commenting your code to describe as precisely as possible for the information that is not variable. 
 
@@ -264,19 +266,19 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 
 ```r
 # Description  ------------------------------------------------------------
-## This is the description section as previously presented 
+# This is the description section as previously presented 
 
 # Libraries ---------------------------------------------------------------
-## Here load the libraries used in the script 
+# Here load the libraries used in the script 
 library(ggplot2)
 
 # Functions ---------------------------------------------------------------
-## Add and describe the functions used in the script 
+# Add and describe the functions used in the script 
 ## Add more information
 function.name = function(var){tmp=2+var; return(tmp)}
 
 # Plots -------------------------------------------------------------------
-## Plotting the data simulated 
+# Plotting the data simulated 
 ## Add more information
 plot(function.name(1:10)+rnorm(10))
 ```
@@ -305,7 +307,7 @@ You might be wondering:
 - But WHEN should I use simulations in my work?"
 
 ---
-## ALL THE TIME!!!! 
+# ALL THE TIME!!!! 
 
 - Simulations can help you at all stages of your research from planning to publishing and beyond! 
 - Whether you want to: 
@@ -328,7 +330,7 @@ You might be wondering:
 - Here is a short list of elements for when you could be using it
 
 ---
-## Quick example: Genetic drift
+# Quick example: Genetic drift
 
 - Here we have 4 plots showing genetic drift with the same simulation. 
 - The only difference is the number of individuals in each population
@@ -348,9 +350,11 @@ You might be wondering:
   * Fixation of an allele without natural selection 
 
 ---
-## Quick (?) example: Natural selection 
+# Quick (?) example: Natural selection 
 
 - How would you model natural selection?
+???
+If natural selection is the non random transmission of genetic information in living organisms in a particular environment, how would you simulate that? 
 --
 
 - What is the type of selection? 
@@ -379,7 +383,7 @@ class: inverse, center, middle
 - NOTE: The TACIT idea here is to find the underlying DISTRIBUTIONS or HOW THE RANDOM VARIABLE WAS GENERATED.
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -412,7 +416,7 @@ What can be seen?
   - Equality of variance (see residuals)
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -429,7 +433,7 @@ What can be seen?
 - mean (dashed lines), sd (the shades)
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -447,7 +451,7 @@ What can be seen?
 
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -470,7 +474,7 @@ What can be seen?
   - Equality of variance (see residuals)
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -497,7 +501,7 @@ class: inverse, center, middle
 We'll explore the functions that you can use in R to help you develop simulations and play with random number generators. 
 
 ---
-## Functions useful in simulations (RNG)
+# Functions useful in simulations (RNG)
 
 - When performing simulations, you will have to play with (pseudo-)randomly generated numbers from a random number generator (RNG). 
 - This is a challenge if we want to replicate the analysis we are performing. 
@@ -526,7 +530,7 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 - `set.seed(seed, kind = "Mersenne-Twister")`
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 - The function `sample()` randomly picks a value from a vector (i.e., random sampling).
 
@@ -559,7 +563,7 @@ sample(x = as.factor(month.abb), size = 5, replace = FALSE)
 - Very versatile 
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 &lt;!-- SEE http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf --&gt;
 
@@ -613,7 +617,7 @@ http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf
 --&gt;
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 - You can also simulate random dates in a time interval. 
 
@@ -636,7 +640,7 @@ sample(datae.seq, 5)
 - for dates and time as well. 
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 - You can also generate a die and randomly toss it. 
 - You can change the probability of landing on one face more than the other. 
@@ -662,7 +666,7 @@ barplot(table(die_results)) # table(die_results)/nb.tosses
 
 
 ---
-## Functions useful in simulations (rep)
+# Functions useful in simulations (rep)
 
 - You will not only see numerical values in simulations. Characters (or factors) can be generated in R easily. 
 - The `rep()` function can help you with this
@@ -692,7 +696,7 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum len
 
 
 ---
-## Functions useful in simulations (gl)
+# Functions useful in simulations (gl)
 
 - There are functions in `R` that can help you generate factor levels (with the `gl` function). 
 
@@ -720,7 +724,7 @@ gl(n = 2, k = 2, length = 20)
 - rather than using rep and then factors, you can use the Generate Factor Levels `gl()` function
 
 ---
-## Functions useful in simulations
+# Functions useful in simulations (replicate)
 
 - In some cases, you want to replicate data, for example when you want to generate multiple populations at once with the same parameters
 - `replicate()` can be used instead of a for loop and make simulations faster. 
@@ -728,8 +732,9 @@ gl(n = 2, k = 2, length = 20)
 
 ```r
 set.seed(1234)
-data.replicated = replicate(n = 2,expr = data.frame(gr = rep(LETTERS[1:3],each = 2),
-                                                    y = rnorm(6)), 
+data.replicated = replicate(n = 2,
+                            expr = data.frame(gr = rep(LETTERS[1:3], each = 2),
+                                              y = rnorm(6)), 
                             simplify = FALSE)
 ```
 .pull-left[
@@ -761,11 +766,12 @@ data.replicated[[2]]
 ]
 
 ???
-- Not entirely sure of that one. 
+- This function allows you to call a function `n` number of times and to record the output. 
 - In this case, it generates 2 simulated (different) dataframes which can be used in a simulation to get some replication all at once. I think this comes handy with the `apply`, `do.call`, etc. 
+- Often, we are interested in *the behaviour of a simulation in the long run*. This means that we want to not only look at 1 simulated event, but at some *'performance'* estimation (maybe showing the spread of a parameter that could be distributed based on the sample size)
 
 ---
-## Challenge 1 ![:cube]()
+# Challenge 1 ![:cube]()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement. 
 
@@ -778,7 +784,7 @@ sample()
 
 
 ---
-## Challenge 1 - Solution ![:cube]()
+# Challenge 1 - Solution ![:cube]()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement.
 
@@ -808,7 +814,7 @@ set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 
 
 ---
-## Challenge 2 ![:cube]()
+# Challenge 2 ![:cube]()
 
 Create a data frame with variable 
 - x ranging from 1 to 10, 
@@ -816,7 +822,7 @@ Create a data frame with variable
 - a grouping factor (gr) with one group with the 5 smallest values and another group with the 5 largest values. 
 
 ---
-## Challenge 2 - Solution ![:cube]()
+# Challenge 2 - Solution ![:cube]()
 
 ```r
 x = 1:10
@@ -826,7 +832,7 @@ linear.df = data.frame(x,y,gr)
 plot(y~x, col = as.factor(gr), data = linear.df, pch = 19, cex = 1.5)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/linear_no_error-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/linear_no_error-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 
 ???
@@ -842,11 +848,14 @@ class: inverse, center, middle
 - we will revise some concepts to make sure we can continue on programming simulations
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - When describing the "chance" or "likelihood" of an outcome, you can use a probability or odds
 - They are related: odds of an event is `\(odds = p/(1-p)\)`  or `\(odds = \frac{\text{probability of success}}{\text{probability of failure}}\)`
 - Why bother using probability or odds? 
+???
+- Let's explore the basic concepts like probability and odds.  
+- This is important when you start simulating data, but also understand how to interpret some of the equations that we'll see later when we want to develop simulations for certain models  
 --
 
 - probability ranges between 0 and 1, but odds range from 0 to `\(\infty\)`. 
@@ -860,13 +869,17 @@ class: inverse, center, middle
 ]
 
 ???
-- See how log(1/6) = -1.791759 and log(6/1) = 1.791759
-- Seriously, check this post: https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4. It is amazing! 
-- And check this video for odds: https://www.youtube.com/watch?v=ARfXDSkQf1Y&amp;ab_channel=StatQuestwithJoshStarmer
+- Log odds is convenient as it makes the odds of losing and winning symmetric 
+  - See: 
+  - `log(1/6) =-1.7918` and 
+  - `log(6/1) = 1.7918`
+- References 
+  - Seriously, check this post: [Probability vs Odds](https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4). It is amazing! 
+  - And check this video for odds: [Odds and Log(Odds), Clearly Explained!!!](https://www.youtube.com/watch?v=ARfXDSkQf1Y&amp;ab_channel=StatQuestwithJoshStarmer)
 
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - Log (natural log, or ln) odds can range from `\(-\infty\)` to `\(\infty\)` and makes the odds symmetric. It is calculated as `\(ln (odds) = ln(p/(1-p))\)` (i.e., the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
@@ -876,8 +889,8 @@ class: inverse, center, middle
 
 &lt;!-- .alert[Careful!] This is not the same as saying `\(success/(success + failure)\)`. This last calculation is the probability --&gt;
 ???
-- And this video for odds ratio: [Odds Ratios and Log(Odds Ratios), Clearly Explained!!!](https://www.youtube.com/watch?v=8nm0G-1uJzA&amp;ab_channel=StatQuestwithJoshStarmer)
-  - The odds ratio and the log odds ratio is a bit like the R-squared: it indicates a relationship between 2 things (it's an effect size, or how one is a good predictor of the other (if the value is large))
+- The odds ratio and the log odds ratio is a bit like the R-squared: 
+  * it indicates a relationship between 2 things (it's an effect size, or how one is a good predictor of the other (if the value is large))
 
 - Also, the Geometric mean (which is the mean of logs) is BETTER when using log-based data (qPCR, where the data doubles each round) and is less sensitive to outliers (which the arithmetic mean is actually VERY sensitive)
 
@@ -902,16 +915,16 @@ gm
 
 
 ---
-## Probability and odds
+# Probability and odds
 
 - Example: a horse runs 100 races and wins 20 of them.  What is the *odds* of winning?
 - `\(odds = p/(1-p)\)`  or `\(odds = \frac{\text{probability of success}}{\text{probability of failure}}\)`
 
 
 ```r
-totl.nb.events = 100; successes = 20
-odds.favor = (successes)/(totl.nb.events-successes) # Odds in favor of the event (here 1 in 4)
-odds.against = (totl.nb.events-successes)/(successes) # Odds in against of the event (here 4 to 1)
+tot.nb.ev = 100; success = 20
+odds.favor = (success)/(tot.nb.ev-success) # Odds in favor of event ( 1 in 4)
+odds.agnst = (tot.nb.ev-success)/(success) # Odds against the event (here 4 to 1)
 ```
 
 &lt;!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example --&gt;
@@ -926,59 +939,68 @@ Conversely, the horse  odds of failing is 4:1 (read 4 *to* 1).
 The horse is 4 times more *likely* to fail than to succeed in a race.
 
 ???
-- If the odds = 1: 
-  - it means that we are as likely to win, as we are likely to lose 
+- If the `odds = 1` or `log(odds)= 0`: 
+  * it means that we are as likely to win, as we are likely to lose 
 
-- Another example: 
-  - for a 6-sided die, 
-    * the odds of rolling a 6 is 1:5 (one TO 5)
-    * the odds of rolling a 5 OR a 6 is 2:4 (2 TO 4)
+- Another example: for a 6-sided die, 
+  * the odds of rolling a 6 is 1:5 (one TO 5)
+  * the odds of rolling a 5 OR a 6 is 2:4 (2 TO 4)
 
 - in French, Odds is the "cote" (https://fr.wikipedia.org/wiki/Cote_(probabilités))
 - Also, be careful. Probability and likelihood IS NOT THE SAME
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - Example: a horse runs 100 races and wins 20 of them. What is the *probability* of winning?
 - `\(p = odds/(1+odds)\)`
 
 
 ```r
-totl.nb.events = 100; successes = 20
-probability.favor = (successes)/(totl.nb.events) # probability of the event (here 20%)
+tot.nb.ev = 100; success = 20
+probability.favor = (success)/(tot.nb.ev) # probability of event (here 20%)
 probability.favor # fractions(probability.favor)
 # [1] 0.2
 ```
-So the horse *wins* 0.2 or 20% of the times. 
+- So the horse *wins* 1/5 or 20% of the times. 
+- The probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particular outcome divided by the total number of results from the event. 
+???
+- Probability is the number of a *certain event* divided by the total number of events. 
+- but you can convert from odds to probability. 
 --
 
 - You can see that `\(odds = p/(1-p) = (.2)/(1-.2) = .2/.8 = 1/4\)`
---
-
-- So the probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particular outcome divided by the total number of results from the event. 
 
 ---
-## Probability and odds 
+# Probability and odds 
+
+- Let's code the difference between probability, odds and log odds. 
 
 
 ```r
+# Get some LOG ODDS numbers 
 log_odds = seq(from = -5, to = 5, by = .25)
+# Transformed into odds 
 odds = exp(log_odds)
+# Make 
 inv.logit &lt;- function(x) {exp(x)/(1 + exp(x))}
-p = inv.logit(log_odds)
+p = inv.logit(log_odds) # This is the same as 
 p2 = odds/(1 + odds)
 # Probability of failure (1-p)
 q = 1-p
-# store log_odds and y in data frame for use with ggplot
+
+# Store log_odds other data to plot 
 d = data.frame(log_odds, odds, p, p2, q) 
-head(d, 4)
-#   log_odds        odds           p          p2         q
-# 1    -5.00 0.006737947 0.006692851 0.006692851 0.9933071
-# 2    -4.75 0.008651695 0.008577485 0.008577485 0.9914225
-# 3    -4.50 0.011108997 0.010986943 0.010986943 0.9890131
-# 4    -4.25 0.014264234 0.014063627 0.014063627 0.9859364
+
+head(signif(d,2), 3)
+#   log_odds   odds      p     p2    q
+# 1     -5.0 0.0067 0.0067 0.0067 0.99
+# 2     -4.8 0.0087 0.0086 0.0086 0.99
+# 3     -4.5 0.0110 0.0110 0.0110 0.99
 ```
+
+???
+- We first generate a series of number in LOG odds that we will transform in the probability scale (between 0 and 1) 
 
 &lt;!-- Reference 
 https://www.montana.edu/rotella/documents/502/Prob_odds_log-odds.pdf 
@@ -989,22 +1011,27 @@ https://www.statisticshowto.com/probability-and-statistics/probability-main-inde
 https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_Confidence_Intervals10.html --&gt;
 
 ---
-## Probability and odds 
+# Probability and odds 
 
-.tiny[
+- The three plots show the contrast between probability, odds and log odds.
+
 
 ```r
-par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.2)
-plot(d$odds~d$log_odds, type = "l", ylab = "Odds", xlab = "Ln odds", lwd = 3) ; abline(v = 0, lty = 3)
-plot(d$p~d$odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
-plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
+o.lo = d$odds~d$log_odds
+p.o = d$p~d$odds
+p.lo = d$p~d$log_odds
+plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
+plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
+plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/odds_prob_plot-1.png" width="864" style="display: block; margin: auto;" /&gt;
-]
+
+???
+- You can recognize from the third graph, the familiar shape of a logistic regression. This is purely due to the transformation of space from [0,1] to ]-infinity, infinity[. 
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - What is the difference between a probability and a p-value?
 --
@@ -1020,17 +1047,23 @@ plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline
   - In other words, we want to know if the event we measured is statistically special or, as you might have heard it, statistically significant!
 
 ???
+- Let's just spend some time explaining the DIFFERENCE between a probability and a *p-value*. 
 - See [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&amp;ab_channel=StatQuestwithJoshStarmer), [How to calculate p-values ](https://www.youtube.com/watch?v=JQc3yx0-Q9E&amp;t=0s&amp;ab_channel=StatQuestwithJoshStarmer) and [p-values: What they are and how to interpret them](https://www.youtube.com/watch?v=vemZtEM63GY&amp;ab_channel=StatQuestwithJoshStarmer)
 
 ---
-## Why statistical distributions matter? 
+# Why statistical distributions matter? 
 
 - To help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
 - The idea here is to find the distribution underlying a random process which generate a particular phenomenon in nature and use it to output values to be used in your simulation.
 - After generating the data, you can analyze it and see how it can be manipulated. 
 
+???
+- Here, we are coming back to the idea of looking at patter in random processes. 
+- random variables in the natural world are generated from what has been called statistical distribution. 
+- Statistician have been studying random variables by mapping , measuring, describing, and making taxonomies of them which now they are able to understand them in a more general way: based on statistical distributions from which they are drawn. 
+
 ---
-## What is a random variable? 
+# What is a random variable? 
 
 - Imagine a number is presented to you like so:
 
@@ -1040,6 +1073,8 @@ plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline
 ```
 # [1] 13.9
 ```
+???
+- This is an exercise to let the attendees feel what are random variables and why statistical distributions are interesting. 
 --
 
 - From which distribution is this variable coming from?
@@ -1047,12 +1082,9 @@ plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline
 
 - Would be helpful to have more information 
 
-???
-
-This is an exercice to let the attendees feel what are random variables and why staitstical distributions are interesting. 
 
 ---
-## What is a random variable? 
+# What is a random variable? 
 
 - Now imagine you are able to get more numbers from the same process:
 
@@ -1060,6 +1092,9 @@ This is an exercice to let the attendees feel what are random variables and why 
 ```
 # [1] 13.9 14.5 18.1 15.1 15.3
 ```
+???
+- Here, we just increase the amount of values that we can get from a random process to try to characterize it. 
+- We can now calculate some properties of this data. 
 --
 
 - This is more informative. We can take the mean and the standard deviation of these numbers: mean = 15.4, sd = 1.6. 
@@ -1080,9 +1115,8 @@ This is an exercice to let the attendees feel what are random variables and why 
 
 - still hard to definitly tell 
 
-
 ---
-## What is a random variable? 
+# What is a random variable? 
 
 - What if you get even more numbers (say 100) from the same random process:
 
@@ -1099,6 +1133,8 @@ This is an exercice to let the attendees feel what are random variables and why 
 ```
 ]
 
+???
+- With more and more data, we can get a better intuition of the underlying distribution that generated the data. 
 --
 
 - The mean = 15.4, sd = 1.6. 
@@ -1114,7 +1150,7 @@ This is an exercice to let the attendees feel what are random variables and why 
 - That looks normal! 
 
 ---
-## Functions for various distributions
+# Functions for various distributions
 
 - In `R`, there is a convention on how to call different distributions. 
 
@@ -1122,15 +1158,20 @@ This is an exercice to let the attendees feel what are random variables and why 
 | ---- | ---------- | ------- |
 | p	   | *probability* (*cumulative* distribution function or CDF; gives you the probability for a given quantile) | gives the probability that a random variable takes in a certain *range of values* for that random variable |
 | q	   | *quantile* (inverse of CDF; gives you the x value for a given probability) | gives the position on the x axis where the area under the curve is a certain probability |
-| d	   | *density* density function (probability density function or PDF) | gives probability that a random variables have for a specific value if the random variable  |
-| r	   | *random* random variable coming from a certain distribution | We use this to generate random numbers from a specific distribution |
+| d	   | *density* function (probability density function or PDF) | gives probability that a random variables have for a specific value if the random variable  |
+| r	   | *random*  variable coming from a certain distribution | We use this to generate random numbers from a specific distribution |
 
 - In the next slide, you'll see some built in functions to use these distributions 
 
----
-## Functions for various distributions
+???
+- Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
+- In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
+- Here is a table showing the nomenclature used in R to generate data of 
 
-.verysmall[
+---
+# Functions for various distributions
+
+.tiny[
 | Distribution | Probability | Quantile | Density | Random | PDF or PMF |
 | ------------ | ----------- | -------- | ------- | ------ | ---------- |
 | Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` | |
@@ -1155,10 +1196,16 @@ This is an exercice to let the attendees feel what are random variables and why 
 | Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` ||
 ]
 
----
-## Functions for various distributions
+???
+- this is a list, using the nomenclature shown in the previous slide, of different functions used to explore common statistical distributions that we could use in our simulations. 
+- The last column is showing some mathematical formula of the distributions. 
+- PDF is the probability density function (for continuous variables) and 
+- PMF is the probability mass function (for discrete variables)
 
-.verysmall[
+---
+# Functions for various distributions
+
+.tiny[
 | Distribution | Probability | Quantile | Density | Random | PDF or PMF |
 | ------------ | ----------- | -------- | ------- | ------ | ---------- |
 | Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` ||
@@ -1183,6 +1230,9 @@ This is an exercice to let the attendees feel what are random variables and why 
 | Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` ||
 ]
 
+???
+- Highlighted are interesting distributions. 
+
 &lt;!-- 
 PDF for continuous 
 PMF for discrete 
@@ -1191,32 +1241,23 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 --&gt;
 
 ---
-## Common statistical distributions
-&lt;!-- ![:scale 90%](images/distributions_all.png) --&gt;
+# Common statistical distributions
 
 &lt;img src="workshopXX-en_files/figure-html/Statistical_dist-1.png" width="750" height="600" style="display: block; margin: auto;" /&gt;
+???
+- This is a subset of the distributions highlighted from the previous slide. 
+- there are 2 distributions with discrete variables 
+- the rest are distributions of continuous variables  
 
 ---
-## Selecting the right distribution
+# Summary of important distribution 
 
-- See "Figure 6A.15 from Probabilistic approaches to risk by Aswath Damodaran"
+- Distributions of random variables comes in 2 flavors: 
+  1. Discrete (infinite *integer* number of *distinct* values, e.g., `0`, `5`, `19`,...)
+  2. Continuous (infinite decimal number of possible values, e.g., `0.1`,`0.62113`,...)
 
-&lt;!-- ![:scale 100%](images/probabilistic.png) --&gt;
-![:scale 100%](images/Prob.distrib.choices.png)
-
-
----
-## Summary of important distribution 
 
 .small[
-- Distributions of random variables comes in 2 flavors: 
-1. Discrete (only *countable* number of *distinct* values, e.g., 0, 5, 19,...)
-2. Continuous (infinite number of possible values, e.g., 0.1,0.62113,...)
-]
-
-
-
-.tiny[
 | Distribution | Definition | Type of data | Example |
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
@@ -1234,22 +1275,37 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 - see [Probability Cheat Sheet](https://web.cs.elte.hu/~mesti/valszam/kepletek) for more details
 ]
 
+???
+- This is a small reminder of what are some of the important distributions with some examples. We will explore some of them in more details later in the talk. 
+
 ---
-## The same distribution? 
+# Selecting the right distribution
+
+- See "Figure 6A.15 from Probabilistic approaches to risk by Aswath Damodaran"
+
+&lt;!-- ![:scale 100%](images/probabilistic.png) --&gt;
+![:scale 100%](images/Prob.distrib.choices.png)
+???
+This figure contains a decision graph that *could* help figure out what distribution you are facing. BUT, it doesn't guarantee that you'll find the right distribution. 
+
+
+---
+# The same distribution? 
 
 .alert[Careful!]
 
 - Some distribution are similar but don't show the same process 
 
 &lt;img src="workshopXX-en_files/figure-html/similar_plot_from_different_distributions-1.png" width="504" style="display: block; margin: auto;" /&gt;
-
+???
+- Just keep in mind that some distributions can be approximated with other, but the important point to note is to respect the *type* of data that is generated from a distribution. 
 
 ---
-## Other distributions with packages
+# Other distributions with packages
 
 - Other packages have other distributions. See the [CRAN Task View: Probability Distributions](https://cran.r-project.org/web/views/Distributions.html) if you need a funky distribution that doesn't come in `base R`.
-- Some distributions can be recreated in R even if they haven't their own functino name (e.g., Bernoulli). 
-- Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
+- Some distributions can be recreated in `R` even if they haven't their own function name (e.g., Bernoulli). 
+  * Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
 
 .tiny[
 &lt;img src="workshopXX-en_files/figure-html/equivalence_between_distributions_Bern_binom-1.png" width="504" style="display: block; margin: auto;" /&gt;
@@ -1257,10 +1313,21 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 
 
 
+???
+- Multiple people have expanded the catalog of distributions supported in R. This could be seen in the CRAN Task View about probability distributions. 
+- In the next slides, we will explore some distributions in a little more depth. 
 
+#################################
+---
+class: inverse, center, middle
+
+# Statistical distributions in more details 
+
+???
+- In this section, we'll explore in more details some statistical distributions that are important in biology 
 
 ---
-## Poisson distribution
+# Poisson distribution
 
 - Poisson distribution assume that 
   - the probability of some event is small over a short period of time (or area), but that there are a lot of events (as there would be a lot of time passing, or a lot of space) in which the process could happen 
@@ -1271,7 +1338,7 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 
 
 ---
-## Poisson distribution vs binomial
+# Poisson distribution vs binomial
 
 - Difference with Binomial :
   - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
@@ -1286,7 +1353,7 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 
 
 ---
-## Poisson distribution
+# Poisson distribution
 
 - Examples (something per unit time or space for example): 
   - Nb of deaths due to a disease (e.g., SARS-CoV 2) for a period of time 
@@ -1308,7 +1375,7 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 &lt;!-- Poisson example see https://www.pnas.org/content/115/37/9270 --&gt;
 
 ---
-## Binomial distribution
+# Binomial distribution
 
 - Binomial distribution assume that 
 - Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
@@ -1329,7 +1396,7 @@ where
 ]
 
 ---
-## Binomial distribution
+# Binomial distribution
 
 - Examples 
   - Number of heads in a row after 3 tosses
@@ -1343,7 +1410,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probabili
 --&gt;
 
 ---
-## Binomial distribution
+# Binomial distribution
 
 - Examples 
   - probability of having a certain number of offspring given the genotypes of the parents 
@@ -1357,7 +1424,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probabili
 
 
 ---
-## Normal distribution (Gaussian)
+# Normal distribution (Gaussian)
 
 - This distribution is the most important to know (see Central limit theorem). 
 - It has interesting properties (mean: center, sd: spread, bell-shaped, symmetry, etc.)
@@ -1370,12 +1437,16 @@ The general form of the probability density function for a normal distribution i
 
 The important part here is the mean `\(\mu\)` and the standard deviation `\(\sigma\)`. Usually summarized as `\(N(\mu, \sigma)\)`
 
+???
+- This is one of the most important distribution in statistics
+- We will spend some time to understand it better
+- we will look at some of its properties 
 &lt;!-- Material inspiration
 https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 --&gt;
 
 ---
-## Normal distribution (Gaussian)
+# Normal distribution (Gaussian)
 
 - Examples: 
   - Distribution of a lot of continuous phenotypes 
@@ -1383,18 +1454,22 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
   - velocity of a collection of molecules in a gas of liquid
   - the error from measurements (length of beak).
 
+???
+- Here are some examples of the type of data that could be generated from the normal distribution
 
 ---
-## Normal distribution (Gaussian)
+# Normal distribution (Gaussian)
 
 - The `iris` dataset contains values that are 'drawn' from a normal distribution. 
 - Here are the histogram for sepal length (mm).
 
-&lt;img src="workshopXX-en_files/figure-html/Iris_normal-1.png" width="792" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/Iris_normal-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
+???
+- An example is from the iris dataset 
 
 ---
-## Normal distribution (dissection)
+# Normal distribution (dissection)
 
 .pull-left[
 
@@ -1410,6 +1485,12 @@ abline(h=seq(0,1, by = .1),
 &lt;img src="workshopXX-en_files/figure-html/Density_normal-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
+???
+- We showed earlier that different functions can give the values needed to plot the PDF or prob. density function. 
+- With `dnorm`, we are going to show some properties of the Norm. distribution. 
+- This is a standard norm. curve (mean=0, sd=1)
+- The graph shows the x values (which in this case could be any real value that is scaled; human height where we removed the mean and devided by the sd)
+- The y axis is the DENSITY of finding the values. It can RANGE from 0 to large values (not necessarily 1). The important point is that the TOTAL AREA UNDER THE CURVE is 1, so that it can represent a probability, for a density curve. 
 --
 
 .pull-right[
@@ -1418,41 +1499,55 @@ For the density distribution, the *area* under the curve between two points is t
 &lt;img src="workshopXX-en_files/figure-html/Density_normal_dissection_all_info-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
-
+???
+- In this plot, there is the same standard normal curve, but some important values are plotted as well
+- First, the AREA UNDER THE CURVE BETWEEN 2 POINTS is the PROBABILITY of finding data between those 2 points. 
+  * the red area is the probability between about 2sd on EACH side of the mean (~95%)
+- There is a second distribution (green line) shown as the density which are 100 randomly drawn points from a standard normal curve. You can see that the black and green line are pretty close, but they are not the same. 
+`qnorm(.025) = -1.96`
+`qnorm(1-.025) = 1.96`
+`pnorm(qnorm(1-.025)) = 0.975`
 
 ---
-## Quantile value for a normal distribution 
+# Quantile value for a normal distribution 
 
-If X is a random variable distributed with a *Standard normal distribution*, what is the probability of finding X less or equal to `\(1.645\)` or `\(X\sim N(0,1)\)` where `\(P(X\leq 1.645)\)`? 
+If X is a random variable distributed with a *Standard normal distribution*, what is the probability of finding X less or equal to `\(1.645\)`. In other words,  `\(P(X\leq 1.645)\)` where `\(X\sim N(0,1)\)`? 
 .pull-left[
 
 ```r
 pnorm(1.645)
 # [1] 0.9500151
 
-qnorm(p = 0.05,lower.tail = F)
+qnorm(p = 0.05, lower.tail = F)
 # [1] 1.644854
-qnorm(p = 0.025,lower.tail = F)
+
+qnorm(p = 0.025, lower.tail = F)
 # [1] 1.959964
 ```
 ]
 
+???
+- The cool thing is that now, we can calculate the probabilities of any given RANGE of x values
+- The `lower.tail` argument is a logical; if TRUE (default), probabilities are `\(P[X \leq x]\)` otherwise, `\(P[X \gt x]\)`. Here `lower.tail=F` since I wanted to show the TOP probability (from the UPPER tail)
+- Here are some important values to remember with the normal distribution  (.05 is 5% and 0.025 is 2.5% from alpha and alpha/2)
 --
 
 .pull-right[
 &lt;img src="workshopXX-en_files/figure-html/normal_shade_95_5-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
+???
+This is the visual representation of what is on the left for the 5% probability. The value of x between the blue and red polygon is ~1.96
 
 ---
-## Normal distribution 
+# Normal distribution 
 
 
 
 .tiny[
 
+
 ```r
-par(mfrow=c(2,3), mar = c(4,4,1,1), cex = 1.1)
 # The function is not shown, but can be found in the script (Markdown)
 draw.normal(where = "both",  prob = 0.05/2)
 draw.normal(where = "both",  prob = 0.2/2 )
@@ -1465,8 +1560,11 @@ draw.normal(where = "right", prob = 0.05  )
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area-1.png" width="648" style="display: block; margin: auto;" /&gt;
 ]
 
+???
+- These are different standard normal distributions where we ploted different probabilities (area under the curve), for different RANGES of X. Compare the 1st and the second row-middle graph and the last graph. The three are 95% in the red portion, BUT the tails have different areas. 
+
 ---
-## Normal distribution 
+# Normal distribution 
 
 Find the probability of finding data relative to a standard deviation number 
 
@@ -1487,8 +1585,13 @@ p.from.mean = round(percent.data.under.curve,2)
 
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area2-1.png" width="792" style="display: block; margin: auto;" /&gt;
 
+???
+- We could show what is the PROBABILITY of finding certain data at a certain distance (in standard deviation units) from BOTH sides of the MEAN.
+- In other words, we want to find the probability of getting data in the red area. 
+- We calculated the probability from the LOWER tail (when x = 1, 2, and 3) and the probability from the UPPER tail (when x = 1, 2, and 3) and substracted both to the probability in THE MIDDLE.
+
 ---
-## Normal distribution 
+# Normal distribution 
 
 Find the "x" value (quantile) based on the probability (area under the curve between 2 values) of a standard normal distribution.
 
@@ -1496,6 +1599,8 @@ Find the "x" value (quantile) based on the probability (area under the curve bet
 ```r
 qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 # [1] -0.6744898 -1.6448536 -1.9599640 -2.5758293
+qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
+# [1] 0.6744898 1.6448536 1.9599640 2.5758293
 ```
 - for a probability of `\(50\%\)` between the "x" value is -0.67, 0.67. 
 - for a probability of `\(90\%\)` between the "x" value is -1.64, 1.64. 
@@ -1504,32 +1609,46 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area3-1.png" width="1008" style="display: block; margin: auto;" /&gt;
 
+???
+- We could also look at the values of X to which we would observe a certain probability of data on EACH SIDE of the mean
+- Note that instead of looking at the probabilities in the lower and upper tails, we could simply take the other side of the probability (substrating the probability by 1 `qnorm(p = 1-c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)`)
 
 ---
-## Normal distribution
+# Normal distribution
+
+- Hypothesis testing: when we are trying to find *differences in the mean* of a sample and a theoretical value, this is what we are assuming. 
 
 .pull-left[
 
 - Mean of population is = 1
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
 .pull-right[
 
 - Mean of population is = 2 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-13-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ???
-
-- It is NOT a problem if the y value in the probability density function (PDF) is GREATER than one. The important point here is that the AREA UNDER THE CURVE must sum to 1. 
-- see https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1 
+- Here are showing the null hypothesis (black curve) and the theoretical distribution from a sample 
+  * (note that the OBSERVED sample distribution would not be as clean as this one. This is just to simplify the message here)
+- What is shown here is the OVERLAP of the 2 distributions
+  * In statistics, the overlap of the 2 distributions have different names 
+  * **type 1 error (alpha)**: the probability to reject the null hypothesis even if it is true (false alternative)
+  * **type 2 error (beta)**: the probability to fail rejecting the null hypothesis when it is false
+  * **Power (1-beta)**: probability of rejecting the null hypothesis when it is false
+  
+- It is NOT a problem if the y value in the probability density function (PDF) is GREATER than one. 
+- The important point here is that the AREA UNDER THE CURVE must sum to 1. 
+  * see [R density plot y axis larger than 1](https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1) 
 
 ---
-## Normal distribution
+# Normal distribution
 
 .pull-left[
 
@@ -1538,6 +1657,11 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 &lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
+???
+- An important take away here is that these areas change BASED ON THE SAMPLE SIZE that we have. 
+- In this example, the sample distribution has a large SD and a sample size of 10. 
+- How could we improve our CONFIDENCE in telling that there is a REAL difference between our sample and the null hypothesis. 
+  * Increasing the sample size should make our estimate better (this is because the SAMPLING distribution would tend to have a more robust estimate since we are trying to estimate the mean, which is closer to the true population when the sample size is large, see `\(\text{SE}=\sigma/\sqrt{n}\)`, which we will see with the central limit theorem later)
 --
 
 - Let's see what happens if we increase the sample size from 10 to 100.
@@ -1547,19 +1671,25 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 
 ]
 
+???
+- After increasing the sample size, you can see that the AREAS under the sample distribution have shifted to having a better POWER, and reducing the type II error. 
+
 ---
-## Convert a Normal dist. to Standard normal 
+# Convert a Normal dist. to Standard Normal 
 
 - If your data is normally distributed (i.e., `\(X \sim N(\mu, \sigma)\)`), you can convert the data to be `\(X \sim N(0, 1)\)` with a scaling
 $$Z = \frac{(X-\mu)}{\sigma} $$ 
 
 &lt;img src="workshopXX-en_files/figure-html/Standard_normal_transformation-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
-
+???
+- This is just a quick note to show you how to scale data and what effect it has on a distribution
+- Left: SNorm curve with a theoretical distribution centered at 15 and sd 2. The blue curve is a density of 100 points taken from a normal distribution with the same parameters as the population. 
+- Right: after scaling, you can see that all the data is now at a mean of 0 and a SD of 1. 
 
 
 ---
-## Challenge 3 ![:cube]()
+# Challenge 3 ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -1570,9 +1700,11 @@ Use `rnorm()` to generate 10 random normal numbers.
 rnorm()
 ```
 
+???
+- This exercise is to start thinking in outputting data from distributions that relate to a biologically relevant phenotype. 
 
 ---
-## Challenge 3 - Solution ![:cube]()
+# Challenge 3 - Solution ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -1589,41 +1721,42 @@ rnorm(n)
 
 - Why are there negative values? Because the mean = 0, so some values spill over the mean on both sides, and in the negative numbers. 
 
----
-## Multivariate normal distribution
-
-- There is a way to generate multiple normal distributions at once. 
-
-
-
-```r
-set.seed(24601) # setting this so the random results will be repeatable 
-library(MASS)
-covmat &lt;- matrix(c(1.0,   0.2,   0.6, 
-                   0.2,   1.0,  -0.5, 
-                   0.6,  -0.5,   1.0), nrow=3) # variance covariance matrix of the data
-data &lt;- mvrnorm(n = 300, mu = c(0,0,0), Sigma=covmat) # generate random data that match that variance covariance matrix
-plot(data)
+???
+- Don't forget to add the seed to get the same results (if this is the behaviour you want)
+- You could ask the questions: 
+  * What if you want to add a mean value to the output? Below is an example on how to do this. 
+```
+set.seed(1234)
+n &lt;-10
+rnorm(n) + 15
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
 
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
+
+- It has been said that if "physicists have general relativity, chemists have the periodic table of elements and biologists have evolution or DNA, statisticians have the central limit theorem" ([Nathan Uyttendaele](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)). 
 
 - The Central limit theorem (CLT) stipulates that:
-  * The more you add (sum) identically distributed random variables, the probability of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
+  * The more you add (sum) identically distributed *random variables*, the more the probability distribution of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
 
 - We will use simulations to test this assertion! 
 
 ???
+
+- This is important: the more you ADD identically distributed variables together, the more their sum will tend towards a new distribution which is normal. 
+
+- See explaination in French in [this video: Le théorème central limite - best of des aventures d'Albert](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat) This is from Nathan Uyttendaele: "Physicists have general relativity and the elegant Maxwell equations, Chemists have the periodic table of elements and Biologists have evolution or the fascinating DNA molecule and statisticians have the central limit theorem!", from the original "Les physiciens ont la relativité générale et les élégantes équations de Maxwell, les chimistes ont le tableau périodique des éléments et les biologistes ont l'évolution ou encore la fascinante la molécule d'ADN et les statisticiens ont le théorème central limite!"
+
 See 
 - [Demonstrating The Central Limit Theorem in R](https://www.r-bloggers.com/2020/08/demonstrating-the-central-limit-theorem-in-r/)
 - [Dice Rolls - Theoretical and Empirical](https://rpubs.com/careybaldwin/346995)
+- [Understanding the Central Limit Theorem With Simulation](https://rstudio-pubs-static.s3.amazonaws.com/40602_03881f4466844aed83feb45f48444906.html)
+- [The Central Limit Theorem and Power Simulation in R](https://www.kenwuyang.com/en/post/the-central-limit-theorem-and-power-simulation/)
+- [The central limit theorem using simulation](https://vasishth.github.io/Freq_CogSci/the-central-limit-theorem-using-simulation.html)
 
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
 
 - The CLT could be shown by adding more and more random variables distributed as an exponential with rate = 1. 
 
@@ -1631,83 +1764,120 @@ See
 
 ```r
 n = 1000 # Number of points 
-par(mfrow=c(2,2)) # set window 
-# Generate multiple addition of random variables 
-for(i in c(2,50,1000,5000)){
+# Generate multiple additions of random variables 
+for(i in c(2, 50, 1000, 5000)){
   clt = replicate(i, rexp(n, rate = 1), simplify = FALSE)
   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"), xlab = "x") # Draw the histogram 
 }
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
+
+???
+- Here we generate a bunch of of values from an exponential distribution
+- The result of the addition of all of the random variables tends to be normally distributed
+- Note that if we divide by the number of replication (or the number of variables that were generated, we get the mean, which would be the expected mean of the distribution)
 
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
 
-- Same thing as above, but for a random variable coming from a uniform *discrete* distribution!
+- Same thing as above, but for a random variable coming from a uniform *discrete* distribution (with min = 0, max = 1)!
 
-.pull-right2[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="216" style="display: block; margin: auto;" /&gt;
-]
 
-.tiny[
+
+
 
 ```r
-par(mfrow=c(2,2)) # set window 
-# Generate multiple addition of random variables 
-for(i in c(2,50,1000,5000)){
+# Generate multiple additions of random variables 
+for(i in c(2, 50, 1000, 5000)){
   clt = replicate(i, runifdisc(n),simplify = FALSE)
-  # Draw the histogram 
-  hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x")
+  hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram 
 }
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/CLT_uniform_example_dice-1.png" width="576" style="display: block; margin: auto;" /&gt;
+.pull-left2[
+&lt;img src="workshopXX-en_files/figure-html/CLT_uniform_example_dice_hist-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
 ]
 
+.pull-right2[
+
+This is an example of a uniform discrete distribution ranging from 7 to 10. 
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="216" style="display: block; margin: auto;" /&gt;
+]
+
+
+???
+- With a uniform discrete distribution, we can show the CLT
+- Again, if we divide by the number of aditions we made, we are going to get the expected mean
+
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
 
 - You are asked to throw 20 dice. If the sum of all 20 dice is `\(\geq 100\)`, you get a candy, if not, you don't get one. What is the probability of having the candy? 
 
-.tiny[
 
 ```r
 n = 1e6 # Number of points 
-par(mfrow=c(1,2), cex = 1) # set window 
-i = 20 # flip 20 dice
-# Generate multiple addition of random variables 
-clt = replicate(i, runifdisc(n,1,6), simplify = FALSE)
-sum.rdm.var = apply(do.call(cbind, clt),1,sum) # mean
-mean.rdmv = mean(sum.rdm.var); sd.rdmv = sd(sum.rdm.var) #sd
-hist(sum.rdm.var, main = paste("Histogram of",i,"variables"), xlab = "x")
-# If you dived by the number of dice that were rolled, you can see that it actually tends towards the mean or rolling 1 die a lot of time: 3.5! 
-# hist(sum.rdm.var/i, main = paste("Histogram of",i,"variables"), xlab = "x") underlying distribution 
+# Generate multiple additions of random variables 
+clt = replicate(n = 20, # flip 20 dice
+                runifdisc(n = n, min = 1, max = 6), simplify = FALSE)
+sum.rdm.var = apply(do.call(what = cbind, args = clt), 1, sum) 
+mean.rdmv = mean(sum.rdm.var); sd.rdmv = sd(sum.rdm.var) # mean and sd
+hist(sum.rdm.var, main = paste("Histogram of",20,"variables"), xlab = "x")
 curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
       from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
---
-
-- Using the CLT, the probability of getting a sum `\(\geq 100\)` is approx. 4.29e-05.
-
-.tiny[
-- This example was taken from [this video](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)
-]
 
 ???
+- We simulate the rolling of 20 dice and sum their values. 
+- In this case the probability is `pnorm(100,mean = 70,sd = sd.rdmv,lower.tail = F)` which is 4.2424625\times 10^{-5} (0.0000433 or 0.0043%)!
+--
+
+- Using the CLT, the probability of getting a sum `\(\geq 100\)` is approx. 4.23e-05.
+
+???
+```
+# If you dived by the number of dice that were rolled, you can see that it actually tends towards the mean or rolling 1 die a lot of time: 3.5! 
+# hist(sum.rdm.var/i, main = paste("Histogram of",i,"variables"), xlab = "x") underlying distribution 
+```
+
+- This example was taken from [this video: Le théorème central limite - best of des aventures d'Albert](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat) 
 - See [Demonstrating The Central Limit Theorem in R](https://medium.com/@orrymr/demonstrating-the-central-limit-theorem-in-r-a5fef67cbbb)
 - In other words, the distribution shown here is the sampling distribution of the mean. Its mean is the same as the original mean of the population, its standard deviation is called the standard error of the mean (SEM) and it is normally distributed! SEM is the variability in the collection of sample means. 
 - See what happens when the sample size increases: `\(SEM = \sigma/\sqrt{n}\)`. This means that as `\(n \to \infty\)`, the standard error gets smaller. 
 - Therefore, the *sampling distribution* of the *sample mean* (so the mean taken out of a sample, multiple times with various samples), approximate a normal distribution, even if the underlying process is not from a normal distribution. `\(\bar X \sim N(\mu,\frac{\sigma}{\sqrt {n}})\)` or the mean of x is approximately normally distributed as with mean mu and variance 
 - See also [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-20-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
+
+---
+# Multivariate normal distribution
+
+- There is a way to generate multiple normal distributions at once from a covariance matrix. 
+
+
+```r
+set.seed(24601) # setting this so the random results will be repeatable 
+library(MASS)
+covmat &lt;- matrix(c(1.0,   0.2,   0.6, # variance covariance matrix of the data
+                   0.2,   2.0,  -0.5, 
+                   0.6,  -0.5,   1.0), nrow=3) 
+data &lt;- mvrnorm(n = 300, 
+                mu = c(1,-1,0), # mean of the data 
+                Sigma=covmat) # generate random data that match that variance covariance matrix
+plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
+plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-21-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+???
 
 #################################
 ---
@@ -1715,48 +1885,61 @@ class: inverse, center, middle
 
 # Simulating data for power analysis
 
+???
+Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
+
 ---
-## Power analysis (proportions)
+# Power analysis (proportions)
 
 - The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
-- Example for tossing a coin, which we believe has a 75% chance of landing on 'heads':
+- We believe that we have a coin, which has a 75% chance of landing on 'heads':
 
-.pull-left[
-.tiny[
 
 ```r
 p1 = .75 # Proportion to test 
 p2 = .50 # proportion of the null hypothesis 
 alpha = 0.05 # Type 1 error 
-power = 0.80 # power or 1-beta = power. Beta is the type II error 
-coin.prop.power = power.prop.test(p1 = p1, 
-                                  p2 = p2, 
-                                  sig.level = alpha,
-                                  power = power)
-n = ceiling(coin.prop.power$n)
-
-coin.pip = rbinom(n, size = 1, prob = p1)
-# coin.pip = rbinom(1,size = n,prob = p1) # similar to above 
-# prop.test(x = coin.pip, n = n,alternative = "greater")
-p.table = table(coin.pip)[c(2,1)]
-ptest = prop.test(p.table, alternative = "greater")
-ptest
+pwr = 0.80 # power or 1-beta = power. Beta is the type II error 
+coin.p.power = power.prop.test(p1 = p1, p2 = p2, sig.level = alpha, power = pwr)
+n = ceiling(coin.p.power$n) # get the sample size from the power analysis
+coin.pip = rbinom(n, size = 1, prob = p1) # Generate coin tosses 
+p.table = table(coin.pip)[c(2,1)] # Get the number of 1 and 0s  
+(ptest = prop.test(p.table, alternative = "greater")) # Do the test 
 # 
 # 	1-sample proportions test with continuity correction
 # 
 # data:  p.table, null probability 0.5
-# X-squared = 10.776, df = 1, p-value = 0.0005142
+# X-squared = 14.5, df = 1, p-value = 7.008e-05
 # alternative hypothesis: true p is greater than 0.5
 # 95 percent confidence interval:
-#  0.6101819 1.0000000
+#  0.6467672 1.0000000
 # sample estimates:
 #         p 
-# 0.7241379
+# 0.7586207
 ```
-]
-]
 
-.pull-right[
+
+???
+- Power analysis are useful to get a sense of the
+  * sample size required to run an analysis
+  * know the power 
+  * get the effect size
+  * or the significance level
+- What we can do is prepare the power analysis to what we want to test, then generate data the we could use to see how this would modify the result of our test. 
+- In this first example, we are looking at a proportion power test.
+
+```
+# coin.pip = rbinom(1,size = n,prob = p1) # similar to above 
+# prop.test(x = coin.pip, n = n,alternative = "greater")
+```
+
+- For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+
+---
+# Power analysis (proportions)
+
+- from the output we got (previous slide), we can plot the chi-square distribution with the df and see where our statistics ends in the graph. We can see that the p-value must be pretty small. 
+
 
 ```r
 curve(dchisq(x, df = ptest$parameter), 
@@ -1764,22 +1947,20 @@ curve(dchisq(x, df = ptest$parameter),
 abline(v = ptest$statistic, lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-22-1.png" width="504" style="display: block; margin: auto;" /&gt;
-]
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
+--
 
-???
-- For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+- The p-value is 0.0000701.
 
 ---
-## Power analysis (linear model)
+# Power analysis (linear model)
 
 .pull-left[
 
 ```r
 library(pwr)
 r2 = seq(0,0.9,by =.1)
-f2 &lt;- function(r2) {
-  r2/(1-r2)}
+f2 &lt;- function(r2) {r2/(1-r2)}
 ```
 ]
 
@@ -1790,7 +1971,7 @@ plot(f2(r2)~r2)
 curve(expr = (x/(1-x)),add = T)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-24-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1806,6 +1987,8 @@ n
 
 
 ???
+- based on the number of coefficients you have in a model, and the effect size you think you're going to have (perhaps based on the literature), you can find the number of samples you'd require in ordre to get find a statistical difference at the level that interests you. 
+- Refer to the [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package
 - See also the package `pwr2ppl`
 
 #################################
@@ -1815,7 +1998,7 @@ class: inverse, center, middle
 # Simulating data for models
 
 ---
-## Linear model (lm) refresher
+# Linear model (lm) refresher
 
 `$$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$`
 
@@ -1826,7 +2009,7 @@ class: inverse, center, middle
 - `\(\epsilon\)` is the residual of the model. Note that `\(\epsilon \sim N(\mu=0,sd = \sigma)\)`
 
 ---
-## Linear model (lm) refresher
+# Linear model (lm) refresher
 
 - The goal is to find the **best estimation** of the parameters ( `\(\beta\)` s), while minimizing the residuals, and assess the goodness of fit of the model
 - We use the least-squares in order to fit the line to the data.
@@ -1844,7 +2027,7 @@ Reference for the section
 
 
 ---
-## Generalized linear model (GLM) refresher
+# Generalized linear model (GLM) refresher
 
 | Type | Equation |
 | ---- | -------- |
@@ -1863,35 +2046,28 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 &lt;!-- Simulate logistic regression https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525 --&gt;
 
 ---
-## GLM: Linear model
+# GLM: Linear model
 
 .pull-left[
-.small[
 
 ```r
 set.seed(12345678)
-n = 100
+n = 100; beta0 = 2.5; beta1 = .8
 x.lm = rnorm(n = n, mean = 10, sd = 1)
-beta0 = 2.5
-beta1 = .8
 err = rnorm(n = n, mean = 0, sd = 1)
-
 # Linear combination 
 y.lm = beta0 + beta1*x.lm + err
-
 # Make a dataframe of the data 
 df.lm = data.frame(x = x.lm, y = y.lm)
-# Colour 
-b.5 = scales::alpha("black",alpha = .5)
 ```
-]
 ]
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-27-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-28-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
-.small[
+
+
 
 ```r
 summary(lm.out)
@@ -1914,25 +2090,24 @@ summary(lm.out)
 # Multiple R-squared:  0.4273,	Adjusted R-squared:  0.4214 
 # F-statistic: 73.11 on 1 and 98 DF,  p-value: 1.675e-13
 ```
-]
 
 ---
-## GLM: Linear model
+# GLM: Linear model
 
 - You can simulate the response (fitted line), from a model that you created. 
 
 
 ```r
 sim.lm = simulate(lm.out,nsim = 2000,seed = 12)
-par(mfrow = c(1,3), cex = 1.2)
-hist(rowMeans(sim.lm))
-hist(fitted(lm.out))
+par(mfrow = c(1,3), cex = 1.2); r.x = range(c(x.lm,rowMeans(sim.lm),fitted(lm.out)))
+hist(rowMeans(sim.lm), xlim = r.x, main = "Hist simulation")
+hist(fitted(lm.out), xlim = r.x, main = "Hist fitted")
 mean(rowMeans(sim.lm))
 # [1] 10.57977
-hist(x.lm)
+hist(x.lm, xlim = r.x, main = "Hist of data")
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-29-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 mean(x.lm)
@@ -1953,11 +2128,38 @@ mean(fitted(lm.out))
 
 
 ---
-## GLM: Linear model
+# GLM: Linear model
+
+- We can put the simulation inside a function 
+- Then, we could replicate the simulation a certain number of times
+- If we are interested in the slope, we could plot the density of the estimates that we'd get out of the simulations. 
+- In the example below, the slope estimate was extracted from the simulation and plotted for different sample sizes. 
+- You can see that as the sample size increases, our slope estimation gets better. 
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-31-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+
+---
+# GLM: Linear model
+
+- Same as the simulation above, but now we plot the adjusted `\(R^2\)` from the linear model. 
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-32-1.png" width="720" style="display: block; margin: auto;" /&gt;
+- You can see from the plots that the effect size (the `\(R^2\)` in this case), is extremely variable when the sample size is very small. But when the sample size increases, the spread around the effect size diminishes. This adding to the idea that larger sample sizes are more important when you conduct a study. 
+
+???
+- This makes a SUPER IMPORTANT POINT. The effect size in this case is the amount of variance explained. You can see that with the exact same model that we generated, we can have pretty much any type of effect size for a small sample size. 
+- But as we increase the sample size, the effect size seems to converge on a particular value. 
+- (note that if the `\(R^2\)` is negative, it could be thought as being 0.)
+
+---
+# GLM: Linear model
 
 - Simulate 2 independent variables. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+.tiny[
 
 ```
 # 
@@ -1984,9 +2186,10 @@ mean(fitted(lm.out))
 # x1          -0.083249389  8.493999e-03 -6.417156e-05
 # x2          -0.003279173 -6.417156e-05  2.470253e-04
 ```
+]
 
 ---
-## GLM: Linear model (categorical)
+# GLM: Linear model (categorical)
 
 .small[
 
@@ -2005,7 +2208,6 @@ colnames(dummy.mat) &lt;- paste0(c(catego.lm))
 dummy.mat[,1] &lt;- 1
 dummy.mat[,2] &lt;- ifelse(gr=="Treatment",1,0)
 
-# betaControl = .8
 beta1 = .8
 betaControl = .2
 betaTreament = .7
@@ -2023,7 +2225,7 @@ r.5 = scales::alpha("red",alpha = .5)
 - see [Simulating from regression model with categorical variable with 4 categories?](https://stats.stackexchange.com/questions/471947/simulating-from-regression-model-with-categorical-variable-with-4-categories)
 
 ---
-## GLM: Linear model (categorical)
+# GLM: Linear model (categorical)
 
 
 ```r
@@ -2061,7 +2263,7 @@ summary(lm.out)
 
 
 ---
-## GLM: Linear model (interaction; discrete)
+# GLM: Linear model (interaction; discrete)
 
 - Linear models can also take interactions in consideration. 
 - `\(y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2+\epsilon\)`
@@ -2095,8 +2297,9 @@ summary(lm.out)
 ```
 
 ---
-## GLM: Linear model (interaction; discrete)
+# GLM: Linear model (interaction; discrete)
 
+.small[
 
 ```r
 # Binary x1 
@@ -2106,24 +2309,26 @@ plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y,
 abline(a = coef(lm.out)[1], b = coef(lm.out)[3], col = "blue", pch = 19, lwd = 2)
 points(x = df.lm[df.lm$x1 == 1, ]$x2, y = df.lm[df.lm$x1 == 1, ]$y, 
        col = rgb(red = 1, green = 0, blue = 0, alpha = 0.25), pch = 19)
-# If x1 = 1
-# $\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2$
-# $\hat{y}=\beta_0+\beta_1 (1)+\beta_2x_2+\beta_3(1)x_2$
-# $\hat{y}=(\beta_0+\beta_1)+x_2(\beta_2+\beta_3)$
 abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)[4], 
        col = "red", lwd = 2)
 abline(h = 0, v = 0,lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-31-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="360" style="display: block; margin: auto;" /&gt;
+]
 
 ???
 See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
 
+```
+# If x1 = 1
+# $\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2$
+# $\hat{y}=\beta_0+\beta_1 (1)+\beta_2x_2+\beta_3(1)x_2$
+# $\hat{y}=(\beta_0+\beta_1)+x_2(\beta_2+\beta_3)$
+```
 
 ---
-## GLM: Linear model (interaction; continuous)
+# GLM: Linear model (interaction; continuous)
 
 - Here is the simulation of a linear model with an interaction term between two continuous variables. 
 - The plot is to show that the relationship between `\(y\)` and `\(x_1\)` is modulated by `\(x_2\)` 
@@ -2143,14 +2348,14 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 
 
 ---
-## GLM: Linear model (interaction; continuous)
+# GLM: Linear model (interaction; continuous)
 
 
 ```r
 hist(df.lm$x1);hist(df.lm$x2);hist(df.lm$y)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-32-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-36-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 
@@ -2179,7 +2384,7 @@ df.lm$line &lt;- c("black","red")[as.numeric(cut(df.lm$x2,breaks = length(x2.sim
 
 
 ---
-## GLM: Linear model (interaction; continuous)
+# GLM: Linear model (interaction; continuous)
 
 
 ```r
@@ -2194,7 +2399,7 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
        col = eff.dat$x2.col, bg = scales::alpha("white",.5))
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 # summary(lm.out)
@@ -2202,14 +2407,14 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
 
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 - Recall that logistic is `\(Y \sim Binomial(p)\)` with `\(\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x\)` or `\(p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}\)` where `\(\text{log} \Bigl(\frac{p}{1-p}\Bigr)\)` is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) 
 - We use maximum likelihood to fit a line to the data. It doesn't have 'residuals' and don't have an `\(R^2\)`
-- Remember that is order to make the domain `\(]-\infty,\infty[\)` for the y values (instead of `\([0,1]\)`), we need to transform the probability to the `\(log(odds)\)`. 
+- Remember that in order to make the domain `\(]-\infty,\infty[\)` for the y values (instead of `\([0,1]\)`), we need to transform the probability to the `\(log(odds)\)`. 
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 - This simulation concerns a continuous variable. 
 
@@ -2234,7 +2439,7 @@ df = data.frame(y = y, x1 = x1, x2 = x2)
 ```
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 
 ```r
@@ -2263,7 +2468,7 @@ lines(x = newdata$x1,
 
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 
 ```
@@ -2272,7 +2477,7 @@ lines(x = newdata$x1,
 # x1           1.600191  0.7896567  2.026439 0.04271982
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```
 # [1] 0.0001361562
@@ -2283,13 +2488,13 @@ lines(x = newdata$x1,
 
 
 ---
-## GLM: Logistic (categories)
+# GLM: Logistic (categories)
 
 - We can also simulate a model with categorical variables 
 
 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-37-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-41-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ???
 See https://stats.stackexchange.com/questions/49916/simulating-data-for-logistic-regression-with-a-categorical-variable
@@ -2299,7 +2504,7 @@ See https://blogs.uoregon.edu/rclub/2016/04/05/plotting-your-logistic-regression
 
 
 ---
-## GLM: Poisson
+# GLM: Poisson
 
 - Recall that Poisson is `\(Y \sim Poisson(\mu)\)` with `\(\text {ln} \mu=\beta_0+\beta_1x\)` or `\(\mu=e^{\beta_0+\beta_1x}\)` (no separate error term as `\(\lambda\)` determines both the mean and variance)
 
@@ -2318,7 +2523,7 @@ df = data.frame(y = y, x = x)
 ```
 
 ---
-## GLM: Poisson
+# GLM: Poisson
 
 ```r
 #now feed it to glm:
@@ -2335,7 +2540,7 @@ lines(x = newdata$x,
 
 
 ---
-## Simulate categories (t-test, Anova)
+# Simulate categories (t-test, Anova)
 &lt;!-- Although this is with only 2 groups, I'm showing this as a quick example --&gt;
 .pull-left[
 
@@ -2370,7 +2575,7 @@ plot(y~gr, data = df.aov)
 ]
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - A simple linear model is actually the 'simplest' mixed model (although the convention is that we don't called it mixed)
 - What is the random effect in a linear model? 
@@ -2378,7 +2583,7 @@ plot(y~gr, data = df.aov)
 `$$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$`
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - A simple linear model is actually the 'simplest' mixed model (although the convention is that we don't called it mixed)
 - What is the random effect in a linear model? 
@@ -2388,7 +2593,7 @@ plot(y~gr, data = df.aov)
 - The residual of the model ( `\(\epsilon\)` ) is actually the 'random effect' since it is drawn from a distribution which can change for each data point `\(\epsilon \sim N(\mu=0,sd = \sigma)\)`. 
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - to simplify the linear model equation we are going to write it this way:
 `$$\mathbf{Y} = \mathbf{X}\beta + \epsilon$$`
@@ -2407,7 +2612,7 @@ https://www.bristol.ac.uk/cmm/learning/videos/random-slopes.html
 --&gt;
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - This is just another way to write the model (there is a part that specify the random slopes)
 
@@ -2416,7 +2621,7 @@ https://www.bristol.ac.uk/cmm/learning/videos/random-slopes.html
 
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - Just so that everything is extra clear
 `$$\mathbf{Y} = \mathbf{X}\beta + \mathbf{Z \upsilon} + \epsilon$$`
@@ -2426,9 +2631,308 @@ One implementation of that could be ( `\(\beta_1\)` and `\(\beta_2\)` would repr
 `$$\left[\begin{array}{l} y_{11} \\ y_{21} \\ y_{12} \\ y_{22} \end{array} \right] = \left[ \begin{array}{ll} 1 &amp; 0 \\ 0 &amp; 1 \\ 1 &amp; 0 \\ 0 &amp; 1 \end{array}\right]\left[\begin{array}{l} \beta_{1} \\ \beta_{2} \end{array}\right]+\left[\begin{array}{ll} 1 &amp; 0 \\ 1 &amp; 0 \\ 0 &amp; 1 \\ 0 &amp; 1 \end{array}\right]\left[\begin{array}{l} u_{1} \\ u_{2} \end{array}\right]+\left[\begin{array}{l} \epsilon_{11} \\ \epsilon_{21} \\ \epsilon_{12} \\ \epsilon_{22} \end{array}\right]$$`
 
 ---
-## LMMs simulation
+# LMMs simulation
 
-- (G)LMMs are a neat extention of the LM models that can take into account (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
+- (G)LMMs are a neat extention of the LM models that can take into account different type of response variables and variance parterns in the response data (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-42-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+.pull-left[
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-43-1.png" width="288" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-44-1.png" width="288" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# LMMs simulation
+
+- For the previous simulation, here is how the data was generated 
+
+.pull-left[
+.tiny[
+
+```r
+set.seed(16)
+# Experimental design 
+lakes = 6
+f.sp = 3
+n.id = 10 
+# Setting parameters
+sd = 0.3# Individual measure 
+sd.lake = .05
+sd.fish = .02
+beta0 = 1
+beta1 = 0.003
+total.n = lakes*f.sp*n.id
+
+# Getting the age status of a fish 
+age = rep(c(rep("Juv",2),rep("Ado",6),rep("Adt",2)), lakes)
+n.juv = length(which(age =="Juv"))
+n.ado = length(which(age =="Ado"))
+n.adt = length(which(age =="Adt"))
+age.df = data.frame(age,length = NA)
+# Generating the length of the fish depending on the age it has 
+age.df[age.df$age =="Juv","length"] &lt;- rnorm(n.juv,mean = 100,sd = 10)
+age.df[age.df$age =="Ado","length"] &lt;- rnorm(n.ado,mean = 250,sd = 50)
+age.df[age.df$age =="Adt","length"] &lt;- rnorm(n.adt,mean = 400,sd = 10)
+
+# trophic position is the response variable 
+# Fish length is the phenotype that is measured 
+
+lake.rep = gl(n = lakes,k = f.sp*n.id,labels = paste0("L",1:lakes))
+# length(lake.rep)
+
+sp.rep = rep( x = gl(n = f.sp,k = n.id, labels = paste0("s",1:f.sp)), lakes)
+# length(sp.rep)
+f.id = paste0("f.",1:(lakes*f.sp*n.id)) 
+```
+]
+]
+
+.pull-right[
+.tiny[
+
+```r
+# Random effects 
+# Setting it up with rnorm (the correct way)
+# lake.rdm.eff = rep( rnorm(lakes, 0, sd.lake), each = f.sp*n.id)
+
+# setting it up manually to see what happens when you modify the value
+my.rdm.lake = c(1,2, 1.1,0.8,1.5,1.8)
+lake.rdm.eff = rep( my.rdm.lake, each = f.sp*n.id)
+
+# Setting it up with rnorm (the correct way)
+# fish.rdm.eff = rep( rnorm(f.sp, 0, sd.fish), each = n.id)
+# setting it up manually to see what happens when you modify the value
+my.rdm.fish = c(-0.5,.4, -0.2)
+fish.rdm.eff = rep( my.rdm.fish, each = n.id)
+
+# Individual error 
+id.err = rnorm(lakes*f.sp*n.id, 0, sd)
+
+f.dat = data.frame(lake = lake.rep,
+                   lake.rdm.eff,
+                   species = sp.rep,
+                   lake.rdm.eff,
+                   fish.rdm.eff,
+                   id = f.id,
+                   age.df)
+
+f.dat$t.lvl = with(f.dat, beta0 + beta1*length +lake.rdm.eff+fish.rdm.eff+ id.err )
+
+f.dat$z_lgt = scale(f.dat$length) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+```
+]
+
+]
+
+
+---
+# LMMs simulation
+
+- This simulation is from [Simulate! Simulate! - Part 2: A linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
+
+```r
+set.seed(16)
+nstand = 5
+nplot = 4
+mu = 10
+sds = 2
+sd = 1
+( stand = rep(LETTERS[1:nstand], each = nplot) )
+#  [1] "A" "A" "A" "A" "B" "B" "B" "B" "C" "C" "C" "C" "D" "D" "D" "D" "E" "E" "E"
+# [20] "E"
+( plot = letters[1:(nstand*nplot)] )
+#  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
+# [20] "t"
+( standeff = rnorm(nstand, 0, sds) )
+# [1]  0.9528268 -0.2507600  2.1924324 -2.8884581  2.2956586
+( standeff = rep(standeff, each = nplot) )
+#  [1]  0.9528268  0.9528268  0.9528268  0.9528268 -0.2507600 -0.2507600
+#  [7] -0.2507600 -0.2507600  2.1924324  2.1924324  2.1924324  2.1924324
+# [13] -2.8884581 -2.8884581 -2.8884581 -2.8884581  2.2956586  2.2956586
+# [19]  2.2956586  2.2956586
+( ploteff = rnorm(nstand*nplot, 0, sd) )
+#  [1] -0.46841204 -1.00595059  0.06356268  1.02497260  0.57314202  1.84718210
+#  [7]  0.11193337 -0.74603732  1.65821366  0.72172057 -1.66308050  0.57590953
+# [13]  0.47276012 -0.54273166  1.12768707 -1.64779762 -0.31417395 -0.18268157
+# [19]  1.47047849 -0.86589878
+( dat = data.frame(stand, standeff, plot, ploteff) )
+#    stand   standeff plot     ploteff
+# 1      A  0.9528268    a -0.46841204
+# 2      A  0.9528268    b -1.00595059
+# 3      A  0.9528268    c  0.06356268
+# 4      A  0.9528268    d  1.02497260
+# 5      B -0.2507600    e  0.57314202
+# 6      B -0.2507600    f  1.84718210
+# 7      B -0.2507600    g  0.11193337
+# 8      B -0.2507600    h -0.74603732
+# 9      C  2.1924324    i  1.65821366
+# 10     C  2.1924324    j  0.72172057
+# 11     C  2.1924324    k -1.66308050
+# 12     C  2.1924324    l  0.57590953
+# 13     D -2.8884581    m  0.47276012
+# 14     D -2.8884581    n -0.54273166
+# 15     D -2.8884581    o  1.12768707
+# 16     D -2.8884581    p -1.64779762
+# 17     E  2.2956586    q -0.31417395
+# 18     E  2.2956586    r -0.18268157
+# 19     E  2.2956586    s  1.47047849
+# 20     E  2.2956586    t -0.86589878
+( dat$resp = with(dat, mu + standeff + ploteff ) )
+#  [1] 10.484415  9.946876 11.016389 11.977799 10.322382 11.596422  9.861173
+#  [8]  9.003203 13.850646 12.914153 10.529352 12.768342  7.584302  6.568810
+# [15]  8.239229  5.463744 11.981485 12.112977 13.766137 11.429760
+library(lme4,warn.conflicts = FALSE)
+fit1 = lmer(resp ~ 1 + (1|stand), data = dat)
+fit1
+# Linear mixed model fit by REML ['lmerMod']
+# Formula: resp ~ 1 + (1 | stand)
+#    Data: dat
+# REML criterion at convergence: 72.5943
+# Random effects:
+#  Groups   Name        Std.Dev.
+#  stand    (Intercept) 2.168   
+#  Residual             1.130   
+# Number of obs: 20, groups:  stand, 5
+# Fixed Effects:
+# (Intercept)  
+#       10.57
+twolevel_fun = function(nstand = 5, nplot = 4, mu = 10, sigma_s = 2, sigma = 1) {
+     standeff = rep( rnorm(nstand, 0, sigma_s), each = nplot)
+     stand = rep(LETTERS[1:nstand], each = nplot)
+     ploteff = rnorm(nstand*nplot, 0, sigma)
+     resp = mu + standeff + ploteff
+     dat = data.frame(stand, resp)
+     lmer(resp ~ 1 + (1|stand), data = dat)
+}
+set.seed(16)
+twolevel_fun()
+# Linear mixed model fit by REML ['lmerMod']
+# Formula: resp ~ 1 + (1 | stand)
+#    Data: dat
+# REML criterion at convergence: 72.5943
+# Random effects:
+#  Groups   Name        Std.Dev.
+#  stand    (Intercept) 2.168   
+#  Residual             1.130   
+# Number of obs: 20, groups:  stand, 5
+# Fixed Effects:
+# (Intercept)  
+#       10.57
+sims = replicate(100, twolevel_fun(), simplify = FALSE )
+sims[[100]]
+# Linear mixed model fit by REML ['lmerMod']
+# Formula: resp ~ 1 + (1 | stand)
+#    Data: dat
+# REML criterion at convergence: 58.0201
+# Random effects:
+#  Groups   Name        Std.Dev.
+#  stand    (Intercept) 1.7197  
+#  Residual             0.7418  
+# Number of obs: 20, groups:  stand, 5
+# Fixed Effects:
+# (Intercept)  
+#       7.711
+library(broom.mixed)
+tidy(fit1)
+# # A tibble: 3 × 6
+#   effect   group    term            estimate std.error statistic
+#   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+# 1 fixed    &lt;NA&gt;     (Intercept)        10.6       1.00      10.5
+# 2 ran_pars stand    sd__(Intercept)     2.17     NA         NA  
+# 3 ran_pars Residual sd__Observation     1.13     NA         NA
+tidy(fit1, effects = "fixed")
+# # A tibble: 1 × 5
+#   effect term        estimate std.error statistic
+#   &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+# 1 fixed  (Intercept)     10.6      1.00      10.5
+tidy(fit1, effects = "ran_pars", scales = "vcov")
+# # A tibble: 2 × 4
+#   effect   group    term             estimate
+#   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;               &lt;dbl&gt;
+# 1 ran_pars stand    var__(Intercept)     4.70
+# 2 ran_pars Residual var__Observation     1.28
+library(purrr) # v. 0.3.4
+suppressPackageStartupMessages( library(dplyr) ) # v. 1.0.7
+library(ggplot2) # v. 3.3.5
+stand_sims = c(5, 20, 100) %&gt;%
+     set_names() %&gt;%
+     map(~replicate(100, twolevel_fun(nstand = .x) ) )
+stand_vars = stand_sims %&gt;%
+     modify_depth(2, ~tidy(.x, effects = "ran_pars", scales = "vcov") ) %&gt;%
+     map_dfr(bind_rows, .id = "stand_num") %&gt;%
+     filter(group == "stand")
+head(stand_vars)
+# # A tibble: 6 × 5
+#   stand_num effect   group term             estimate
+#   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;               &lt;dbl&gt;
+# 1 5         ran_pars stand var__(Intercept)     2.53
+# 2 5         ran_pars stand var__(Intercept)     7.70
+# 3 5         ran_pars stand var__(Intercept)     4.19
+# 4 5         ran_pars stand var__(Intercept)     3.28
+# 5 5         ran_pars stand var__(Intercept)    12.9 
+# 6 5         ran_pars stand var__(Intercept)     4.62
+ggplot(stand_vars, aes(x = estimate) ) +
+     geom_density(fill = "blue", alpha = .25) +
+     facet_wrap(~stand_num) +
+     geom_vline(xintercept = 4)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+```r
+stand_vars = mutate(stand_vars, stand_num = forcats::fct_inorder(stand_num) )
+add_prefix = function(string) {
+     paste("Number stands:", string, sep = " ")
+}
+groupmed = stand_vars %&gt;%
+     group_by(stand_num) %&gt;%
+     summarise(mvar = median(estimate) )
+ggplot(stand_vars, aes(x = estimate) ) + 
+     geom_density(fill = "blue", alpha = .25) +
+     facet_wrap(~stand_num, labeller = as_labeller(add_prefix) ) +
+     geom_vline(aes(xintercept = 4, linetype = "True variance"), size = .5 ) +
+     geom_vline(data = groupmed, aes(xintercept = mvar, linetype = "Median variance"),
+                size = .5) +
+     theme_bw(base_size = 14) +
+     scale_linetype_manual(name = "", values = c(2, 1) ) +
+     theme(legend.position = "bottom",
+           legend.key.width = unit(.1, "cm") ) +
+     labs(x = "Estimated Variance", y = NULL)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-2.png" width="576" style="display: block; margin: auto;" /&gt;
+
+```r
+stand_vars %&gt;%
+     group_by(stand_num) %&gt;%
+     summarise_at("estimate", 
+                  list(min = min, mean = mean, med = median, max = max) )
+# # A tibble: 3 × 5
+#   stand_num   min  mean   med   max
+#   &lt;fct&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+# 1 5          0     3.57  2.95 12.9 
+# 2 20         2.05  4.18  4.05  9.37
+# 3 100        1.26  4.08  4.09  7.91
+stand_vars %&gt;%
+     group_by(stand_num) %&gt;%
+     summarise(mean(estimate &lt; 4) )
+# # A tibble: 3 × 2
+#   stand_num `mean(estimate &lt; 4)`
+#   &lt;fct&gt;                    &lt;dbl&gt;
+# 1 5                         0.64
+# 2 20                        0.49
+# 3 100                       0.47
+```
+
+
+---
+# LMMs simulation
 
 For now, please see [this link](https://debruine.github.io/tutorials/sim-lmer.html). 
 
@@ -2450,7 +2954,7 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 &lt;img src="workshopXX-en_files/figure-html/lmmmmmmmmms-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
-## Time series simulation
+# Time series simulation
 
 - We suggest that for the moment, you consult the [Time Series Analysis CRAN Task View](https://cran.r-project.org/web/views/TimeSeries.html) which contains packages that can simualte time series for you to analyze. 
 - You can also see [this guide to better understand Time series](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
@@ -2463,7 +2967,7 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - The examples here were taken from [this post on Stack Overflow](https://stackoverflow.com/questions/68761166/create-random-points-inside-a-shape-in-r)
 - See also the help for `st_sample()`. In the *Examples* section, there are some neat simulations of points in polygons. 
@@ -2485,11 +2989,11 @@ ggplot() +
   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-49-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - [QGIS](https://qgis.org/en/site/) was used to draw the Jardin Botanique de Montréal. Buildings were added to remove them from the Jardin Botanique polygon. 
 - Here, 5 random points were generated and added to the polygon
@@ -2498,7 +3002,7 @@ ggplot() +
 <script type="application/json" data-for="htmlwidget-d6077d8d0cc4b31dae18">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[-73.5548356516709,-73.5547468608664,-73.5546059390972,-73.5544983138797,-73.554463335684,-73.5545090764015,-73.5545817234233,-73.5546059390972,-73.5546436079234,-73.5547095283691,-73.5547579597169,-73.55477679413,-73.5547579597169,-73.5547041471082,-73.554647643869,-73.5546691689125,-73.5547041471082,-73.5550485478042,-73.5554306173264,-73.5556539396527,-73.5565727899471,-73.5579382848942,-73.5594114050588,-73.5620266978442,-73.5643729275859,-73.5661635421421,-73.5662254266422,-73.5662657860987,-73.5673447289042,-73.5689106758189,-73.5704833493097,-73.5721824824311,-73.5734107552259,-73.5733650145084,-73.5731793610083,-73.5731094046169,-73.5703461271574,-73.5672344130563,-73.5639922033789,-73.5605387792122,-73.5563521582512,-73.5548356516709],"lat":[45.5548173679962,45.5548588170997,45.5554475794742,45.5564423383664,45.557307557042,45.5581120053505,45.5592955784404,45.56061476443,45.5612882390868,45.5627919893757,45.5640583485491,45.5643927115851,45.5647638051317,45.5650463620259,45.565221075661,45.5652606333898,45.5653077258877,45.5654150966353,45.5655526062404,45.5656712786427,45.5659721968247,45.5664143882237,45.566896132719,45.5677503596227,45.5685254627602,45.5691145528272,45.5691220871125,45.5690994842533,45.5678699691887,45.5661177106725,45.564365868429,45.5624241794468,45.5610560560784,45.5609204193132,45.560713195845,45.5606585640761,45.5597684355302,45.5587577222118,45.5577229703115,45.5566161367635,45.5552836686487,45.5548173679962]},{"lng":[-73.5716860611154,-73.5718528802025,-73.5726519974425,-73.5724824877249,-73.5716860611154],"lat":[45.5616301538998,45.561375837295,45.5616358053669,45.5618957722358,45.5616301538998]},{"lng":[-73.5727192632035,-73.572347956203,-73.5725605160076,-73.5726143286164,-73.5726224005077,-73.5725093940293,-73.5723022154856,-73.5719793398331,-73.5724179125944,-73.5727488601382,-73.572544372225,-73.5726493068121,-73.5727031194208,-73.5728161258992,-73.5727461695078,-73.5728484134644,-73.572802672747,-73.5729049167036,-73.5727192632035],"lat":[45.5615623362511,45.5614474228261,45.5611422417696,45.5611591963162,45.5611422417696,45.561106448821,45.5614304683664,45.5613212061704,45.5606449061256,45.560737214968,45.5610574689597,45.5610819588957,45.5609934183074,45.5610216759571,45.5611309387357,45.5611554286396,45.5612270144516,45.5612590396537,45.5615623362511]},{"lng":[-73.5728511040949,-73.5728968448123,-73.5728591759862,-73.5729237511167,-73.5731255483995,-73.5730394482255,-73.5730098512907,-73.5729614199428,-73.5728511040949],"lat":[45.561217595271,45.5611177518599,45.5611121003407,45.5610028375255,45.5610650043258,45.5611874538826,45.5611818023704,45.5612533881487,45.561217595271]},{"lng":[-73.5551628995978,-73.554961102315,-73.5551978777935,-73.5551790433805,-73.5552301653588,-73.5552463091414,-73.555391603185,-73.555588019207,-73.5551628995978],"lat":[45.5616645336488,45.561472383549,45.5613537022767,45.5613329801241,45.5613009549641,45.5613216771286,45.5612519752724,45.5614384746396,45.5616645336488]},{"lng":[-73.5692712202976,-73.5690667323843,-73.5689026039276,-73.5688824241993,-73.5687640364601,-73.5687411661014,-73.56867120971,-73.5686389221448,-73.568597217373,-73.5685689657534,-73.5685797282751,-73.5686254689926,-73.5686913894383,-73.5687505833079,-73.5688541725798,-73.5689012586124,-73.5689281649168,-73.5689577618516,-73.5691891560693,-73.5691703216562,-73.5692712202976],"lat":[45.5643818801377,45.5645052643284,45.5643771708121,45.5643903569228,45.5642933447498,45.5643074727466,45.5642547282072,45.5642782748827,45.5642236465804,45.5641680763563,45.5641068548594,45.5640588194843,45.5641125060773,45.564083308112,45.5641501808488,45.5641266341196,45.5641360528124,45.5641181572946,45.564297112216,45.5643074727466,45.5643818801377]},{"lng":[-73.5579813349813,-73.5580136225465,-73.557776847068,-73.5576530780679,-73.5576772937418,-73.5573517274589,-73.5573167492632,-73.5569562047845,-73.5569669673063,-73.5568889390236,-73.5570073267629,-73.5572306490892,-73.5572656272849,-73.5570396143281,-73.5570638300021,-73.5573517274589,-73.5572817710675,-73.5576880562636,-73.5577068906766,-73.557819897155,-73.5578737097638,-73.5577741564376,-73.5578145158941,-73.5577311063506,-73.5576988187853,-73.5575562153721,-73.5576207905026,-73.5575346903286,-73.5574055400676,-73.5575938841982,-73.5575831216765,-73.5576584593287,-73.5574270651111,-73.5574566620459,-73.5573624899806,-73.557346346198,-73.5568781765018,-73.5564234599579,-73.5568970109149,-73.556872795241,-73.5566736885886,-73.556571444632,-73.5566709979581,-73.5566279478711,-73.556547228958,-73.5563346691534,-73.5563857911318,-73.5562297345664,-73.5562943096969,-73.5559956497183,-73.5559310745878,-73.5560252466531,-73.5559902684574,-73.5558611181964,-73.555834211892,-73.5558691900877,-73.555858427566,-73.5559256933269,-73.5559310745878,-73.5560198653923,-73.5559821965661,-73.5562243533055,-73.556547228958,-73.5563104534795,-73.5561221093489,-73.5560252466531,-73.556178612588,-73.5560602248488,-73.5559472183704,-73.5558476650442,-73.5557938524355,-73.5555839832613,-73.5556647021745,-73.5562243533055,-73.5562943096969,-73.5565741352624,-73.5565364664363,-73.5564718913058,-73.5564073161753,-73.5563992442839,-73.5563481223056,-73.556331978523,-73.5562055188924,-73.5561247999793,-73.5563212160013,-73.5563158347403,-73.5560333185444,-73.5558288306312,-73.5557588742398,-73.556159778175,-73.5561490156532,-73.5561113468271,-73.5561005843054,-73.5559956497183,-73.555963362153,-73.5563239066317,-73.5563857911318,-73.5562835471751,-73.5562943096969,-73.5566790698495,-73.5567678606539,-73.5567382637191,-73.5568216732626,-73.5568620327192,-73.5569292984802,-73.556657544806,-73.5566952136321,-73.5567759325452,-73.5568512701975,-73.5567920763278,-73.55680552948,-73.5567678606539,-73.556848579567,-73.5577418688723,-73.5581104852423,-73.5581266290249,-73.5581616072206,-73.5585356048514,-73.5584172171122,-73.5579813349813],"lat":[45.5569717388549,45.5569208714089,45.556845512145,45.5568982636403,45.5569378272293,45.5570602857807,45.557030142162,45.5571714402346,45.5572223074538,45.5572694066898,45.5574144720885,45.5573259257208,45.5573767928001,45.5574521513515,45.5574841787053,45.5573636050433,45.5572863624051,45.5571186889957,45.5571337607833,45.5571111531004,45.5571921639221,45.5572336112741,45.5572637547835,45.557292014309,45.5572712906584,45.5573315776208,45.5573994003762,45.5574295437967,45.5575105541594,45.5577253252532,45.5577347450192,45.5578364783917,45.5579269079015,45.5579400955261,45.5579834262712,45.5579683547115,45.5581624007335,45.5576386633317,45.5574464994637,45.5574163560523,45.5575124381199,45.5573843286598,45.5573466493513,45.5573108539848,45.557354185215,45.5574464994637,45.5574841787053,45.5575595371127,45.5576198237658,45.5577366289723,45.5576688066239,45.5576273595929,45.557593448363,45.557651851024,45.557834594442,45.5578327104923,45.5578854610609,45.5578929968523,45.5579306757945,45.5579269079015,45.5578703894749,45.5577460487364,45.5581284898265,45.5582339903589,45.558299928091,45.5581831240555,45.5581096504249,45.5579796583816,45.5579570510391,45.5579664707662,45.5582245706765,45.5582189188664,45.5575529432561,45.5572873043891,45.5573306356375,45.5572232494389,45.5571780341361,45.5570894873958,45.5571139790613,45.5571045591912,45.5571177470089,45.5571045591912,45.5571478905805,45.5570555758413,45.5569651449293,45.5569425371785,45.5570706476458,45.5568351502383,45.5567654428163,45.5565789279378,45.5565582040242,45.556569507978,45.5565600880167,45.5566015358348,45.5565355961097,45.5563961804362,45.5564489323533,45.5564941482429,45.5565224081554,45.5563622684633,45.5564583523333,45.5564847282689,45.5565826959213,45.556577043946,45.556691967332,45.5567974705615,45.5568238463379,45.5568012385303,45.5569010896119,45.5569387692192,45.556953841055,45.5569651449292,45.5570386200564,45.5566712434601,45.5567918186078,45.5567748627433,45.5567823986837,45.5569010896119,45.5570913713705,45.5569717388549]}]]],null,"only.park",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#00FF00","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>geometry&emsp;<\/th><td>sfc_POLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-73.5734107552259,45.5548173679962,-73.554463335684,45.5691220871125,true,"only.park","Zoom to only.park","<strong> only.park <\/strong>","bottomright"]},{"method":"addLegend","args":[{"colors":["#00FF00"],"labels":["only.park"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"only.park"}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[[45.5603224593996,45.5601521623187,45.5656216862751,45.5665696841017,45.5641270724154],[-73.5694219489232,-73.5595248442306,-73.5584802415173,-73.5671287388955,-73.56800549546],6,null,"rdm.pt",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"#6666ff","fillOpacity":0.6},null,null,null,{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},["1","2","3","4","5"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addHomeButton","args":[-73.5694219489232,45.5601521623187,-73.5584802415173,45.5665696841017,true,"rdm.pt","Zoom to rdm.pt","<strong> rdm.pt <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],["only.park","rdm.pt"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addHomeButton","args":[-73.5734107552259,45.5548173679962,-73.554463335684,45.5691220871125,true,null,"Zoom to full extent","<strong>Zoom full<\/strong>","bottomleft"]}],"limits":{"lat":[45.5548173679962,45.5691220871125],"lng":[-73.5734107552259,-73.554463335684]},"fitBounds":[45.5548173679962,-73.5734107552259,45.5691220871125,-73.554463335684,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - 2 points were added to that polygon with known location. 
 - But we'd like to add random points in the 100m buffer around these points 
@@ -2510,7 +3014,7 @@ ggplot() +
 
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - 5 random points were generated and added to the polygon
 - 2 points were added to that polygon with known location.
@@ -2520,7 +3024,7 @@ ggplot() +
 <script type="application/json" data-for="htmlwidget-1b091e404977ff18aa13">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[-73.5548356516709,-73.5547468608664,-73.5546059390972,-73.5544983138797,-73.554463335684,-73.5545090764015,-73.5545817234233,-73.5546059390972,-73.5546436079234,-73.5547095283691,-73.5547579597169,-73.55477679413,-73.5547579597169,-73.5547041471082,-73.554647643869,-73.5546691689125,-73.5547041471082,-73.5550485478042,-73.5554306173264,-73.5556539396527,-73.5565727899471,-73.5579382848942,-73.5594114050588,-73.5620266978442,-73.5643729275859,-73.5661635421421,-73.5662254266422,-73.5662657860987,-73.5673447289042,-73.5689106758189,-73.5704833493097,-73.5721824824311,-73.5734107552259,-73.5733650145084,-73.5731793610083,-73.5731094046169,-73.5703461271574,-73.5672344130563,-73.5639922033789,-73.5605387792122,-73.5563521582512,-73.5548356516709],"lat":[45.5548173679962,45.5548588170997,45.5554475794742,45.5564423383664,45.557307557042,45.5581120053505,45.5592955784404,45.56061476443,45.5612882390868,45.5627919893757,45.5640583485491,45.5643927115851,45.5647638051317,45.5650463620259,45.565221075661,45.5652606333898,45.5653077258877,45.5654150966353,45.5655526062404,45.5656712786427,45.5659721968247,45.5664143882237,45.566896132719,45.5677503596227,45.5685254627602,45.5691145528272,45.5691220871125,45.5690994842533,45.5678699691887,45.5661177106725,45.564365868429,45.5624241794468,45.5610560560784,45.5609204193132,45.560713195845,45.5606585640761,45.5597684355302,45.5587577222118,45.5577229703115,45.5566161367635,45.5552836686487,45.5548173679962]},{"lng":[-73.5716860611154,-73.5718528802025,-73.5726519974425,-73.5724824877249,-73.5716860611154],"lat":[45.5616301538998,45.561375837295,45.5616358053669,45.5618957722358,45.5616301538998]},{"lng":[-73.5727192632035,-73.572347956203,-73.5725605160076,-73.5726143286164,-73.5726224005077,-73.5725093940293,-73.5723022154856,-73.5719793398331,-73.5724179125944,-73.5727488601382,-73.572544372225,-73.5726493068121,-73.5727031194208,-73.5728161258992,-73.5727461695078,-73.5728484134644,-73.572802672747,-73.5729049167036,-73.5727192632035],"lat":[45.5615623362511,45.5614474228261,45.5611422417696,45.5611591963162,45.5611422417696,45.561106448821,45.5614304683664,45.5613212061704,45.5606449061256,45.560737214968,45.5610574689597,45.5610819588957,45.5609934183074,45.5610216759571,45.5611309387357,45.5611554286396,45.5612270144516,45.5612590396537,45.5615623362511]},{"lng":[-73.5728511040949,-73.5728968448123,-73.5728591759862,-73.5729237511167,-73.5731255483995,-73.5730394482255,-73.5730098512907,-73.5729614199428,-73.5728511040949],"lat":[45.561217595271,45.5611177518599,45.5611121003407,45.5610028375255,45.5610650043258,45.5611874538826,45.5611818023704,45.5612533881487,45.561217595271]},{"lng":[-73.5551628995978,-73.554961102315,-73.5551978777935,-73.5551790433805,-73.5552301653588,-73.5552463091414,-73.555391603185,-73.555588019207,-73.5551628995978],"lat":[45.5616645336488,45.561472383549,45.5613537022767,45.5613329801241,45.5613009549641,45.5613216771286,45.5612519752724,45.5614384746396,45.5616645336488]},{"lng":[-73.5692712202976,-73.5690667323843,-73.5689026039276,-73.5688824241993,-73.5687640364601,-73.5687411661014,-73.56867120971,-73.5686389221448,-73.568597217373,-73.5685689657534,-73.5685797282751,-73.5686254689926,-73.5686913894383,-73.5687505833079,-73.5688541725798,-73.5689012586124,-73.5689281649168,-73.5689577618516,-73.5691891560693,-73.5691703216562,-73.5692712202976],"lat":[45.5643818801377,45.5645052643284,45.5643771708121,45.5643903569228,45.5642933447498,45.5643074727466,45.5642547282072,45.5642782748827,45.5642236465804,45.5641680763563,45.5641068548594,45.5640588194843,45.5641125060773,45.564083308112,45.5641501808488,45.5641266341196,45.5641360528124,45.5641181572946,45.564297112216,45.5643074727466,45.5643818801377]},{"lng":[-73.5579813349813,-73.5580136225465,-73.557776847068,-73.5576530780679,-73.5576772937418,-73.5573517274589,-73.5573167492632,-73.5569562047845,-73.5569669673063,-73.5568889390236,-73.5570073267629,-73.5572306490892,-73.5572656272849,-73.5570396143281,-73.5570638300021,-73.5573517274589,-73.5572817710675,-73.5576880562636,-73.5577068906766,-73.557819897155,-73.5578737097638,-73.5577741564376,-73.5578145158941,-73.5577311063506,-73.5576988187853,-73.5575562153721,-73.5576207905026,-73.5575346903286,-73.5574055400676,-73.5575938841982,-73.5575831216765,-73.5576584593287,-73.5574270651111,-73.5574566620459,-73.5573624899806,-73.557346346198,-73.5568781765018,-73.5564234599579,-73.5568970109149,-73.556872795241,-73.5566736885886,-73.556571444632,-73.5566709979581,-73.5566279478711,-73.556547228958,-73.5563346691534,-73.5563857911318,-73.5562297345664,-73.5562943096969,-73.5559956497183,-73.5559310745878,-73.5560252466531,-73.5559902684574,-73.5558611181964,-73.555834211892,-73.5558691900877,-73.555858427566,-73.5559256933269,-73.5559310745878,-73.5560198653923,-73.5559821965661,-73.5562243533055,-73.556547228958,-73.5563104534795,-73.5561221093489,-73.5560252466531,-73.556178612588,-73.5560602248488,-73.5559472183704,-73.5558476650442,-73.5557938524355,-73.5555839832613,-73.5556647021745,-73.5562243533055,-73.5562943096969,-73.5565741352624,-73.5565364664363,-73.5564718913058,-73.5564073161753,-73.5563992442839,-73.5563481223056,-73.556331978523,-73.5562055188924,-73.5561247999793,-73.5563212160013,-73.5563158347403,-73.5560333185444,-73.5558288306312,-73.5557588742398,-73.556159778175,-73.5561490156532,-73.5561113468271,-73.5561005843054,-73.5559956497183,-73.555963362153,-73.5563239066317,-73.5563857911318,-73.5562835471751,-73.5562943096969,-73.5566790698495,-73.5567678606539,-73.5567382637191,-73.5568216732626,-73.5568620327192,-73.5569292984802,-73.556657544806,-73.5566952136321,-73.5567759325452,-73.5568512701975,-73.5567920763278,-73.55680552948,-73.5567678606539,-73.556848579567,-73.5577418688723,-73.5581104852423,-73.5581266290249,-73.5581616072206,-73.5585356048514,-73.5584172171122,-73.5579813349813],"lat":[45.5569717388549,45.5569208714089,45.556845512145,45.5568982636403,45.5569378272293,45.5570602857807,45.557030142162,45.5571714402346,45.5572223074538,45.5572694066898,45.5574144720885,45.5573259257208,45.5573767928001,45.5574521513515,45.5574841787053,45.5573636050433,45.5572863624051,45.5571186889957,45.5571337607833,45.5571111531004,45.5571921639221,45.5572336112741,45.5572637547835,45.557292014309,45.5572712906584,45.5573315776208,45.5573994003762,45.5574295437967,45.5575105541594,45.5577253252532,45.5577347450192,45.5578364783917,45.5579269079015,45.5579400955261,45.5579834262712,45.5579683547115,45.5581624007335,45.5576386633317,45.5574464994637,45.5574163560523,45.5575124381199,45.5573843286598,45.5573466493513,45.5573108539848,45.557354185215,45.5574464994637,45.5574841787053,45.5575595371127,45.5576198237658,45.5577366289723,45.5576688066239,45.5576273595929,45.557593448363,45.557651851024,45.557834594442,45.5578327104923,45.5578854610609,45.5578929968523,45.5579306757945,45.5579269079015,45.5578703894749,45.5577460487364,45.5581284898265,45.5582339903589,45.558299928091,45.5581831240555,45.5581096504249,45.5579796583816,45.5579570510391,45.5579664707662,45.5582245706765,45.5582189188664,45.5575529432561,45.5572873043891,45.5573306356375,45.5572232494389,45.5571780341361,45.5570894873958,45.5571139790613,45.5571045591912,45.5571177470089,45.5571045591912,45.5571478905805,45.5570555758413,45.5569651449293,45.5569425371785,45.5570706476458,45.5568351502383,45.5567654428163,45.5565789279378,45.5565582040242,45.556569507978,45.5565600880167,45.5566015358348,45.5565355961097,45.5563961804362,45.5564489323533,45.5564941482429,45.5565224081554,45.5563622684633,45.5564583523333,45.5564847282689,45.5565826959213,45.556577043946,45.556691967332,45.5567974705615,45.5568238463379,45.5568012385303,45.5569010896119,45.5569387692192,45.556953841055,45.5569651449292,45.5570386200564,45.5566712434601,45.5567918186078,45.5567748627433,45.5567823986837,45.5569010896119,45.5570913713705,45.5569717388549]}]]],null,"only.park",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#00FF00","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>geometry&emsp;<\/th><td>sfc_POLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-73.5734107552259,45.5548173679962,-73.554463335684,45.5691220871125,true,"only.park","Zoom to only.park","<strong> only.park <\/strong>","bottomright"]},{"method":"addLegend","args":[{"colors":["#00FF00"],"labels":["only.park"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"only.park"}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[[45.5603224593996,45.5601521623187,45.5656216862751,45.5665696841017,45.5641270724154],[-73.5694219489232,-73.5595248442306,-73.5584802415173,-73.5671287388955,-73.56800549546],6,null,"st_sample(only.park, 5)",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"#6666ff","fillOpacity":0.6},null,null,null,{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},["1","2","3","4","5"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addHomeButton","args":[-73.5694219489232,45.5601521623187,-73.5584802415173,45.5665696841017,true,"st_sample(only.park, 5)","Zoom to st_sample(only.park, 5)","<strong> st_sample(only.park, 5) <\/strong>","bottomright"]},{"method":"addCircleMarkers","args":[[45.560516,45.56502],[-73.56619,-73.56407],6,null,"c(selected.point, selected.point.no.tree)",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"red","fillOpacity":0.6},null,null,null,{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},["1","2"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addHomeButton","args":[-73.56619,45.560516,-73.56407,45.56502,true,"c(selected.point, selected.point.no.tree)","Zoom to c(selected.point, selected.point.no.tree)","<strong> c(selected.point, selected.point.no.tree) <\/strong>","bottomright"]},{"method":"addPolygons","args":[[[[{"lng":[-73.5649090414077,-73.5649107426892,-73.5649159503175,-73.5649246500102,-73.5649368179134,-73.5649524206677,-73.5649714154991,-73.5649937503367,-73.5650193639554,-73.5650481861439,-73.565080137897,-73.5651151316323,-73.5651530714304,-73.5651938532979,-73.5652373654521,-73.5652834886279,-73.5653320964043,-73.5653830555514,-73.5654362263949,-73.5654914631995,-73.5655486145681,-73.5656075238567,-73.5656680296039,-73.5657299659731,-73.5657931632073,-73.565857448094,-73.5659226444402,-73.5659885735551,-73.5660550547397,-73.5661219057822,-73.5661889434572,-73.5662559840279,-73.5663228437496,-73.5663893393731,-73.5664552886469,-73.566520510817,-73.5665848271218,-73.566648061282,-73.5667100399841,-73.5667705933551,-73.5668295554278,-73.5668867645963,-73.566942064058,-73.5669953022443,-73.5670463332351,-73.5670950171596,-73.567141220579,-73.5671848168524,-73.5672256864842,-73.5672637174513,-73.5672988055102,-73.5673308544832,-73.5673597765214,-73.5673854923461,-73.5674079314656,-73.5674270323693,-73.5674427426953,-73.567455019375,-73.5674638287508,-73.5674691466681,-73.5674709585423,-73.5674692593984,-73.5674640538849,-73.5674553562609,-73.5674431903576,-73.5674275895127,-73.5674085964792,-73.5673862633082,-73.5673606512065,-73.567331830369,-73.567299879786,-73.5672648870271,-73.5672269480008,-73.5671861666924,-73.5671426548781,-73.5670965318196,-73.5670479239363,-73.5669969644597,-73.5669437930673,-73.5668885555006,-73.566831403165,-73.566772492715,-73.566711985625,-73.566650047746,-73.5665868488519,-73.566522562173,-73.5664573639222,-73.5663914328111,-73.5663249495605,-73.5662580964049,-73.5661910565928,-73.5661240138844,-73.566057152048,-73.5659906543559,-73.565924703082,-73.5658594790025,-73.5657951609,-73.5657319250732,-73.5656699448539,-73.565609390132,-73.5655504268891,-73.5654932167444,-73.5654379165108,-73.5653846777655,-73.5653336464347,-73.5652849623929,-73.5652387590803,-73.5651951631366,-73.5651542940537,-73.5651162638487,-73.5650811767567,-73.565049128945,-73.5650202082497,-73.5649944939347,-73.5649720564752,-73.5649529573637,-73.5649372489423,-73.5649249742588,-73.564916166949,-73.5649108511448,-73.5649090414077],"lat":[45.560516735024,45.5604696403872,45.5604226728381,45.5603759611109,45.5603296332384,45.560283816201,45.5602386355787,45.5601942152067,45.5601506768363,45.560108139801,45.5600667206894,45.560026533026,45.5599876869595,45.5599502889615,45.5599144415344,45.5598802429304,45.5598477868825,45.5598171623474,45.5597884532619,45.5597617383125,45.5597370907202,45.5597145780396,45.5596942619739,45.5596761982057,45.5596604362441,45.5596470192899,45.5596359841161,45.5596273609682,45.5596211734804,45.5596174386114,45.5596161665977,45.5596173609257,45.5596210183219,45.5596271287622,45.559635675499,45.5596466351074,45.5596599775493,45.5596756662556,45.5596936582265,45.5597139041496,45.5597363485344,45.5597609298651,45.5597875807686,45.5598162281996,45.5598467936403,45.559879193316,45.5599133384246,45.5599491353796,45.5599864860672,45.5600252881148,45.5600654351713,45.5601068171992,45.560149320776,45.5601928294045,45.5602372238329,45.560282382381,45.5603281812741,45.5603744949819,45.560421196563,45.5604681580123,45.5605152506123,45.5605623452856,45.5606093129488,45.5606560248663,45.5607023530032,45.5607481703763,45.560793351402,45.5608377722405,45.5608813111355,45.5609238487477,45.5609652684821,45.5610054568077,45.5610443035681,45.5610817022844,45.5611175504463,45.5611517497934,45.5611842065847,45.5612148318553,45.5612435416604,45.5612702573055,45.5612949055621,45.5613174188681,45.5613377355138,45.5613557998101,45.5613715622419,45.5613849796035,45.5613960151173,45.5614046385342,45.561410826217,45.5614145612049,45.5614158332599,45.5614146388954,45.5614109813851,45.5614048707545,45.5613963237533,45.5613853638091,45.5613720209639,45.5613563317911,45.5613383392956,45.5613180927957,45.5612956477879,45.5612710657952,45.5612444141977,45.5612157660484,45.561185199873,45.5611527994541,45.5611186536022,45.5610828559116,45.5610455045044,45.5610067017612,45.5609665540404,45.5609251713869,45.5608826672302,45.5608391580737,45.560794763175,45.5607496042195,45.5607038049864,45.5606574910095,45.5606107892335,45.5605638276653,45.560516735024]}]],[[{"lng":[-73.5627889389951,-73.5627906421799,-73.562795851987,-73.5628045541279,-73.5628167247422,-73.562832330463,-73.562851328508,-73.5628736667977,-73.5628992840975,-73.5629281101859,-73.562960066047,-73.5629950640873,-73.5630330083755,-73.5630737949059,-73.5631173118831,-73.5631634400286,-73.563212052908,-73.5632630172772,-73.5633161934477,-73.5633714356696,-73.563428592531,-73.5634875073728,-73.5635480187183,-73.5636099607157,-73.5636731635924,-73.5637374541206,-73.5638026560918,-73.5638685907997,-73.56393507753,-73.5640019340558,-73.5640689771366,-73.5641360230209,-73.5642028879492,-73.5642693886581,-73.5643353428824,-73.5644005698543,-73.564464890799,-73.5645281294247,-73.5645901124055,-73.5646506698567,-73.5647096358,-73.5647668486187,-73.5648221515004,-73.564875392867,-73.5649264267898,-73.5649751133899,-73.5650213192211,-73.565064917636,-73.5651057891331,-73.565143821684,-73.5651789110412,-73.5652109610232,-73.5652398837784,-73.5652656000261,-73.5652880392735,-73.5653071400096,-73.565322849873,-73.5653351257963,-73.565343934124,-73.5653492507044,-73.5653510609565,-73.5653493599098,-73.5653441522179,-73.5653354521462,-73.5653232835322,-73.5653076797213,-73.5652886834744,-73.5652663468516,-73.5652407310692,-73.565211906332,-73.565179951641,-73.5651449545771,-73.5651070110608,-73.5650662250894,-73.5650227084521,-73.5649765804237,-73.5649279674373,-73.5648770027382,-73.5648238260186,-73.5647685830342,-73.5647114252054,-73.5646525092019,-73.5645919965131,-73.5645300530055,-73.5644668484683,-73.5644025561475,-73.5643373522712,-73.5642714155665,-73.5642049267696,-73.5641380681302,-73.5640710229118,-73.5640039748894,-73.5639371078459,-73.5638706050678,-73.5638046488431,-73.5637394199615,-73.5636750972186,-73.5636118569261,-73.5635498724279,-73.5634893136255,-73.563430346512,-73.5633731327169,-73.5633178290633,-73.5632645871377,-73.563213552875,-73.5631648661578,-73.5631186604336,-73.5630750623485,-73.5630341914007,-73.5629961596122,-73.5629610712223,-73.5629290224021,-73.5629001009901,-73.5628743862527,-73.5628519486657,-73.5628328497224,-73.5628171417641,-73.5628048678375,-73.5627960615764,-73.5627907471096,-73.5627889389951],"lat":[45.5650207113055,45.5649736167367,45.5649266493202,45.5648799377901,45.5648336101787,45.5647877934656,45.5647426132299,45.5646981933057,45.5646546554432,45.5646121189744,45.5645707004864,45.564530513502,45.564491668168,45.564454270954,45.5644184243602,45.5643842266366,45.5643517715138,45.5643211479459,45.564292439867,45.5642657259609,45.5642410794458,45.5642185678734,45.5641982529437,45.5641801903361,45.5641644295568,45.5641510138032,45.5641399798451,45.5641313579244,45.5641251716723,45.5641214380439,45.5641201672724,45.5641213628407,45.5641250214719,45.5641311331386,45.5641396810899,45.5641506418973,45.5641639855197,45.5641796753846,45.5641976684891,45.5642179155176,45.5642403609767,45.5642649433476,45.5642915952544,45.5643202436488,45.5643508100108,45.5643832105628,45.5644173565004,45.564453154235,45.5644905056504,45.5645293083721,45.5645694560472,45.5646108386366,45.564653342716,45.5646968517871,45.5647412465966,45.5647864054636,45.5648322046122,45.5648785185116,45.5649252202197,45.5649721817313,45.5650192743285,45.565066368934,45.5651133364646,45.565160048185,45.565206376061,45.56525219311,45.5652973737492,45.56534179414,45.5653853325272,45.565427869573,45.565469288684,45.5655094763307,45.5655483223589,45.5655857202913,45.5656215676199,45.5656557660868,45.5656882219531,45.5657188462566,45.5657475550552,45.565774269657,45.5657989168364,45.5658214290345,45.5658417445442,45.5658598076798,45.5658755689293,45.5658889850904,45.5659000193886,45.5659086415781,45.5659148280252,45.5659185617724,45.5659198325852,45.5659186369803,45.5659149782349,45.5659088663778,45.565900318162,45.5658893570187,45.5658760129929,45.5658603226613,45.5658423290321,45.5658220814265,45.5657996353444,45.5657750523113,45.5657483997104,45.5657197505975,45.5656891835008,45.5656567822054,45.5656226355243,45.5655868370542,45.5655494849191,45.5655106815016,45.5654705331621,45.5654291499471,45.5653866452877,45.5653431356886,45.5652987404088,45.5652535811345,45.5652077816458,45.5651614674775,45.5651147655744,45.5650678039441,45.5650207113055]}]]],null,"buffer",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"red","fillOpacity":0.6,"smoothFactor":1,"noClip":false},null,{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},["1","2"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addHomeButton","args":[-73.5674709585423,45.5596161665977,-73.5627889389951,45.5659198325852,true,"buffer","Zoom to buffer","<strong> buffer <\/strong>","bottomright"]},{"method":"addCircleMarkers","args":[[45.559870081328,45.5645624317597,45.5605160030243,45.5644463331871,45.5601638616041,45.5657007306182,45.5603014674917,45.5644866036306,45.5597551845272,45.5654906115718,45.5605617598929,45.5648439633749,45.5604935007425,45.5653395004477,45.5604946889424,45.5648968341685,45.5609701411934,45.5650502177768,45.5599899692864,45.56495174516],[-73.5664369930336,-73.5638212471159,-73.5661883679677,-73.5649999102995,-73.5662982706654,-73.5646219463405,-73.5665445901895,-73.5630810314204,-73.566132549555,-73.564507651364,-73.5659609348478,-73.5645919721458,-73.5663789841888,-73.5648476047703,-73.566620629527,-73.564080705822,-73.565647116796,-73.5642036990651,-73.5664434604454,-73.5634601991225],6,null,"rmd.ptdf.sf",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":1,"opacity":[0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9],"fill":true,"fillColor":"#FFC0CB","fillOpacity":[0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6]},null,null,["<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>2&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>3&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>4&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>5&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>6&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>7&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>8&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>9&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>10&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>11&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>12&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>13&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>14&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>15&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>16&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>17&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>18&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>19&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>20&emsp;<\/td><\/tr><tr><td>1<\/td><th>length.rdm.ppt_x.&emsp;<\/th><td>20&emsp;<\/td><\/tr><tr><td>2<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>"],{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},["20","20","20","20","20","20","20","20","20","20","20","20","20","20","20","20","20","20","20","20"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addHomeButton","args":[-73.566620629527,45.5597551845272,-73.5630810314204,45.5657007306182,true,"rmd.ptdf.sf","Zoom to rmd.ptdf.sf","<strong> rmd.ptdf.sf <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],["only.park","st_sample(only.park, 5)","c(selected.point, selected.point.no.tree)","buffer","rmd.ptdf.sf"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#FFC0CB"],"labels":["20"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"rmd.ptdf.sf"}]},{"method":"addHomeButton","args":[-73.5734107552259,45.5548173679962,-73.554463335684,45.5691220871125,true,null,"Zoom to full extent","<strong>Zoom full<\/strong>","bottomleft"]}],"limits":{"lat":[45.5548173679962,45.5691220871125],"lng":[-73.5734107552259,-73.554463335684]},"fitBounds":[45.5548173679962,-73.5734107552259,45.5691220871125,-73.554463335684,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - What if we want to add a grid to the polygon:
 
@@ -2541,7 +3045,7 @@ class: inverse, center, middle
 
 
 ---
-## Advanced simulations
+# Advanced simulations
 
 - Now that we have the building blocks to make simulations, we are going to add another layer:
 - We want to simulate a process and then see how our simulation responds to a fluctuation in a parameter
@@ -2554,7 +3058,7 @@ class: inverse, center, middle
 
 
 ---
-## Advanced simulations
+# Advanced simulations
 .tiny[
 
 ```r
@@ -2597,7 +3101,7 @@ sample.mean.pop.est &lt;- function(x,n, sample.size, ylim = NULL) {
 ]
 
 ---
-## Advanced simulations
+# Advanced simulations
 
 .small[
 
@@ -2613,7 +3117,7 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 ]
 
 ---
-## Advanced simulations (natural selection)
+# Advanced simulations (natural selection)
 
 - The sentence "METHINKS IT IS LIKE A WEASEL" is from Shakespeare's *Hamlet*
 - Richard Dawkins, in his 1986 book *The Blind Watchmaker*, used it to simulate natural selection on random genetic mutation. 
@@ -2644,7 +3148,7 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 
 
 ---
-## References
+# References
 .tiny[
 Book
 - Otto, S.P. &amp; Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973.
@@ -2686,6 +3190,8 @@ class: inverse, center, bottom
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="qcbsR-macros.js"></script>
 <script>var slideshow = remark.create({
+"ratio": "4:3",
+"highlightStyle": "github",
 "highlightLines": true
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
