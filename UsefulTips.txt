@@ -20,7 +20,7 @@ https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
   <!-- For developers  -->
   <!-- --------------------- -->
   <!-- 
-  Please consult the presentation template at the following link  http://r.qcbs.ca/templateWorkshops/presentation-template/index.html#1
+  Please consult the presentation template at the following link http://r.qcbs.ca/templateWorkshops/presentation-template/index.html#1
 
 ###
 I added a bunch of 

@@ -119,6 +119,8 @@ In this section, we will explore
 
 &lt;br&gt;
 &lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
 
 .center[
 [...] the term 'simulation' describes a wealth of varied and useful techniques, all connected with the mimicking of the rules of a model of some kind.
@@ -730,8 +732,9 @@ gl(n = 2, k = 2, length = 20)
 
 ```r
 set.seed(1234)
-data.replicated = replicate(n = 2,expr = data.frame(gr = rep(LETTERS[1:3],each = 2),
-                                                    y = rnorm(6)), 
+data.replicated = replicate(n = 2,
+                            expr = data.frame(gr = rep(LETTERS[1:3], each = 2),
+                                              y = rnorm(6)), 
                             simplify = FALSE)
 ```
 .pull-left[
@@ -829,7 +832,7 @@ linear.df = data.frame(x,y,gr)
 plot(y~x, col = as.factor(gr), data = linear.df, pch = 19, cex = 1.5)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/linear_no_error-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/linear_no_error-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 
 ???
@@ -919,9 +922,9 @@ gm
 
 
 ```r
-totl.nb.events = 100; successes = 20
-odds.favor = (successes)/(totl.nb.events-successes) # Odds in favor of the event (here 1 in 4)
-odds.against = (totl.nb.events-successes)/(successes) # Odds in against of the event (here 4 to 1)
+tot.nb.ev = 100; success = 20
+odds.favor = (success)/(tot.nb.ev-success) # Odds in favor of event ( 1 in 4)
+odds.agnst = (tot.nb.ev-success)/(success) # Odds against the event (here 4 to 1)
 ```
 
 &lt;!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example --&gt;
@@ -954,12 +957,12 @@ The horse is 4 times more *likely* to fail than to succeed in a race.
 
 
 ```r
-totl.nb.events = 100; successes = 20
-probability.favor = (successes)/(totl.nb.events) # probability of the event (here 20%)
+tot.nb.ev = 100; success = 20
+probability.favor = (success)/(tot.nb.ev) # probability of event (here 20%)
 probability.favor # fractions(probability.favor)
 # [1] 0.2
 ```
-- So the horse *wins* 0.2 or 20% of the times. 
+- So the horse *wins* 1/5 or 20% of the times. 
 - The probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particular outcome divided by the total number of results from the event. 
 ???
 - Probability is the number of a *certain event* divided by the total number of events. 
@@ -985,8 +988,10 @@ p = inv.logit(log_odds) # This is the same as
 p2 = odds/(1 + odds)
 # Probability of failure (1-p)
 q = 1-p
+
 # Store log_odds other data to plot 
 d = data.frame(log_odds, odds, p, p2, q) 
+
 head(signif(d,2), 3)
 #   log_odds   odds      p     p2    q
 # 1     -5.0 0.0067 0.0067 0.0067 0.99
@@ -1012,13 +1017,16 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
 
 
 ```r
-par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.3)
-plot(d$odds~d$log_odds, type = "l", ylab = "Odds", xlab = "Ln odds", lwd = 3) ; abline(v = 0, lty = 3)
-plot(d$p~d$odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
-plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
+o.lo = d$odds~d$log_odds
+p.o = d$p~d$odds
+p.lo = d$p~d$log_odds
+plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
+plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
+plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/odds_prob_plot-1.png" width="864" style="display: block; margin: auto;" /&gt;
+
 ???
 - You can recognize from the third graph, the familiar shape of a logistic regression. This is purely due to the transformation of space from [0,1] to ]-infinity, infinity[. 
 
@@ -1244,15 +1252,12 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 ---
 # Summary of important distribution 
 
-.small[
 - Distributions of random variables comes in 2 flavors: 
   1. Discrete (infinite *integer* number of *distinct* values, e.g., `0`, `5`, `19`,...)
   2. Continuous (infinite decimal number of possible values, e.g., `0.1`,`0.62113`,...)
-]
 
 
-
-.tiny[
+.small[
 | Distribution | Definition | Type of data | Example |
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
@@ -1312,6 +1317,14 @@ This figure contains a decision graph that *could* help figure out what distribu
 - Multiple people have expanded the catalog of distributions supported in R. This could be seen in the CRAN Task View about probability distributions. 
 - In the next slides, we will explore some distributions in a little more depth. 
 
+#################################
+---
+class: inverse, center, middle
+
+# Statistical distributions in more details 
+
+???
+- In this section, we'll explore in more details some statistical distributions that are important in biology 
 
 ---
 # Poisson distribution
@@ -1424,6 +1437,10 @@ The general form of the probability density function for a normal distribution i
 
 The important part here is the mean `\(\mu\)` and the standard deviation `\(\sigma\)`. Usually summarized as `\(N(\mu, \sigma)\)`
 
+???
+- This is one of the most important distribution in statistics
+- We will spend some time to understand it better
+- we will look at some of its properties 
 &lt;!-- Material inspiration
 https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 --&gt;
@@ -1437,6 +1454,8 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
   - velocity of a collection of molecules in a gas of liquid
   - the error from measurements (length of beak).
 
+???
+- Here are some examples of the type of data that could be generated from the normal distribution
 
 ---
 # Normal distribution (Gaussian)
@@ -1444,8 +1463,10 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 - The `iris` dataset contains values that are 'drawn' from a normal distribution. 
 - Here are the histogram for sepal length (mm).
 
-&lt;img src="workshopXX-en_files/figure-html/Iris_normal-1.png" width="792" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/Iris_normal-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
+???
+- An example is from the iris dataset 
 
 ---
 # Normal distribution (dissection)
@@ -1464,6 +1485,12 @@ abline(h=seq(0,1, by = .1),
 &lt;img src="workshopXX-en_files/figure-html/Density_normal-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
+???
+- We showed earlier that different functions can give the values needed to plot the PDF or prob. density function. 
+- With `dnorm`, we are going to show some properties of the Norm. distribution. 
+- This is a standard norm. curve (mean=0, sd=1)
+- The graph shows the x values (which in this case could be any real value that is scaled; human height where we removed the mean and devided by the sd)
+- The y axis is the DENSITY of finding the values. It can RANGE from 0 to large values (not necessarily 1). The important point is that the TOTAL AREA UNDER THE CURVE is 1, so that it can represent a probability, for a density curve. 
 --
 
 .pull-right[
@@ -1472,31 +1499,45 @@ For the density distribution, the *area* under the curve between two points is t
 &lt;img src="workshopXX-en_files/figure-html/Density_normal_dissection_all_info-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
-
+???
+- In this plot, there is the same standard normal curve, but some important values are plotted as well
+- First, the AREA UNDER THE CURVE BETWEEN 2 POINTS is the PROBABILITY of finding data between those 2 points. 
+  * the red area is the probability between about 2sd on EACH side of the mean (~95%)
+- There is a second distribution (green line) shown as the density which are 100 randomly drawn points from a standard normal curve. You can see that the black and green line are pretty close, but they are not the same. 
+`qnorm(.025) = -1.96`
+`qnorm(1-.025) = 1.96`
+`pnorm(qnorm(1-.025)) = 0.975`
 
 ---
 # Quantile value for a normal distribution 
 
-If X is a random variable distributed with a *Standard normal distribution*, what is the probability of finding X less or equal to `\(1.645\)` or `\(X\sim N(0,1)\)` where `\(P(X\leq 1.645)\)`? 
+If X is a random variable distributed with a *Standard normal distribution*, what is the probability of finding X less or equal to `\(1.645\)`. In other words,  `\(P(X\leq 1.645)\)` where `\(X\sim N(0,1)\)`? 
 .pull-left[
 
 ```r
 pnorm(1.645)
 # [1] 0.9500151
 
-qnorm(p = 0.05,lower.tail = F)
+qnorm(p = 0.05, lower.tail = F)
 # [1] 1.644854
-qnorm(p = 0.025,lower.tail = F)
+
+qnorm(p = 0.025, lower.tail = F)
 # [1] 1.959964
 ```
 ]
 
+???
+- The cool thing is that now, we can calculate the probabilities of any given RANGE of x values
+- The `lower.tail` argument is a logical; if TRUE (default), probabilities are `\(P[X \leq x]\)` otherwise, `\(P[X \gt x]\)`. Here `lower.tail=F` since I wanted to show the TOP probability (from the UPPER tail)
+- Here are some important values to remember with the normal distribution  (.05 is 5% and 0.025 is 2.5% from alpha and alpha/2)
 --
 
 .pull-right[
 &lt;img src="workshopXX-en_files/figure-html/normal_shade_95_5-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
+???
+This is the visual representation of what is on the left for the 5% probability. The value of x between the blue and red polygon is ~1.96
 
 ---
 # Normal distribution 
@@ -1505,8 +1546,8 @@ qnorm(p = 0.025,lower.tail = F)
 
 .tiny[
 
+
 ```r
-par(mfrow=c(2,3), mar = c(4,4,1,1), cex = 1.1)
 # The function is not shown, but can be found in the script (Markdown)
 draw.normal(where = "both",  prob = 0.05/2)
 draw.normal(where = "both",  prob = 0.2/2 )
@@ -1518,6 +1559,9 @@ draw.normal(where = "right", prob = 0.05  )
 
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area-1.png" width="648" style="display: block; margin: auto;" /&gt;
 ]
+
+???
+- These are different standard normal distributions where we ploted different probabilities (area under the curve), for different RANGES of X. Compare the 1st and the second row-middle graph and the last graph. The three are 95% in the red portion, BUT the tails have different areas. 
 
 ---
 # Normal distribution 
@@ -1541,6 +1585,11 @@ p.from.mean = round(percent.data.under.curve,2)
 
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area2-1.png" width="792" style="display: block; margin: auto;" /&gt;
 
+???
+- We could show what is the PROBABILITY of finding certain data at a certain distance (in standard deviation units) from BOTH sides of the MEAN.
+- In other words, we want to find the probability of getting data in the red area. 
+- We calculated the probability from the LOWER tail (when x = 1, 2, and 3) and the probability from the UPPER tail (when x = 1, 2, and 3) and substracted both to the probability in THE MIDDLE.
+
 ---
 # Normal distribution 
 
@@ -1550,6 +1599,8 @@ Find the "x" value (quantile) based on the probability (area under the curve bet
 ```r
 qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 # [1] -0.6744898 -1.6448536 -1.9599640 -2.5758293
+qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
+# [1] 0.6744898 1.6448536 1.9599640 2.5758293
 ```
 - for a probability of `\(50\%\)` between the "x" value is -0.67, 0.67. 
 - for a probability of `\(90\%\)` between the "x" value is -1.64, 1.64. 
@@ -1558,29 +1609,43 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area3-1.png" width="1008" style="display: block; margin: auto;" /&gt;
 
+???
+- We could also look at the values of X to which we would observe a certain probability of data on EACH SIDE of the mean
+- Note that instead of looking at the probabilities in the lower and upper tails, we could simply take the other side of the probability (substrating the probability by 1 `qnorm(p = 1-c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)`)
 
 ---
 # Normal distribution
+
+- Hypothesis testing: when we are trying to find *differences in the mean* of a sample and a theoretical value, this is what we are assuming. 
 
 .pull-left[
 
 - Mean of population is = 1
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
 .pull-right[
 
 - Mean of population is = 2 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-13-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ???
-
-- It is NOT a problem if the y value in the probability density function (PDF) is GREATER than one. The important point here is that the AREA UNDER THE CURVE must sum to 1. 
-- see https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1 
+- Here are showing the null hypothesis (black curve) and the theoretical distribution from a sample 
+  * (note that the OBSERVED sample distribution would not be as clean as this one. This is just to simplify the message here)
+- What is shown here is the OVERLAP of the 2 distributions
+  * In statistics, the overlap of the 2 distributions have different names 
+  * **type 1 error (alpha)**: the probability to reject the null hypothesis even if it is true (false alternative)
+  * **type 2 error (beta)**: the probability to fail rejecting the null hypothesis when it is false
+  * **Power (1-beta)**: probability of rejecting the null hypothesis when it is false
+  
+- It is NOT a problem if the y value in the probability density function (PDF) is GREATER than one. 
+- The important point here is that the AREA UNDER THE CURVE must sum to 1. 
+  * see [R density plot y axis larger than 1](https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1) 
 
 ---
 # Normal distribution
@@ -1592,6 +1657,11 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 &lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
+???
+- An important take away here is that these areas change BASED ON THE SAMPLE SIZE that we have. 
+- In this example, the sample distribution has a large SD and a sample size of 10. 
+- How could we improve our CONFIDENCE in telling that there is a REAL difference between our sample and the null hypothesis. 
+  * Increasing the sample size should make our estimate better (this is because the SAMPLING distribution would tend to have a more robust estimate since we are trying to estimate the mean, which is closer to the true population when the sample size is large, see `\(\text{SE}=\sigma/\sqrt{n}\)`, which we will see with the central limit theorem later)
 --
 
 - Let's see what happens if we increase the sample size from 10 to 100.
@@ -1601,15 +1671,21 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 
 ]
 
+???
+- After increasing the sample size, you can see that the AREAS under the sample distribution have shifted to having a better POWER, and reducing the type II error. 
+
 ---
-# Convert a Normal dist. to Standard normal 
+# Convert a Normal dist. to Standard Normal 
 
 - If your data is normally distributed (i.e., `\(X \sim N(\mu, \sigma)\)`), you can convert the data to be `\(X \sim N(0, 1)\)` with a scaling
 $$Z = \frac{(X-\mu)}{\sigma} $$ 
 
 &lt;img src="workshopXX-en_files/figure-html/Standard_normal_transformation-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
-
+???
+- This is just a quick note to show you how to scale data and what effect it has on a distribution
+- Left: SNorm curve with a theoretical distribution centered at 15 and sd 2. The blue curve is a density of 100 points taken from a normal distribution with the same parameters as the population. 
+- Right: after scaling, you can see that all the data is now at a mean of 0 and a SD of 1. 
 
 
 ---
@@ -1624,6 +1700,8 @@ Use `rnorm()` to generate 10 random normal numbers.
 rnorm()
 ```
 
+???
+- This exercise is to start thinking in outputting data from distributions that relate to a biologically relevant phenotype. 
 
 ---
 # Challenge 3 - Solution ![:cube]()
@@ -1643,35 +1721,33 @@ rnorm(n)
 
 - Why are there negative values? Because the mean = 0, so some values spill over the mean on both sides, and in the negative numbers. 
 
----
-# Multivariate normal distribution
-
-- There is a way to generate multiple normal distributions at once. 
-
-
-
-```r
-set.seed(24601) # setting this so the random results will be repeatable 
-library(MASS)
-covmat &lt;- matrix(c(1.0,   0.2,   0.6, 
-                   0.2,   1.0,  -0.5, 
-                   0.6,  -0.5,   1.0), nrow=3) # variance covariance matrix of the data
-data &lt;- mvrnorm(n = 300, mu = c(0,0,0), Sigma=covmat) # generate random data that match that variance covariance matrix
-plot(data)
+???
+- Don't forget to add the seed to get the same results (if this is the behaviour you want)
+- You could ask the questions: 
+  * What if you want to add a mean value to the output? Below is an example on how to do this. 
 ```
-
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /&gt;
+set.seed(1234)
+n &lt;-10
+rnorm(n) + 15
+```
 
 
 ---
 # Central limit theorem (CLT)
 
+- It has been said that if "physicists have general relativity, chemists have the periodic table of elements and biologists have evolution or DNA, statisticians have the central limit theorem" ([Nathan Uyttendaele](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)). 
+
 - The Central limit theorem (CLT) stipulates that:
-  * The more you add (sum) identically distributed random variables, the probability of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
+  * The more you add (sum) identically distributed *random variables*, the more the probability distribution of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
 
 - We will use simulations to test this assertion! 
 
 ???
+
+- This is important: the more you ADD identically distributed variables together, the more their sum will tend towards a new distribution which is normal. 
+
+- See explaination in French in [this video: Le théorème central limite - best of des aventures d'Albert](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat) This is from Nathan Uyttendaele: "Physicists have general relativity and the elegant Maxwell equations, Chemists have the periodic table of elements and Biologists have evolution or the fascinating DNA molecule and statisticians have the central limit theorem!", from the original "Les physiciens ont la relativité générale et les élégantes équations de Maxwell, les chimistes ont le tableau périodique des éléments et les biologistes ont l'évolution ou encore la fascinante la molécule d'ADN et les statisticiens ont le théorème central limite!"
+
 See 
 - [Demonstrating The Central Limit Theorem in R](https://www.r-bloggers.com/2020/08/demonstrating-the-central-limit-theorem-in-r/)
 - [Dice Rolls - Theoretical and Empirical](https://rpubs.com/careybaldwin/346995)
@@ -1688,83 +1764,120 @@ See
 
 ```r
 n = 1000 # Number of points 
-par(mfrow=c(2,2)) # set window 
-# Generate multiple addition of random variables 
-for(i in c(2,50,1000,5000)){
+# Generate multiple additions of random variables 
+for(i in c(2, 50, 1000, 5000)){
   clt = replicate(i, rexp(n, rate = 1), simplify = FALSE)
   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"), xlab = "x") # Draw the histogram 
 }
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-17-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
+
+???
+- Here we generate a bunch of of values from an exponential distribution
+- The result of the addition of all of the random variables tends to be normally distributed
+- Note that if we divide by the number of replication (or the number of variables that were generated, we get the mean, which would be the expected mean of the distribution)
 
 ---
 # Central limit theorem (CLT)
 
-- Same thing as above, but for a random variable coming from a uniform *discrete* distribution!
+- Same thing as above, but for a random variable coming from a uniform *discrete* distribution (with min = 0, max = 1)!
 
-.pull-right2[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="216" style="display: block; margin: auto;" /&gt;
-]
 
-.tiny[
+
+
 
 ```r
-par(mfrow=c(2,2)) # set window 
-# Generate multiple addition of random variables 
-for(i in c(2,50,1000,5000)){
+# Generate multiple additions of random variables 
+for(i in c(2, 50, 1000, 5000)){
   clt = replicate(i, runifdisc(n),simplify = FALSE)
-  # Draw the histogram 
-  hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x")
+  hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram 
 }
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/CLT_uniform_example_dice-1.png" width="576" style="display: block; margin: auto;" /&gt;
+.pull-left2[
+&lt;img src="workshopXX-en_files/figure-html/CLT_uniform_example_dice_hist-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
 ]
+
+.pull-right2[
+
+This is an example of a uniform discrete distribution ranging from 7 to 10. 
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="216" style="display: block; margin: auto;" /&gt;
+]
+
+
+???
+- With a uniform discrete distribution, we can show the CLT
+- Again, if we divide by the number of aditions we made, we are going to get the expected mean
 
 ---
 # Central limit theorem (CLT)
 
 - You are asked to throw 20 dice. If the sum of all 20 dice is `\(\geq 100\)`, you get a candy, if not, you don't get one. What is the probability of having the candy? 
 
-.tiny[
 
 ```r
 n = 1e6 # Number of points 
-par(mfrow=c(1,2), cex = 1) # set window 
-i = 20 # flip 20 dice
-# Generate multiple addition of random variables 
-clt = replicate(i, runifdisc(n,1,6), simplify = FALSE)
-sum.rdm.var = apply(do.call(cbind, clt),1,sum) # mean
-mean.rdmv = mean(sum.rdm.var); sd.rdmv = sd(sum.rdm.var) #sd
-hist(sum.rdm.var, main = paste("Histogram of",i,"variables"), xlab = "x")
-# If you dived by the number of dice that were rolled, you can see that it actually tends towards the mean or rolling 1 die a lot of time: 3.5! 
-# hist(sum.rdm.var/i, main = paste("Histogram of",i,"variables"), xlab = "x") underlying distribution 
+# Generate multiple additions of random variables 
+clt = replicate(n = 20, # flip 20 dice
+                runifdisc(n = n, min = 1, max = 6), simplify = FALSE)
+sum.rdm.var = apply(do.call(what = cbind, args = clt), 1, sum) 
+mean.rdmv = mean(sum.rdm.var); sd.rdmv = sd(sum.rdm.var) # mean and sd
+hist(sum.rdm.var, main = paste("Histogram of",20,"variables"), xlab = "x")
 curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
       from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
-
---
-
-- Using the CLT, the probability of getting a sum `\(\geq 100\)` is approx. 4.29e-05.
-
-.tiny[
-- This example was taken from [this video](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)
-]
 
 ???
+- We simulate the rolling of 20 dice and sum their values. 
+- In this case the probability is `pnorm(100,mean = 70,sd = sd.rdmv,lower.tail = F)` which is 4.2424625\times 10^{-5} (0.0000433 or 0.0043%)!
+--
+
+- Using the CLT, the probability of getting a sum `\(\geq 100\)` is approx. 4.23e-05.
+
+???
+```
+# If you dived by the number of dice that were rolled, you can see that it actually tends towards the mean or rolling 1 die a lot of time: 3.5! 
+# hist(sum.rdm.var/i, main = paste("Histogram of",i,"variables"), xlab = "x") underlying distribution 
+```
+
+- This example was taken from [this video: Le théorème central limite - best of des aventures d'Albert](https://www.youtube.com/watch?v=vWTKVMf5HQI&amp;ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat) 
 - See [Demonstrating The Central Limit Theorem in R](https://medium.com/@orrymr/demonstrating-the-central-limit-theorem-in-r-a5fef67cbbb)
 - In other words, the distribution shown here is the sampling distribution of the mean. Its mean is the same as the original mean of the population, its standard deviation is called the standard error of the mean (SEM) and it is normally distributed! SEM is the variability in the collection of sample means. 
 - See what happens when the sample size increases: `\(SEM = \sigma/\sqrt{n}\)`. This means that as `\(n \to \infty\)`, the standard error gets smaller. 
 - Therefore, the *sampling distribution* of the *sample mean* (so the mean taken out of a sample, multiple times with various samples), approximate a normal distribution, even if the underlying process is not from a normal distribution. `\(\bar X \sim N(\mu,\frac{\sigma}{\sqrt {n}})\)` or the mean of x is approximately normally distributed as with mean mu and variance 
 - See also [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-20-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-20-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
+
+---
+# Multivariate normal distribution
+
+- There is a way to generate multiple normal distributions at once from a covariance matrix. 
+
+
+```r
+set.seed(24601) # setting this so the random results will be repeatable 
+library(MASS)
+covmat &lt;- matrix(c(1.0,   0.2,   0.6, # variance covariance matrix of the data
+                   0.2,   2.0,  -0.5, 
+                   0.6,  -0.5,   1.0), nrow=3) 
+data &lt;- mvrnorm(n = 300, 
+                mu = c(1,-1,0), # mean of the data 
+                Sigma=covmat) # generate random data that match that variance covariance matrix
+plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
+plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-21-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+???
 
 #################################
 ---
@@ -1772,48 +1885,61 @@ class: inverse, center, middle
 
 # Simulating data for power analysis
 
+???
+Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
+
 ---
 # Power analysis (proportions)
 
 - The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
-- Example for tossing a coin, which we believe has a 75% chance of landing on 'heads':
+- We believe that we have a coin, which has a 75% chance of landing on 'heads':
 
-.pull-left[
-.tiny[
 
 ```r
 p1 = .75 # Proportion to test 
 p2 = .50 # proportion of the null hypothesis 
 alpha = 0.05 # Type 1 error 
-power = 0.80 # power or 1-beta = power. Beta is the type II error 
-coin.prop.power = power.prop.test(p1 = p1, 
-                                  p2 = p2, 
-                                  sig.level = alpha,
-                                  power = power)
-n = ceiling(coin.prop.power$n)
-
-coin.pip = rbinom(n, size = 1, prob = p1)
-# coin.pip = rbinom(1,size = n,prob = p1) # similar to above 
-# prop.test(x = coin.pip, n = n,alternative = "greater")
-p.table = table(coin.pip)[c(2,1)]
-ptest = prop.test(p.table, alternative = "greater")
-ptest
+pwr = 0.80 # power or 1-beta = power. Beta is the type II error 
+coin.p.power = power.prop.test(p1 = p1, p2 = p2, sig.level = alpha, power = pwr)
+n = ceiling(coin.p.power$n) # get the sample size from the power analysis
+coin.pip = rbinom(n, size = 1, prob = p1) # Generate coin tosses 
+p.table = table(coin.pip)[c(2,1)] # Get the number of 1 and 0s  
+(ptest = prop.test(p.table, alternative = "greater")) # Do the test 
 # 
 # 	1-sample proportions test with continuity correction
 # 
 # data:  p.table, null probability 0.5
-# X-squared = 10.776, df = 1, p-value = 0.0005142
+# X-squared = 14.5, df = 1, p-value = 7.008e-05
 # alternative hypothesis: true p is greater than 0.5
 # 95 percent confidence interval:
-#  0.6101819 1.0000000
+#  0.6467672 1.0000000
 # sample estimates:
 #         p 
-# 0.7241379
+# 0.7586207
 ```
-]
-]
 
-.pull-right[
+
+???
+- Power analysis are useful to get a sense of the
+  * sample size required to run an analysis
+  * know the power 
+  * get the effect size
+  * or the significance level
+- What we can do is prepare the power analysis to what we want to test, then generate data the we could use to see how this would modify the result of our test. 
+- In this first example, we are looking at a proportion power test.
+
+```
+# coin.pip = rbinom(1,size = n,prob = p1) # similar to above 
+# prop.test(x = coin.pip, n = n,alternative = "greater")
+```
+
+- For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+
+---
+# Power analysis (proportions)
+
+- from the output we got (previous slide), we can plot the chi-square distribution with the df and see where our statistics ends in the graph. We can see that the p-value must be pretty small. 
+
 
 ```r
 curve(dchisq(x, df = ptest$parameter), 
@@ -1821,11 +1947,10 @@ curve(dchisq(x, df = ptest$parameter),
 abline(v = ptest$statistic, lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-22-1.png" width="504" style="display: block; margin: auto;" /&gt;
-]
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
+--
 
-???
-- For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+- The p-value is 0.0000701.
 
 ---
 # Power analysis (linear model)
@@ -1835,8 +1960,7 @@ abline(v = ptest$statistic, lty = 3)
 ```r
 library(pwr)
 r2 = seq(0,0.9,by =.1)
-f2 &lt;- function(r2) {
-  r2/(1-r2)}
+f2 &lt;- function(r2) {r2/(1-r2)}
 ```
 ]
 
@@ -1847,7 +1971,7 @@ plot(f2(r2)~r2)
 curve(expr = (x/(1-x)),add = T)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-24-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1863,6 +1987,8 @@ n
 
 
 ???
+- based on the number of coefficients you have in a model, and the effect size you think you're going to have (perhaps based on the literature), you can find the number of samples you'd require in ordre to get find a statistical difference at the level that interests you. 
+- Refer to the [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package
 - See also the package `pwr2ppl`
 
 #################################
@@ -1923,32 +2049,25 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 # GLM: Linear model
 
 .pull-left[
-.small[
 
 ```r
 set.seed(12345678)
-n = 100
+n = 100; beta0 = 2.5; beta1 = .8
 x.lm = rnorm(n = n, mean = 10, sd = 1)
-beta0 = 2.5
-beta1 = .8
 err = rnorm(n = n, mean = 0, sd = 1)
-
 # Linear combination 
 y.lm = beta0 + beta1*x.lm + err
-
 # Make a dataframe of the data 
 df.lm = data.frame(x = x.lm, y = y.lm)
-# Colour 
-b.5 = scales::alpha("black",alpha = .5)
 ```
-]
 ]
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-27-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-28-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
-.tiny[
+
+
 
 ```r
 summary(lm.out)
@@ -1971,7 +2090,6 @@ summary(lm.out)
 # Multiple R-squared:  0.4273,	Adjusted R-squared:  0.4214 
 # F-statistic: 73.11 on 1 and 98 DF,  p-value: 1.675e-13
 ```
-]
 
 ---
 # GLM: Linear model
@@ -1989,7 +2107,7 @@ mean(rowMeans(sim.lm))
 hist(x.lm, xlim = r.x, main = "Hist of data")
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-29-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 mean(x.lm)
@@ -2018,15 +2136,28 @@ mean(fitted(lm.out))
 - In the example below, the slope estimate was extracted from the simulation and plotted for different sample sizes. 
 - You can see that as the sample size increases, our slope estimation gets better. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-31-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
+
+---
+# GLM: Linear model
+
+- Same as the simulation above, but now we plot the adjusted `\(R^2\)` from the linear model. 
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-32-1.png" width="720" style="display: block; margin: auto;" /&gt;
+- You can see from the plots that the effect size (the `\(R^2\)` in this case), is extremely variable when the sample size is very small. But when the sample size increases, the spread around the effect size diminishes. This adding to the idea that larger sample sizes are more important when you conduct a study. 
+
+???
+- This makes a SUPER IMPORTANT POINT. The effect size in this case is the amount of variance explained. You can see that with the exact same model that we generated, we can have pretty much any type of effect size for a small sample size. 
+- But as we increase the sample size, the effect size seems to converge on a particular value. 
+- (note that if the `\(R^2\)` is negative, it could be thought as being 0.)
 
 ---
 # GLM: Linear model
 
 - Simulate 2 independent variables. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-31-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 .tiny[
 
@@ -2178,21 +2309,23 @@ plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y,
 abline(a = coef(lm.out)[1], b = coef(lm.out)[3], col = "blue", pch = 19, lwd = 2)
 points(x = df.lm[df.lm$x1 == 1, ]$x2, y = df.lm[df.lm$x1 == 1, ]$y, 
        col = rgb(red = 1, green = 0, blue = 0, alpha = 0.25), pch = 19)
-# If x1 = 1
-# $\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2$
-# $\hat{y}=\beta_0+\beta_1 (1)+\beta_2x_2+\beta_3(1)x_2$
-# $\hat{y}=(\beta_0+\beta_1)+x_2(\beta_2+\beta_3)$
 abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)[4], 
        col = "red", lwd = 2)
 abline(h = 0, v = 0,lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
 See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
 
+```
+# If x1 = 1
+# $\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2$
+# $\hat{y}=\beta_0+\beta_1 (1)+\beta_2x_2+\beta_3(1)x_2$
+# $\hat{y}=(\beta_0+\beta_1)+x_2(\beta_2+\beta_3)$
+```
 
 ---
 # GLM: Linear model (interaction; continuous)
@@ -2222,7 +2355,7 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 hist(df.lm$x1);hist(df.lm$x2);hist(df.lm$y)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-34-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-36-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 
@@ -2266,7 +2399,7 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
        col = eff.dat$x2.col, bg = scales::alpha("white",.5))
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 # summary(lm.out)
@@ -2344,7 +2477,7 @@ lines(x = newdata$x1,
 # x1           1.600191  0.7896567  2.026439 0.04271982
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```
 # [1] 0.0001361562
@@ -2361,7 +2494,7 @@ lines(x = newdata$x1,
 
 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-41-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ???
 See https://stats.stackexchange.com/questions/49916/simulating-data-for-logistic-regression-with-a-categorical-variable
@@ -2502,14 +2635,14 @@ One implementation of that could be ( `\(\beta_1\)` and `\(\beta_2\)` would repr
 
 - (G)LMMs are a neat extention of the LM models that can take into account different type of response variables and variance parterns in the response data (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-40-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-42-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 .pull-left[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-41-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-43-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-42-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-44-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2750,7 +2883,7 @@ ggplot(stand_vars, aes(x = estimate) ) +
      geom_vline(xintercept = 4)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-45-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 stand_vars = mutate(stand_vars, stand_num = forcats::fct_inorder(stand_num) )
@@ -2773,7 +2906,7 @@ ggplot(stand_vars, aes(x = estimate) ) +
      labs(x = "Estimated Variance", y = NULL)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-45-2.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-2.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 stand_vars %&gt;%
@@ -2856,7 +2989,7 @@ ggplot() +
   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-49-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
