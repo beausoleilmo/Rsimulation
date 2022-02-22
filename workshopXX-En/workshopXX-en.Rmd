@@ -5,12 +5,14 @@ author: "Québec Centre for Biodiversity Science"
 output:
   xaringan::moon_reader:
     includes:
-      in_header: qcbsR-header.html
+      in_header: "qcbsR-header.html"
     lib_dir: assets
     seal: true
     css: ["default", "qcbsR.css", "qcbsR-fonts.css"]
     nature:
+      ratio: '4:3'      
       beforeInit: "qcbsR-macros.js"
+      highlightStyle: github
       highlightLines: true
 ---
 
@@ -27,7 +29,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Outline
+# Outline
 
 1. Why are simulations relevant? 
 2. What you need to know before doing simulations? 
@@ -44,7 +46,7 @@ This workshop was designed to give the tools for attendees to perform simulation
 - but also to be able to simulate a situation and verify how a parameter change the outcome of a model. 
 
 ---
-## Prerequisites
+# Prerequisites
 <!-- I will be using base plot for this workshop: this is because it is MUCH EASIER to get quick BEAUTIFUL plots and show stuff -->
 For this workshop it is useful to have a solid understanding of 
 
@@ -61,7 +63,7 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 This workshop builds on the previous workshops. But don't worry, we are going to refresh some of the concepts here. 
 
 ---
-## Disclaimer
+# Disclaimer
 
 - I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
 - In addition, this is a work in progress. Any input you have is more than welcome. 
@@ -71,7 +73,7 @@ This workshop builds on the previous workshops. But don't worry, we are going to
 Might not apply to you
 
 ---
-## Learning objectives
+# Learning objectives
 
 1. Develop intuition and skills to perform simulations
 2. Explore useful functions when designing simulations 
@@ -101,7 +103,7 @@ In this section, we will explore
 - See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
 
 ---
-## Defining simulations
+# Defining simulations
 
 <br>
 <br>
@@ -113,10 +115,10 @@ In this section, we will explore
 .right[— Byron J. T. Morgan 1984]
 
 ???
-- and models are lke maps: they are an abstraction of the real worl. It is not the real world. No same person thinks a map is "right". The only map that is right is the 1:1 real map. But this map woulb not be interesting to get a sense of how the world is. 
+- and models are like maps: they are an abstraction of the real worl. It is not the real world. No same person thinks a map is "right". The only map that is right is the 1:1 real map. But this map woulb not be interesting to get a sense of how the world is. 
 
 ---
-## Simulations are games 
+# Simulations are games 
 
 - Simulations are games that we make up the rules
 - It equips us with a very powerful tool to create 'alternative worlds'. 
@@ -164,7 +166,7 @@ Are these two distribution showing the same random process?
 - In a nutshell, you need to be *statistically aware* of what you are modeling and what you want to know. 
 
 ---
-## Find patterns in random processes
+# Find patterns in random processes
 
 - Simulations are useful to test the properties of randomly generated data 
 - Since we design the simulation, we know parameters of the processes.
@@ -194,7 +196,7 @@ You probably learned how to use statistical models on certain types of data.
 - See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
 
 ---
-## Find patterns in the natural world
+# Find patterns in the natural world
 
 - We might start with a research question or simply want to understand a process.
 - The idea here is that perhaps we are interested in understanding how a certain process was generated (how $X$ influences $Y$, which could be written as $X \xrightarrow{Affects} Y$ or $Y \sim X$). 
@@ -212,7 +214,7 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 - See also `power.prop.test()`
 
 ---
-## Probability distributions are crucial for simulations
+# Probability distributions are crucial for simulations
 
 - When performing simulations, one has to keep in mind the
   1. **type of distribution** underlying the data of interest
@@ -226,7 +228,7 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 - Greek letters are often used to denote these parameters 
 
 ---
-## Tips when performing simulation
+# Tips when performing simulation
 
 .alert[Description section]. Add a 'Description' section to all your simulation scripts to introduce what the script is about. 
 
@@ -258,7 +260,7 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 
 
 ---
-## Tips when performing simulation
+# Tips when performing simulation
 
 .alert[Comments]. Be extra generous when commenting your code to describe as precisely as possible for the information that is not variable. 
 
@@ -266,19 +268,19 @@ Everything that we measure (a phenotype, the number of eggs a bird lays, the sur
 .small[
 ```{r r_tips1, eval=FALSE}
 # Description  ------------------------------------------------------------
-## This is the description section as previously presented 
+# This is the description section as previously presented 
 
 # Libraries ---------------------------------------------------------------
-## Here load the libraries used in the script 
+# Here load the libraries used in the script 
 library(ggplot2)
 
 # Functions ---------------------------------------------------------------
-## Add and describe the functions used in the script 
+# Add and describe the functions used in the script 
 ## Add more information
 function.name = function(var){tmp=2+var; return(tmp)}
 
 # Plots -------------------------------------------------------------------
-## Plotting the data simulated 
+# Plotting the data simulated 
 ## Add more information
 plot(function.name(1:10)+rnorm(10))
 ```
@@ -307,7 +309,7 @@ You might be wondering:
 - But WHEN should I use simulations in my work?"
 
 ---
-## ALL THE TIME!!!! 
+# ALL THE TIME!!!! 
 
 - Simulations can help you at all stages of your research from planning to publishing and beyond! 
 - Whether you want to: 
@@ -330,7 +332,7 @@ You might be wondering:
 - Here is a short list of elements for when you could be using it
 
 ---
-## Quick example: Genetic drift
+# Quick example: Genetic drift
 
 - Here we have 4 plots showing genetic drift with the same simulation. 
 - The only difference is the number of individuals in each population
@@ -448,9 +450,11 @@ for (l in n.id.pop) {
   * Fixation of an allele without natural selection 
 
 ---
-## Quick (?) example: Natural selection 
+# Quick (?) example: Natural selection 
 
 - How would you model natural selection?
+???
+If natural selection is the non random transmission of genetic information in living organisms in a particular environment, how would you simulate that? 
 --
 
 - What is the type of selection? 
@@ -525,7 +529,7 @@ class: inverse, center, middle
 - NOTE: The TACIT idea here is to find the underlying DISTRIBUTIONS or HOW THE RANDOM VARIABLE WAS GENERATED.
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -663,7 +667,7 @@ What can be seen?
   - Equality of variance (see residuals)
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -687,7 +691,7 @@ What can be seen?
 - mean (dashed lines), sd (the shades)
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -711,7 +715,7 @@ What can be seen?
 
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -738,7 +742,7 @@ What can be seen?
   - Equality of variance (see residuals)
 
 ---
-## What do you see here? 
+# What do you see here? 
 
 - Can you give *as much information* as you can within and between each graphs.
 
@@ -769,7 +773,7 @@ class: inverse, center, middle
 We'll explore the functions that you can use in R to help you develop simulations and play with random number generators. 
 
 ---
-## Functions useful in simulations (RNG)
+# Functions useful in simulations (RNG)
 
 - When performing simulations, you will have to play with (pseudo-)randomly generated numbers from a random number generator (RNG). 
 - This is a challenge if we want to replicate the analysis we are performing. 
@@ -795,7 +799,7 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 - `set.seed(seed, kind = "Mersenne-Twister")`
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 - The function `sample()` randomly picks a value from a vector (i.e., random sampling).
 
@@ -824,7 +828,7 @@ sample(x = as.factor(month.abb), size = 5, replace = FALSE)
 - Very versatile 
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 <!-- SEE http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf -->
 
@@ -875,7 +879,7 @@ http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf
 -->
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 - You can also simulate random dates in a time interval. 
 
@@ -894,7 +898,7 @@ sample(datae.seq, 5)
 - for dates and time as well. 
 
 ---
-## Functions useful in simulations (sample)
+# Functions useful in simulations (sample)
 
 - You can also generate a die and randomly toss it. 
 - You can change the probability of landing on one face more than the other. 
@@ -918,7 +922,7 @@ barplot(table(die_results)) # table(die_results)/nb.tosses
 
 
 ---
-## Functions useful in simulations (rep)
+# Functions useful in simulations (rep)
 
 - You will not only see numerical values in simulations. Characters (or factors) can be generated in R easily. 
 - The `rep()` function can help you with this
@@ -941,7 +945,7 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum len
 
 
 ---
-## Functions useful in simulations (gl)
+# Functions useful in simulations (gl)
 
 - There are functions in `R` that can help you generate factor levels (with the `gl` function). 
 
@@ -961,7 +965,7 @@ gl(n = 2, k = 2, length = 20)
 - rather than using rep and then factors, you can use the Generate Factor Levels `gl()` function
 
 ---
-## Functions useful in simulations
+# Functions useful in simulations (replicate)
 
 - In some cases, you want to replicate data, for example when you want to generate multiple populations at once with the same parameters
 - `replicate()` can be used instead of a for loop and make simulations faster. 
@@ -985,11 +989,12 @@ data.replicated[[2]]
 ]
 
 ???
-- Not entirely sure of that one. 
+- This function allows you to call a function `n` number of times and to record the output. 
 - In this case, it generates 2 simulated (different) dataframes which can be used in a simulation to get some replication all at once. I think this comes handy with the `apply`, `do.call`, etc. 
+- Often, we are interested in *the behaviour of a simulation in the long run*. This means that we want to not only look at 1 simulated event, but at some *'performance'* estimation (maybe showing the spread of a parameter that could be distributed based on the sample size)
 
 ---
-## Challenge 1 ![:cube]()
+# Challenge 1 ![:cube]()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement. 
 
@@ -1001,7 +1006,7 @@ sample()
 
 
 ---
-## Challenge 1 - Solution ![:cube]()
+# Challenge 1 - Solution ![:cube]()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement.
 
@@ -1024,7 +1029,7 @@ set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 
 
 ---
-## Challenge 2 ![:cube]()
+# Challenge 2 ![:cube]()
 
 Create a data frame with variable 
 - x ranging from 1 to 10, 
@@ -1032,7 +1037,7 @@ Create a data frame with variable
 - a grouping factor (gr) with one group with the 5 smallest values and another group with the 5 largest values. 
 
 ---
-## Challenge 2 - Solution ![:cube]()
+# Challenge 2 - Solution ![:cube]()
 ```{r linear_no_error, echo=-1, fig.width=8, fig.height=5}
 par(mar=c(4,4,.5,.5), cex = 1.3)
 x = 1:10
@@ -1056,11 +1061,14 @@ class: inverse, center, middle
 - we will revise some concepts to make sure we can continue on programming simulations
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - When describing the "chance" or "likelihood" of an outcome, you can use a probability or odds
 - They are related: odds of an event is $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
 - Why bother using probability or odds? 
+???
+- Let's explore the basic concepts like probability and odds.  
+- This is important when you start simulating data, but also understand how to interpret some of the equations that we'll see later when we want to develop simulations for certain models  
 --
 
 - probability ranges between 0 and 1, but odds range from 0 to $\infty$. 
@@ -1109,13 +1117,17 @@ arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 ]
 
 ???
-- See how log(1/6) = -1.791759 and log(6/1) = 1.791759
-- Seriously, check this post: https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4. It is amazing! 
-- And check this video for odds: https://www.youtube.com/watch?v=ARfXDSkQf1Y&ab_channel=StatQuestwithJoshStarmer
+- Log odds is convenient as it makes the odds of losing and winning symmetric 
+  - See: 
+  - `log(1/6) =-1.7918` and 
+  - `log(6/1) = 1.7918`
+- References 
+  - Seriously, check this post: [Probability vs Odds](https://towardsdatascience.com/probability-vs-odds-f47fbc6789f4). It is amazing! 
+  - And check this video for odds: [Odds and Log(Odds), Clearly Explained!!!](https://www.youtube.com/watch?v=ARfXDSkQf1Y&ab_channel=StatQuestwithJoshStarmer)
 
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - Log (natural log, or ln) odds can range from $-\infty$ to $\infty$ and makes the odds symmetric. It is calculated as $ln (odds) = ln(p/(1-p))$ (i.e., the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
@@ -1142,8 +1154,8 @@ points(0,.3, pch =19)
 
 <!-- .alert[Careful!] This is not the same as saying $success/(success + failure)$. This last calculation is the probability -->
 ???
-- And this video for odds ratio: [Odds Ratios and Log(Odds Ratios), Clearly Explained!!!](https://www.youtube.com/watch?v=8nm0G-1uJzA&ab_channel=StatQuestwithJoshStarmer)
-  - The odds ratio and the log odds ratio is a bit like the R-squared: it indicates a relationship between 2 things (it's an effect size, or how one is a good predictor of the other (if the value is large))
+- The odds ratio and the log odds ratio is a bit like the R-squared: 
+  * it indicates a relationship between 2 things (it's an effect size, or how one is a good predictor of the other (if the value is large))
 
 - Also, the Geometric mean (which is the mean of logs) is BETTER when using log-based data (qPCR, where the data doubles each round) and is less sensitive to outliers (which the arithmetic mean is actually VERY sensitive)
 
@@ -1162,7 +1174,7 @@ gm
 
 
 ---
-## Probability and odds
+# Probability and odds
 
 - Example: a horse runs 100 races and wins 20 of them.  What is the *odds* of winning?
 - $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
@@ -1211,19 +1223,18 @@ Conversely, the horse  odds of failing is `r paste0(odds.against,":1")` (read 4 
 The horse is 4 times more *likely* to fail than to succeed in a race.
 
 ???
-- If the odds = 1: 
-  - it means that we are as likely to win, as we are likely to lose 
+- If the `odds = 1` or `log(odds)= 0`: 
+  * it means that we are as likely to win, as we are likely to lose 
 
-- Another example: 
-  - for a 6-sided die, 
-    * the odds of rolling a 6 is 1:5 (one TO 5)
-    * the odds of rolling a 5 OR a 6 is 2:4 (2 TO 4)
+- Another example: for a 6-sided die, 
+  * the odds of rolling a 6 is 1:5 (one TO 5)
+  * the odds of rolling a 5 OR a 6 is 2:4 (2 TO 4)
 
 - in French, Odds is the "cote" (https://fr.wikipedia.org/wiki/Cote_(probabilités))
 - Also, be careful. Probability and likelihood IS NOT THE SAME
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - Example: a horse runs 100 races and wins 20 of them. What is the *probability* of winning?
 - $p = odds/(1+odds)$
@@ -1233,29 +1244,38 @@ totl.nb.events = 100; successes = 20
 probability.favor = (successes)/(totl.nb.events) # probability of the event (here 20%)
 probability.favor # fractions(probability.favor)
 ```
-So the horse *wins* `r fractions(probability.favor)` or `r paste0(probability.favor*100,"%")` of the times. 
+- So the horse *wins* `r fractions(probability.favor)` or `r paste0(probability.favor*100,"%")` of the times. 
+- The probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particular outcome divided by the total number of results from the event. 
+???
+- Probability is the number of a *certain event* divided by the total number of events. 
+- but you can convert from odds to probability. 
 --
 
 - You can see that $odds = p/(1-p) = (.2)/(1-.2) = .2/.8 = 1/4$
---
-
-- So the probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particular outcome divided by the total number of results from the event. 
 
 ---
-## Probability and odds 
+# Probability and odds 
+
+- Let's code the difference between probability, odds and log odds. 
 
 ```{r odds_prob, fig.width=9,fig.height=7.5}
+# Get some LOG ODDS numbers 
 log_odds = seq(from = -5, to = 5, by = .25)
+# Transformed into odds 
 odds = exp(log_odds)
+# Make 
 inv.logit <- function(x) {exp(x)/(1 + exp(x))}
-p = inv.logit(log_odds)
+p = inv.logit(log_odds) # This is the same as 
 p2 = odds/(1 + odds)
 # Probability of failure (1-p)
 q = 1-p
-# store log_odds and y in data frame for use with ggplot
+# Store log_odds other data to plot 
 d = data.frame(log_odds, odds, p, p2, q) 
-head(d, 4)
+head(signif(d,2), 3)
 ```
+
+???
+- We first generate a series of number in LOG odds that we will transform in the probability scale (between 0 and 1) 
 
 <!-- Reference 
 https://www.montana.edu/rotella/documents/502/Prob_odds_log-odds.pdf 
@@ -1266,19 +1286,21 @@ https://www.statisticshowto.com/probability-and-statistics/probability-main-inde
 https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_Confidence_Intervals10.html -->
 
 ---
-## Probability and odds 
+# Probability and odds 
 
-.tiny[
+- The three plots show the contrast between probability, odds and log odds.
+
 ```{r odds_prob_plot, fig.width=12,fig.height=4}
-par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.2)
+par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.3)
 plot(d$odds~d$log_odds, type = "l", ylab = "Odds", xlab = "Ln odds", lwd = 3) ; abline(v = 0, lty = 3)
 plot(d$p~d$odds, type = "l", ylab = "p", xlab = "Odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
 plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline(h = .5, v = 0, lty = 3)
 ```
-]
+???
+- You can recognize from the third graph, the familiar shape of a logistic regression. This is purely due to the transformation of space from [0,1] to ]-infinity, infinity[. 
 
 ---
-## Probability and odds 
+# Probability and odds 
 
 - What is the difference between a probability and a p-value?
 --
@@ -1294,17 +1316,23 @@ plot(d$p~d$log_odds, type = "l", ylab = "p", xlab = "Ln odds", lwd = 3) ; abline
   - In other words, we want to know if the event we measured is statistically special or, as you might have heard it, statistically significant!
 
 ???
+- Let's just spend some time explaining the DIFFERENCE between a probability and a *p-value*. 
 - See [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&ab_channel=StatQuestwithJoshStarmer), [How to calculate p-values ](https://www.youtube.com/watch?v=JQc3yx0-Q9E&t=0s&ab_channel=StatQuestwithJoshStarmer) and [p-values: What they are and how to interpret them](https://www.youtube.com/watch?v=vemZtEM63GY&ab_channel=StatQuestwithJoshStarmer)
 
 ---
-## Why statistical distributions matter? 
+# Why statistical distributions matter? 
 
 - To help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
 - The idea here is to find the distribution underlying a random process which generate a particular phenomenon in nature and use it to output values to be used in your simulation.
 - After generating the data, you can analyze it and see how it can be manipulated. 
 
+???
+- Here, we are coming back to the idea of looking at patter in random processes. 
+- random variables in the natural world are generated from what has been called statistical distribution. 
+- Statistician have been studying random variables by mapping , measuring, describing, and making taxonomies of them which now they are able to understand them in a more general way: based on statistical distributions from which they are drawn. 
+
 ---
-## What is a random variable? 
+# What is a random variable? 
 
 - Imagine a number is presented to you like so:
 
@@ -1318,6 +1346,8 @@ random.var.normal = round(rnorm.val,1)
 ```{r, echo=FALSE}
 random.var.normal[1]
 ```
+???
+- This is an exercise to let the attendees feel what are random variables and why statistical distributions are interesting. 
 --
 
 - From which distribution is this variable coming from?
@@ -1325,18 +1355,18 @@ random.var.normal[1]
 
 - Would be helpful to have more information 
 
-???
-
-This is an exercice to let the attendees feel what are random variables and why staitstical distributions are interesting. 
 
 ---
-## What is a random variable? 
+# What is a random variable? 
 
 - Now imagine you are able to get more numbers from the same process:
 
 ```{r, echo=FALSE}
 random.var.normal[1:5]
 ```
+???
+- Here, we just increase the amount of values that we can get from a random process to try to characterize it. 
+- We can now calculate some properties of this data. 
 --
 
 - This is more informative. We can take the mean and the standard deviation of these numbers: mean = `r round(mean(random.var.normal[1:5]),1)`, sd = `r round(sd(random.var.normal[1:5]),1)`. 
@@ -1360,9 +1390,8 @@ hist(random.var.normal[1:5], main = "Hisogram of random variable", xlab = "x")
 
 - still hard to definitly tell 
 
-
 ---
-## What is a random variable? 
+# What is a random variable? 
 
 - What if you get even more numbers (say 100) from the same random process:
 
@@ -1372,6 +1401,8 @@ random.var.normal[1:100]
 ```
 ]
 
+???
+- With more and more data, we can get a better intuition of the underlying distribution that generated the data. 
 --
 
 - The mean = `r round(mean(random.var.normal[1:5]),1)`, sd = `r round(sd(random.var.normal[1:5]),1)`. 
@@ -1390,7 +1421,7 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 - That looks normal! 
 
 ---
-## Functions for various distributions
+# Functions for various distributions
 
 - In `R`, there is a convention on how to call different distributions. 
 
@@ -1398,15 +1429,20 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | ---- | ---------- | ------- |
 | p	   | *probability* (*cumulative* distribution function or CDF; gives you the probability for a given quantile) | gives the probability that a random variable takes in a certain *range of values* for that random variable |
 | q	   | *quantile* (inverse of CDF; gives you the x value for a given probability) | gives the position on the x axis where the area under the curve is a certain probability |
-| d	   | *density* density function (probability density function or PDF) | gives probability that a random variables have for a specific value if the random variable  |
-| r	   | *random* random variable coming from a certain distribution | We use this to generate random numbers from a specific distribution |
+| d	   | *density* function (probability density function or PDF) | gives probability that a random variables have for a specific value if the random variable  |
+| r	   | *random*  variable coming from a certain distribution | We use this to generate random numbers from a specific distribution |
 
 - In the next slide, you'll see some built in functions to use these distributions 
 
----
-## Functions for various distributions
+???
+- Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
+- In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
+- Here is a table showing the nomenclature used in R to generate data of 
 
-.verysmall[
+---
+# Functions for various distributions
+
+.tiny[
 | Distribution | Probability | Quantile | Density | Random | PDF or PMF |
 | ------------ | ----------- | -------- | ------- | ------ | ---------- |
 | Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` | |
@@ -1431,10 +1467,16 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` ||
 ]
 
----
-## Functions for various distributions
+???
+- this is a list, using the nomenclature shown in the previous slide, of different functions used to explore common statistical distributions that we could use in our simulations. 
+- The last column is showing some mathematical formula of the distributions. 
+- PDF is the probability density function (for continuous variables) and 
+- PMF is the probability mass function (for discrete variables)
 
-.verysmall[
+---
+# Functions for various distributions
+
+.tiny[
 | Distribution | Probability | Quantile | Density | Random | PDF or PMF |
 | ------------ | ----------- | -------- | ------- | ------ | ---------- |
 | Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` ||
@@ -1459,6 +1501,9 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 | Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` ||
 ]
 
+???
+- Highlighted are interesting distributions. 
+
 <!-- 
 PDF for continuous 
 PMF for discrete 
@@ -1467,10 +1512,9 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 -->
 
 ---
-## Common statistical distributions
-<!-- ![:scale 90%](images/distributions_all.png) -->
+# Common statistical distributions
 
-```{r Statistical_dist, echo=FALSE, out.width=750, out.height=600, fig.width=9,fig.height=7.5}
+```{r Statistical_dist, echo=FALSE, out.width=750, out.height=600, fig.width=9,fig.height=7.4}
 par(mfrow = c(3,3), bg = NA)
 # par(mfrow = c(1,1), bg = NA)
 col = scales::alpha("black",.5)
@@ -1532,23 +1576,18 @@ curve(dunif(x, min = 16,max = 18), from=5, to=25, col=col.r, lwd=lwd, ylim = c(0
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, max = 18"),lty = c(1,1,1), col =c(col.b,col,col.r), lwd = 2)
 ```
+???
+- This is a subset of the distributions highlighted from the previous slide. 
+- there are 2 distributions with discrete variables 
+- the rest are distributions of continuous variables  
 
 ---
-## Selecting the right distribution
-
-- See "Figure 6A.15 from Probabilistic approaches to risk by Aswath Damodaran"
-
-<!-- ![:scale 100%](images/probabilistic.png) -->
-![:scale 100%](images/Prob.distrib.choices.png)
-
-
----
-## Summary of important distribution 
+# Summary of important distribution 
 
 .small[
 - Distributions of random variables comes in 2 flavors: 
-1. Discrete (only *countable* number of *distinct* values, e.g., 0, 5, 19,...)
-2. Continuous (infinite number of possible values, e.g., 0.1,0.62113,...)
+  1. Discrete (infinite *integer* number of *distinct* values, e.g., `0`, `5`, `19`,...)
+  2. Continuous (infinite decimal number of possible values, e.g., `0.1`,`0.62113`,...)
 ]
 
 
@@ -1571,8 +1610,22 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 - see [Probability Cheat Sheet](https://web.cs.elte.hu/~mesti/valszam/kepletek) for more details
 ]
 
+???
+- This is a small reminder of what are some of the important distributions with some examples. We will explore some of them in more details later in the talk. 
+
 ---
-## The same distribution? 
+# Selecting the right distribution
+
+- See "Figure 6A.15 from Probabilistic approaches to risk by Aswath Damodaran"
+
+<!-- ![:scale 100%](images/probabilistic.png) -->
+![:scale 100%](images/Prob.distrib.choices.png)
+???
+This figure contains a decision graph that *could* help figure out what distribution you are facing. BUT, it doesn't guarantee that you'll find the right distribution. 
+
+
+---
+# The same distribution? 
 
 .alert[Careful!]
 
@@ -1585,14 +1638,15 @@ hist(rbinom(10000, 10, 0.5), #breaks = seq(-0.5, 10.5, by = 1),
      main = "Binomial")
 hist(rnorm(10000, 5, 1.5), xlim = c(0,10), main = "Normal")
 ```
-
+???
+- Just keep in mind that some distributions can be approximated with other, but the important point to note is to respect the *type* of data that is generated from a distribution. 
 
 ---
-## Other distributions with packages
+# Other distributions with packages
 
 - Other packages have other distributions. See the [CRAN Task View: Probability Distributions](https://cran.r-project.org/web/views/Distributions.html) if you need a funky distribution that doesn't come in `base R`.
-- Some distributions can be recreated in R even if they haven't their own functino name (e.g., Bernoulli). 
-- Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
+- Some distributions can be recreated in `R` even if they haven't their own function name (e.g., Bernoulli). 
+  * Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
 
 .tiny[
 ```{r equivalence_between_distributions_Bern_binom, echo=FALSE, fig.width=7,fig.height=4}
@@ -1656,10 +1710,13 @@ for (i in 1:nb.flips) {
 
 ```
 
+???
+- Multiple people have expanded the catalog of distributions supported in R. This could be seen in the CRAN Task View about probability distributions. 
+- In the next slides, we will explore some distributions in a little more depth. 
 
 
 ---
-## Poisson distribution
+# Poisson distribution
 
 - Poisson distribution assume that 
   - the probability of some event is small over a short period of time (or area), but that there are a lot of events (as there would be a lot of time passing, or a lot of space) in which the process could happen 
@@ -1670,7 +1727,7 @@ $$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$ where $\mu = \sigma = \lambda$
 
 
 ---
-## Poisson distribution vs binomial
+# Poisson distribution vs binomial
 
 - Difference with Binomial :
   - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
@@ -1691,7 +1748,7 @@ ppois(q = 2, lambda = 2)
 
 
 ---
-## Poisson distribution
+# Poisson distribution
 
 - Examples (something per unit time or space for example): 
   - Nb of deaths due to a disease (e.g., SARS-CoV 2) for a period of time 
@@ -1749,7 +1806,7 @@ for (i in 1:length(x.pos)) {
 <!-- Poisson example see https://www.pnas.org/content/115/37/9270 -->
 
 ---
-## Binomial distribution
+# Binomial distribution
 
 - Binomial distribution assume that 
 - Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
@@ -1770,7 +1827,7 @@ where
 ]
 
 ---
-## Binomial distribution
+# Binomial distribution
 
 - Examples 
   - Number of heads in a row after 3 tosses
@@ -1784,7 +1841,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probabili
 -->
 
 ---
-## Binomial distribution
+# Binomial distribution
 
 - Examples 
   - probability of having a certain number of offspring given the genotypes of the parents 
@@ -1798,7 +1855,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probabili
 
 
 ---
-## Normal distribution (Gaussian)
+# Normal distribution (Gaussian)
 
 - This distribution is the most important to know (see Central limit theorem). 
 - It has interesting properties (mean: center, sd: spread, bell-shaped, symmetry, etc.)
@@ -1816,7 +1873,7 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 -->
 
 ---
-## Normal distribution (Gaussian)
+# Normal distribution (Gaussian)
 
 - Examples: 
   - Distribution of a lot of continuous phenotypes 
@@ -1826,7 +1883,7 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 
 
 ---
-## Normal distribution (Gaussian)
+# Normal distribution (Gaussian)
 
 - The `iris` dataset contains values that are 'drawn' from a normal distribution. 
 - Here are the histogram for sepal length (mm).
@@ -1847,7 +1904,7 @@ for (i in 1:length(spiris)) {
 
 
 ---
-## Normal distribution (dissection)
+# Normal distribution (dissection)
 
 .pull-left[
 ```{r Density_normal, fig.width=5,fig.height=5}
@@ -1939,7 +1996,7 @@ brn = mybins$breaks
 
 
 ---
-## Quantile value for a normal distribution 
+# Quantile value for a normal distribution 
 
 If X is a random variable distributed with a *Standard normal distribution*, what is the probability of finding X less or equal to $1.645$ or $X\sim N(0,1)$ where $P(X\leq 1.645)$? 
 .pull-left[
@@ -1987,7 +2044,7 @@ arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
 
 
 ---
-## Normal distribution 
+# Normal distribution 
 
 ```{r normal_area_function, echo=FALSE, eval=TRUE}
 draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE, text.height = .55, where = c("both","left","right","middle"), middle = c(-1,1)) {
@@ -1997,7 +2054,11 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
   plot(x, dnorm(x, mean, sd), 
        # main = "Density normal", 
        main = "", 
-       type = "l", lwd = 3, col = "black", ylab = "", xlab = "x", ylim = c(0,1))
+       type = "l", lwd = 3, col = "black", 
+       ylab = "", xlab = "",
+       ylim = c(0,1))
+  title(xlab = "x", ylab="", line=2.2, cex.lab=1.2)
+
   # abline(v = quantile.normal[!is.infinite(quantile.normal)], lty = 3, lwd = 1, col = c("black")) 
   
   # Horizontal 
@@ -2134,8 +2195,9 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
 ```
 
 .tiny[
-```{r normal_dist_area, fig.width=9,fig.height=6}
-par(mfrow=c(2,3), mar = c(4,4,1,1), cex = 1.1)
+
+```{r normal_dist_area, echo=-1, fig.width=9,fig.height=6}
+par(mfrow=c(2,3), mar = c(4,4,.1,.1), cex = 1.1)
 # The function is not shown, but can be found in the script (Markdown)
 draw.normal(where = "both",  prob = 0.05/2)
 draw.normal(where = "both",  prob = 0.2/2 )
@@ -2147,7 +2209,7 @@ draw.normal(where = "right", prob = 0.05  )
 ]
 
 ---
-## Normal distribution 
+# Normal distribution 
 
 Find the probability of finding data relative to a standard deviation number 
 
@@ -2174,7 +2236,7 @@ draw.normal(where = "both",  prob = round(probability.left.side[3]/100,3))
 ```
 
 ---
-## Normal distribution 
+# Normal distribution 
 
 Find the "x" value (quantile) based on the probability (area under the curve between 2 values) of a standard normal distribution.
 
@@ -2209,7 +2271,7 @@ text(x.val+1, y = .6, labels = round(x.val,2))
 
 
 ---
-## Normal distribution
+# Normal distribution
 
 .pull-left[
 
@@ -2311,7 +2373,7 @@ hypothesis.testing(mean.pop = 2)
 - see https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1 
 
 ---
-## Normal distribution
+# Normal distribution
 
 .pull-left[
 
@@ -2336,7 +2398,7 @@ hypothesis.testing(2,sd = 5, n = 100)
 ]
 
 ---
-## Convert a Normal dist. to Standard normal 
+# Convert a Normal dist. to Standard normal 
 
 - If your data is normally distributed (i.e., $X \sim N(\mu, \sigma)$), you can convert the data to be $X \sim N(0, 1)$ with a scaling
 $$Z = \frac{(X-\mu)}{\sigma} $$ 
@@ -2383,7 +2445,7 @@ abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 
 
 ---
-## Challenge 3 ![:cube]()
+# Challenge 3 ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -2395,7 +2457,7 @@ rnorm()
 
 
 ---
-## Challenge 3 - Solution ![:cube]()
+# Challenge 3 - Solution ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -2410,7 +2472,7 @@ rnorm(n)
 - Why are there negative values? Because the mean = 0, so some values spill over the mean on both sides, and in the negative numbers. 
 
 ---
-## Multivariate normal distribution
+# Multivariate normal distribution
 
 - There is a way to generate multiple normal distributions at once. 
 
@@ -2427,7 +2489,7 @@ plot(data)
 
 
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
 
 - The Central limit theorem (CLT) stipulates that:
   * The more you add (sum) identically distributed random variables, the probability of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
@@ -2438,9 +2500,12 @@ plot(data)
 See 
 - [Demonstrating The Central Limit Theorem in R](https://www.r-bloggers.com/2020/08/demonstrating-the-central-limit-theorem-in-r/)
 - [Dice Rolls - Theoretical and Empirical](https://rpubs.com/careybaldwin/346995)
+- [Understanding the Central Limit Theorem With Simulation](https://rstudio-pubs-static.s3.amazonaws.com/40602_03881f4466844aed83feb45f48444906.html)
+- [The Central Limit Theorem and Power Simulation in R](https://www.kenwuyang.com/en/post/the-central-limit-theorem-and-power-simulation/)
+- [The central limit theorem using simulation](https://vasishth.github.io/Freq_CogSci/the-central-limit-theorem-using-simulation.html)
 
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
 
 - The CLT could be shown by adding more and more random variables distributed as an exponential with rate = 1. 
 
@@ -2457,7 +2522,7 @@ for(i in c(2,50,1000,5000)){
 ]
 
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
 
 - Same thing as above, but for a random variable coming from a uniform *discrete* distribution!
 
@@ -2485,7 +2550,7 @@ for(i in c(2,50,1000,5000)){
 ]
 
 ---
-## Central limit theorem (CLT)
+# Central limit theorem (CLT)
 
 - You are asked to throw 20 dice. If the sum of all 20 dice is $\geq 100$, you get a candy, if not, you don't get one. What is the probability of having the candy? 
 
@@ -2561,7 +2626,7 @@ class: inverse, center, middle
 # Simulating data for power analysis
 
 ---
-## Power analysis (proportions)
+# Power analysis (proportions)
 
 - The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
 - Example for tossing a coin, which we believe has a 75% chance of landing on 'heads':
@@ -2602,7 +2667,7 @@ abline(v = ptest$statistic, lty = 3)
 - For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
 
 ---
-## Power analysis (linear model)
+# Power analysis (linear model)
 
 .pull-left[
 ```{r, fig.width=7,fig.height=4}
@@ -2641,7 +2706,7 @@ class: inverse, center, middle
 # Simulating data for models
 
 ---
-## Linear model (lm) refresher
+# Linear model (lm) refresher
 
 $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 
@@ -2652,7 +2717,7 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
 
 ---
-## Linear model (lm) refresher
+# Linear model (lm) refresher
 
 - The goal is to find the **best estimation** of the parameters ( $\beta$ s), while minimizing the residuals, and assess the goodness of fit of the model
 - We use the least-squares in order to fit the line to the data.
@@ -2670,7 +2735,7 @@ Reference for the section
 
 
 ---
-## Generalized linear model (GLM) refresher
+# Generalized linear model (GLM) refresher
 
 | Type | Equation |
 | ---- | -------- |
@@ -2689,7 +2754,7 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 <!-- Simulate logistic regression https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525 -->
 
 ---
-## GLM: Linear model
+# GLM: Linear model
 
 .pull-left[
 .small[
@@ -2725,24 +2790,24 @@ abline(lm.out)
 ```
 ]
 
-.small[
+.tiny[
 ```{r}
 summary(lm.out)
 ```
 ]
 
 ---
-## GLM: Linear model
+# GLM: Linear model
 
 - You can simulate the response (fitted line), from a model that you created. 
 
 ```{r, fig.width=8,fig.height=4}
 sim.lm = simulate(lm.out,nsim = 2000,seed = 12)
-par(mfrow = c(1,3), cex = 1.2)
-hist(rowMeans(sim.lm))
-hist(fitted(lm.out))
+par(mfrow = c(1,3), cex = 1.2); r.x = range(c(x.lm,rowMeans(sim.lm),fitted(lm.out)))
+hist(rowMeans(sim.lm), xlim = r.x, main = "Hist simulation")
+hist(fitted(lm.out), xlim = r.x, main = "Hist fitted")
 mean(rowMeans(sim.lm))
-hist(x.lm)
+hist(x.lm, xlim = r.x, main = "Hist of data")
 mean(x.lm)
 # compare 
 head(rowMeans(sim.lm))
@@ -2754,7 +2819,97 @@ mean(fitted(lm.out))
 
 
 ---
-## GLM: Linear model
+# GLM: Linear model
+
+- We can put the simulation inside a function 
+- Then, we could replicate the simulation a certain number of times
+- If we are interested in the slope, we could plot the density of the estimates that we'd get out of the simulations. 
+- In the example below, the slope estimate was extracted from the simulation and plotted for different sample sizes. 
+- You can see that as the sample size increases, our slope estimation gets better. 
+
+```{r, echo=FALSE, fig.width=8,fig.height=3}
+par(mar=c(4,4,2,2), cex = 1.3)
+
+set.seed(12345678)
+lm.sim.fun <- function(n = 100, mean = 10, sd = 1, sd.err = 1, beta0 = 2.5, beta1 = 0.8, plot = FALSE) {
+  x.lm = rnorm(n = n, mean = mean, sd = sd)
+  err = rnorm(n = n, mean = 0, sd = sd.err)
+  
+  # Linear combination 
+  y.lm = beta0 + beta1*x.lm + err
+  
+  # Make a dataframe of the data 
+  df.lm = data.frame(x = x.lm, y = y.lm)
+  # Colour 
+  b.5 = scales::alpha("black",alpha = .5)
+  
+  # Model the data 
+  lm.out = lm(y~x, data = df.lm)
+  s.out = summary(lm.out)
+  if (plot) {
+    # PLot the data 
+    plot(y~x, data = df.lm, pch = 19, col = b.5)
+    # Add a line to the plot 
+    abline(lm.out)
+  } # end if plot
+  
+  return(list(lm.out = s.out,
+              int=s.out$coefficients["(Intercept)",1],
+              slope = s.out$coefficients["x",1]))
+}
+
+nb.rep = 1000
+df.all.sim = NULL
+for (i in c(5,20,200)) {
+  l.rp = replicate(nb.rep, lm.sim.fun(n = i), simplify = FALSE)
+  all.int = unlist(lapply(l.rp, function(x) x$int))
+  all.slp = unlist(lapply(l.rp, function(x) x$slope))
+  df.all.sim = rbind(df.all.sim,data.frame(n = i, all.int, all.slp))
+}
+beta1 = 0.8
+par(mfrow = c(1,3))
+dens5 = density(df.all.sim[df.all.sim$n==5,"all.slp"]  )
+dens20 = density(df.all.sim[df.all.sim$n==20,"all.slp"] )
+dens200 = density(df.all.sim[df.all.sim$n==200,"all.slp"])
+plot(dens5,   xlim = c(-3,4), main = "n = 5");   abline(v = mean(df.all.sim[df.all.sim$n==5,"all.slp"]),   lty =1); abline(v = beta1, lty = 3)
+polygon(c(-10, dens5$x[dens5$x>-10 & dens5$x < 10], 10), c(0, dens5$y[dens5$x>=-10 & dens5$x <= 10], 0), col=scales::alpha("blue",.5))
+plot(dens20,  xlim = c(-3,4), main = "n = 20");  abline(v = mean(df.all.sim[df.all.sim$n==20,"all.slp"]),  lty =1); abline(v = beta1, lty = 3)
+polygon(c(-10, dens20$x[dens20$x>-10 & dens20$x < 10], 10), c(0, dens20$y[dens20$x>=-10 & dens20$x <= 10], 0), col=scales::alpha("blue",.5))
+plot(dens200, xlim = c(-3,4), main = "n = 200"); abline(v = mean(df.all.sim[df.all.sim$n==200,"all.slp"]), lty =1); abline(v = beta1, lty = 3)
+polygon(c(-10, dens200$x[dens200$x>-10 & dens200$x < 10], 10), c(0, dens200$y[dens200$x>=-10 & dens200$x <= 10], 0), col=scales::alpha("blue",.5))
+
+
+# 
+# lm.f <- function(n,mean,sd,b0,b1, plot = FALSE) {
+#   x = rnorm(n, mean = mean, sd = sd)
+#   beta0 = b0; beta1 = b1
+#   y = beta0 + beta1 * x + rnorm(n)
+#   lm.out = lm(y~x)
+#   s.lm.out = summary(lm.out)
+#   if (plot) {
+#     plot(x,y, pch = 19)
+#     abline(lm.out)
+#   }
+#   return(s.lm.out)
+# }
+# 
+# par(mfrow = c(1,3))
+# for (i in c(5,20,1000)) {
+#   rp.lm = replicate(n = 1000, 
+#                     expr = lm.f(n = i,mean = 19, sd = 1, b0 = 1, b1 = 4, plot = FALSE)$coefficients[c("(Intercept)","x"),"Estimate"],
+#                     simplify = FALSE)
+#   sim.est.lm = do.call(rbind, rp.lm)
+#   dens = density(sim.est.lm[,"x"])
+#   plot(dens, main = paste("n=",i), xlim = c(-1,10))
+#   polygon(c(-10, dens$x[dens$x>-10 & dens$x < 10], 10), 
+#           c(0, dens$y[dens$x>=-10 & dens$x <= 10], 0), 
+#           col=scales::alpha("blue",.5))
+# }
+```
+
+
+---
+# GLM: Linear model
 
 - Simulate 2 independent variables. 
 
@@ -2793,12 +2948,17 @@ plot(y~x2, data = df.lm, pch = 19, col = b.5)
 # Add a line to the plot 
 abline(a = coef(lm.out)["(Intercept)"]+mean(x1)*coef(lm.out)["x1"], b = coef(lm.out)["x2"])
 # abline(lm.out)
+```
+
+.tiny[
+```{r, echo=FALSE}
 summary(lm.out)
 vcov(lm.out)
 ```
+]
 
 ---
-## GLM: Linear model (categorical)
+# GLM: Linear model (categorical)
 
 .small[
 ```{r sim_lm_cat, fig.width=5,fig.height=5}
@@ -2816,7 +2976,6 @@ colnames(dummy.mat) <- paste0(c(catego.lm))
 dummy.mat[,1] <- 1
 dummy.mat[,2] <- ifelse(gr=="Treatment",1,0)
 
-# betaControl = .8
 beta1 = .8
 betaControl = .2
 betaTreament = .7
@@ -2834,7 +2993,7 @@ r.5 = scales::alpha("red",alpha = .5)
 - see [Simulating from regression model with categorical variable with 4 categories?](https://stats.stackexchange.com/questions/471947/simulating-from-regression-model-with-categorical-variable-with-4-categories)
 
 ---
-## GLM: Linear model (categorical)
+# GLM: Linear model (categorical)
 
 ```{r sim_lm_cat_plot, echo=-1, fig.width=8,fig.height=5}
 par(mfrow=c(1,2))
@@ -2848,7 +3007,7 @@ summary(lm.out)
 
 
 ---
-## GLM: Linear model (interaction; discrete)
+# GLM: Linear model (interaction; discrete)
 
 - Linear models can also take interactions in consideration. 
 - $y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2+\epsilon$
@@ -2883,9 +3042,10 @@ coef(lm.out)
 ```
 
 ---
-## GLM: Linear model (interaction; discrete)
+# GLM: Linear model (interaction; discrete)
 
-```{r, echo=-1, fig.width=8,fig.height=3}
+.small[
+```{r, echo=-1, fig.width=8,fig.height=4}
 par(mfrow=c(1,1))
 # Binary x1 
 plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, 
@@ -2903,14 +3063,14 @@ abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)
 abline(h = 0, v = 0,lty = 3)
 
 ```
-
+]
 
 ???
 See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
 
 
 ---
-## GLM: Linear model (interaction; continuous)
+# GLM: Linear model (interaction; continuous)
 
 - Here is the simulation of a linear model with an interaction term between two continuous variables. 
 - The plot is to show that the relationship between $y$ and $x_1$ is modulated by $x_2$ 
@@ -2948,7 +3108,7 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 
 
 ---
-## GLM: Linear model (interaction; continuous)
+# GLM: Linear model (interaction; continuous)
 
 ```{r, echo=-c(1:2), fig.width=8,fig.height=3}
 par(mfrow=c(1,3))
@@ -2980,7 +3140,7 @@ df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2,breaks = length(x2.sim)))
 
 
 ---
-## GLM: Linear model (interaction; continuous)
+# GLM: Linear model (interaction; continuous)
 
 ```{r, echo=-c(1:3), fig.width=8,fig.height=4}
 # plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",
@@ -2999,14 +3159,14 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
 
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 - Recall that logistic is $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) 
 - We use maximum likelihood to fit a line to the data. It doesn't have 'residuals' and don't have an $R^2$
-- Remember that is order to make the domain $]-\infty,\infty[$ for the y values (instead of $[0,1]$), we need to transform the probability to the $log(odds)$. 
+- Remember that in order to make the domain $]-\infty,\infty[$ for the y values (instead of $[0,1]$), we need to transform the probability to the $log(odds)$. 
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 - This simulation concerns a continuous variable. 
 
@@ -3030,7 +3190,7 @@ df = data.frame(y = y, x1 = x1, x2 = x2)
 ```
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 ```{r sim_logistic_glm, fig.width=5,fig.height=5}
 #now feed it to glm:
@@ -3056,7 +3216,7 @@ glm.sum$coefficients[,1]/glm.sum$coefficients[,2]
 
 
 ---
-## GLM: Logistic
+# GLM: Logistic
 
 ```{r, echo=FALSE, fig.width=8,fig.height=3}
 set.seed(6)
@@ -3112,7 +3272,7 @@ lines(x = newdata$x1,
 
 
 ---
-## GLM: Logistic (categories)
+# GLM: Logistic (categories)
 
 - We can also simulate a model with categorical variables 
 
@@ -3257,7 +3417,7 @@ See https://blogs.uoregon.edu/rclub/2016/04/05/plotting-your-logistic-regression
 
 
 ---
-## GLM: Poisson
+# GLM: Poisson
 
 - Recall that Poisson is $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ (no separate error term as $\lambda$ determines both the mean and variance)
 
@@ -3275,7 +3435,7 @@ df = data.frame(y = y, x = x)
 ```
 
 ---
-## GLM: Poisson
+# GLM: Poisson
 ```{r sim_poisson_glm_plot, fig.width=5,fig.height=5}
 #now feed it to glm:
 glm.poisson = glm( y~x, data=df, family="poisson")
@@ -3289,7 +3449,7 @@ lines(x = newdata$x,
 
 
 ---
-## Simulate categories (t-test, Anova)
+# Simulate categories (t-test, Anova)
 <!-- Although this is with only 2 groups, I'm showing this as a quick example -->
 .pull-left[
 ```{r Sim_t_test_anova}
@@ -3318,7 +3478,7 @@ plot(y~gr, data = df.aov)
 ]
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - A simple linear model is actually the 'simplest' mixed model (although the convention is that we don't called it mixed)
 - What is the random effect in a linear model? 
@@ -3326,7 +3486,7 @@ plot(y~gr, data = df.aov)
 $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - A simple linear model is actually the 'simplest' mixed model (although the convention is that we don't called it mixed)
 - What is the random effect in a linear model? 
@@ -3336,7 +3496,7 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - The residual of the model ( $\epsilon$ ) is actually the 'random effect' since it is drawn from a distribution which can change for each data point $\epsilon \sim N(\mu=0,sd = \sigma)$. 
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - to simplify the linear model equation we are going to write it this way:
 $$\mathbf{Y} = \mathbf{X}\beta + \epsilon$$
@@ -3355,7 +3515,7 @@ https://www.bristol.ac.uk/cmm/learning/videos/random-slopes.html
 -->
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - This is just another way to write the model (there is a part that specify the random slopes)
 
@@ -3364,7 +3524,7 @@ $$y_{ij} = \beta_{0} + \beta_{1} x_{1ij} + \upsilon_{1j} x_{1ij} + \upsilon_{0ij
 
 
 ---
-## Linear mixed model (LMMs) refresher
+# Linear mixed model (LMMs) refresher
 
 - Just so that everything is extra clear
 $$\mathbf{Y} = \mathbf{X}\beta + \mathbf{Z \upsilon} + \epsilon$$
@@ -3374,9 +3534,316 @@ One implementation of that could be ( $\beta_1$ and $\beta_2$ would represent di
 $$\left[\begin{array}{l} y_{11} \\ y_{21} \\ y_{12} \\ y_{22} \end{array} \right] = \left[ \begin{array}{ll} 1 & 0 \\ 0 & 1 \\ 1 & 0 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} \beta_{1} \\ \beta_{2} \end{array}\right]+\left[\begin{array}{ll} 1 & 0 \\ 1 & 0 \\ 0 & 1 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} u_{1} \\ u_{2} \end{array}\right]+\left[\begin{array}{l} \epsilon_{11} \\ \epsilon_{21} \\ \epsilon_{12} \\ \epsilon_{22} \end{array}\right]$$
 
 ---
-## LMMs simulation
+# LMMs simulation
 
-- (G)LMMs are a neat extention of the LM models that can take into account (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
+- (G)LMMs are a neat extention of the LM models that can take into account different type of response variables and variance parterns in the response data (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
+
+```{r, echo=FALSE, fig.width=5, fig.height=3}
+library(lme4)
+set.seed(16)
+# Experimental design 
+lakes = 6
+f.sp = 3
+n.id = 10 
+# Setting parameters
+sd = 0.3# Individual measure 
+sd.lake = .05
+sd.fish = .02
+beta0 = 1
+beta1 = 0.003
+total.n = lakes*f.sp*n.id
+
+# Getting the age status of a fish 
+age = rep(c(rep("Juv",2),rep("Ado",6),rep("Adt",2)), lakes)
+n.juv = length(which(age =="Juv"))
+n.ado = length(which(age =="Ado"))
+n.adt = length(which(age =="Adt"))
+age.df = data.frame(age,length = NA)
+# Generating the length of the fish depending on the age it has 
+age.df[age.df$age =="Juv","length"] <- rnorm(n.juv,mean = 100,sd = 10)
+age.df[age.df$age =="Ado","length"] <- rnorm(n.ado,mean = 250,sd = 50)
+age.df[age.df$age =="Adt","length"] <- rnorm(n.adt,mean = 400,sd = 10)
+
+# trophic position is the response variable 
+# Fish length is the phenotype that is measured 
+
+lake.rep = gl(n = lakes,k = f.sp*n.id,labels = paste0("L",1:lakes))
+# length(lake.rep)
+
+sp.rep = rep( x = gl(n = f.sp,k = n.id, labels = paste0("s",1:f.sp)), lakes)
+# length(sp.rep)
+f.id = paste0("f.",1:(lakes*f.sp*n.id)) 
+
+# Random effects 
+# Setting it up with rnorm (the correct way)
+# lake.rdm.eff = rep( rnorm(lakes, 0, sd.lake), each = f.sp*n.id)
+
+# setting it up manually to see what happens when you modify the value
+my.rdm.lake = c(1,2, 1.1,0.8,1.5,1.8)
+lake.rdm.eff = rep( my.rdm.lake, each = f.sp*n.id)
+
+# Setting it up with rnorm (the correct way)
+# fish.rdm.eff = rep( rnorm(f.sp, 0, sd.fish), each = n.id)
+# setting it up manually to see what happens when you modify the value
+my.rdm.fish = c(-0.5,.4, -0.2)
+fish.rdm.eff = rep( my.rdm.fish, each = n.id)
+
+# Individual error 
+id.err = rnorm(lakes*f.sp*n.id, 0, sd)
+
+f.dat = data.frame(lake = lake.rep,
+                   lake.rdm.eff,
+                   species = sp.rep,
+                   lake.rdm.eff,
+                   fish.rdm.eff,
+                   id = f.id,
+                   age.df)
+
+f.dat$t.lvl = with(f.dat, beta0 + beta1*length +lake.rdm.eff+fish.rdm.eff+ id.err )
+# > range(fish.data$Trophic_Pos)
+# [1] 2.123674 4.370899
+
+f.dat$z_lgt = scale(f.dat$length) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+
+# head(f.dat)
+# range(f.dat$t.lvl)
+
+plot <- ggplot(aes(length, t.lvl), data = f.dat)
+fig <- theme_bw() + 
+  theme(panel.grid.minor=element_blank(), 
+        panel.grid.major=element_blank(), 
+        panel.background=element_blank(), 
+        strip.background=element_blank(), 
+        strip.text.y = element_text(),
+        legend.background=element_blank(),
+        legend.key=element_blank(),
+        panel.border = element_rect(colour="black", fill = NA))
+
+plot + geom_point(aes(col = species), size = 1) + 
+  labs(x = "Length (mm)", y = "Trophic Position", 
+       title = "All Data") + 
+  fig
+
+# Full model with varying intercepts and slopes only varying by species
+M8 <- lmer(z.t.lvl ~ z_lgt + (1 + z_lgt | species) + (1 | lake),
+           data = f.dat, REML = FALSE)
+
+Lake.coef              <- coef(M8)$lake
+colnames(Lake.coef)    <- c("Intercept", "Slope")
+Species.coef           <- coef(M8)$species
+colnames(Species.coef) <- c("Intercept", "Slope")
+```
+
+.pull-left[
+```{r, echo=FALSE, fig.width=4, fig.height=3}
+plot <- ggplot(aes(z_lgt, z.t.lvl), data = f.dat)
+Plot_BySpecies <- plot +
+  geom_point(aes(colour = species), size = 1) +
+  xlab("Length (mm)") + ylab("Trophic position") +
+  labs(title = "By species") + fig
+# Add regression lines for each species
+Plot_BySpecies +
+  geom_abline(intercept = Species.coef[1,1],
+              slope     = Species.coef[1,2], col = "coral2") +
+  geom_abline(intercept = Species.coef[2,1],
+              slope     = Species.coef[2,2], col = "green4") +
+  geom_abline(intercept = Species.coef[3,1],
+              slope     = Species.coef[3,2], col = "blue1")
+
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, fig.width=4, fig.height=3}
+Plot_ByLake <- plot +
+  geom_point(aes(colour = lake), size = 1) +
+  xlab("Length (mm)") + ylab("Trophic Position") +
+  labs(title = "By Lake") + fig
+# Add in regression lines with the intercepts specific to each lake
+Plot_ByLake +
+  geom_abline(intercept = Lake.coef[1,1],
+              slope     = Lake.coef[1,2], col = "coral2") +
+  geom_abline(intercept = Lake.coef[2,1],
+              slope     = Lake.coef[2,2], col = "khaki4") +
+  geom_abline(intercept = Lake.coef[3,1],
+              slope     = Lake.coef[3,2], col = "green4") +
+  geom_abline(intercept = Lake.coef[4,1],
+              slope     = Lake.coef[4,2], col = "darkgoldenrod") +
+  geom_abline(intercept = Lake.coef[5,1],
+              slope     = Lake.coef[5,2], col = "royalblue1") +
+  geom_abline(intercept = Lake.coef[6,1],
+              slope     = Lake.coef[6,2], col = "magenta3")
+```
+]
+
+
+---
+# LMMs simulation
+
+- For the previous simulation, here is how the data was generated 
+
+.pull-left[
+.tiny[
+```{r}
+set.seed(16)
+# Experimental design 
+lakes = 6
+f.sp = 3
+n.id = 10 
+# Setting parameters
+sd = 0.3# Individual measure 
+sd.lake = .05
+sd.fish = .02
+beta0 = 1
+beta1 = 0.003
+total.n = lakes*f.sp*n.id
+
+# Getting the age status of a fish 
+age = rep(c(rep("Juv",2),rep("Ado",6),rep("Adt",2)), lakes)
+n.juv = length(which(age =="Juv"))
+n.ado = length(which(age =="Ado"))
+n.adt = length(which(age =="Adt"))
+age.df = data.frame(age,length = NA)
+# Generating the length of the fish depending on the age it has 
+age.df[age.df$age =="Juv","length"] <- rnorm(n.juv,mean = 100,sd = 10)
+age.df[age.df$age =="Ado","length"] <- rnorm(n.ado,mean = 250,sd = 50)
+age.df[age.df$age =="Adt","length"] <- rnorm(n.adt,mean = 400,sd = 10)
+
+# trophic position is the response variable 
+# Fish length is the phenotype that is measured 
+
+lake.rep = gl(n = lakes,k = f.sp*n.id,labels = paste0("L",1:lakes))
+# length(lake.rep)
+
+sp.rep = rep( x = gl(n = f.sp,k = n.id, labels = paste0("s",1:f.sp)), lakes)
+# length(sp.rep)
+f.id = paste0("f.",1:(lakes*f.sp*n.id)) 
+```
+]
+]
+
+.pull-right[
+.tiny[
+```{r}
+# Random effects 
+# Setting it up with rnorm (the correct way)
+# lake.rdm.eff = rep( rnorm(lakes, 0, sd.lake), each = f.sp*n.id)
+
+# setting it up manually to see what happens when you modify the value
+my.rdm.lake = c(1,2, 1.1,0.8,1.5,1.8)
+lake.rdm.eff = rep( my.rdm.lake, each = f.sp*n.id)
+
+# Setting it up with rnorm (the correct way)
+# fish.rdm.eff = rep( rnorm(f.sp, 0, sd.fish), each = n.id)
+# setting it up manually to see what happens when you modify the value
+my.rdm.fish = c(-0.5,.4, -0.2)
+fish.rdm.eff = rep( my.rdm.fish, each = n.id)
+
+# Individual error 
+id.err = rnorm(lakes*f.sp*n.id, 0, sd)
+
+f.dat = data.frame(lake = lake.rep,
+                   lake.rdm.eff,
+                   species = sp.rep,
+                   lake.rdm.eff,
+                   fish.rdm.eff,
+                   id = f.id,
+                   age.df)
+
+f.dat$t.lvl = with(f.dat, beta0 + beta1*length +lake.rdm.eff+fish.rdm.eff+ id.err )
+
+f.dat$z_lgt = scale(f.dat$length) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+```
+]
+
+]
+
+
+---
+# LMMs simulation
+
+- This simulation is from [Simulate! Simulate! - Part 2: A linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
+```{r, fig.width=8, fig.height=3}
+set.seed(16)
+nstand = 5
+nplot = 4
+mu = 10
+sds = 2
+sd = 1
+( stand = rep(LETTERS[1:nstand], each = nplot) )
+( plot = letters[1:(nstand*nplot)] )
+( standeff = rnorm(nstand, 0, sds) )
+( standeff = rep(standeff, each = nplot) )
+( ploteff = rnorm(nstand*nplot, 0, sd) )
+( dat = data.frame(stand, standeff, plot, ploteff) )
+( dat$resp = with(dat, mu + standeff + ploteff ) )
+library(lme4,warn.conflicts = FALSE)
+fit1 = lmer(resp ~ 1 + (1|stand), data = dat)
+fit1
+twolevel_fun = function(nstand = 5, nplot = 4, mu = 10, sigma_s = 2, sigma = 1) {
+     standeff = rep( rnorm(nstand, 0, sigma_s), each = nplot)
+     stand = rep(LETTERS[1:nstand], each = nplot)
+     ploteff = rnorm(nstand*nplot, 0, sigma)
+     resp = mu + standeff + ploteff
+     dat = data.frame(stand, resp)
+     lmer(resp ~ 1 + (1|stand), data = dat)
+}
+set.seed(16)
+twolevel_fun()
+sims = replicate(100, twolevel_fun(), simplify = FALSE )
+sims[[100]]
+library(broom.mixed)
+tidy(fit1)
+tidy(fit1, effects = "fixed")
+tidy(fit1, effects = "ran_pars", scales = "vcov")
+library(purrr) # v. 0.3.4
+suppressPackageStartupMessages( library(dplyr) ) # v. 1.0.7
+library(ggplot2) # v. 3.3.5
+stand_sims = c(5, 20, 100) %>%
+     set_names() %>%
+     map(~replicate(100, twolevel_fun(nstand = .x) ) )
+stand_vars = stand_sims %>%
+     modify_depth(2, ~tidy(.x, effects = "ran_pars", scales = "vcov") ) %>%
+     map_dfr(bind_rows, .id = "stand_num") %>%
+     filter(group == "stand")
+head(stand_vars)
+ggplot(stand_vars, aes(x = estimate) ) +
+     geom_density(fill = "blue", alpha = .25) +
+     facet_wrap(~stand_num) +
+     geom_vline(xintercept = 4)
+stand_vars = mutate(stand_vars, stand_num = forcats::fct_inorder(stand_num) )
+add_prefix = function(string) {
+     paste("Number stands:", string, sep = " ")
+}
+groupmed = stand_vars %>%
+     group_by(stand_num) %>%
+     summarise(mvar = median(estimate) )
+ggplot(stand_vars, aes(x = estimate) ) + 
+     geom_density(fill = "blue", alpha = .25) +
+     facet_wrap(~stand_num, labeller = as_labeller(add_prefix) ) +
+     geom_vline(aes(xintercept = 4, linetype = "True variance"), size = .5 ) +
+     geom_vline(data = groupmed, aes(xintercept = mvar, linetype = "Median variance"),
+                size = .5) +
+     theme_bw(base_size = 14) +
+     scale_linetype_manual(name = "", values = c(2, 1) ) +
+     theme(legend.position = "bottom",
+           legend.key.width = unit(.1, "cm") ) +
+     labs(x = "Estimated Variance", y = NULL)
+stand_vars %>%
+     group_by(stand_num) %>%
+     summarise_at("estimate", 
+                  list(min = min, mean = mean, med = median, max = max) )
+stand_vars %>%
+     group_by(stand_num) %>%
+     summarise(mean(estimate < 4) )
+
+```
+
+
+---
+# LMMs simulation
 
 For now, please see [this link](https://debruine.github.io/tutorials/sim-lmer.html). 
 
@@ -3395,7 +3862,7 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 ```
 
 ---
-## Time series simulation
+# Time series simulation
 
 - We suggest that for the moment, you consult the [Time Series Analysis CRAN Task View](https://cran.r-project.org/web/views/TimeSeries.html) which contains packages that can simualte time series for you to analyze. 
 - You can also see [this guide to better understand Time series](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
@@ -3407,7 +3874,7 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - The examples here were taken from [this post on Stack Overflow](https://stackoverflow.com/questions/68761166/create-random-points-inside-a-shape-in-r)
 - See also the help for `st_sample()`. In the *Examples* section, there are some neat simulations of points in polygons. 
@@ -3430,7 +3897,7 @@ ggplot() +
 ]
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - [QGIS](https://qgis.org/en/site/) was used to draw the Jardin Botanique de Montréal. Buildings were added to remove them from the Jardin Botanique polygon. 
 - Here, 5 random points were generated and added to the polygon
@@ -3474,7 +3941,7 @@ mapView(only.park,
 ```
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - 2 points were added to that polygon with known location. 
 - But we'd like to add random points in the 100m buffer around these points 
@@ -3498,7 +3965,7 @@ mapView(only.park,
 
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - 5 random points were generated and added to the polygon
 - 2 points were added to that polygon with known location.
@@ -3535,7 +4002,7 @@ mapView(only.park, col.regions = c("green"))+
 ```
 
 ---
-## Spatial simulation
+# Spatial simulation
 
 - What if we want to add a grid to the polygon:
 
@@ -3563,7 +4030,7 @@ class: inverse, center, middle
 
 
 ---
-## Advanced simulations
+# Advanced simulations
 
 - Now that we have the building blocks to make simulations, we are going to add another layer:
 - We want to simulate a process and then see how our simulation responds to a fluctuation in a parameter
@@ -3576,7 +4043,7 @@ class: inverse, center, middle
 
 
 ---
-## Advanced simulations
+# Advanced simulations
 .tiny[
 ```{r simulate_sampling_function}
 # Defining the population 
@@ -3618,7 +4085,7 @@ sample.mean.pop.est <- function(x,n, sample.size, ylim = NULL) {
 ]
 
 ---
-## Advanced simulations
+# Advanced simulations
 
 .small[
 ```{r simulate_sampling_plots}
@@ -3631,7 +4098,7 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 ]
 
 ---
-## Advanced simulations (natural selection)
+# Advanced simulations (natural selection)
 
 - The sentence "METHINKS IT IS LIKE A WEASEL" is from Shakespeare's *Hamlet*
 - Richard Dawkins, in his 1986 book *The Blind Watchmaker*, used it to simulate natural selection on random genetic mutation. 
@@ -3708,7 +4175,7 @@ while ( ! all(parent == target)) {
 
 
 ---
-## References
+# References
 .tiny[
 Book
 - Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973.
