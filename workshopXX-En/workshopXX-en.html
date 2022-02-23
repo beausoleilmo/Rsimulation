@@ -2244,32 +2244,24 @@ summary(lm.out)
 
 
 ```r
-sim.lm = simulate(lm.out,nsim = 2000,seed = 12)
-par(mfrow = c(1,3), cex = 1.2); r.x = range(c(x.lm,rowMeans(sim.lm),fitted(lm.out)))
+sim.lm = simulate(lm.out, nsim = 2000, seed = 12)
+r.x = range(c(x.lm, rowMeans(sim.lm), fitted(lm.out)))
 hist(rowMeans(sim.lm), xlim = r.x, main = "Hist simulation")
 hist(fitted(lm.out), xlim = r.x, main = "Hist fitted")
-mean(rowMeans(sim.lm))
-# [1] 10.57977
 hist(x.lm, xlim = r.x, main = "Hist of data")
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
-mean(x.lm)
-# [1] 9.920725
+c(mean(rowMeans(sim.lm)), mean(x.lm),  mean(fitted(lm.out)))
+# [1] 10.579771  9.920725 10.578551
 # compare 
-head(rowMeans(sim.lm))
+head(rowMeans(sim.lm)); head(fitted(lm.out))
 #         1         2         3         4         5         6 
 # 11.607784 11.973944  8.641016 10.445591 11.387259 10.006595
-head(fitted(lm.out))
 #         1         2         3         4         5         6 
 # 11.613416 12.010193  8.639148 10.428930 11.397939 10.010954
-
-mean(rowMeans(sim.lm))
-# [1] 10.57977
-mean(fitted(lm.out))
-# [1] 10.57855
 ```
 
 

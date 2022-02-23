@@ -3051,6 +3051,7 @@ df.lm = data.frame(x = x.lm, y = y.lm)
 
 .pull-right[
 ```{r, echo=FALSE, fig.width=4,fig.height=4}
+par(mar = c(4,4,.5,.5))
 # Colour 
 b.5 = scales::alpha("black",alpha = .5)
 
@@ -3075,20 +3076,15 @@ summary(lm.out)
 
 - You can simulate the response (fitted line), from a model that you created. 
 
-```{r, fig.width=8,fig.height=3}
-sim.lm = simulate(lm.out,nsim = 2000,seed = 12)
-par(mfrow = c(1,3), cex = 1.2); r.x = range(c(x.lm,rowMeans(sim.lm),fitted(lm.out)))
+```{r, echo=-1, fig.width=8,fig.height=3}
+par(mfrow = c(1,3), mar = c(4,4,1,1), cex = 1.2)
+sim.lm = simulate(lm.out, nsim = 2000, seed = 12)
+r.x = range(c(x.lm, rowMeans(sim.lm), fitted(lm.out)))
 hist(rowMeans(sim.lm), xlim = r.x, main = "Hist simulation")
 hist(fitted(lm.out), xlim = r.x, main = "Hist fitted")
-mean(rowMeans(sim.lm))
 hist(x.lm, xlim = r.x, main = "Hist of data")
-mean(x.lm)
-# compare 
-head(rowMeans(sim.lm))
-head(fitted(lm.out))
-
-mean(rowMeans(sim.lm))
-mean(fitted(lm.out))
+c(mean(rowMeans(sim.lm)), mean(x.lm),  mean(fitted(lm.out))) # compare 
+head(rowMeans(sim.lm)); head(fitted(lm.out))
 ```
 
 
