@@ -526,7 +526,7 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 ```
 
 ???
-- To go deeper: The actual pseudorandom number generator (PRNG) which is default in R is called the Mersenne Twister (see `??set.seed`) https://en.wikipedia.org/wiki/Mersenne_Twister
+- To go deeper: The actual pseudorandom number generator (PRNG) which is default in R is called the [Mersenne Twister](https://en.wikipedia.org/wiki/Mersenne_Twister) (see `??set.seed`) 
 - `set.seed(seed, kind = "Mersenne-Twister")`
 
 ---
@@ -587,8 +587,8 @@ df.xy = data.frame(x,y, col )
 
 ```r
 set.seed(321)
-df.xy$x.s = sample(df.xy$x)
-df.xy$y.s = sample(df.xy$y)
+*df.xy$x.s = sample(df.xy$x)
+*df.xy$y.s = sample(df.xy$y)
 # We break up the link of X and Y 
 ```
 ]
@@ -609,7 +609,8 @@ plot(y.s~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permuta
   * 1st plot: not permutated
   * 2nd plot: x permutated
   * 3rd plot: x and y permutated
-  
+- The highlighted lines are where the permutation occurs
+
 &lt;!-- --- --&gt;
 &lt;!-- ## Functions useful in simulations (sample) --&gt;
 &lt;!-- - Keep in mind that permutations are valid if the null hypothesis tested is that there is *no association* between the variables studied.
@@ -668,7 +669,7 @@ barplot(table(die_results)) # table(die_results)/nb.tosses
 ---
 # Functions useful in simulations (rep)
 
-- You will not only see numerical values in simulations. Characters (or factors) can be generated in R easily. 
+- Numerical values are not the only type of class you'll see in simulations. Characters (or factors) can be generated in `R` easily. 
 - The `rep()` function can help you with this
 
 
@@ -727,7 +728,7 @@ gl(n = 2, k = 2, length = 20)
 # Functions useful in simulations (replicate)
 
 - In some cases, you want to replicate data, for example when you want to generate multiple populations at once with the same parameters
-- `replicate()` can be used instead of a for loop and make simulations faster. 
+- `replicate()` can be used instead of a `for loop` and make simulations faster. 
 
 
 ```r
@@ -782,6 +783,12 @@ Use `sample()` to perform this task.
 sample()
 ```
 
+???
+- Using, `sample`, students should explore the replace argument
+- For people that are finished before the end: 
+  * take 1000 draws with replacement from, two values (0 or 1), with equal probability for each. 
+  * Here you could specify how the probability is selected 
+
 
 ---
 # Challenge 1 - Solution ![:cube]()
@@ -821,6 +828,9 @@ Create a data frame with variable
 - `\(y = 2+ 3 * x\)` and 
 - a grouping factor (gr) with one group with the 5 smallest values and another group with the 5 largest values. 
 
+???
+- Some students might point out that the error `\(\epsilon\)` is missing. They can add it if they want. Just make sure to verify that the mean of `\(\epsilon\)` is indeed `0`, and that they are concious about the sd they could change. 
+
 ---
 # Challenge 2 - Solution ![:cube]()
 
@@ -836,6 +846,8 @@ plot(y~x, col = as.factor(gr), data = linear.df, pch = 19, cex = 1.5)
 
 
 ???
+- Note that the regression is "perfect". This is not what we typically see when collecting data. Why? because here the `\(\epsilon\)` term is missing. This is the random error term that each measurement has. 
+- The `\(\epsilon\)` is drawn from a normal distribution with mean=0 and a none-zero sd. 
 
 #################################
 ---
@@ -1048,6 +1060,7 @@ plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=
 
 ???
 - Let's just spend some time explaining the DIFFERENCE between a probability and a *p-value*. 
+- Note also that the p-value for CONTINUOUS variables is the area under the curve AT the value and GREATER or LOWER the CRITICAL value or BOTH depending on the test. 
 - See [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&amp;ab_channel=StatQuestwithJoshStarmer), [How to calculate p-values ](https://www.youtube.com/watch?v=JQc3yx0-Q9E&amp;t=0s&amp;ab_channel=StatQuestwithJoshStarmer) and [p-values: What they are and how to interpret them](https://www.youtube.com/watch?v=vemZtEM63GY&amp;ab_channel=StatQuestwithJoshStarmer)
 
 ---
@@ -1329,27 +1342,14 @@ class: inverse, center, middle
 ---
 # Poisson distribution
 
-- Poisson distribution assume that 
+- To be Poisson distributed, the data generally assumes that 
   - the probability of some event is small over a short period of time (or area), but that there are a lot of events (as there would be a lot of time passing, or a lot of space) in which the process could happen 
   - The number of event reported is independent from one time point to the other. 
-  - In summary, it models *rare* events that happen at a certain *rate*. In other words, there are many opportunities to succeed (n is large), but the probability of success (for each trial) is small
+  - In summary, it models *rare* events that happen at a certain *rate*. In other words, there are many opportunities to succeed (n is large), but the probability of success (for each trial) is small. 
+  
+- The probability mass function is:
 
-`$$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$` where `\(\mu = \sigma = \lambda\)`
-
-
----
-# Poisson distribution vs binomial
-
-- Difference with Binomial :
-  - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
-  - Number of trials is finite ( `\(n\)` ) in Binomial distribution 
-
-&lt;img src="workshopXX-en_files/figure-html/equivalence_between_distributions_Binom_poisson-1.png" width="432" style="display: block; margin: auto;" /&gt;
-
-```
-# [1] 0.6766764
-# [1] 0.6766764
-```
+`$$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$` where `\(\mu = \sigma^2 = \lambda\)`
 
 
 ---
@@ -1375,53 +1375,197 @@ https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 &lt;!-- Poisson example see https://www.pnas.org/content/115/37/9270 --&gt;
 
 ---
+# Poisson distribution
+
+- In `R`, you can generate Poisson distributed variables with the `rpois` function. Below is the structure of the function. 
+
+```
+rpois(n = number of repetitions,
+      lambda = rate)
+```
+
+- You can think of this function as the number of times you'd get a success, when the number of events per unit of time or space is lambda 
+- If with a camera trap, I see a wolf in its trail twice every day (lambda is this rate, which doesn't need to be an integer), then if I observe the data for one day, what could be the number of wolves that I observe? 
+
+
+```r
+set.seed(5937); rpois(n = 1,lambda = 2)
+# [1] 5
+```
+- Wow! That day was amazing! 
+
+&lt;img src="workshopXX-en_files/figure-html/Statistical_dist_poisson_wolf-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+---
+# Poisson distribution
+
+
+```r
+add.l &lt;- function(by=.1) {  abline(h=seq(0,1, by = by), lty = 3, lwd = .3)}
+# For dbinom, x is the vector of quantiles 
+plot(0:5, dpois(x = 0:5, lambda=0.05),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "lambda = 0.05");add.l();abline(v = 0.05, lty = 3)
+plot(0:10, dpois(x = 0:10, lambda=1),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "lambda = 1"); add.l();abline(v = 1, lty = 3)
+plot(0:20, dpois(x = 0:20, lambda=5),type='h', col = col.b, lwd=lwd, ylim = c(0,0.3), ylab = "Probability", main = "lambda = 5");add.l();abline(v = 5, lty = 3)
+plot(0:40, dpois(x = 0:40, lambda=20),type='h', col = col.b, lwd=lwd, ylim = c(0,.2), ylab = "Probability", main = "lambda = 20");add.l();abline(v = 20, lty = 3)
+
+
+hist(rpois(n = 1000, lambda=25), xlab = "Nb of successes", breaks = 100, col = col.b, main = "n = 1000, lambda = 25", probability = F);abline(v = 25, lty = 3)
+hist(rpois(n = 100000, lambda=50),xlab = "Nb of successes", breaks = 100, col = col.b, main = "n = 100000, lambda = 50", probability = F);abline(v = 50, lty = 3)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/Statistical_dist_poisson-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+
+---
 # Binomial distribution
 
-- Binomial distribution assume that 
-- Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
-* Note that a 'success' or 'failure' is a *contrast* between 2 elements. 
-* These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.  
-- There is a *fixed* number of trials and the probability on each trial is constant.
+- Binomial distribution is finite (n is not infinite) and discrete.
+- Binomial distribution assumes that:
+  - Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
+  - There is a *fixed* number of trials and the probability on each trial is constant.
 
-&lt;!-- , 'cancer cell death/alive' --&gt;
-
+- The probability mass function is:
 
 $$f(x) = {n \choose x} p^x(1-p)^{n-x} $$
-.tiny[
 where 
-- `\(p\)` is the probability of success in a single trial (therefore, `\((1-p)\)` is the probability of failure, sometimes seen as `\(q\)`)
+- `\(p\)` is the probability of success in a single trial (so `\((1-p)\)` is the probability of failure, sometimes seen as `\(q\)`)
 - `\(n\)` is the number of trials 
 - `\(x\)` is the number of trials that are successes
-- `\({n \choose x}\)` is the number of combinations (which is equal to `\(\frac{n!}{r!(n-r)!}\)`) where the order doesn't matter. 
-]
+- `\({n \choose x} = \frac{n!}{r!(n-r)!}\)` is the number of combinations where the order doesn't matter. 
 
+???
+- Note that a 'success' or 'failure' is a *contrast* between 2 elements. 
+  * These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.
+- The probability of success or failiure DON'T change as the experiment goes: e.g., the probability of heads or tail for a coin should not change as the experiment is conducted. 
+- See the lecture [Binomial Distribution](https://www.montana.edu/rotella/documents/502/BinomDist.html)
+&lt;!-- , 'cancer cell death/alive' --&gt;
+
+  
 ---
 # Binomial distribution
 
 - Examples 
-  - Number of heads in a row after 3 tosses
-  - Genetic drift 
-  - Wright-Fisher model 
+  - Number of heads in a row after 3 tosses (heads or tail)
+  - Wright-Fisher model (Genetic drift, p and q)
+  - Testing the side effects of a new medications (with and without effect)
+  - Model river overflows due to excessive rain (overflows or not). 
 
-&lt;!-- Examples taken from 
-http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html
-https://www.zoology.ubc.ca/~bio300b/binomialnotes.html
-https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probability7.html
---&gt;
+???
+- Wright–Fisher model is a mathematical model of genetic drift. p and q are the frequency of 2 different alleles. (Generations do not overlap, like annual plants, and that the copy of the gene in the new generation is independently drawn from the gene pool of the previous generation)
+  * Here is a simulation of the Wright-Fisher model [Introduction to the Wright-Fisher Model](https://stephens999.github.io/fiveMinuteStats/wright_fisher_model.html#simulating_the_wright-fisher_model) (cleaner compared to my version!)
+- For the medical side effect (affected or not), the river overflows (overflow or not) example, read [5 Real-Life Examples of the Binomial Distribution](https://www.statology.org/binomial-distribution-real-life-examples/)
 
 ---
 # Binomial distribution
 
-- Examples 
-  - probability of having a certain number of offspring given the genotypes of the parents 
-  - for example, if a male is AA and female Aa, what is the probability that 6 of their 7 offspring has Aa
-  - Find the probability of getting Aa from AA x Aa [1/2 AA and 1/2 Aa], 
-  - then out of n=7 offspring from that couple, 6 are of genotype Aa, `\(P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128\)`)
-  - Probability of a certain number of your children being daughters 
-  - if you have 5 children, these are independent trials, so n = 5
-  - "success" is the probability that the child is a daughter (p = 1/2)
-  - `\(P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16\)`
+- Example 1: probability of having a certain number of offspring with a certain genotype (e.g., Aa) given the genotypes of the parents 
+  - If a male (AA) mates a female (Aa), what is the probability that 6 of their 7 offspring is Aa (7 choose 6)
+  - The probability of getting Aa from AA x Aa is [1/2 AA and 1/2 Aa], 
+  - `\(P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128\)`)
+- Example 2: Probability of a certain number of your children being daughters 
+  * if you have 5 children, these are independent trials, so n = 5
+  * "success" is the probability that the child is a daughter (p = 1/2)
+  * `\(P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16\)`
 
+
+---
+# Binomial distribution
+
+
+```r
+n = 7; x = 6; prob = 0.5
+plot(0:8, dbinom(x = 0:8, size=n, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.4), ylab = "Probability", main = "s=7 and s=5; p=0.5 "); add.l(.05)
+points(x = x, y = dbinom(x = x, size=n, prob=0.5), pch =19, col = col.b)
+
+lines(c(0:8)+0.1, dbinom(x = 0:8, size=5, prob=0.5),type='h', col = col.r, lwd=lwd)
+points(x = 3+.1, y = dbinom(x = 3, size=5, prob=0.5), pch =19, col = col.r)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+
+
+???
+- Examples taken from 
+  * [Polynomial Applications Binomial Distribution](http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html)
+  * [Biology 300 Notes on the binomial distribution](https://www.zoology.ubc.ca/~bio300b/binomialnotes.html)
+  * [The Binomial Distribution: A Probability Model for a Discrete Outcome](https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probability7.html)
+
+
+---
+# Binomial distribution
+
+- In `R`, you can generate binomial distributed variables with the `rbinom` function. 
+
+```
+rbinom(n = number of repetitions,
+       size = sample size, # between 0 and up to the size 
+       p = probability of success)
+```
+
+- Think of it as the number of times you'd get a success, with probability `\(p\)`, for a number of times you repeat the experiment. 
+
+
+```r
+set.seed(12345)
+# 1000 experiments where each time, e.g., flipping a coin, I can either have a
+table(rbinom(n = 1000, size=1, prob=0.5), dnn=NULL) # success or failure with p=.5
+#   0   1 
+# 469 531
+# 1 experiment where I have 1000 coins Where I sum all successes with p=.5
+table(rbinom(n = 1, size=1000, prob=0.5), dnn=NULL) 
+# 476 
+#   1
+# 1000 experiments where each time, for example flipping 10 coins, where I 
+table(rbinom(n = 1000, size=10, prob=0.5), dnn=NULL) # sum the success with p=.5
+#   0   1   2   3   4   5   6   7   8   9  10 
+#   1   9  45 105 191 260 211 107  58  12   1
+```
+???
+- The structure of the function is shown in R notation .
+
+---
+# Binomial distribution
+
+
+
+```r
+# For dbinom, x is the vector of quantiles 
+plot(0:1, dbinom(x = 0:1, size=1, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "s=1, p=.5"); add.l()
+plot(0:20, dbinom(x = 0:20, size=20, prob=0.4),type='h', col = col.b, lwd=lwd, ylim = c(0,.2), ylab = "Probability", main = "s=20, p=.4");add.l()
+plot(0:23, dbinom(x = 0:23, size=20, prob=0.9),type='h', col = col.b, lwd=lwd, ylim = c(0,0.3), ylab = "Probability", main = "s=20, p=.9");add.l()
+plot(40:110, dbinom(x = 40:110, size=150, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.15), ylab = "Probability", main = "s=150, p=.5");add.l()
+
+
+# hist(rbinom(n = 100000, size=50, prob=0.5), xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.5", probability = F)
+plot(40:51, dbinom(x = 40:51, size=50, prob=0.99),type='h', col = col.b, lwd=lwd, ylim = c(0,.8), ylab = "Probability", main = "s=50, p=.99");add.l()
+hist(rbinom(n = 100000, size=50, prob=0.99),xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.99", probability = F)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/Statistical_dist_binom-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+???
+- Some of the distributions may *look* normal, but they are NOT. 
+- If you look at the histograms and plot the "density", you can see that it can go ABOVE 1. It makes more sense to see the probabilities as the AREA under such curve.
+- See [Probability density function vs. probability mass function](https://math.stackexchange.com/questions/23293/probability-density-function-vs-probability-mass-function)
+
+---
+# Poisson distribution vs binomial
+
+- Difference with Binomial:
+  - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
+  - Number of trials is finite ( `\(n\)` ) in Binomial distribution 
+
+&lt;img src="workshopXX-en_files/figure-html/equivalence_between_distributions_Binom_poisson-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+```
+# [1] 0.6766764
+# [1] 0.6766764
+```
+
+???
+- Actually, the Poisson distribution approximates the Binomial with `\(\lambda = np\)` if $n \geq 20 $ and `\(p \leq 0.05\)`
+- See [The Poisson Distribution in R](https://rstudio-pubs-static.s3.amazonaws.com/456645_107fa2aa82de4b1da6c78c418bab9fe9.html)
 
 ---
 # Normal distribution (Gaussian)
@@ -1622,7 +1766,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 
 - Mean of population is = 1
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-15-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1630,7 +1774,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 
 - Mean of population is = 2 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-13-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1654,7 +1798,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 
 - Now, if we have distributions that have a standard deviation of 5 and a sample size of 10.
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-14-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -1667,7 +1811,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 - Let's see what happens if we increase the sample size from 10 to 100.
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1771,7 +1915,7 @@ for(i in c(2, 50, 1000, 5000)){
 }
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -1805,7 +1949,7 @@ for(i in c(2, 50, 1000, 5000)){
 
 This is an example of a uniform discrete distribution ranging from 7 to 10. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-21-1.png" width="216" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1831,7 +1975,7 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
       from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-22-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
 - We simulate the rolling of 20 dice and sum their values. 
@@ -1853,7 +1997,7 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
 - Therefore, the *sampling distribution* of the *sample mean* (so the mean taken out of a sample, multiple times with various samples), approximate a normal distribution, even if the underlying process is not from a normal distribution. `\(\bar X \sim N(\mu,\frac{\sigma}{\sqrt {n}})\)` or the mean of x is approximately normally distributed as with mean mu and variance 
 - See also [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-20-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-23-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1875,7 +2019,7 @@ plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-21-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-24-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 ???
 
@@ -1947,7 +2091,7 @@ curve(dchisq(x, df = ptest$parameter),
 abline(v = ptest$statistic, lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
 --
 
 - The p-value is 0.0000701.
@@ -1971,7 +2115,7 @@ plot(f2(r2)~r2)
 curve(expr = (x/(1-x)),add = T)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2063,7 +2207,7 @@ df.lm = data.frame(x = x.lm, y = y.lm)
 ]
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-28-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-31-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2107,7 +2251,7 @@ mean(rowMeans(sim.lm))
 hist(x.lm, xlim = r.x, main = "Hist of data")
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 mean(x.lm)
@@ -2136,16 +2280,16 @@ mean(fitted(lm.out))
 - In the example below, the slope estimate was extracted from the simulation and plotted for different sample sizes. 
 - You can see that as the sample size increases, our slope estimation gets better. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-31-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-34-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 
 ---
 # GLM: Linear model
 
-- Same as the simulation above, but now we plot the adjusted `\(R^2\)` from the linear model. 
+- Same simulation as before, but now we plot the adjusted `\(R^2\)` from the linear model. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-32-1.png" width="720" style="display: block; margin: auto;" /&gt;
-- You can see from the plots that the effect size (the `\(R^2\)` in this case), is extremely variable when the sample size is very small. But when the sample size increases, the spread around the effect size diminishes. This adding to the idea that larger sample sizes are more important when you conduct a study. 
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="720" style="display: block; margin: auto;" /&gt;
+- You can see from the plots that the effect size, the `\(R^2\)`, varies much more when the sample size is small. But when the sample size increases, the spread around the effect size diminishes. This adds to the idea that larger sample sizes are  important when you conduct a study. 
 
 ???
 - This makes a SUPER IMPORTANT POINT. The effect size in this case is the amount of variance explained. You can see that with the exact same model that we generated, we can have pretty much any type of effect size for a small sample size. 
@@ -2157,7 +2301,7 @@ mean(fitted(lm.out))
 
 - Simulate 2 independent variables. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-36-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 .tiny[
 
@@ -2314,7 +2458,7 @@ abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)
 abline(h = 0, v = 0,lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-38-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -2355,7 +2499,7 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 hist(df.lm$x1);hist(df.lm$x2);hist(df.lm$y)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-36-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 
@@ -2399,10 +2543,133 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
        col = eff.dat$x2.col, bg = scales::alpha("white",.5))
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-40-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 # summary(lm.out)
+```
+
+
+---
+# Challenge 4 ![:cube]()
+
+- You have 20 seeds from plants that are genetically similar on which you want to see the effect of a treatment, say a species of fungi added to the soil compared to a control with only the soil. 
+- After a certain time, say 6 months, you want to weight the dried plant material and test if there is an effect of your treatment 
+- You've read in the literature that similar experiments have had a mean weight of 5.03g (standard deviation = 0.28) for the control and 4.66g (standard deviation = 0.49) for the treatment.
+- Your scale adds and error of 0.3g of standard deviation to the measurement.
+- Can you tell the proportion of p-values that will be significant with these details?
+
+???
+```
+See the idea from ?lm 
+Annette Dobson (1990) "An Introduction to Generalized Linear Models".
+Page 9: Plant Weight Data.
+```
+
+
+---
+# Challenge 4 - Solution ![:cube]()
+
+
+```r
+set.seed(1234)
+n = 10;  sd.e = 0.3
+control = rnorm(n, mean = 5.03, sd = 0.28)
+treatmt = rnorm(n, mean = 4.66, sd = 0.49)
+gr &lt;- gl(n = 2, k = n, length = n*2, labels = c("ctl","trt"))
+weight = c(control,treatmt) + rnorm(2*n, mean = 0, sd = sd.e)
+plant.weight = data.frame(weight=weight, gr = gr)
+lm.out.int &lt;- lm(weight ~ gr, data = plant.weight)
+lm.out.noi &lt;- lm(weight ~ gr-1, data = plant.weight) # Comparing the data to 0 (intercept = 0, which becomes the reference)
+anova(lm.out.int) # this time, it was significant 
+# Analysis of Variance Table
+# 
+# Response: weight
+#           Df Sum Sq Mean Sq F value  Pr(&gt;F)  
+# gr         1 0.9422 0.94219  4.8569 0.04079 *
+# Residuals 18 3.4918 0.19399                  
+# ---
+# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+# summary(lm.out.noi) # Just to see the estimate (NOT THE P-VALUES)
+s.lm.out = summary(lm.out.int)
+# You can get the p-value with this function 
+pt(q = abs(s.lm.out$coefficients["grtrt","t value"]),df = s.lm.out$df[2], lower.tail = F) *2
+# [1] 0.04079444
+```
+
+---
+# Challenge 4 - Solution ![:cube]()
+
+
+```r
+plot(weight ~ gr, data = plant.weight, las = 1)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/challenge4.diagnose-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+```r
+par(mfrow = c(2,2), oma = c(0, 0, 1.1, 0))
+plot(lm.out.int, las = 1)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/challenge4.diagnose-2.png" width="360" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Challenge 4 - Solution ![:cube]()
+
+
+```r
+# Make the function for the simulation
+exp.plant &lt;- function(n = 100, # number of seeds in EACH group (2*n = total)
+                      sd.e = 0.3, plot=F, ret = T) {
+  control = rnorm(n, mean = 5.03, sd = 0.28)
+  treatmt = rnorm(n, mean = 4.66, sd = 0.49)
+  gr &lt;- gl(n = 2, k = n, length = 2*n, labels = c("ctl","trt"))
+  weight = c(control,treatmt) + rnorm(2*n, mean = 0, sd = sd.e)
+  plant.weight = data.frame(weight=weight, gr = gr)
+  if (plot) {
+    plot(weight ~ gr, data = plant.weight, las = 1)
+  }
+  lm.out.int &lt;- lm(weight ~ gr, data = plant.weight)
+  s.lm.out = summary(lm.out.int)
+  if (ret) {
+   return(s.lm.out) 
+  }
+}
+```
+
+---
+# Challenge 4 - Solution ![:cube]()
+
+
+```r
+set.seed(2345); nb.rep = 2000 # number of replications in the simulation 
+l.rp = replicate(n = nb.rep, simplify = FALSE,
+                 expr = exp.plant( n = 10)$coefficients["grtrt","t value"])
+p.val.lm = pt(q = abs(unlist(l.rp)),df = s.lm.out$df[2], lower.tail = F)*2 # Get p-values 
+# plots 
+exp.plant(n = 10, plot = T, ret = F) # plot a simulation example 
+hist(unlist(l.rp), main = "t-values", probability = T, xlab ="")
+lines(density(unlist(l.rp)), col="blue", lwd=2); abline(v = qt(0.025, df = s.lm.out$df[2]))
+hist(p.val.lm, main = "p-values", probability = T, xlab ="", xlim = c(0,1))
+lines(density(p.val.lm), col="red", lwd=2); abline(v = 0.05)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/challenge4.fun.plot-1.png" width="576" style="display: block; margin: auto;" /&gt;
+- The proportion of p-values that are significant is 31.45%
+
+???
+
+- Note that we could have checked with the t-values instead
+
+```r
+qt(0.05, df = s.lm.out$df[2])
+# [1] -1.734064
+sum(unlist(l.rp)&lt;qt(0.025, df = s.lm.out$df[2]))/length(unlist(l.rp))
+# [1] 0.3145
+sum(p.val.lm&lt;=0.05)/length(p.val.lm)
+# [1] 0.3145
 ```
 
 
@@ -2477,7 +2744,7 @@ lines(x = newdata$x1,
 # x1           1.600191  0.7896567  2.026439 0.04271982
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-43-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```
 # [1] 0.0001361562
@@ -2494,7 +2761,7 @@ lines(x = newdata$x1,
 
 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-41-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-45-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ???
 See https://stats.stackexchange.com/questions/49916/simulating-data-for-logistic-regression-with-a-categorical-variable
@@ -2635,14 +2902,14 @@ One implementation of that could be ( `\(\beta_1\)` and `\(\beta_2\)` would repr
 
 - (G)LMMs are a neat extention of the LM models that can take into account different type of response variables and variance parterns in the response data (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-42-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-46-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 .pull-left[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-43-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-44-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-48-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2883,7 +3150,7 @@ ggplot(stand_vars, aes(x = estimate) ) +
      geom_vline(xintercept = 4)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-51-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 stand_vars = mutate(stand_vars, stand_num = forcats::fct_inorder(stand_num) )
@@ -2906,7 +3173,7 @@ ggplot(stand_vars, aes(x = estimate) ) +
      labs(x = "Estimated Variance", y = NULL)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-2.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-51-2.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 stand_vars %&gt;%
@@ -2989,7 +3256,7 @@ ggplot() +
   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-49-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-53-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -3145,6 +3412,17 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 
 - The full tradgedy's name is *The Tragedy of Hamlet, Prince of Denmark*
 - Get more information here https://en.wikipedia.org/wiki/Weasel_program 
+
+
+---
+# Challenge 5 ![:cube]()
+
+- Simulate data to show how natural selection works! 
+
+---
+# Challenge 5 - Solution ![:cube]()
+
+- There are multiple solutions :) 
 
 
 ---

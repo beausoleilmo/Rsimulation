@@ -23,6 +23,9 @@ https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
   Please consult the presentation template at the following link http://r.qcbs.ca/templateWorkshops/presentation-template/index.html#1
 
 ###
+Name each and every R chunk as they are going to make the sections of the R script 
+
+###
 I added a bunch of 
 "
 ???
