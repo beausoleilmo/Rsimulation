@@ -41,6 +41,23 @@ class: center, middle, inverse, title-slide
 
 
 
+&lt;!-- How this workshop started (or what prompted the original development of this workshop)
+I was reading R. Dawkins (Climbing Mount Improbable) and Futuyma's Evolution book and wanted to understand deeply what was going on when the authors were talking about a specific topic. So I started to simulate some of the ideas in the books. 
+
+That got me interested to know what was available in R to do simulations. So I started reading on the subject and found it very relevant for graduate students and for scientists. So I wanted to develop a workshop that would enable graduate students to be more proficient in performing simulations. I hope that this workshop could be of any use to the people that are studying it. 
+--&gt;
+
+# Disclaimer
+
+- I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
+- In addition, this is a work in progress. Any input you have is more than welcome. 
+
+???
+
+Might not apply to you
+
+
+---
 # Outline
 
 1. Why are simulations relevant? 
@@ -53,9 +70,11 @@ Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/prese
 
 ???
 
-This workshop was designed to give the tools for attendees to perform simulations. 
+This workshop was designed to give you the tools to perform simulations in R. 
 - Simulations to get data in order to perform a statistical model, 
 - but also to be able to simulate a situation and verify how a parameter change the outcome of a model. 
+- Go see the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p) here https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p
+- There 
 
 ---
 # Prerequisites
@@ -74,15 +93,6 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 
 This workshop builds on the previous workshops. But don't worry, we are going to refresh some of the concepts here. 
 
----
-# Disclaimer
-
-- I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
-- In addition, this is a work in progress. Any input you have is more than welcome. 
-
-???
-
-Might not apply to you
 
 ---
 # Learning objectives
@@ -112,7 +122,53 @@ In this section, we will explore
 - What statistics has to do with simulations.
 - Understand, with all of these, wy simulations are relevant.
 
+---
+# Defining simulations
+
+- Have you ever performed a simulation in R?
+- What are simulations for? Would simulations be useful for your current or future work? 
+- Why do you think they are important? 
+- When do you think they are helpful? 
+- What is a model? Can you give examples of models that are not statistical models? 
+???
+- Have you ever performed a simulation in R?  Elsewhere? 
+- What are simulations for? Would simulations be useful for your current or future work? 
+- Why do you think they are important? 
+- When do you think they are helpful? 
+- **What is a model?** Can you give examples of models that are not statistical models? 
+  * It's an **imitation of a structure, machine, etc.** showing **relevant** parts (usually smaller or simplified).
+  * examples such as 
+    - a cell model (like the plastic stuff you' have'd find in a lab)
+    - The atomic model 
+    - Basically our task is to take a **statistical Clay and model it** as we wish based on some idea. "Pâte à modelée" (Plasticine, Play-Doh)
+    - A **map** (which is a **representation of our world** to NAVIGATE in it)
+      * they are abstractions of the real world (It is not the real world) 
+      * The only map that is right is the 1:1 real map which would not be useful to make a sense of how the world is. Imagine that to go to the pharmacy, I need to give you all the genetic sequences of the trees that you encounter to get the directions. This would be insane! Therefore, we **simplify** and just extract what is useful for a particular situation. 
+
+    - The goal is to make part of our world easier to understand, define, quantify, vizualize, simulate, etc. See [Scientific modelling](https://en.wikipedia.org/wiki/Scientific_modelling)
+--
+
+&lt;br&gt;
+
+.pull-left[
+![:scale 60%](images/Neurone_keynote.png)
+]
+
+.pull-right[
+![:scale 60%](images/Map_McGill_olympic_stadium_Google_map_2022.png)
+]
+
+???
+Some examples 
+- Ecological and Climate Model
+- Modelling biological systems (e.g., epidemiology)
+- Statistical model
+- Simulations (see [Modeling and simulation](https://en.wikipedia.org/wiki/Modeling_and_simulation))
+- Etc. 
+
+- let's start with what are simulations
 - See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
+
 
 ---
 # Defining simulations
@@ -129,21 +185,44 @@ In this section, we will explore
 .right[— Byron J. T. Morgan 1984]
 
 ???
-- and models are like maps: they are an abstraction of the real worl. It is not the real world. No same person thinks a map is "right". The only map that is right is the 1:1 real map. But this map woulb not be interesting to get a sense of how the world is. 
+
+- Simulations are made in different flavors, via 
+  * physical reproductions at smaller scale or 
+  * mathematical models in computer (*in silico*)
 
 ---
 # Simulations are games 
 
-- Simulations are games that we make up the rules
-- It equips us with a very powerful tool to create 'alternative worlds'. 
-- It makes us more responsible about the conscious choices we need to make in order to get an answer (and we sometimes need to make a lot of them). 
-- The challenge in this game is to figure out what the parameters are for the processes that make up the natural world. 
+- Simulations are games where we make up the rules
+- Simulations are powerful tool that can generate 'alternative worlds'. 
+- We are responsible and need to take conscious choices in order to get an answer (and we sometimes need to make a lot of choices). 
+- One of the challenges in this game is to figure out what the parameters are (or the rules) for the processes that make up the natural world. 
 
 
 .alert[Are these two distribution showing the same random process? ] 
 &lt;img src="workshopXX-en_files/figure-html/normal_compare_theoretical_simulated-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
+
+- Games: 
+  * Basically, we want to play with numbers within a particular set of rules in order to see if we can understand the behaviour of those numbers within the set of rules. 
+  * We need to find a **strategy** in order to play the game properly. 
+  * What is the goal of the game? We want to understand the natural world 
+
+**responsible and need to take conscious choices [...]**
+- When we design a simulation, we have to build in the **assumptions of the models** or the **processes** we are trying to recreate. 
+- So we need to **decide** (or plan), what is going to make up the process. 
+- The *parameters and variable are chosen by you*
+  * They need to be plausible (look into literature, ask a colleague for data already collected).
+- In a nutshell, you need to be **statistically aware** of what you are modeling and what you want to know. 
+
+
+**IMAGE**: Are these two distribution showing the same *random process*?
+- Yes! They are both normally distributed 
+  * **left**: standard normal curve and 
+  * **right**: density plot of 6 pts randomly drawn from a normal distribution
+  * BUT, they are NOT identical. The SAME RULES are generating the 2 distributions, but they are NOT showing the same curves...
+
 - Like Étienne Low-Décarie said it "it eliminates the need for dice when playing Dungeons and Dragons"
 ```
 library(TeachingDemos)
@@ -151,22 +230,11 @@ dice(rolls=3, ndice=4, sides=6, plot.it=T,
      load=rep(1, 6))
 ```
 
-Are these two distribution showing the same random process?
-- Yes! They are both normally distributed 
-  * left: standard normal curve and 
-  * right: density plot of 6 pts randomly drawn from a normal distribution
-
-- "responsible about the conscious choices [...]": 
-  * What I mean here is that when we design a simulation, we have to build in the assumptions of the models or the process we are trying to recreate. 
-  * So we need to *decide* (or plan), what is going to make up the process. 
-  * In the simulation, the parameters and variable are chosen by you, but they need to be plausible (from the literature, or maybe a collegue could help you on this with data that has already been collected).
-- In a nutshell, you need to be *statistically aware* of what you are modeling and what you want to know. 
-
 ---
 # Find patterns in random processes
 
 - Simulations are useful to test the properties of randomly generated data 
-- Since we design the simulation, we know parameters of the processes.
+- Since we design the simulation, we know the parameters of the processes.
 ???
 You probably learned how to use statistical models on certain types of data. 
 - In order to answer your research question, you need to collect data. 
@@ -174,7 +242,7 @@ You probably learned how to use statistical models on certain types of data.
 - Simulations help you, 
   * bypass the requirement of data, AND
   * Let you SET the exact parameters you think are relevant for the pattern you want to characterize (perhaps based on the literature on a subject.)
-  * BUT! Do not simulate data to generate FAKE data. 
+  * **CAREFUL**! Do not simulate data to generate **FAKE** data. 
 --
 
 - It is then possible to test various methods or statistical analysis to 
@@ -185,29 +253,39 @@ You probably learned how to use statistical models on certain types of data.
     5. understand and "see" what a model or equation predicts,
     6. [give you teaching material](https://serc.carleton.edu/sp/library/datasim//examples.html), 
     7. explore ideas, theories, hypothesis, the existence of a phenomenon or a slow process,
-    8. etc. 
-    
+    8. simulate tragic events to see their impact (e.g., nuclear explosion, flood, emergence and trajectories of hurricanes, etc.) 
+    9. etc. 
 ???
 - Forest management: could be long to get data: simulations can help to take faster decision
-- epidemics, road congestion
+- Epidemics, road congestion, simulate tragic events to see their impact (e.g., nuclear explosion, flood, emergence of hurricane, etc.)
 - See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
 
 ---
 # Find patterns in the natural world
 
 - We might start with a research question or simply want to understand a process.
-- The idea here is that perhaps we are interested in understanding how a certain process was generated (how `\(X\)` influences `\(Y\)`, which could be written as `\(X \xrightarrow{Affects} Y\)` or `\(Y \sim X\)`). 
-- This is probably the most important points for simulations in biology as we are trying to understand **natural processes** (which are themselves manifestations of **random processes**)
+- We might be interested in understanding how a certain process was generated 
+  * how `\(X\)` influences `\(Y\)`, which could be written as `\(X \xrightarrow{Affects} Y\)` or `\(Y \sim X\)`. 
+- This is probably the most important points for simulations in biology:
+  * We are trying to understand **natural processes**, which are themselves manifestations of **random processes** or **stochastic process**
 - Therefore, being able to do simulations can be a nice addition to your research toolkit. 
 
 ???
 
-Everything that we measure (a phenotype, the number of eggs a bird lays, the survival of individuals in a population, etc.), is caused by factors that scientists, try to make sense. 
-- the question here is how these measures came to be? 
+Everything that we measure is caused by factors that scientists try to make sense. 
+- e.g. a phenotype, the number of eggs birds lay in a population, the survival of individuals in a population, or other ecological (and environmental) variables, etc.
+- The question here is: 
+  * **How these measures came to be**? 
   * What process governs the value that we measured? 
   * In other words, 
-     1. how is the data that I've measured distributed? and 
+     1. How is the data that I've measured distributed? and 
      2. What causes my data to be distributed that way?
+
+- Random ([stochastic](https://en.wikipedia.org/wiki/Stochastic_process)) process
+  * Collection of random variables defined by some parameters
+  * E.g., bacterial growth: you can probably not predict exactly the exact time when a single bacterium will divide, but over a certain amount of time, you might get an idea of the rate at which bacteria divide and colonize a petri dish. 
+
+For power analysis...
 - See also `power.prop.test()`
 
 ---
@@ -687,7 +765,7 @@ rep(let4first, times = c(1,2,3,6))
 rep(let4first, each = 2, times = 3)
 #  [1] "A" "A" "B" "B" "C" "C" "D" "D" "A" "A" "B" "B" "C" "C" "D" "D" "A" "A" "B"
 # [20] "B" "C" "C" "D" "D"
-rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum length
+rep(let4first, length.out = 6) # Repeat the vector until you hit the length.out
 # [1] "A" "B" "C" "D" "A" "B"
 ```
 
@@ -703,18 +781,20 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the maximum len
 
 
 ```r
-number.of.levels = 2
-number.of.replicates = 8
+nb.of.levels = 2
+nb.of.replicates = 8
 labels.for.the.factors = c("Control", "Treat")
 ## First control, then treatment:
-gl(n = number.of.levels, k = number.of.replicates, labels = labels.for.the.factors)
+gl(n = nb.of.levels, k = nb.of.replicates, labels = labels.for.the.factors)
 #  [1] Control Control Control Control Control Control Control Control Treat  
 # [10] Treat   Treat   Treat   Treat   Treat   Treat   Treat  
 # Levels: Control Treat
+
 ## 20 alternating 1s and 2s
 gl(n = 2, k = 1, length = 20)
 #  [1] 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2
 # Levels: 1 2
+
 ## alternating pairs of 1s and 2s
 gl(n = 2, k = 2, length = 20)
 #  [1] 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2
@@ -880,6 +960,9 @@ class: inverse, center, middle
 &lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-5-1.png" width="338.4" style="display: block; margin: auto;" /&gt;
 ]
 
+- As you can see, it can be useful to change the scale on which the probability is shown. The "Odds scale" is aiming in the direction of having a scale where all the number are represented. 
+- But as you can see, the odds of losing is not symmetric (between 0 and 1) compared to odds of winning (between 1 and `\(\infty\)`). How can we solve that? 
+
 ???
 - Log odds is convenient as it makes the odds of losing and winning symmetric 
   - See: 
@@ -893,6 +976,7 @@ class: inverse, center, middle
 ---
 # Probability and odds 
 
+- By using the lo of the odds. 
 - Log (natural log, or ln) odds can range from `\(-\infty\)` to `\(\infty\)` and makes the odds symmetric. It is calculated as `\(ln (odds) = ln(p/(1-p))\)` (i.e., the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
 
@@ -1052,28 +1136,32 @@ plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=
   1. *Probability* that random chance generated the data (or would give the result we got) **PLUS**
   2. *Probability* of observing something else that is equally rare **PLUS**
   3. *Probability* of observing something else that is rarer (or more extreme).
+???
+- Let's just spend some time explaining the DIFFERENCE between a probability and a *p-value*. 
+- Note also that the p-value for CONTINUOUS variables is the area under the curve AT the value and GREATER or LOWER the CRITICAL value or BOTH depending on the test. 
+- See [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&amp;ab_channel=StatQuestwithJoshStarmer), [How to calculate p-values ](https://www.youtube.com/watch?v=JQc3yx0-Q9E&amp;t=0s&amp;ab_channel=StatQuestwithJoshStarmer) and [p-values: What they are and how to interpret them](https://www.youtube.com/watch?v=vemZtEM63GY&amp;ab_channel=StatQuestwithJoshStarmer)
 --
 
 - **NOTE:** the probability of an event occurring *is not the same* as the p-value, since the p-value is the sum of 3 parts.
   - We add part 2. and 3. because it gives us information about the *specialness* of this rare event. 
   - In other words, we want to know if the event we measured is statistically special or, as you might have heard it, statistically significant!
 
-???
-- Let's just spend some time explaining the DIFFERENCE between a probability and a *p-value*. 
-- Note also that the p-value for CONTINUOUS variables is the area under the curve AT the value and GREATER or LOWER the CRITICAL value or BOTH depending on the test. 
-- See [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&amp;ab_channel=StatQuestwithJoshStarmer), [How to calculate p-values ](https://www.youtube.com/watch?v=JQc3yx0-Q9E&amp;t=0s&amp;ab_channel=StatQuestwithJoshStarmer) and [p-values: What they are and how to interpret them](https://www.youtube.com/watch?v=vemZtEM63GY&amp;ab_channel=StatQuestwithJoshStarmer)
 
 ---
 # Why statistical distributions matter? 
 
-- To help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
+- As we discussed in the introduction, we are interested in what is underlying natural processes.
+- To be able to mimic the natural processes, we need a way to get some similar data as we would if we collect them (we need a way to generate (pseudo-)random variables).
+???
+- Here, we are coming back to the idea of looking at pattern in random processes. 
+- random variables in the natural world are generated from what has been called statistical distribution. 
+- Statistician have been studying random variables by mapping , measuring, describing, and making taxonomies of them which now they are able to understand them in a more general way: based on statistical distributions from which they are drawn. 
+--
+
+- In other words, to help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
 - The idea here is to find the distribution underlying a random process which generate a particular phenomenon in nature and use it to output values to be used in your simulation.
 - After generating the data, you can analyze it and see how it can be manipulated. 
 
-???
-- Here, we are coming back to the idea of looking at patter in random processes. 
-- random variables in the natural world are generated from what has been called statistical distribution. 
-- Statistician have been studying random variables by mapping , measuring, describing, and making taxonomies of them which now they are able to understand them in a more general way: based on statistical distributions from which they are drawn. 
 
 ---
 # What is a random variable? 
@@ -1126,7 +1214,7 @@ plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=
 
 --
 
-- still hard to definitly tell 
+- Still hard to definitely tell 
 
 ---
 # What is a random variable? 
@@ -1184,7 +1272,7 @@ plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=
 ---
 # Functions for various distributions
 
-.tiny[
+.xsmall[
 | Distribution | Probability | Quantile | Density | Random | PDF or PMF |
 | ------------ | ----------- | -------- | ------- | ------ | ---------- |
 | Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` | |
@@ -1218,7 +1306,7 @@ plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=
 ---
 # Functions for various distributions
 
-.tiny[
+.xsmall[
 | Distribution | Probability | Quantile | Density | Random | PDF or PMF |
 | ------------ | ----------- | -------- | ------- | ------ | ---------- |
 | Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` ||
@@ -1364,11 +1452,11 @@ class: inverse, center, middle
   - Recombination models 
   - Bacteria colonies growing on an agar plate 
 
+&lt;img src="workshopXX-en_files/figure-html/petri_dish_bacteria_colonny-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
 ???
 - For the bacterial colonies, if you sample small units of space, you can count the number of bacteria colonies
 - Examples taken from [Discrete probability distributions - Class 5](https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf)
-
-&lt;img src="workshopXX-en_files/figure-html/petri_dish_bacteria_colonny-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 &lt;!-- Useful resource --&gt;
 &lt;!-- Poisson definition see https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf --&gt;
@@ -1462,10 +1550,43 @@ where
   - If a male (AA) mates a female (Aa), what is the probability that 6 of their 7 offspring is Aa (7 choose 6)
   - The probability of getting Aa from AA x Aa is [1/2 AA and 1/2 Aa], 
   - `\(P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128\)` (about 0.055)
-- Example 2: Probability of a certain number of your children being daughters 
+- Example 2: Probability of having 3 daughters if you have 5 children.
   * if you have 5 children, these are independent trials, so n = 5
   * "success" is the probability that the child is a daughter (p = 1/2)
   * `\(P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16\)` (about 0.31)
+
+???
+genotype examples
+The Punnett square for the male and female union 
+| Gametes | A | a | 
+| ------- | - | - | 
+| A	      | AA | Aa	| 
+
+Daughter examples
+- You could also discuss this simpler case: 
+- what is the probability of getting 2 daughters out of 3 children
+
+```r
+dbinom(2,3,prob = .5) # 0.375
+# [1] 0.375
+000 # 0 ## 1/8      1/8
+# [1] 0
+001 # 1 ## 1/8  #
+# [1] 1
+010 # 1 ## 1/8  #   3/8
+# [1] 10
+100 # 1 ## 1/8  #
+# [1] 100
+011 # 2 ## 1/8  ##
+# [1] 11
+110 # 2 ## 1/8  ##  3/8
+# [1] 110
+101 # 2 ## 1/8  ##
+# [1] 101
+111 # 3 ## 1/8  ### 1/8
+# [1] 111
+```
+
 
 
 ---
@@ -1483,11 +1604,11 @@ lines(c(0:8)+0.1, dbinom(x = 0:8, size=5, prob=0.5),type='h', col = col.r, lwd=l
 points(x = 3+.1, y = dbinom(x = 3, size=5, prob=0.5), pch =19, col = col.r)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;" /&gt;
-
-
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
+- blue = genotype examples
+- Red = Daughter examples
 - Examples taken from 
   * [Polynomial Applications Binomial Distribution](http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html)
   * [Biology 300 Notes on the binomial distribution](https://www.zoology.ubc.ca/~bio300b/binomialnotes.html)
@@ -1587,6 +1708,7 @@ The important part here is the mean `\(\mu\)` and the standard deviation `\(\sig
 - This is one of the most important distribution in statistics
 - We will spend some time to understand it better
 - we will look at some of its properties 
+- If you are interested, you could show the graph on [desmos](https://www.desmos.com/calculator), an online scientific and graphic calculator. There, you could write `\(e^{-s^{-2}\left(x-m\right)^{2}}\)` and show the result (add the slider for m and s to show what they do). It is approximately Bell curve = `\(e^{-x^2}\)`
 &lt;!-- Material inspiration
 https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 --&gt;
@@ -1768,7 +1890,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 
 - Mean of population is = 1
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-15-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1776,7 +1898,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 
 - Mean of population is = 2 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-16-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-17-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1800,7 +1922,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 
 - Now, if we have distributions that have a standard deviation of 5 and a sample size of 10.
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -1813,7 +1935,7 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 - Let's see what happens if we increase the sample size from 10 to 100.
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1913,11 +2035,11 @@ n = 1000 # Number of points
 # Generate multiple additions of random variables 
 for(i in c(2, 50, 1000, 5000)){
   clt = replicate(i, rexp(n, rate = 1), simplify = FALSE)
-  hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"), xlab = "x") # Draw the histogram 
+  hist(apply(do.call(cbind,clt),1,sum), main = paste("Hist. of",i,"variables"), xlab = "x") # Draw the histogram 
 }
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-20-1.png" width="576" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -1951,7 +2073,7 @@ for(i in c(2, 50, 1000, 5000)){
 
 This is an example of a uniform discrete distribution ranging from 7 to 10. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-21-1.png" width="216" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-22-1.png" width="216" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1977,7 +2099,7 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
       from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-22-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-23-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
 - We simulate the rolling of 20 dice and sum their values. 
@@ -1999,7 +2121,7 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
 - Therefore, the *sampling distribution* of the *sample mean* (so the mean taken out of a sample, multiple times with various samples), approximate a normal distribution, even if the underlying process is not from a normal distribution. `\(\bar X \sim N(\mu,\frac{\sigma}{\sqrt {n}})\)` or the mean of x is approximately normally distributed as with mean mu and variance 
 - See also [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-23-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-24-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -2021,7 +2143,7 @@ plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-24-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-25-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 ???
 
@@ -2033,12 +2155,16 @@ class: inverse, center, middle
 
 ???
 Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
+- [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&amp;ab_channel=DaCCoTABiostatsCore)
+- [Power Analysis, Clearly Explained!!!](https://www.youtube.com/watch?v=VX_M3tIyiYk&amp;ab_channel=StatQuestwithJoshStarmer)
+- [Power Analysis in R: Introduction](https://www.youtube.com/watch?v=wYZ6oD_cgMg&amp;ab_channel=DaCCoTABiostatsCore)
+- [DACCOTA Statistical Resources](https://med.und.edu/daccota/berdc-resources.html)
 
 ---
 # Power analysis (proportions)
 
 - The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
-- We believe that we have a coin, which has a 75% chance of landing on 'heads':
+- We think we have a coin, which has a 75% chance of landing on 'heads':
 
 
 ```r
@@ -2093,7 +2219,7 @@ curve(dchisq(x, df = ptest$parameter),
 abline(v = ptest$statistic, lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-27-1.png" width="504" style="display: block; margin: auto;" /&gt;
 --
 
 - The p-value is 0.0000701.
@@ -2117,7 +2243,7 @@ plot(f2(r2)~r2)
 curve(expr = (x/(1-x)),add = T)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-29-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2136,6 +2262,17 @@ n
 - based on the number of coefficients you have in a model, and the effect size you think you're going to have (perhaps based on the literature), you can find the number of samples you'd require in ordre to get find a statistical difference at the level that interests you. 
 - Refer to the [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package
 - See also the package `pwr2ppl`
+
+---
+# Power analysis (GLMM)
+
+- The `simr` package uses simulations to perform power analysis for Generalised Linear Mixed Models (GLMMs) with the `lme4` packge
+
+???
+
+- See [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&amp;ab_channel=DaCCoTABiostatsCore)
+- In case you are wondering what are S4 classes, see [The S4 object system](http://adv-r.had.co.nz/S4.html)
+
 
 #################################
 ---
@@ -2181,6 +2318,8 @@ Reference for the section
 | Poisson | `\(Y \sim Poisson(\mu)\)` with `\(\text {ln} \mu=\beta_0+\beta_1x\)` or `\(\mu=e^{\beta_0+\beta_1x}\)` (no separate error term as `\(\lambda\)` determines both the mean and variance) |
 | Logistic | `\(Y \sim Binomial(p)\)` with `\(\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x\)` or `\(p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}\)` where `\(\text{log} \Bigl(\frac{p}{1-p}\Bigr)\)` is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) |
 
+???
+
 &lt;!-- 
 In GLM, we don'T model the individual Y values, but the mean
 https://www.theanalysisfactor.com/generalized-linear-models-no-error-term/
@@ -2209,7 +2348,7 @@ df.lm = data.frame(x = x.lm, y = y.lm)
 ]
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-31-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-32-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -2251,17 +2390,15 @@ hist(fitted(lm.out), xlim = r.x, main = "Hist fitted")
 hist(x.lm, xlim = r.x, main = "Hist of data")
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-33-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-34-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
-c(mean(rowMeans(sim.lm)), mean(x.lm),  mean(fitted(lm.out)))
+c(mean(rowMeans(sim.lm)), mean(x.lm),  mean(fitted(lm.out))) # compare 
 # [1] 10.579771  9.920725 10.578551
-# compare 
-head(rowMeans(sim.lm)); head(fitted(lm.out))
-#         1         2         3         4         5         6 
-# 11.607784 11.973944  8.641016 10.445591 11.387259 10.006595
-#         1         2         3         4         5         6 
-# 11.613416 12.010193  8.639148 10.428930 11.397939 10.010954
+rbind(head(rowMeans(sim.lm)), head(fitted(lm.out)))
+#             1        2        3        4        5        6
+# [1,] 11.60778 11.97394 8.641016 10.44559 11.38726 10.00659
+# [2,] 11.61342 12.01019 8.639148 10.42893 11.39794 10.01095
 ```
 
 
@@ -2274,7 +2411,7 @@ head(rowMeans(sim.lm)); head(fitted(lm.out))
 - In the example below, the slope estimate was extracted from the simulation and plotted for different sample sizes. 
 - You can see that as the sample size increases, our slope estimation gets better. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-34-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -2282,7 +2419,7 @@ head(rowMeans(sim.lm)); head(fitted(lm.out))
 
 - Same simulation as before, but now we plot the adjusted `\(R^2\)` from the linear model. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-35-1.png" width="720" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-36-1.png" width="720" style="display: block; margin: auto;" /&gt;
 - You can see from the plots that the effect size, the `\(R^2\)`, varies much more when the sample size is small. But when the sample size increases, the spread around the effect size diminishes. This adds to the idea that larger sample sizes are  important when you conduct a study. 
 
 ???
@@ -2295,7 +2432,7 @@ head(rowMeans(sim.lm)); head(fitted(lm.out))
 
 - Simulate 2 independent variables. 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-36-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 .tiny[
 
@@ -2452,7 +2589,7 @@ abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)
 abline(h = 0, v = 0,lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-38-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="360" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -2493,7 +2630,7 @@ See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.ne
 hist(df.lm$x1);hist(df.lm$x2);hist(df.lm$y)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-39-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-40-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 
@@ -2537,7 +2674,7 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
        col = eff.dat$x2.col, bg = scales::alpha("white",.5))
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-40-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-41-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 # summary(lm.out)
@@ -2738,7 +2875,7 @@ lines(x = newdata$x1,
 # x1           1.600191  0.7896567  2.026439 0.04271982
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-43-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-44-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```
 # [1] 0.0001361562
@@ -2755,7 +2892,7 @@ lines(x = newdata$x1,
 
 
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-45-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-46-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ???
 See https://stats.stackexchange.com/questions/49916/simulating-data-for-logistic-regression-with-a-categorical-variable
@@ -2843,6 +2980,9 @@ plot(y~gr, data = df.aov)
 
 `$$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$`
 
+???
+- Fixed vs Random [Fixed and random effects with Tom Reader](https://www.youtube.com/watch?v=FCcVPsq8VcA)
+
 ---
 # Linear mixed model (LMMs) refresher
 
@@ -2896,14 +3036,14 @@ One implementation of that could be ( `\(\beta_1\)` and `\(\beta_2\)` would repr
 
 - (G)LMMs are a neat extention of the LM models that can take into account different type of response variables and variance parterns in the response data (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-46-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-1.png" width="360" style="display: block; margin: auto;" /&gt;
 
 .pull-left[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-47-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-48-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-48-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-49-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -3144,7 +3284,7 @@ ggplot(stand_vars, aes(x = estimate) ) +
      geom_vline(xintercept = 4)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-51-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-52-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 stand_vars = mutate(stand_vars, stand_num = forcats::fct_inorder(stand_num) )
@@ -3167,7 +3307,7 @@ ggplot(stand_vars, aes(x = estimate) ) +
      labs(x = "Estimated Variance", y = NULL)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-51-2.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-52-2.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```r
 stand_vars %&gt;%
@@ -3246,7 +3386,7 @@ ggplot() + geom_sf(aes(), data=polygon) +
   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-53-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-54-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ---
 # Spatial simulation
