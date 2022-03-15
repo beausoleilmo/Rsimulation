@@ -35,6 +35,11 @@ I was reading R. Dawkins (Climbing Mount Improbable) and Futuyma's Evolution boo
 That got me interested to know what was available in R to do simulations. So I started reading on the subject and found it very relevant for graduate students and for scientists. So I wanted to develop a workshop that would enable graduate students to be more proficient in performing simulations. I hope that this workshop could be of any use to the people that are studying it. 
 -->
 
+<!-- Ideas on how to present 
+It was proposed that this workshop could be recorded (with or without an audience) in small chunks so that people can refer to the parts that are less clear (at their own pace)
+
+-->
+
 # Disclaimer
 
 - I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
@@ -48,11 +53,12 @@ Might not apply to you
 ---
 # Outline
 
-1. Why are simulations relevant? 
-2. What you need to know before doing simulations? 
-3. Let's explore what underlie some statistical processes
-3. Simulating data for power analysis (in development)
-4. Simulating data for models (lm, glm, lmm, in development)
+1. [Why are simulations relevant?](#why-sim-revelant) 
+2. [When simulations are useful?](#when-sim-useful) 
+3. [What you need to know before doing simulations?](#what-to-be-known-before-sim)
+4. [Let's explore what underlie some statistical processes](#explore-under-stat-process)
+4. [Simulating data for power analysis (in development)](#simulating-power)
+5. [Simulating data for models (lm, glm, lmm, in development)](#sim-data-models)
 
 Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p)
 
@@ -79,7 +85,8 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 
 ???
 
-This workshop builds on the previous workshops. But don't worry, we are going to refresh some of the concepts here. 
+- This workshop builds on the previous workshops. 
+- But don't worry, we are going to refresh some of the concepts here. 
 
 
 ---
@@ -99,7 +106,7 @@ Hopefully, this is what people will get out of this workshop.
 #################################
 ---
 class: inverse, center, middle
-
+name: why-sim-revelant
 # Why are simulations relevant?
 
 ???
@@ -111,7 +118,7 @@ In this section, we will explore
 - Understand, with all of these, wy simulations are relevant.
 
 ---
-# Defining simulations
+# Background and questions
 
 - Have you ever performed a simulation in R?
 - What are simulations for? Would simulations be useful for your current or future work? 
@@ -126,12 +133,12 @@ In this section, we will explore
 - **What is a model?** Can you give examples of models that are not statistical models? 
   * It's an **imitation of a structure, machine, etc.** showing **relevant** parts (usually smaller or simplified).
   * examples such as 
-    - a cell model (like the plastic stuff you' have'd find in a lab)
+    - a **cell model** (like the plastic stuff you' have'd find in a lab)
     - The atomic model 
-    - Basically our task is to take a **statistical Clay and model it** as we wish based on some idea. "Pâte à modelée" (Plasticine, Play-Doh)
     - A **map** (which is a **representation of our world** to NAVIGATE in it)
       * they are abstractions of the real world (It is not the real world) 
       * The only map that is right is the 1:1 real map which would not be useful to make a sense of how the world is. Imagine that to go to the pharmacy, I need to give you all the genetic sequences of the trees that you encounter to get the directions. This would be insane! Therefore, we **simplify** and just extract what is useful for a particular situation. 
+    - Basically our task is to take **statistical Clay and model it** as we wish based on some idea. In this workshop, I want you to be able to play a bit more with statistical plasticine. "Pâte à modelée" (Plasticine, Play-Doh)
 
     - The goal is to make part of our world easier to understand, define, quantify, vizualize, simulate, etc. See [Scientific modelling](https://en.wikipedia.org/wiki/Scientific_modelling)
 --
@@ -148,15 +155,11 @@ In this section, we will explore
 
 ???
 Some examples 
-- Ecological and Climate Model
+- Ecological, Climate, Statistical Model
 - Modelling biological systems (e.g., epidemiology)
-- Statistical model
-- Simulations (see [Modeling and simulation](https://en.wikipedia.org/wiki/Modeling_and_simulation))
-- Etc. 
+- Simulations (see [Modeling and simulation](https://en.wikipedia.org/wiki/Modeling_and_simulation)), Etc. 
 
 - let's start with what are simulations
-- See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
-
 
 ---
 # Defining simulations
@@ -177,6 +180,7 @@ Some examples
 - Simulations are made in different flavors, via 
   * physical reproductions at smaller scale or 
   * mathematical models in computer (*in silico*)
+- See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
 
 ---
 # Simulations are games 
@@ -209,10 +213,10 @@ plot(density(rnorm(6)),
 
 ???
 
-- Games: 
-  * Basically, we want to play with numbers within a particular set of rules in order to see if we can understand the behaviour of those numbers within the set of rules. 
-  * We need to find a **strategy** in order to play the game properly. 
-  * What is the goal of the game? We want to understand the natural world 
+**Games**: 
+- Basically, we want to play with numbers within a particular set of rules in order to see if we can understand the behaviour of those numbers within the set of rules. 
+- We need to find a **strategy** in order to play the game properly. 
+- What is the goal of the game? We want to understand the natural world 
 
 **responsible and need to take conscious choices [...]**
 - When we design a simulation, we have to build in the **assumptions of the models** or the **processes** we are trying to recreate. 
@@ -271,6 +275,9 @@ You probably learned how to use statistical models on certain types of data.
 - We might start with a research question or simply want to understand a process.
 - We might be interested in understanding how a certain process was generated 
   * how $X$ influences $Y$, which could be written as $X \xrightarrow{Affects} Y$ or $Y \sim X$. 
+
+<br>
+
 - This is probably the most important points for simulations in biology:
   * We are trying to understand **natural processes**, which are themselves manifestations of **random processes** or **stochastic process**
 - Therefore, being able to do simulations can be a nice addition to your research toolkit. 
@@ -302,10 +309,14 @@ For power analysis...
   3. **statistical model** making the relationship between the response variable and the explanatory variable. 
   4. ideas or things we *want to show or learn* with the simulation
 ???
-- That might not apply to all sorts of simulations, but will at least cover the ones that relate to statistical models.
-- It is still very useful to know the different types of distributions that random variables can take. 
-- Note that a **"parameter"** is a quantity that is CONSTANT. 
-- A **"variable"** can take multiple values. 
+- That might not apply to all sorts of simulations, 
+  * but will at least cover the ones that relate to statistical models.
+- It is still very useful to know the different types of distributions that random variables can take.
+
+
+- Note that (in Frequentist inference statistics) 
+  * a **"parameter"** is a quantity that is CONSTANT. 
+  * a **"variable"** can take multiple values. 
 - BUT a parameter could become a variable if this is the thing we want to see how it affects our models. 
 - Greek letters are often used to denote these parameters 
 
@@ -382,7 +393,7 @@ plot(function.name(1:10)+rnorm(10))
 #################################
 ---
 class: inverse, center, middle
-
+name: when-sim-useful
 # When could a simulation be useful? 
 
 ???
@@ -522,24 +533,25 @@ for (l in n.id.pop) {
 
 ???
 - Here is an example of simulation that was made in R to show genetic drift without natural selection. 
-- The same script, or function, can be used to generate patterns like these. 
+- The same script, or function, can be used to generate patterns like these, but by varying the parameters (population sizes or starting alleles). 
 - Each plot contains 5 populations that started with an allele which had a frequency of 50%. 
 - You can see now see with the simulation that 
-  * No *particular* allele will be fixated (unbiased)
-  * the number of individuals seems an important factor in the fixation of alleles. The fluctuations in allele fq are largers in smaller pop. 
-  * some genetic variation can be lost
-  * makes populations different, even if the pop are identical at the beginning. 
-  * Fixation of an allele without natural selection 
+  * No **particular** allele will be fixated (unbiased)
+  * the **number of individuals** seems an important factor in the fixation of alleles. The fluctuations in allele fq are largers in smaller pop. 
+  * some genetic variation can be **lost**
+  * **makes populations different**, even if the pop are identical at the beginning. 
+  * **Fixation** of an allele without natural selection 
 
 ---
 # Quick (?) example: Natural selection 
 
 - How would you model natural selection?
 ???
-If natural selection is the non random transmission of genetic information in living organisms in a particular environment, how would you simulate that? 
+- If natural selection is the non random transmission of genetic information in living organisms in a particular environment, how would you simulate that? 
+- (From Futuyma, Evolution) [Non-random] Differential survival and/or reproduction of classes of entities that differ in one or more [transmissible] characteristics which, as a consequence, alter the proportions of the different entities [in subsequent generations].
 --
 
-- What is the type of selection? 
+- What is the type of selection we want to simulate? 
 - What is being selected? What is that type of data (continuous [range?], discrete [counts?])? 
 
 
@@ -598,6 +610,7 @@ q.fun(-70:70,factor = 1,xlab = "(Disruptive)",lwd = 5,cex.text = 2,
 
 
 ???
+- We won't answer the last questions for this moment. 
 - In order to build a natural selection simulator in R, we need a couple of tools. 
 
 #################################
@@ -639,7 +652,7 @@ col.line = alpha("black",.5)
 df.1 <- data.frame(x = x.1, y = y.1)
 df.2 <- data.frame(x = x.2, y = y.2)
 p.1 <- ggplot(df.1, aes(x, y)) + 
-  geom_point() + 
+  geom_point(colour = alpha("black",.5)) + 
   lims(x = range(c(x.1,x.2)), y = range(c(y.1,y.2))) +
   theme_classic() + 
   theme(axis.ticks = element_line(colour = "black"),
@@ -649,7 +662,7 @@ p.1 <- ggplot(df.1, aes(x, y)) +
         axis.text.y = element_text(size = text.size))
 
 p.2 <- ggplot(df.2, aes(x, y)) + 
-  geom_point() + 
+  geom_point(colour = alpha("black",.5)) + 
   lims(x = range(c(x.1,x.2)), y = range(c(y.1,y.2))) +
   theme_classic() + 
   theme(axis.ticks = element_line(colour = "black"),
@@ -738,6 +751,8 @@ Find correlation and covariance
 - The correlation of the first graph is `r round(cor(x.1,y.1),2)` and the covariance is `r round(cov(x.1,y.1),2)`.
 - The correlation of the second graph is `r round(cor(x.2,y.2),2)` and the covariance is `r round(cov(x.2,y.2),2)`.
 ???
+What would you infer about correlation and covariance?
+
 What can be seen? 
 - Points, continuous x and y
 - mean (dashed lines), sd (the shades)
@@ -748,6 +763,17 @@ What can be seen?
   - Independence? Don't know
   - Normal residuals (not shown)
   - Equality of variance (see residuals)
+
+```
+set.seed(123)
+n = 250
+x.1 = rnorm(n, mean = 15, sd = 5)
+y.1 = 2*x.1 +rnorm(n, mean = 0, sd = 4)#rnorm(n, mean = 5, sd = 2)
+
+x.2 = rnorm(n, mean = 15, sd = 1)
+y.2 = 2*x.2 +rnorm(n, mean = 0, sd = .5) # rnorm(n, mean = 5, sd = .5)
+```
+
 
 ---
 # What do you see here? 
@@ -769,9 +795,21 @@ p.h.v2
 ```
 ]
 
+- Here the mean of X and Y is shown 
+
 ???
 What can be seen? 
 - mean (dashed lines), sd (the shades)
+
+```
+set.seed(123)
+n = 250
+x.1 = rnorm(n, mean = 15, sd = 5)
+y.1 = 2*x.1 +rnorm(n, mean = 0, sd = 4)#rnorm(n, mean = 5, sd = 2)
+
+x.2 = rnorm(n, mean = 15, sd = 1)
+y.2 = 2*x.2 +rnorm(n, mean = 0, sd = .5) # rnorm(n, mean = 5, sd = .5)
+```
 
 ---
 # What do you see here? 
@@ -792,9 +830,21 @@ p.h.v.sd.x.sd.y2
 ```
 ]
 
+- Here the mean and the standard deviation of X and Y is shown
+
 ???
 What can be seen? 
 - mean (dashed lines), sd (the shades)
+
+```
+set.seed(123)
+n = 250
+x.1 = rnorm(n, mean = 15, sd = 5)
+y.1 = 2*x.1 +rnorm(n, mean = 0, sd = 4)#rnorm(n, mean = 5, sd = 2)
+
+x.2 = rnorm(n, mean = 15, sd = 1)
+y.2 = 2*x.2 +rnorm(n, mean = 0, sd = .5) # rnorm(n, mean = 5, sd = .5)
+```
 
 
 ---
@@ -814,6 +864,8 @@ p.h.v.sd.x.sd.y.l2
 ```
 ]
 
+- Here the mean and the standard deviation of X and Y is shown with the regression lines
+
 ???
 What can be seen? 
 - Correlation, covariance 
@@ -823,6 +875,16 @@ What can be seen?
   - Independence? Don't know
   - Normal residuals (not shown)
   - Equality of variance (see residuals)
+
+```
+set.seed(123)
+n = 250
+x.1 = rnorm(n, mean = 15, sd = 5)
+y.1 = 2*x.1 +rnorm(n, mean = 0, sd = 4)#rnorm(n, mean = 5, sd = 2)
+
+x.2 = rnorm(n, mean = 15, sd = 1)
+y.2 = 2*x.2 +rnorm(n, mean = 0, sd = .5) # rnorm(n, mean = 5, sd = .5)
+```
 
 ---
 # What do you see here? 
@@ -841,15 +903,397 @@ p.marg2
 ```
 ]
 
+- Here the mean and the standard deviation of X and Y is shown with the regression lines and the distributions of X and Y. 
+
 ???
 What can be seen? 
 - Distribution of x and y to better understand what could have PRODUCED these variables. 
 
+```
+set.seed(123)
+n = 250
+
+x.1 = rnorm(n, mean = 15, sd = 5)
+y.1 = 2*x.1 +rnorm(n, mean = 0, sd = 4)#rnorm(n, mean = 5, sd = 2)
+
+x.2 = rnorm(n, mean = 15, sd = 1)
+y.2 = 2*x.2 +rnorm(n, mean = 0, sd = .5) # rnorm(n, mean = 5, sd = .5)
+```
+
+---
+# What do you see here? (2)
+
+- Can you give *as much information* as you can within and between each graphs.
+
+```{r poissonX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4}
+set.seed(1217)
+n = 250
+b0 = 0.8
+b1 = 0.5
+b2 = 0.5
+# x1 = rnorm(n, mean = 5, sd = 1) # 
+# x1 = runif(n, min = 1, max = 3)
+x1 = runif(n, min = 0, max = 6)
+# Linear on the log scale 
+# https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/ 
+lambda1 = exp(b0 + b1*x1) # This defines the mean at each point 
+# Since lambda is the number of events/time*time = nb of event, 
+# each x point will change the number of events (y) by drawing a value from a poisson distribution that has a different mean each time
+# The MEAN and VARIANCE of the poisson process does NOT need to be an integer. Only the OUPUT of the poisson distribution NEEDS to be an integer.
+# Lambda can be changed in multiple ways: the number of events for a period of time OR change the time interval
+# If you take the mean and variance of the y1, you WON'T see the so called equivalence between mean and variance of poisson distribution. Because this is the Poisson PROCESS and not the DISTRIBUTION that you are observing
+# https://www.probabilitycourse.com/chapter10/10_1_0_basic_concepts.php 
+# Keep in mind that a RANDOM PROCESS is a collection of RANDOM VARIABLES "collected".
+# In other words, you might measure a random variable that is the outcome of a random process that you try to model https://web.ma.utexas.edu/users/mks/M358KInstr/RandomVariables.pdf 
+
+# mean(lambda1)
+y1 = rpois(n, lambda = lambda1) 
+# plot(density((y1)))
+# hist(((y1)))
+# mean((y1))
+
+plot(log(y1)~x1)
+plot(y1~x1);abline(h = seq(range(y1)[1],range(y1)[2],by = 1),lty = 3)
+x2 = rnorm(n, mean = 3, sd = 1)
+
+# x2 = runif(n, min = 2, max = 5)
+lambda2 = exp(b0 + b2*x2)
+# mean(lambda2)
+y2 = rpois(n, lambda = lambda2) 
+# mean((y2))
+
+library(ggplot2)
+library(ggExtra)
+library(gridExtra)
+
+size.line = .8
+text.size = 16
+col.line = alpha("black",.5)
+df.1 <- data.frame(x = x1, y = y1, ly = log(y1), mod = "model1")
+df.2 <- data.frame(x = x2, y = y2, ly = log(y2), mod = "model2")
+df = rbind(df.1,df.2)
+
+# y1 = log(y1)
+# y2 = log(y2)
+# y1=y1[is.finite(y1)]
+# y2=y2[is.finite(y2)]
+
+p.1 <- ggplot(df.1, aes(x, y)) + 
+  geom_point(colour = ifelse(is.finite(df.1$ly),yes = alpha("black",.5),no = alpha("red",.5))) + 
+  lims(x = range(c(df$x)), y = range(c(y1,y2))) +
+  theme_classic() + 
+  theme(axis.ticks = element_line(colour = "black"),
+        axis.title = element_text(size = text.size),
+        axis.text = element_text(size = text.size, colour = "black"),
+        axis.text.x = element_text(size = text.size),
+        axis.text.y = element_text(size = text.size))
+
+p.2 <- ggplot(df.2, aes(x, y)) + 
+  geom_point(colour = ifelse(is.finite(df.2$ly),yes = alpha("black",.5),no = alpha("red",.5))) + 
+  lims(x = range(c(df$x)), y = range(c(y1,y2))) +
+  theme_classic() + 
+  theme(axis.ticks = element_line(colour = "black"),
+        axis.title = element_text(size = text.size),
+        axis.text = element_text(size = text.size, colour = "black"),
+        axis.text.x = element_text(size = text.size),
+        axis.text.y = element_text(size = text.size))
+p.1
+p.2
+# grid.arrange(p.1, p.2, nrow = 1)
+gm_mean = function(x, na.rm=TRUE){
+  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
+}
+# mean(y1)
+
+p.h1 <- p.1 + geom_hline(yintercept=gm_mean(y1), linetype="dashed", color = col.line, size=size.line)
+p.h1
+p.h.v1 <- p.h1 + geom_vline(xintercept=mean(x1), linetype="dashed", color = col.line, size=size.line)
+p.h.v1
+p.h2 <- p.2 + geom_hline(yintercept=gm_mean(y2), linetype="dashed", color = col.line, size=size.line)
+p.h2
+p.h.v2 <- p.h2 + geom_vline(xintercept=mean(x2), linetype="dashed", color = col.line, size=size.line)
+p.h.v2
+
+p.h.v1.s <- p.h.v1 + geom_hline(yintercept=seq(range(y1,y2)[1],range(y1,y2)[2]+1,by = 5), linetype="dotted", color = col.line, size=.3)
+p.h.v2.s <- p.h.v2 + geom_hline(yintercept=seq(range(y1,y2)[1],range(y1,y2)[2]+1,by = 5), linetype="dotted", color = col.line, size=.3)
+p.h.v1.s
+p.h.v2.s
+
+
+positions.1 <- data.frame(
+  x = c(mean(x1)-sd(x1), mean(x1)+sd(x1), mean(x1)+sd(x1), mean(x1)-sd(x1)),
+  y = c(mean(y1)-sd(y1), mean(y1)-sd(y1), mean(y1)+sd(y1), mean(y1)+sd(y1))
+)
+positions.2 <- data.frame(
+  x = c(mean(x2)-sd(x2), mean(x2)+sd(x2), mean(x2)+sd(x2), mean(x2)-sd(x2)),
+  y = c(mean(y2)-sd(y2), mean(y2)-sd(y2), mean(y2)+sd(y2), mean(y2)+sd(y2))
+)
+
+positions.x1 <- data.frame(
+  x = c(mean(x1)-sd(x1), mean(x1)+sd(x1), mean(x1)+sd(x1), mean(x1)-sd(x1)),
+  y = c(-Inf, -Inf, Inf, Inf)
+)
+positions.x2 <- data.frame(
+  x = c(mean(x2)-sd(x2), mean(x2)+sd(x2), mean(x2)+sd(x2), mean(x2)-sd(x2)),
+  y = c(-Inf, -Inf, Inf, Inf)
+)
+positions.y1 <- data.frame(
+  x = c(Inf, -Inf, -Inf, Inf),
+  y = c(mean(y1)-sd(y1), mean(y1)-sd(y1), mean(y1)+sd(y1), mean(y1)+sd(y1))
+)
+positions.y2 <- data.frame(
+  x = c(Inf, -Inf, -Inf, Inf),
+  y = c(mean(y2)-sd(y2), mean(y2)-sd(y2), mean(y2)+sd(y2), mean(y2)+sd(y2))
+)
+# p.h.v + geom_polygon(data = positions, aes(x = x, y = y),fill = alpha("gray70",.6))
+p.h.v.sd.x1 = p.h.v1.s + geom_polygon(data = positions.x1, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x1
+p.h.v.sd.x2 = p.h.v2.s + geom_polygon(data = positions.x2, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x2
+
+p.h.v.sd.x.sd.y1 = p.h.v.sd.x1 + geom_polygon(data = positions.y1, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x.sd.y1
+p.h.v.sd.x.sd.y2 = p.h.v.sd.x2 + geom_polygon(data = positions.y2, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x.sd.y2
+
+p.h.v.sd.x.sd.y.l1 = p.h.v.sd.x.sd.y1 +  geom_smooth(method = "glm",method.args = list(family = "poisson"), se = TRUE, col =alpha("red",.5))
+p.h.v.sd.x.sd.y.l1
+p.h.v.sd.x.sd.y.l2 = p.h.v.sd.x.sd.y2 +  geom_smooth(method = "glm",method.args = list(family = "poisson"), se = TRUE, col =alpha("red",.5))
+p.h.v.sd.x.sd.y.l2
+
+p.marg1 = ggExtra::ggMarginal(p.h.v.sd.x.sd.y.l1, type = "histogram", fill = "gray80", col = "gray70")
+p.marg1
+p.marg2 = ggExtra::ggMarginal(p.h.v.sd.x.sd.y.l2, type = "histogram", fill = "gray80", col = "gray70")
+p.marg2
+
+# grid.arrange(p.marg1,p.marg2, nrow =1)
+
+```
+
+.pull-left[
+```{r poissonX_Y1, echo=FALSE, fig.width=5,fig.height=4}
+p.1
+```
+]
+
+.pull-right[
+```{r poissonX_Y2, echo=FALSE, fig.width=5,fig.height=4}
+p.2
+```
+]
+
+???
+What can be seen?
+- Distribution of x and y to better understand what could have PRODUCED these variables. 
+
+- It might not appear very clear, but the data in 
+  * Left: X is uniform and y is DISCRETE
+  * Right: X is Normal and y is DISCRETE
+
+```
+set.seed(1217)
+n = 250
+b0 = 0.8 ; b1 = 0.5 ; b2 = 0.5
+x1 = runif(n, min = 0, max = 6)
+y1 = rpois(n, lambda = lambda1) 
+x2 = rnorm(n, mean = 3, sd = 1)
+lambda2 = exp(b0 + b2*x2)
+y2 = rpois(n, lambda = lambda2) 
+```
+
+
+---
+# What do you see here? (2)
+
+- Can you give *as much information* as you can within and between each graphs.
+
+.pull-left[
+```{r poissonX_Y3, echo=FALSE, fig.width=5,fig.height=4}
+p.marg1
+```
+]
+
+.pull-right[
+```{r poissonX_Y4, echo=FALSE, fig.width=5,fig.height=4}
+p.marg2
+```
+]
+
+???
+What can be seen?
+- Distribution of x and y to better understand what could have PRODUCED these variables. 
+
+- It might not appear very clear, but the data in 
+  * Left: X is uniform and y is DISCRETE
+  * Right: X is Normal and y is DISCRETE
+
+```
+set.seed(1217)
+n = 250
+b0 = 0.8 ; b1 = 0.5 ; b2 = 0.5
+x1 = runif(n, min = 0, max = 6)
+y1 = rpois(n, lambda = lambda1) 
+x2 = rnorm(n, mean = 3, sd = 1)
+lambda2 = exp(b0 + b2*x2)
+y2 = rpois(n, lambda = lambda2) 
+```
+
+---
+# What do you see here? (2)
+
+- Can you give *as much information* as you can within and between each graphs.
+
+```{r poissonX_logY, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4}
+library(scales)
+set.seed(1217)
+# n = 250
+# b0 = 0.6
+# b1 = 1.00
+# b2 = 0.5
+# x1 = rnorm(n, mean = 5, sd = 1) # 
+# x1 = runif(n, min = 1, max = 3)
+# lambda1 = exp(b0 + b1*x1) # This defines the mean at each point 
+# y1 = rpois(n, lambda = lambda1) 
+# x2 = rnorm(n, mean = 3, sd = 1)
+# lambda2 = exp(b0 + b2*x2)
+# y2 = rpois(n, lambda = lambda2) 
+
+y1 = log(y1)
+y2 = log(y2)
+y1=y1[is.finite(y1)]
+y2=y2[is.finite(y2)]
+
+p.1.log <- ggplot(df.1, aes(x, log(y))) + 
+  geom_point(colour = ifelse(is.finite(df.1$ly),yes = alpha("black",.5),no = alpha("red",.5))) + 
+  lims(x = range(c(df$x)), y = range(c(y1,y2))) +
+  theme_classic() + 
+  theme(axis.ticks = element_line(colour = "black"),
+        axis.title = element_text(size = text.size),
+        axis.text = element_text(size = text.size, colour = "black"),
+        axis.text.x = element_text(size = text.size),
+        axis.text.y = element_text(size = text.size)) #+
+  # scale_y_continuous(trans = log_trans(),breaks = c(1:5,seq(10,100,by =10)),limits = c(x = range(c(df$x)), y = range(c(y1,y2))))#,
+# breaks = trans_breaks("log", function(x) exp(x)),
+# labels = trans_format("log", math_format(e^.x)))
+
+
+p.2.log <- ggplot(df.2, aes(x, log(y))) + 
+  geom_point(colour = ifelse(is.finite(df.2$ly),yes = alpha("black",.5),no = alpha("red",.5))) + 
+  lims(x = range(c(df$x)), y = range(c(y1,y2))) +
+  theme_classic() + 
+  theme(axis.ticks = element_line(colour = "black"),
+        axis.title = element_text(size = text.size),
+        axis.text = element_text(size = text.size, colour = "black"),
+        axis.text.x = element_text(size = text.size),
+        axis.text.y = element_text(size = text.size))#+
+  # scale_y_continuous(trans = log_trans(),breaks = c(1:5,seq(10,100,by =10)),limits = c(x = range(c(df$x)), y = range(c(y1,y2))))
+
+# grid.arrange(p.1, p.2, nrow = 1)
+gm_mean = function(x, na.rm=TRUE){
+  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
+}
+# mean(y1)
+
+p.h1 <- p.1.log + geom_hline(yintercept=mean(y1), linetype="dashed", color = col.line, size=size.line)
+p.h1
+p.h.v1 <- p.h1 + geom_vline(xintercept=mean(x1), linetype="dashed", color = col.line, size=size.line)
+p.h.v1
+p.h2 <- p.2.log + geom_hline(yintercept=mean(y2), linetype="dashed", color = col.line, size=size.line)
+p.h2
+p.h.v2 <- p.h2 + geom_vline(xintercept=mean(x2), linetype="dashed", color = col.line, size=size.line)
+p.h.v2
+
+p.h.v1.s <- p.h.v1 + geom_hline(yintercept=seq(range(y1,y2)[1],range(y1,y2)[2]+1,by = 5), linetype="dotted", color = col.line, size=.3)
+p.h.v2.s <- p.h.v2 + geom_hline(yintercept=seq(range(y1,y2)[1],range(y1,y2)[2]+1,by = 5), linetype="dotted", color = col.line, size=.3)
+p.h.v1.s
+p.h.v2.s
+
+
+positions.1 <- data.frame(
+  x = c(mean(x1)-sd(x1), mean(x1)+sd(x1), mean(x1)+sd(x1), mean(x1)-sd(x1)),
+  y = c(mean(y1)-sd(y1), mean(y1)-sd(y1), mean(y1)+sd(y1), mean(y1)+sd(y1))
+)
+positions.2 <- data.frame(
+  x = c(mean(x2)-sd(x2), mean(x2)+sd(x2), mean(x2)+sd(x2), mean(x2)-sd(x2)),
+  y = c(mean(y2)-sd(y2), mean(y2)-sd(y2), mean(y2)+sd(y2), mean(y2)+sd(y2))
+)
+
+positions.x1 <- data.frame(
+  x = c(mean(x1)-sd(x1), mean(x1)+sd(x1), mean(x1)+sd(x1), mean(x1)-sd(x1)),
+  y = c(-Inf, -Inf, Inf, Inf)
+)
+positions.x2 <- data.frame(
+  x = c(mean(x2)-sd(x2), mean(x2)+sd(x2), mean(x2)+sd(x2), mean(x2)-sd(x2)),
+  y = c(-Inf, -Inf, Inf, Inf)
+)
+positions.y1 <- data.frame(
+  x = c(Inf, -Inf, -Inf, Inf),
+  y = c(mean(y1)-sd(y1), mean(y1)-sd(y1), mean(y1)+sd(y1), mean(y1)+sd(y1))
+)
+positions.y2 <- data.frame(
+  x = c(Inf, -Inf, -Inf, Inf),
+  y = c(mean(y2)-sd(y2), mean(y2)-sd(y2), mean(y2)+sd(y2), mean(y2)+sd(y2))
+)
+# p.h.v + geom_polygon(data = positions, aes(x = x, y = y),fill = alpha("gray70",.6))
+p.h.v.sd.x1 = p.h.v1.s + geom_polygon(data = positions.x1, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x1
+p.h.v.sd.x2 = p.h.v2.s + geom_polygon(data = positions.x2, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x2
+
+p.h.v.sd.x.sd.y1 = p.h.v.sd.x1 + geom_polygon(data = positions.y1, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x.sd.y1
+p.h.v.sd.x.sd.y2 = p.h.v.sd.x2 + geom_polygon(data = positions.y2, aes(x = x, y = y),fill = alpha("gray70",.4))
+p.h.v.sd.x.sd.y2
+
+p.h.v.sd.x.sd.y.l1 = p.h.v.sd.x.sd.y1 +  geom_smooth(method = "lm",method.args = list(family = "poisson"), se = TRUE, col =alpha("red",.5))
+p.h.v.sd.x.sd.y.l1
+p.h.v.sd.x.sd.y.l2 = p.h.v.sd.x.sd.y2 +  geom_smooth(method = "lm",method.args = list(family = "poisson"), se = TRUE, col =alpha("red",.5))
+p.h.v.sd.x.sd.y.l2
+
+p.marg1 = ggExtra::ggMarginal(p.h.v.sd.x.sd.y.l1, type = "histogram", fill = "gray80", col = "gray70")
+p.marg1
+p.marg2 = ggExtra::ggMarginal(p.h.v.sd.x.sd.y.l2, type = "histogram", fill = "gray80", col = "gray70")
+p.marg2
+```
+
+.pull-left[
+```{r poissonX_logY3, echo=FALSE, fig.width=5,fig.height=4}
+p.marg1
+```
+]
+
+.pull-right[
+```{r poissonX_logY4, echo=FALSE, fig.width=5,fig.height=4}
+p.marg2
+```
+]
+
+
+???
+
+What can be seen?
+- Distribution of x and y to better understand what could have PRODUCED these variables. 
+
+- It might not appear very clear, but the data in 
+  * Left: X is uniform and y is DISCRETE
+  * Right: X is Normal and y is DISCRETE
+  * Now the Y variable was log transformed 
+
+```
+set.seed(1217)
+n = 250
+b0 = 0.8 ; b1 = 0.5 ; b2 = 0.5
+x1 = runif(n, min = 0, max = 6)
+y1 = rpois(n, lambda = lambda1) 
+x2 = rnorm(n, mean = 3, sd = 1)
+lambda2 = exp(b0 + b2*x2)
+y2 = rpois(n, lambda = lambda2) 
+```
 
 #################################
 ---
 class: inverse, center, middle
-
+name: what-to-be-known-before-sim
 # What you need to know before doing simulations? 
 
 ???
@@ -950,12 +1394,31 @@ plot(y.s~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permuta
 ]
 
 ???
+**Permutations**:
+- a rearrangement of a complex object, collection, etc., or the result of this rearrangement (See [Wikipedia's article about permutation](https://en.wikipedia.org/wiki/Permutation))
+- Imagine a Rubik's cube. If you rotate one side, you got a permutation of the cube (a new arrangement)
+
 - for permutations 
   * 1st plot: not permutated
   * 2nd plot: x permutated
   * 3rd plot: x and y permutated
 - The highlighted lines are where the permutation occurs
 
+- `?sample` Random Samples and Permutations
+- [Difference between rbinom and sample](https://stats.stackexchange.com/questions/339459/r-difference-between-rbinom-and-sample)
+
+```
+# From the ?sample
+x <- 1:12
+sample(x) # a random permutation
+sample(x, replace = TRUE) # bootstrap resampling, length(x) > 1
+set.seed(1);sample(c(0,1), 100, replace = TRUE, prob = .5) # 100 Bernoulli trials
+set.seed(1);rbinom(n = 100,size = 1,.5)
+```
+
+- sample draws random samples from categorical distribution, 
+- rbinom from binomial distribution. 
+- You might be interested in rmultinom
 <!-- --- -->
 <!-- ## Functions useful in simulations (sample) -->
 <!-- - Keep in mind that permutations are valid if the null hypothesis tested is that there is *no association* between the variables studied.
@@ -1081,7 +1544,7 @@ data.replicated[[2]]
 - Often, we are interested in *the behaviour of a simulation in the long run*. This means that we want to not only look at 1 simulated event, but at some *'performance'* estimation (maybe showing the spread of a parameter that could be distributed based on the sample size)
 
 ---
-# Challenge 1 ![:cube]()
+## Challenge 1 ![:cube]()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement. 
 
@@ -1099,7 +1562,7 @@ sample()
 
 
 ---
-# Challenge 1 - Solution ![:cube]()
+## Challenge 1 - Solution ![:cube]()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement.
 
@@ -1122,7 +1585,7 @@ set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 
 
 ---
-# Challenge 2 ![:cube]()
+## Challenge 2 ![:cube]()
 
 Create a data frame with variable 
 - x ranging from 1 to 10, 
@@ -1133,7 +1596,7 @@ Create a data frame with variable
 - Some students might point out that the error $\epsilon$ is missing. They can add it if they want. Just make sure to verify that the mean of $\epsilon$ is indeed `0`, and that they are concious about the sd they could change. 
 
 ---
-# Challenge 2 - Solution ![:cube]()
+## Challenge 2 - Solution ![:cube]()
 ```{r linear_no_error, echo=-1, fig.width=6, fig.height=5}
 par(mar=c(4,4,.5,.5), cex = 1.5)
 x = 1:10
@@ -1151,7 +1614,7 @@ plot(y~x, col = as.factor(gr), data = linear.df, pch = 19, cex = 1.5)
 #################################
 ---
 class: inverse, center, middle
-
+name: explore-under-stat-process
 # Let's explore what underlies some statistical processes
 
 ???
@@ -1230,7 +1693,7 @@ arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 ---
 # Probability and odds 
 
-- By using the lo of the odds. 
+- By using the log of the odds. 
 - Log (natural log, or ln) odds can range from $-\infty$ to $\infty$ and makes the odds symmetric. It is calculated as $ln (odds) = ln(p/(1-p))$ (i.e., the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
 
@@ -1278,7 +1741,7 @@ gm
 ---
 # Probability and odds
 
-- Example: a horse runs 100 races and wins 20 of them.  What is the *odds* of winning?
+- Example: a horse runs 100 races and wins 20 of them.  What is the **odds** of winning?
 - $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
 
 ```{r odds_example, echo=-1}
@@ -1338,7 +1801,7 @@ The horse is 4 times more *likely* to fail than to succeed in a race.
 ---
 # Probability and odds 
 
-- Example: a horse runs 100 races and wins 20 of them. What is the *probability* of winning?
+- Example: a horse runs 100 races and wins 20 of them. What is the **probability** of winning?
 - $p = odds/(1+odds)$
 
 ```{r probability_example}
@@ -1847,6 +2310,9 @@ class: inverse, center, middle
 
 $$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$ where $\mu = \sigma^2 = \lambda$
 
+???
+- See the article [The Poisson Distribution and Poisson Process Explained](https://towardsdatascience.com/the-poisson-distribution-and-poisson-process-explained-4e2cb17d459) "A Poisson Process is a model for a series of discrete event where the average time (or space) between events is known, but the exact timing of events is random. The arrival of an event is independent of the event before (waiting time between events is memoryless)."
+
 
 ---
 # Poisson distribution
@@ -2116,7 +2582,7 @@ hist(rbinom(n = 100000, size=50, prob=0.99),xlab = "Nb of successes", breaks = 1
 ---
 # Poisson distribution vs binomial
 
-- Difference with Binomial:
+- Difference between Binomial and Poisson distrivutions:
   - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
   - Number of trials is finite ( $n$ ) in Binomial distribution 
 
@@ -2777,7 +3243,7 @@ abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 
 
 ---
-# Challenge 3 ![:cube]()
+## Challenge 3 ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -2791,7 +3257,7 @@ rnorm()
 - This exercise is to start thinking in outputting data from distributions that relate to a biologically relevant phenotype. 
 
 ---
-# Challenge 3 - Solution ![:cube]()
+## Challenge 3 - Solution ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -3005,7 +3471,7 @@ plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 #################################
 ---
 class: inverse, center, middle
-
+name: simulating-power
 # Simulating data for power analysis
 
 ???
@@ -3113,7 +3579,7 @@ n
 #################################
 ---
 class: inverse, center, middle
-
+name: sim-data-models
 # Simulating data for models
 
 ---
@@ -3607,7 +4073,7 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
 
 
 ---
-# Challenge 4 ![:cube]()
+## Challenge 4 ![:cube]()
 
 - You have 20 seeds from plants that are genetically similar on which you want to see the effect of a treatment, say a species of fungi added to the soil compared to a control with only the soil. 
 - After a certain time, say 6 months, you want to weight the dried plant material and test if there is an effect of your treatment 
@@ -3624,7 +4090,7 @@ Page 9: Plant Weight Data.
 
 
 ---
-# Challenge 4 - Solution ![:cube]()
+## Challenge 4 - Solution ![:cube]()
 
 ```{r challenge4.one.rep, fig.width=5,fig.height=5}
 set.seed(1234)
@@ -3644,7 +4110,7 @@ pt(q = abs(s.lm.out$coefficients["grtrt","t value"]),df = s.lm.out$df[2], lower.
 ```
 
 ---
-# Challenge 4 - Solution ![:cube]()
+## Challenge 4 - Solution ![:cube]()
 
 ```{r challenge4.diagnose, fig.width=5,fig.height=5}
 plot(weight ~ gr, data = plant.weight, las = 1)
@@ -3654,7 +4120,7 @@ plot(lm.out.int, las = 1)
 
 
 ---
-# Challenge 4 - Solution ![:cube]()
+## Challenge 4 - Solution ![:cube]()
 
 ```{r challenge4.fun, fig.width=8,fig.height=5}
 # Make the function for the simulation
@@ -3678,7 +4144,7 @@ exp.plant <- function(n = 100, # number of seeds in EACH group (2*n = total)
 ```
 
 ---
-# Challenge 4 - Solution ![:cube]()
+## Challenge 4 - Solution ![:cube]()
 
 ```{r challenge4.fun.plot, echo=-c(1:3), fig.width=8,fig.height=3.5}
 par(mfrow = c(2,2), mar = c(4,4,.5,.5))
@@ -4722,12 +5188,12 @@ while ( ! all(parent == target)) {
 
 
 ---
-# Challenge 5 ![:cube]()
+## Challenge 5 ![:cube]()
 
 - Simulate data to show how natural selection works! 
 
 ---
-# Challenge 5 - Solution ![:cube]()
+## Challenge 5 - Solution ![:cube]()
 
 - There are multiple solutions :) 
 
