@@ -4606,10 +4606,10 @@ library(dummies)
 # dummy(x)
 
 # Set some coefficients
-beta0 <- 0.07
-betaB <- 0.1
-betaC <- -0.15
-beta1 <- .5
+beta0 <- 2
+betaB <- 3.1
+betaC <- -4.35
+beta1 <- 2
 
 xxx = rnorm(n = n, mean = 0, sd = 1)
 
@@ -4706,6 +4706,15 @@ lines(xrange, sort(c_probs),
       type="l", lwd=3, lty=4, 
       col="orangered")
 
+points(x = data[data$x %in% "A" & data$y %in% 1,"xxx"],data[data$x %in% "A" & data$y %in% 1,"y"], col = "gold", pch =19, cex = .5)
+points(x = data[data$x %in% "A" & data$y %in% 0,"xxx"],data[data$x %in% "A" & data$y %in% 0,"y"], col = "gold", pch =19, cex = .5)
+
+points(x = data[data$x %in% "B" & data$y %in% 1,"xxx"],data[data$x %in% "B" & data$y %in% 1,"y"]-.05, col = "turquoise2", pch =19, cex = .5)
+points(x = data[data$x %in% "B" & data$y %in% 0,"xxx"],data[data$x %in% "B" & data$y %in% 0,"y"]+.05, col = "turquoise2", pch =19, cex = .5)
+
+points(x = data[data$x %in% "C" & data$y %in% 1,"xxx"],data[data$x %in% "C" & data$y %in% 1,"y"]-.025, col = "orangered", pch =19, cex = .5)
+points(x = data[data$x %in% "C" & data$y %in% 0,"xxx"],data[data$x %in% "C" & data$y %in% 0,"y"]+.025, col = "orangered", pch =19, cex = .5)
+
 # add a horizontal line at p=.5
 abline(h=.5, lty=2)
 ```
@@ -4715,10 +4724,10 @@ abline(h=.5, lty=2)
 ```
 n <- 10000
 categories = c("A","B", "C")
-beta0 <- 0.07
-betaB <- 0.1
-betaC <- -0.15
-beta1 <- .5
+beta0 <- 2
+betaB <- 3.1
+betaC <- -4.35
+beta1 <- 2
 xxx = rnorm(n = n, mean = 0, sd = 1)
 linpred <- 
   dummy.mat[,'xA']*beta0 + 
