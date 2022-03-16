@@ -57,18 +57,22 @@ Might not apply to you
 2. [When simulations are useful?](#when-sim-useful) 
 3. [What you need to know before doing simulations?](#what-to-be-known-before-sim)
 4. [Let's explore what underlie some statistical processes](#explore-under-stat-process)
-4. [Simulating data for power analysis (in development)](#simulating-power)
-5. [Simulating data for models (lm, glm, lmm, in development)](#sim-data-models)
+5. [Statistical distributions in more details](#statistical-distributions)
+6. [Simulating data for power analysis (in development)](#simulating-power)
+7. [Simulating data for models (lm, glm, lmm, in development)](#sim-data-models)
+8. [Advanced simulations](#advanced-simulations)
+9. [References](#references)
+10. [Acknowledgements](#acknowledgements)
 
 Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p)
 
-???
+The exercices for this workshop: [Challenge 1](#challenge1), [challenge 2](#challenge2), [challenge 3](#challenge3), [challenge 4](#challenge4), [challenge 5](#challenge5)
 
+???
 This workshop was designed to give you the tools to perform simulations in R. 
 - Simulations to get data in order to perform a statistical model, 
 - but also to be able to simulate a situation and verify how a parameter change the outcome of a model. 
 - Go see the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p) here https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p
-- There 
 
 ---
 # Prerequisites
@@ -502,12 +506,10 @@ for (l in n.id.pop) {
     # Record all population information
     one.pop = data.frame(p.fq = as.numeric(all.fq.change), pop = j)
     all.pops = rbind(all.pops,one.pop)
+    # If an allele is fixated, it's going to be recorded 
+    all.pops[is.na(all.pops)] <- ifelse(names(prop.all)=="1",yes = 1,no = 0)
+
   } # End j
-  
-  
-  # Remove all NAs ----------------------------------------------------------
-  all.pops = na.omit(all.pops)
-  
   
   # Plot --------------------------------------------------------------------
   # Make the empty plot 
@@ -1544,6 +1546,7 @@ data.replicated[[2]]
 - Often, we are interested in *the behaviour of a simulation in the long run*. This means that we want to not only look at 1 simulated event, but at some *'performance'* estimation (maybe showing the spread of a parameter that could be distributed based on the sample size)
 
 ---
+name: challenge1
 ## Challenge 1 ![:cube]()
 
 Select randomly 4 values out of a vector of numbers ranging from 1 to 10 : 1. without replacement and 2. with replacement. 
@@ -1585,6 +1588,7 @@ set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 
 
 ---
+name: challenge2
 ## Challenge 2 ![:cube]()
 
 Create a data frame with variable 
@@ -1662,7 +1666,7 @@ par(mar = c(0,0,0,0),
     # mfrow=c(1,2),
     cex = 1.2)
 # Odds
-plot(0, type ="n", xlim = c(0,10), axes = F,ylab = "", xlab = "")
+plot(0, type ="n", xlim = c(0,11), axes = F,ylab = "", xlab = "")
 segments(0,0,10,0)
 yval = .1
 lwd = 2
@@ -1673,7 +1677,7 @@ text(0:10,y = -.25,labels = c(0:10))
 text(.5,y = ytext,labels = c("Odds \nlosing"))
 text((10+1)/2,y = ytext,labels = c("Odds \nwinning"))
 arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
-arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
+arrows(1,.3,11,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 ```
 ]
 
@@ -1699,7 +1703,7 @@ arrows(1,.3,10,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 
 ```{r, echo=FALSE, fig.width=4.7,fig.height=2}
 par(mar = c(0,0,0,0), cex = 1.2)
-plot(0, type ="n", xlim = c(-5,5), axes = F,ylab = "", xlab = "")
+plot(0, type ="n", xlim = c(-6,6), axes = F,ylab = "", xlab = "")
 segments(-5,0,5,0)
 yval = .1
 lwd = 2
@@ -1710,8 +1714,8 @@ ytext = .65
 text(-5:5,y = -.25,labels = c(-5:5))
 text(-5/2,y = ytext,labels = c("Log odds \nlosing"))
 text((5)/2,y = ytext,labels = c("Log odds \nwinning"))
-arrows(-5,.3,0,.3,length = .1,code = 1, lwd = lwd, col = "red")
-arrows(0,.3,5,.3,length = .1,code = 2, lwd = lwd, col = "blue")
+arrows(-6,.3,0,.3,length = .1,code = 1, lwd = lwd, col = "red")
+arrows(0,.3,6,.3,length = .1,code = 2, lwd = lwd, col = "blue")
 points(0,.3, pch =19)
 
 ```
@@ -1900,6 +1904,7 @@ plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=
 - Here, we are coming back to the idea of looking at pattern in random processes. 
 - random variables in the natural world are generated from what has been called statistical distribution. 
 - Statistician have been studying random variables by mapping , measuring, describing, and making taxonomies of them which now they are able to understand them in a more general way: based on statistical distributions from which they are drawn. 
+- Take a look at Khan Academy [Random variables](https://www.khanacademy.org/math/statistics-probability/random-variables-stats-library/random-variables-discrete/v/random-variables)
 --
 
 - In other words, to help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
@@ -2292,7 +2297,7 @@ for (i in 1:nb.flips) {
 #################################
 ---
 class: inverse, center, middle
-
+name: statistical-distributions
 # Statistical distributions in more details 
 
 ???
@@ -2383,12 +2388,12 @@ rpois(n = number of repetitions,
 ```
 
 - You can think of this function as the number of times you'd get a success, when the number of events per unit of time or space is lambda 
-- If with a camera trap, I see a wolf in its trail twice every day (lambda is this rate, which doesn't need to be an integer), then if I observe the data for one day, what could be the number of wolves that I observe? 
+- E.g., with a camera trap, I see on average 2 wolves/day (lambda is this rate, doesn't need to be an integer), then if I on the field for one day, what could be the number of wolves that I observe? 
 
 ```{r}
 set.seed(5937); rpois(n = 1,lambda = 2)
 ```
-- Wow! That day was amazing! 
+- Wow! That day was amazing! The probability of seeing this number is `r round(dpois(x = 5, lambda=2),2)` and the probability of seeing 5 or more is `r round(ppois(q = 5, lambda=2,lower.tail = F),2)`
 
 ```{r Statistical_dist_poisson_wolf, echo=FALSE, fig.width=8,fig.height=2}
 par(mfrow = c(1,1), mar = c(4,4,1,1))
@@ -2422,6 +2427,23 @@ hist(rpois(n = 1000, lambda=25), xlab = "Nb of successes", breaks = 100, col = c
 hist(rpois(n = 100000, lambda=50),xlab = "Nb of successes", breaks = 100, col = col.b, main = "n = 100000, lambda = 50", probability = F);abline(v = 50, lty = 3)
 ```
 
+???
+- The vertical line is the mean of the graph (or the lambda values)
+- graphs from TOP LEFT to BOTTOM RIGHT
+  * Lamda = 0.05  
+  * Lamda = 1     
+  * Lamda = 5       
+  * Lamda = 20        
+  * Lamda = 25  n = 1,000      
+  * Lamda = 50  n = 100,000      
+- the first 4 graphs are the probability mass functions
+  * the height is the probability of getting a certain value 
+- the last 2 graphs are the pseudo-randomly generated numbers from a Poisson distribution
+  * The height of the bars are the FREQUENCY of the data for certain bins 
+
+- How would you calculate the probability of getting X number of events or more from these graphs.
+  * If you have a probability mass function (PMF), you can just add the probabilities of the X number of events and MORE
+  * If you have a frequency histogram, you need to get the probability of observing the data first and get sum as the PMF (if R, you can just use the `ppois()` function as this just does that.)
 
 ---
 # Binomial distribution
@@ -2445,9 +2467,9 @@ where
   * These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.
 - The probability of success or failiure DON'T change as the experiment goes: e.g., the probability of heads or tail for a coin should not change as the experiment is conducted. 
 - See the lecture [Binomial Distribution](https://www.montana.edu/rotella/documents/502/BinomDist.html)
-<!-- , 'cancer cell death/alive' -->
+- The function `choose()` is used in R to find the number combinations (regardless of the order). For example, if you just want to know the number of combinations you can have from choosing 6 numbers out of 49, it is `r choose(49, 6)`. If you wish to know the chances of winning the lotteries it's `r 1/choose(49, 6)`.
 
-  
+
 ---
 # Binomial distribution
 
@@ -2461,6 +2483,9 @@ where
 - Wright–Fisher model is a mathematical model of genetic drift. p and q are the frequency of 2 different alleles. (Generations do not overlap, like annual plants, and that the copy of the gene in the new generation is independently drawn from the gene pool of the previous generation)
   * Here is a simulation of the Wright-Fisher model [Introduction to the Wright-Fisher Model](https://stephens999.github.io/fiveMinuteStats/wright_fisher_model.html#simulating_the_wright-fisher_model) (cleaner compared to my version!)
 - For the medical side effect (affected or not), the river overflows (overflow or not) example, read [5 Real-Life Examples of the Binomial Distribution](https://www.statology.org/binomial-distribution-real-life-examples/)
+
+<!-- , 'cancer cell death/alive' -->
+
 
 ---
 # Binomial distribution
@@ -2477,6 +2502,7 @@ where
 ???
 genotype examples
 The Punnett square for the male and female union 
+
 | Gametes | A | a | 
 | ------- | - | - | 
 | A	      | AA | Aa	| 
@@ -2486,6 +2512,9 @@ Daughter examples
 - what is the probability of getting 2 daughters out of 3 children
 ```{r}
 dbinom(2,3,prob = .5) # 0.375
+```
+
+```
 000 # 0 ## 1/8      1/8
 001 # 1 ## 1/8  #
 010 # 1 ## 1/8  #   3/8
@@ -2622,6 +2651,18 @@ The important part here is the mean $\mu$ and the standard deviation $\sigma$. U
 - We will spend some time to understand it better
 - we will look at some of its properties 
 - If you are interested, you could show the graph on [desmos](https://www.desmos.com/calculator), an online scientific and graphic calculator. There, you could write $e^{-s^{-2}\left(x-m\right)^{2}}$ and show the result (add the slider for m and s to show what they do). It is approximately Bell curve = $e^{-x^2}$
+
+```
+# https://www.youtube.com/watch?v=4PDoT7jtxmw&ab_channel=3Blue1Brown
+x = seq(-10,10,by = .1)
+s = 2 # ~ related to SD
+plot(x, exp(-s*x^2), type = "l")
+m = 0 # mean 
+plot(x, exp(-(1/s^2)*(x-m)^2), type = "l")
+```
+
+
+
 <!-- Material inspiration
 https://ani.stat.fsu.edu/~debdeep/p4_s14.pdf
 -->
@@ -3243,6 +3284,7 @@ abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 
 
 ---
+name: challenge3
 ## Challenge 3 ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
@@ -3468,6 +3510,21 @@ plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 
 ???
 
+---
+# Find the parameters of a distribution 
+
+```{r}
+x = rnorm(100)
+# x = rt(100,1000)
+library(fitdistrplus)
+descdist(x, discrete = FALSE)
+fit.pois <- fitdist(x, "norm")
+plot(fit.pois)
+```
+
+
+???
+
 #################################
 ---
 class: inverse, center, middle
@@ -3614,16 +3671,22 @@ Reference for the section
 ---
 # Generalized linear model (GLM) refresher
 
+- What we've seen so far are cases in which the **response** variable was continuous and where the "error" is normally distributed.
+- But there might be cases where the **response** variable is *not* continuous or has an error structure that is *not* normal. 
+- Therefore, we need to look for GLMs. 
+
 | Type | Equation |
 | ---- | -------- |
 | Linear | $Y = \beta_{0} + \beta_{1} x_{1}  + \epsilon$ |
 | Poisson | $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ (no separate error term as $\lambda$ determines both the mean and variance) |
 | Logistic | $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) |
 
+- Keep in mind that the x-values *don't* *need to be normally distributed*. 
+
 ???
 
 <!-- 
-In GLM, we don'T model the individual Y values, but the mean
+In GLM, we don't model the individual Y values, but the mean
 https://www.theanalysisfactor.com/generalized-linear-models-no-error-term/
 In other words "there's no common error distribution independent of predictor values"
 see https://stats.stackexchange.com/questions/124818/logistic-regression-error-term-and-its-distribution
@@ -3632,14 +3695,47 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 <!-- logistic regression there is an error (or randomness hidden in the Bernoulli (or binomial(size =1)) with probability p)  -->
 <!-- Simulate logistic regression https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525 -->
 
+
+---
+# Simulate categories (t-test, Anova)
+<!-- Although this is with only 2 groups, I'm showing this as a quick example -->
+.pull-left[
+```{r Sim_t_test_anova}
+set.seed(1234); n = 1000
+y1 = rnorm(n, mean = 15, sd = 1)
+y2 = rnorm(n, mean = 15.5, sd = 1)
+
+sim.aov1 = data.frame(y = y1, gr = "A")
+sim.aov2 = data.frame(y = y2, gr = "B")
+df.aov = rbind(sim.aov1, sim.aov2)
+df.aov$gr = factor(df.aov$gr)
+
+# t.test(y~gr, data = df.aov) or
+aov.out = aov(y~gr, data = df.aov)
+#summary(aov.out)
+tk.test = TukeyHSD(aov.out)
+round(tk.test$gr,2)
+```
+]
+
+.pull-right[
+```{r Sim_t_test_anova_plot, fig.width=5,fig.height=5}
+plot(y~gr, data = df.aov)
+```
+
+]
+
+
 ---
 # GLM: Linear model
+
+- We start by generating a linear model with an intercept and slope for 100 points, an the error in the measurements.
 
 .pull-left[
 ```{r, echo=-1, fig.width=4,fig.height=2}
 par(mar=c(4,4,0.1,0.1))
 set.seed(12345678)
-n = 100; beta0 = 2.5; beta1 = .8
+n = 100; beta0 = 2.5; beta1 = 0.8
 x.lm = rnorm(n = n, mean = 10, sd = 1)
 err = rnorm(n = n, mean = 0, sd = 1)
 # Linear combination 
@@ -3650,7 +3746,7 @@ df.lm = data.frame(x = x.lm, y = y.lm)
 ]
 
 .pull-right[
-```{r, echo=FALSE, fig.width=4,fig.height=4}
+```{r, echo=FALSE, fig.width=4,fig.height=3}
 par(mar = c(4,4,.5,.5))
 # Colour 
 b.5 = scales::alpha("black",alpha = .5)
@@ -3665,11 +3761,16 @@ abline(lm.out)
 ```
 ]
 
-
-
 ```{r}
-summary(lm.out)
+round(coefficients(summary(lm.out)), 4)
+# Adjusted R^2
+summary(lm.out)$adj.r.squared
+# summary(lm.out)$fstatistic
+# anova(lm.out)
 ```
+
+???
+- Take a look at [Interpretation of R's lm() output](https://stats.stackexchange.com/questions/5135/interpretation-of-rs-lm-output) to refresh lm important numbers
 
 ---
 # GLM: Linear model
@@ -3679,30 +3780,51 @@ summary(lm.out)
 ```{r, echo=-1, fig.width=8,fig.height=3}
 par(mfrow = c(1,3), mar = c(4,4,1,1), cex = 1.2)
 sim.lm = simulate(lm.out, nsim = 2000, seed = 12)
-r.x = range(c(x.lm, rowMeans(sim.lm), fitted(lm.out)))
+r.x = range(c(y.lm, rowMeans(sim.lm), fitted(lm.out)))
 hist(rowMeans(sim.lm), xlim = r.x, main = "Hist simulation")
 hist(fitted(lm.out), xlim = r.x, main = "Hist fitted")
-hist(x.lm, xlim = r.x, main = "Hist of data")
+hist(y.lm, xlim = r.x, main = "Hist of response")
 c(mean(rowMeans(sim.lm)), mean(x.lm),  mean(fitted(lm.out))) # compare 
 rbind(head(rowMeans(sim.lm)), head(fitted(lm.out)))
+```
+
+???
+- From the help, `simulate()` allows to "Simulate one or more **responses** (Y) from the distribution corresponding to a fitted model object." `stats:::simulate.lm`
+- [How does the function "simulate" work, conceptually?](https://stackoverflow.com/questions/29349602/how-does-the-function-simulate-work-conceptually)
+
+```
+nsim=2
+head(simulate(lm.out, nsim=nsim, seed = 1))
+
+set.seed(1)
+for(i in 1:nsim) {
+  tmp <- predict(lm.out) + rnorm(length(predict(lm.out)), 0, summary(lm.out)$sigma)
+  res <- if (i==1) tmp else cbind(res, tmp)
+}
+head(res)
 ```
 
 
 ---
 # GLM: Linear model
 
-- We can put the simulation inside a function 
-- Then, we could replicate the simulation a certain number of times
-- If we are interested in the slope, we could plot the density of the estimates that we'd get out of the simulations. 
-- In the example below, the slope estimate was extracted from the simulation and plotted for different sample sizes. 
-- You can see that as the sample size increases, our slope estimation gets better. 
+- Now that we have the core elements to generate a lm, we can put the simulation inside a function and vary some parameters
+- If we are interested in how our confidence in the slope estimate changes based on sample size we could replicate the simulation a certain number of times
+  * We could plot the density of the estimates that we'd get out of the simulations. 
+  * Below, slopes estimates were extracted from each simulation with various sample sizes. 
+  * As the sample size increases, our slope estimation gets better to the "true" underlying value. 
 
 ```{r, echo=FALSE, fig.width=8,fig.height=3}
 par(mar=c(4,4,1,1), cex = 1.3)
 
 set.seed(12345678)
-lm.sim.fun <- function(n = 100, mean = 10, sd = 1, sd.err = 1, beta0 = 2.5, beta1 = 0.8, plot = FALSE, ret = TRUE) {
+lm.sim.fun <- function(n = 100, 
+                       mean = 10, sd = 1, sd.err = 1,
+                       beta0 = 2.5, beta1 = 0.8,
+                       plot = FALSE, ret = TRUE) {
+  # Generate x values 
   x.lm = rnorm(n = n, mean = mean, sd = sd)
+  # Generate error for each x value 
   err = rnorm(n = n, mean = 0, sd = sd.err)
   
   # Linear combination 
@@ -3710,12 +3832,16 @@ lm.sim.fun <- function(n = 100, mean = 10, sd = 1, sd.err = 1, beta0 = 2.5, beta
   
   # Make a dataframe of the data 
   df.lm = data.frame(x = x.lm, y = y.lm)
+  
   # Colour 
   b.5 = scales::alpha("black",alpha = .5)
   
   # Model the data 
   lm.out = lm(y~x, data = df.lm)
+  # Get the summary 
   s.out = summary(lm.out)
+  
+  # Might want to add the plot 
   if (plot) {
     # PLot the data 
     plot(y~x, data = df.lm, pch = 19, col = b.5)
@@ -3723,35 +3849,49 @@ lm.sim.fun <- function(n = 100, mean = 10, sd = 1, sd.err = 1, beta0 = 2.5, beta
     abline(lm.out)
   } # end if plot
   
+  # Return some interesting parameters for futur analysis
   if (ret) {
   return(list(lm.out = s.out,
-              int=s.out$coefficients["(Intercept)",1],
+              int = s.out$coefficients["(Intercept)",1],
               slope = s.out$coefficients["x",1]))
   }
 }
 
+# Number of repetitions to replicate our simulation
 nb.rep = 1000
+# Make an empty data object to record what we are interested in 
 df.all.sim = NULL
-for (i in c(5,20,200)) {
-  l.rp = replicate(nb.rep, lm.sim.fun(n = i), simplify = FALSE)
-  all.int = unlist(lapply(l.rp, function(x) x$int))
-  all.slp = unlist(lapply(l.rp, function(x) x$slope))
-  df.all.sim = rbind(df.all.sim,data.frame(n = i, all.int, all.slp))
-}
 beta1 = 0.8
+for (i in c(5,20,200)) {
+  l.rp = replicate(n = nb.rep, 
+                   expr = lm.sim.fun(n = i,beta1 = beta1), 
+                   simplify = FALSE)
+  all.int = unlist(lapply(l.rp, function(x) x$int)) # Get intercept
+  all.slp = unlist(lapply(l.rp, function(x) x$slope)) # Get slope
+  df.all.sim = rbind(df.all.sim,
+                     data.frame(n = i, all.int, all.slp))
+}
+
+plot.dens <- function(density, data, subset, main) {
+  plot(density,   xlim = c(-3,4), main = main)
+abline(v = mean(data[data$n==subset,"all.slp"]),   lty =1)
+abline(v = beta1, lty = 3)
+polygon(x = c(-10, density$x[density$x>-10 & density$x < 10], 10), 
+        y = c(0, density$y[density$x>=-10 & density$x <= 10], 0),
+        col=scales::alpha("blue",.5))
+}
+
 par(mfrow = c(1,3))
+# get the density 
 dens5 = density(df.all.sim[df.all.sim$n==5,"all.slp"]  )
 dens20 = density(df.all.sim[df.all.sim$n==20,"all.slp"] )
 dens200 = density(df.all.sim[df.all.sim$n==200,"all.slp"])
-plot(dens5,   xlim = c(-3,4), main = "n = 5");   abline(v = mean(df.all.sim[df.all.sim$n==5,"all.slp"]),   lty =1); abline(v = beta1, lty = 3)
-polygon(c(-10, dens5$x[dens5$x>-10 & dens5$x < 10], 10), c(0, dens5$y[dens5$x>=-10 & dens5$x <= 10], 0), col=scales::alpha("blue",.5))
-plot(dens20,  xlim = c(-3,4), main = "n = 20");  abline(v = mean(df.all.sim[df.all.sim$n==20,"all.slp"]),  lty =1); abline(v = beta1, lty = 3)
-polygon(c(-10, dens20$x[dens20$x>-10 & dens20$x < 10], 10), c(0, dens20$y[dens20$x>=-10 & dens20$x <= 10], 0), col=scales::alpha("blue",.5))
-plot(dens200, xlim = c(-3,4), main = "n = 200"); abline(v = mean(df.all.sim[df.all.sim$n==200,"all.slp"]), lty =1); abline(v = beta1, lty = 3)
-polygon(c(-10, dens200$x[dens200$x>-10 & dens200$x < 10], 10), c(0, dens200$y[dens200$x>=-10 & dens200$x <= 10], 0), col=scales::alpha("blue",.5))
 
+# Plot for each parameter we are interested in 
+plot.dens(dens5,df.all.sim,5,"n = 5")
+plot.dens(dens20,df.all.sim,5,"n = 5")
+plot.dens(dens200,df.all.sim,5,"n = 5")
 
-# 
 # lm.f <- function(n,mean,sd,b0,b1, plot = FALSE) {
 #   x = rnorm(n, mean = mean, sd = sd)
 #   beta0 = b0; beta1 = b1
@@ -3779,6 +3919,11 @@ polygon(c(-10, dens200$x[dens200$x>-10 & dens200$x < 10], 10), c(0, dens200$y[de
 # }
 ```
 
+???
+- This is an example of how a simulation script could be replicated to get a global understanding of the change of a parameter value (slope) by changing another value (sample size)
+- This is where simulations shine. They really help us understand how we can interpret some results or get a better feeling of the confidence (or uncertainty) we have from our data. Or at least, this is one use of this. 
+
+- I'd suggest opening RStudio to show the code 
 
 ---
 # GLM: Linear model
@@ -3813,17 +3958,18 @@ lm.sim.fun(n = 20, sd.err = sd.err,plot = T, ret = F)
 lm.sim.fun(n = 200,sd.err = sd.err,plot = T, ret = F)
 
 ```
-- You can see from the plots that the effect size, the $R^2$, varies much more when the sample size is small. But when the sample size increases, the spread around the effect size diminishes. This adds to the idea that larger sample sizes are  important when you conduct a study. 
+- You can see from the plots that the effect size, the $R^2$, varies much more when the sample size is small. As the sample size increases, the spread around the effect size diminishes. 
 
 ???
 - This makes a SUPER IMPORTANT POINT. The effect size in this case is the amount of variance explained. You can see that with the exact same model that we generated, we can have pretty much any type of effect size for a small sample size. 
 - But as we increase the sample size, the effect size seems to converge on a particular value. 
 - (note that if the $R^2$ is negative, it could be thought as being 0.)
+- This adds to the idea that larger sample sizes are important when you conduct a study. It's not just that the sample size makes the estimate better. It also plays with our CONFIDENCE in having a particular value for the effect size. 
 
 ---
 # GLM: Linear model
 
-- Simulate 2 independent variables. 
+- Simulate 2 independent variables ( $x_1$ and $x_2$ ). 
 
 ```{r, echo=FALSE, fig.width=8,fig.height=4}
 set.seed(12345678)
@@ -3864,57 +4010,146 @@ abline(a = coef(lm.out)["(Intercept)"]+mean(x1)*coef(lm.out)["x1"], b = coef(lm.
 
 .tiny[
 ```{r, echo=FALSE}
-summary(lm.out)
-vcov(lm.out)
-```
-]
-
----
-# GLM: Linear model (categorical)
-
-.small[
-```{r sim_lm_cat, fig.width=5,fig.height=5}
-set.seed(12345678)
-n = 100
-x.lm = rnorm(n = n, mean = 10, sd = 1)
-catego.lm = c("Control", "Treatment")
-# Note that gl is creating factors by default 
-gr = gl(n = length(catego.lm), k = n/2, labels = catego.lm)
-# Make a dummy matrix
-dummy.mat = matrix(data = 0,
-                   nrow = n,
-                   ncol = length(catego.lm))
-colnames(dummy.mat) <- paste0(c(catego.lm))
-dummy.mat[,1] <- 1
-dummy.mat[,2] <- ifelse(gr=="Treatment",1,0)
-
-beta1 = .8
-betaControl = .2
-betaTreament = .7
-
-lin.pred.x = dummy.mat %*% c(betaControl,betaTreament) + beta1 * x.lm
-err = rnorm(n = n, mean = 0, sd = 1)
-y.lm = lin.pred.x + err
-df.lm = data.frame(x = x.lm, y = y.lm, gr = gr)
-b.5 = scales::alpha("black",alpha = .5)
-r.5 = scales::alpha("red",alpha = .5)
+cat("Coefficients table:\n"); round(coefficients(summary(lm.out)), 4)
+# Adjusted R^2
+cat("R Squared: "); summary(lm.out)$adj.r.squared
+# summary(lm.out)$fstatistic
+# anova(lm.out)
+# vcov(lm.out)
 ```
 ]
 
 ???
+
+```
+n = 100
+x1 = rnorm(n = n, mean = 10, sd = 1)
+x2 = rnorm(n = n, mean = 15, sd = 6)
+beta0 = 2.5
+beta1 = .8
+beta2 = .5
+err = rnorm(n = n, mean = 0, sd = 1)
+```
+
+
+---
+# GLM: Linear model (with categorical)
+
+- Simulate 1 numerical variable ( $x_1$ ) separated in 2 levels (Control, Treatment). 
+
+.small[
+```{r sim_lm_cat, fig.width=5,fig.height=5}
+set.seed(12345678)
+n = 100; meanx = 10
+x.lm = rnorm(n = n, mean = meanx, sd = 1)
+cat.lm = c("Control", "Treatment")
+gr = gl(n = length(cat.lm), k = n/2, labels = cat.lm) # makes factors (default)
+# Make a dummy matrix
+dummy.mat = matrix(data = 0,
+                   nrow = n,
+                   ncol = length(cat.lm))
+colnames(dummy.mat) <- paste0(c(cat.lm))
+dummy.mat[,1] <- 1 # Intercept
+dummy.mat[,2] <- ifelse(gr=="Treatment",1,0)
+
+beta1 = 0.8; betaControl = .2; betaTreament = .7
+# Combine the data to get the linear prediction 
+lin.pred.x = dummy.mat %*% c(betaControl,betaTreament) + beta1 * x.lm
+y.lm = lin.pred.x + rnorm(n = n, mean = 0, sd = 1)
+df.lm = data.frame(x = x.lm, y = y.lm, gr = gr)
+b.5 = scales::alpha("black",alpha = .5); r.5 = scales::alpha("red",alpha = .5)
+lm.out = lm(y~x+gr, data = df.lm);   lmcoef <- lm.out$coefficients
+```
+]
+
+```{r, echo=FALSE, eval=TRUE, results = 'hide'}
+# Think of beta1 as multiplying the mean of X by beta1 and then seeing the effect of the betaControl and betaTreament
+# See this 
+mean(x.lm) # Mean of the X variable 
+mean(y.lm) # Mean of the Y variable 
+
+# Theoretical
+t.x = meanx * beta1
+# Observed 
+o.x = mean(x.lm) * lm.out$coefficients["x"]
+
+# Theoretical
+t.xc = meanx * beta1 + betaControl
+# Observed 
+o.xc = mean(x.lm) * lm.out$coefficients["x"] + lm.out$coefficients["(Intercept)"]
+
+# Theoretical
+t.xt = meanx * beta1 + betaControl + betaTreament
+# Observed 
+o.xt = mean(x.lm) * lm.out$coefficients["x"] + lm.out$coefficients["(Intercept)"] + lm.out$coefficients["grTreatment"]
+mat.exp.obs = matrix(c(meanx, mean(x.lm),
+                       NA,NA,
+                       t.x,o.x,
+                       t.xc,o.xc,
+                       t.xt,o.xt,
+                       beta1,lm.out$coefficients["x"],
+                       betaControl, lm.out$coefficients["(Intercept)"],
+                       betaTreament, lm.out$coefficients["grTreatment"]
+                       ), ncol = 2, byrow = TRUE, 
+                     dimnames = list(c("x","y",
+                                       "m.beta1","m.beta1.bC","m.beta1.bC.bT", 
+                                       "beta1","betaC","betaT"),
+                                     c("Expected","Observed")))
+# m.beta1 # is the global intercept
+df.eo = as.data.frame(mat.exp.obs)
+df.eo$Expected[which(is.na(df.eo$Expected))] <- list(unique(dummy.mat %*% c(betaControl,betaTreament) + beta1 * meanx))
+df.eo$Observed[which(is.na(df.eo$Observed))] <- list(aggregate(x = df.lm[,c("y")],by = list(df.lm[,c("gr")]), mean)$x)
+
+df.eo$Notes = c("Mean of X","Mean of each category in Y", "Global intercept (mean)","Global + control","Global + control + treatment","","","")
+# Here you can see the beta1 (x), betaControl (Intercept) and betaTreament (grTreatment)
+summary(lm(y~x+gr, data = df.lm))
+
+# Get JUST the DIFFERENCE with the treatment (Intercept is the Control)
+gr.means = lm(y~gr, data = df.lm) 
+summary(gr.means)
+
+# Calculate the mean of the 2 groups 
+summary(lm(y~gr-1, data = df.lm) )
+
+
+# Another way to calculate the mean of the 2 groups 
+aggregate(x = df.lm[,c("y")],by = list(df.lm[,c("gr")]), mean)
+
+# Compare to this (ANCOVA!)
+summary(aov(y~x+gr,data = df.lm))
+anova(lm.out)
+```
+
+
+???
+- Here we generate 2 categories that we want to test an effect (e.g., a new drug), but we want to CONTROL for a particular X independent continuous variable (ANCOVA)
+```{r}
+# Here you can see the beta1 (x), betaControl (Intercept) and betaTreament (grTreatment)
+summary(lm(y~x+gr, data = df.lm))
+# Get JUST the DIFFERENCE with the treatment (Intercept is the Control)
+# gr.means = lm(y~gr, data = df.lm) 
+# coefficients(gr.means)
+```
+
 - see [Simulating from regression model with categorical variable with 4 categories?](https://stats.stackexchange.com/questions/471947/simulating-from-regression-model-with-categorical-variable-with-4-categories)
 
 ---
-# GLM: Linear model (categorical)
+# GLM: Linear model (with categorical)
 
-```{r sim_lm_cat_plot, echo=-1, fig.width=8,fig.height=5}
+```{r sim_lm_cat_plot, echo=-1, fig.width=8,fig.height=3.5}
 par(mfrow=c(1,2))
 plot(y~x, data = df.lm, pch = 19, col = ifelse(gr=="Treatment",r.5,b.5))
-lm.out = lm(y~x+gr, data = df.lm)
-abline(a = lm.out$coefficients[1] + lm.out$coefficients[3], b = lm.out$coefficients[2], col = "red")
-abline(a = lm.out$coefficients[1], b = lm.out$coefficients[2], col = "black")
+abline(a= lmcoef["(Intercept)"], b= lmcoef["x"], col = "black") # control
+abline(a= lmcoef["(Intercept)"] + lmcoef["grTreatment"], b=lmcoef["x"], col="red")
 boxplot(y~gr, data = df.lm, pch = 19, col = ifelse(gr=="Treatment",r.5,b.5))
-summary(lm.out)
+round(coefficients(summary(lm.out)), 4) # betaControl is (Intercept)
+summary(lm.out)$adj.r.squared           # betaTreament is grTreatment. 
+```
+
+???
+
+```{r, echo=FALSE}
+df.eo
 ```
 
 
@@ -3929,9 +4164,9 @@ summary(lm.out)
 set.seed(1)
 n = 100
 x.lm1 = rbinom(n = n, size = 1, prob = 0.5)
-x.lm2 = rnorm(n = n, mean = 0, sd = 1) # Note that this doesn't have to be normally distributed. This could be a uniform distribution or from a binomial.
+x.lm2 = rnorm(n = n, mean = 1, sd = 1) # Note that this doesn't have to be normally distributed. This could be a uniform distribution or from a binomial.
 
-x.lm2 = scale(x.lm2)
+# x.lm2 = scale(x.lm2)
 beta0 = 2.5
 beta1 = 1.5
 beta2 = 2
@@ -3949,27 +4184,45 @@ hist(df.lm$x2)
 hist(df.lm$y)
 
 lm.out = lm(y~x1*x2, data = df.lm)
-summary(lm.out)
-coef(lm.out)
+# summary(lm.out)
+round(coefficients(summary(lm.out)), 4)
+# Adjusted R^2
+summary(lm.out)$adj.r.squared
+# summary(lm.out)$fstatistic
+# anova(lm.out)
+# coef(lm.out)
 ```
+
+???
+- Note the parameters that were used to generate the model 
+
+```
+n = 100
+x.lm1 = rbinom(n = n, size = 1, prob = 0.5)
+x.lm2 = rnorm(n = n, mean = 0, sd = 1) 
+x.lm2 = scale(x.lm2)
+beta0 = 2.5
+beta1 = 1.5
+beta2 = 2
+beta3 = -3
+err.lm = rnorm(n = n, mean = 0, sd = 1)
+```
+
 
 ---
 # GLM: Linear model (interaction; discrete)
 
 .small[
 ```{r, echo=-1, fig.width=5,fig.height=5}
-par(mfrow=c(1,1))
-# Binary x1 
-plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, 
+par(mfrow=c(1,1), mar = c(4,4,.1,.1))
+plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, # Add x1 = 0
      col = rgb(red = 0, green = 0, blue = 1, alpha = 0.25), pch = 19,
-     xlab = "x2", ylab = "y")
-abline(a = coef(lm.out)[1], b = coef(lm.out)[3], col = "blue", pch = 19, lwd = 2)
-points(x = df.lm[df.lm$x1 == 1, ]$x2, y = df.lm[df.lm$x1 == 1, ]$y, 
+     xlab = "x2", ylab = "y", ylim = range(df.lm$y)); abline(h=0, v=0, lt =3)
+abline(a = coef(lm.out)[1], b = coef(lm.out)[3], col = "blue", pch = 19, lwd =2)
+points(x = df.lm[df.lm$x1 == 1, ]$x2, y = df.lm[df.lm$x1 == 1, ]$y, # Add x1 = 1
        col = rgb(red = 1, green = 0, blue = 0, alpha = 0.25), pch = 19)
-abline(a = coef(lm.out)[1] + coef(lm.out)[2], b = coef(lm.out)[3] + coef(lm.out)[4], 
-       col = "red", lwd = 2)
-abline(h = 0, v = 0,lty = 3)
-
+abline(a = coef(lm.out)[1] + coef(lm.out)[2], 
+       b = coef(lm.out)[3] + coef(lm.out)[4], col = "red", lwd = 2)
 ```
 ]
 
@@ -4013,43 +4266,41 @@ b.5 = scales::alpha("black",alpha = .5)
 ```
 
 ???
-See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
-
-[DECOMPOSING, PROBING, AND PLOTTING INTERACTIONS IN R](https://stats.oarc.ucla.edu/r/seminars/interactions-r/)
-[HOW CAN I EXPLAIN A CONTINUOUS BY CONTINUOUS INTERACTION? | R FAQ](https://stats.oarc.ucla.edu/r/faq/how-can-i-explain-a-continuous-by-continuous-interaction/)
-
-[how to interpret the interaction term in lm formula in R?](https://stats.stackexchange.com/questions/56784/how-to-interpret-the-interaction-term-in-lm-formula-in-r)
+- See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
+- [DECOMPOSING, PROBING, AND PLOTTING INTERACTIONS IN R](https://stats.oarc.ucla.edu/r/seminars/interactions-r/)
+- [HOW CAN I EXPLAIN A CONTINUOUS BY CONTINUOUS INTERACTION? | R FAQ](https://stats.oarc.ucla.edu/r/faq/how-can-i-explain-a-continuous-by-continuous-interaction/)
+- [how to interpret the interaction term in lm formula in R?](https://stats.stackexchange.com/questions/56784/how-to-interpret-the-interaction-term-in-lm-formula-in-r)
 
 
 ---
 # GLM: Linear model (interaction; continuous)
 
-```{r, echo=-c(1:2), fig.width=8,fig.height=3}
+```{r, echo=-c(1:2), fig.width=8,fig.height=2,.5}
 par(mfrow=c(1,3))
 # apply(df.lm, 2, hist)
 hist(df.lm$x1);hist(df.lm$x2);hist(df.lm$y)
+lm.out = lm(y~x1*x2, data = df.lm); lmcoef = coef(lm.out)
+# Make a new range of x2 values on which we will test the effect of x1 
+x2r = range(x.lm2); x2.sim = seq(x2r[1], x2r[2], by = .5); x2s.lg=length(x2.sim)
+# This is the effect of x1 at different values of x2 (moderates the effect of x1)
+eff.x1 <- lmcoef["x1"] + lmcoef["x1:x2"] * x2.sim # gets slopes  
+eff.x1.int <- lmcoef["(Intercept)"] + lmcoef["x2"] * x2.sim # gets  int.  
+eff.dat <- data.frame(x2.sim, eff.x1, eff.x1.int) # Put that in dataframe 
+virPal <- viridis::viridis(length(x2.sim), alpha = .8) # Get colours 
+eff.dat$col <- virPal[as.numeric(cut(eff.dat$x2.sim, breaks = x2s.lg))]
+df.lm$col <- virPal[as.numeric(cut(df.lm$x2, breaks = x2s.lg))]
+df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2, breaks = x2s.lg)) %% 2+1]
+```
 
-lm.out = lm(y~x1*x2, data = df.lm)
+???
+
+```
 # summary(lm.out)
 # coef(lm.out)
 
 # To show the plot of an interaction between 2 continuous variables, we need to use the marginal effects or the conditional effect (effect of x1 conditional on the values of x2)
 # The marginal effect of x_1 is $x_1 = \beta_1+\beta_3\times x_2$
 # The marginal effect of x_2 is $x_2 = \beta_2+\beta_3\times x_1$
-
-# MAke a new range of x2 values on which we will test the effect of x1 
-x2r = range(x.lm2)
-# x2.sim = seq(floor(x2r[1]),ceiling(x2r[2]), by = 1)
-x2.sim = seq(x2r[1],x2r[2], by = .5)
-# this is the effect of x1 at different values of x2 (which moderates the effect of x1)
-eff.x1 <- coef(lm.out)["x1"] + coef(lm.out)["x1:x2"] * x2.sim # this gets you the slopes  
-eff.x1.int <- coef(lm.out)["(Intercept)"] + coef(lm.out)["x2"] * x2.sim # this gets you the intercepts  
-eff.dat <- data.frame(x2.sim, eff.x1, eff.x1.int)
-virPal <- viridis::viridis(length(x2.sim),alpha = .8)
-eff.dat$x2.col <- virPal[as.numeric(cut(eff.dat$x2.sim,breaks = length(x2.sim)))]
-# eff.dat
-df.lm$x2.col <- virPal[as.numeric(cut(df.lm$x2,breaks = length(x2.sim)))]
-df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2,breaks = length(x2.sim))) %% 2 + 1]
 ```
 
 
@@ -4057,22 +4308,27 @@ df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2,breaks = length(x2.sim)))
 # GLM: Linear model (interaction; continuous)
 
 ```{r, echo=-c(1:3), fig.width=8,fig.height=4}
-# plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",
+# plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",#col =df.lm$line,
 #      # xlim=range(x2.sim),
 #      pch = 19, xlab = "Level of x2", ylab = "Marginal effect of x1")
 par(mfrow=c(1,1), mar =c(4,4,1,1))
-plot(x = df.lm$x1, y = df.lm$y, bg = df.lm$x2.col, #col =df.lm$line,
-     # xlim=range(x2.sim),
+plot(x = df.lm$x1, y = df.lm$y, bg = df.lm$col, 
      pch = 21, xlab = "x1", ylab = "y")
 apply(eff.dat, 1, function(x) abline(a = x[3], b = x[2], col = x[4], lwd  = 2))
 abline(h = 0, v = 0,lty = 3)
 legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 3,
-       col = eff.dat$x2.col, bg = scales::alpha("white",.5))
-# summary(lm.out)
+       col = eff.dat$col, bg = scales::alpha("white",.5))
+```
+
+???
+
+```{r}
+summary(lm.out)
 ```
 
 
 ---
+name: challenge4
 ## Challenge 4 ![:cube]()
 
 - You have 20 seeds from plants that are genetically similar on which you want to see the effect of a treatment, say a species of fungi added to the soil compared to a control with only the soil. 
@@ -4101,7 +4357,7 @@ gr <- gl(n = 2, k = n, length = n*2, labels = c("ctl","trt"))
 weight = c(control,treatmt) + rnorm(2*n, mean = 0, sd = sd.e)
 plant.weight = data.frame(weight=weight, gr = gr)
 lm.out.int <- lm(weight ~ gr, data = plant.weight)
-lm.out.noi <- lm(weight ~ gr-1, data = plant.weight) # Comparing the data to 0 (intercept = 0, which becomes the reference)
+lm.out.noi <- lm(weight ~ gr-1, data = plant.weight) # Comparing the data to 0 (int. = 0, which becomes the reference)
 anova(lm.out.int) # this time, it was significant 
 # summary(lm.out.noi) # Just to see the estimate (NOT THE P-VALUES)
 s.lm.out = summary(lm.out.int)
@@ -4112,11 +4368,21 @@ pt(q = abs(s.lm.out$coefficients["grtrt","t value"]),df = s.lm.out$df[2], lower.
 ---
 ## Challenge 4 - Solution ![:cube]()
 
-```{r challenge4.diagnose, fig.width=5,fig.height=5}
-plot(weight ~ gr, data = plant.weight, las = 1)
+.pull-left[
+```{r challenge4.diagnose1, echo=-c(1), fig.width=5,fig.height=4}
+par(mfrow = c(1,1), mar = c(4, 4, .1, 0.1))
+plot(weight~gr, data=plant.weight, las=1)
+```
+]
+
+.pull-right[
+```{r challenge4.diagnose2, echo=-c(1), fig.width=5,fig.height=5}
 par(mfrow = c(2,2), oma = c(0, 0, 1.1, 0))
 plot(lm.out.int, las = 1)
 ```
+]
+
+???
 
 
 ---
@@ -4189,49 +4455,63 @@ sum(p.val.lm<=0.05)/length(p.val.lm)
 -->
 ```{r sim_logistic}
 set.seed(987654)
-n = 1000
+n = 100
 x1 = rnorm(n = n, mean = 6, sd = 1)
 x2 = rnorm(n = n, mean = 0, sd = 1)
 # Rescale the data
 x1z = scale(x1)
 x2z = scale(x2)
-z = 0 + 2*x1z + 3*x2 # this is the equation that gives the LOG odds. Note $p = odds/(1+odds)$
-pr = 1/(1+exp(-z)) # Transform to get the LOG(odds) # inverse-logit function; Note that 1/(1+exp(-x))== exp(x)/(1+exp(x)), same as pr2 = boot::inv.logit(z)
-# pr2 = exp(z)/(1+exp(z)) #  z being the log odds. Using the exp (exponential with natural number), you get the odds. The use the $p = odds/(1+odds)$ formula to get teh probability
-y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable (which is a special case of the binomial with size =1 )
+z = 0 + 2*x1z + 3*x2 # This gives the LOG odds. Recall that $p = odds/(1+odds)$
+pr = 1/(1+exp(-z)) # Transform to get the LOG(odds) # inverse-logit function; 
+y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable 
 
 # Combine the data in a dataframe 
 df = data.frame(y = y, x1 = x1, x2 = x2)
+
+# Compute the model
+glm.logist = glm( y~x1+x2, data=df, family="binomial")
+
 ```
+
+???
+- Note that $1/(1+e^{-x}) == e^{x}/(1+e^{x})$ same as `pr2 = boot::inv.logit(z)`
+- $pr_2 = e^z/(1+e^z)$ #  z being the log odds. 
+- Using the exp (exponential), you get the odds. 
+- Use the $p = odds/(1+odds)$ formula to get the probability
+- Bernoulli response variable (which is a special case of the binomial with size = 1)
 
 ---
 # GLM: Logistic
 
-```{r sim_logistic_glm, fig.width=5,fig.height=5}
-#now feed it to glm:
-glm.logist = glm( y~x1+x2, data=df, family="binomial")
+```{r sim_logistic_glm, echo=-1, fig.width=5,fig.height=3}
+par(mar = c(4,4,0.2,0.1))
 plot(y~x1, data = df, col = scales::alpha("black",.5), pch = 19)
-newdata <- data.frame(x1=seq(min(x1), max(x1),len=n), x2 = seq(min(x2), max(x2),len=n))
+newdata <- data.frame(x1=seq(min(x1), max(x1),len=n), 
+                      x2 = seq(min(x2), max(x2),len=n))
 newdata$y = predict(object = glm.logist, newdata = newdata, type = "response") 
-lines(x = newdata$x1,
-      y = newdata$y, col = "red",lwd = 2)
+lines(x = newdata$x1, y = newdata$y, col = "red",lwd = 2)
 ```
 
 - The coefficients are given in log(odds)
 
 ```{r, echo=FALSE}
-# Note that the output of the GLM is the logit of the model 
-glm.sum = summary(glm.logist)
-glm.sum$coefficients[,1]/glm.sum$coefficients[,2]
+glm.sum = summary(glm.logist) # Note that the output of the GLM is in "logit"
+coefficients(glm.sum)[,"Estimate"]
+# glm.sum$coefficients[,1]/glm.sum$coefficients[,2] # Estimate/Std. Error = z val.
 ```
 
-- The z-values are the number of standard deviations the estimate is from a standard normal distribution (Wald's test, as this value is given by the ratio of the *estimate* value divided by the *standard error*). 
+- The z-values are the number of `sd` the estimate is from a z-distribution. 
 - For every one unit in X, the log(odds) increases by about `r round(glm.sum$coefficients[2,1])`.
 
-
+???
+- Note that from the summary output, is in log odds
+- Wald's test, as this value is given by the ratio of the *estimate* value divided by the *standard error*
 
 ---
 # GLM: Logistic
+
+- Here is another example of the logistic regression with only 1 independent variable (z = 0 + 2*rnorm(n = 20, mean = 6, sd = 1))
+- You can see that the coefficients are given in log odds. 
 
 ```{r, echo=FALSE, fig.width=8,fig.height=3}
 set.seed(6)
@@ -4239,10 +4519,9 @@ n = 20
 x1 = rnorm(n = n, mean = 6, sd = 1)
 # Rescale the data
 x1z = scale(x1)
-z = 0 + 2*x1z  # this is the equation that gives the LOG odds. Note $p = odds/(1+odds)$
-pr = 1/(1+exp(-z)) # Transform to get the LOG(odds) # inverse-logit function; Note that 1/(1+exp(-x))== exp(x)/(1+exp(x)), same as pr2 = boot::inv.logit(z)
-# pr2 = exp(z)/(1+exp(z)) #  z being the log odds. Using the exp (exponential with natural number), you get the odds. The use the $p = odds/(1+odds)$ formula to get teh probability
-y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable (which is a special case of the binomial with size =1 )
+z = 0 + 2*x1z  
+pr = 1/(1+exp(-z))
+y = rbinom(n = n, size = 1, prob = pr) 
 
 # Combine the data in a dataframe 
 df = data.frame(y = y, x1 = x1)
@@ -4250,6 +4529,8 @@ df = data.frame(y = y, x1 = x1)
 #now feed it to glm:
 glm.logist = glm( y~x1, data=df, family="binomial")
 glm.sum = summary(glm.logist)
+# cat("Coefficients\n")
+glm.sum$coefficients
 
 par(mfrow=c(1,3))
 b.5 = scales::alpha("black",.5)
@@ -4267,8 +4548,6 @@ abline(h=0, v=0,lty = 3)
 points(x = 0, y=glm.sum$coefficients[1,1], pch = 19, col = "red")
 text(x = 0, y=glm.sum$coefficients[1,1], labels = c("Intercept"), pos =4)
 
-glm.sum$coefficients
-
 plot(y~x1, data = df, main = "Estimated logistic in probability",
      ylab = "Probability of outcome",
      col = scales::alpha("black",.5), pch = 19)
@@ -4278,13 +4557,19 @@ newdata$y = predict(object = glm.logist, newdata = newdata, type = "response")
 lines(x = newdata$x1,
       y = newdata$y, col = "red",lwd = 2)
 
-1/(1+exp(-glm.sum$coefficients[1,1]))
-1/(1+exp(-glm.sum$coefficients[2,1]))
-
+cat("Probability at intercept is",1/(1+exp(-glm.sum$coefficients[1,1])),"\n")
+cat("Probability for an increase in 1 sd of X is",1/(1+exp(-glm.sum$coefficients[2,1])))
 ```
 
+???
 
-
+```
+x1 = rnorm(n = n, mean = 6, sd = 1)
+x1z = scale(x1)
+z = 0 + 2*x1z  
+pr = 1/(1+exp(-z))
+y = rbinom(n = n, size = 1, prob = pr) 
+```
 
 ---
 # GLM: Logistic (categories)
@@ -4295,7 +4580,6 @@ lines(x = newdata$x1,
 set.seed(12345678)
 n <- 10000
 # generate categories 
-categories = c("A","B", "C")
 categories = c("A","B", "C")
 
 x <- sample(x = categories, 
@@ -4327,7 +4611,7 @@ betaB <- 0.1
 betaC <- -0.15
 beta1 <- .5
 
-xxx = rnorm(n)
+xxx = rnorm(n = n, mean = 0, sd = 1)
 
 # linpred <- cbind(1, dummy(x)[, -1]) %*% c(beta0, betaB, betaC) + beta1 * xxx
 linpred <- 
@@ -4376,14 +4660,15 @@ betaCHat <- rep(NA, 1000)
 
 ```
 
-```{r, echo=FALSE}
-b0 <- mod$coef[1] # intercept
-xb <- mod$coef[2]
-xc <- mod$coef[3]
-XXX <- mod$coef[4]
+```{r, echo=FALSE, fig.width=6,fig.height=4}
+b0 <- mod$coef[1] # (Intercept)
+xb <- mod$coef[2] # xB
+xc <- mod$coef[3] # xC
+XXX <- mod$coef[4] # xxx
 
 xrange <- seq(from=min(data$xxx), to=max(data$xxx), length.out = n)
 
+# Find the values for each category 
 a_logits <- b0 + 
   XXX*xrange + 
   xb*0 + 
@@ -4397,11 +4682,12 @@ c_logits <- b0 +
   xb*0 + 
   xc*1 
 
+# Transform
 a_probs <- exp(a_logits)/(1 + exp(a_logits))
 b_probs <- exp(b_logits)/(1 + exp(b_logits))
 c_probs <- exp(c_logits)/(1 + exp(c_logits))
 
-
+# plot 
 plot(xrange, sort(a_probs), 
      ylim=c(0,1),
      type="l", lwd=3, lty=2, 
@@ -4425,10 +4711,26 @@ abline(h=.5, lty=2)
 ```
 
 ???
-See https://stats.stackexchange.com/questions/49916/simulating-data-for-logistic-regression-with-a-categorical-variable
 
-See https://blogs.uoregon.edu/rclub/2016/04/05/plotting-your-logistic-regression-models/
+```
+n <- 10000
+categories = c("A","B", "C")
+beta0 <- 0.07
+betaB <- 0.1
+betaC <- -0.15
+beta1 <- .5
+xxx = rnorm(n = n, mean = 0, sd = 1)
+linpred <- 
+  dummy.mat[,'xA']*beta0 + 
+  dummy.mat[,"xB"] * betaB + 
+  dummy.mat[,"xC"] * betaC + 
+  beta1 * xxx
+prob_i <- exp(linpred) / (1 + exp(linpred))
+y <- rbinom(n = n, size = 1, prob = prob_i)
+```
 
+- See [Simulating data for logistic regression with a categorical variable](https://stats.stackexchange.com/questions/49916/simulating-data-for-logistic-regression-with-a-categorical-variable)
+- See [Plotting the results of your logistic regression Part 1: Continuous by categorical interaction](https://blogs.uoregon.edu/rclub/2016/04/05/plotting-your-logistic-regression-models/)
 
 
 ---
@@ -4462,35 +4764,6 @@ lines(x = newdata$x,
 ```
 
 
-
----
-# Simulate categories (t-test, Anova)
-<!-- Although this is with only 2 groups, I'm showing this as a quick example -->
-.pull-left[
-```{r Sim_t_test_anova}
-set.seed(1234); n = 1000
-y1 = rnorm(n, mean = 15, sd = 1)
-y2 = rnorm(n, mean = 15.5, sd = 1)
-
-sim.aov1 = data.frame(y = y1, gr = "A")
-sim.aov2 = data.frame(y = y2, gr = "B")
-df.aov = rbind(sim.aov1, sim.aov2)
-df.aov$gr = factor(df.aov$gr)
-
-# t.test(y~gr, data = df.aov) or
-aov.out = aov(y~gr, data = df.aov)
-#summary(aov.out)
-tk.test = TukeyHSD(aov.out)
-round(tk.test$gr,2)
-```
-]
-
-.pull-right[
-```{r Sim_t_test_anova_plot, fig.width=5,fig.height=5}
-plot(y~gr, data = df.aov)
-```
-
-]
 
 ---
 # Linear mixed model (LMMs) refresher
@@ -4547,9 +4820,9 @@ $$y_{ij} = \beta_{0} + \beta_{1} x_{1ij} + \upsilon_{1j} x_{1ij} + \upsilon_{0ij
 - Just so that everything is extra clear
 $$\mathbf{Y} = \mathbf{X}\beta + \mathbf{Z \upsilon} + \epsilon$$
 
-One implementation of that could be ( $\beta_1$ and $\beta_2$ would represent different treatments):
+One implementation of that could be ( $\beta_1$ and $\beta_2$ would represent different treatments, $v_1$ and $v_2$ are different categories):
 
-$$\left[\begin{array}{l} y_{11} \\ y_{21} \\ y_{12} \\ y_{22} \end{array} \right] = \left[ \begin{array}{ll} 1 & 0 \\ 0 & 1 \\ 1 & 0 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} \beta_{1} \\ \beta_{2} \end{array}\right]+\left[\begin{array}{ll} 1 & 0 \\ 1 & 0 \\ 0 & 1 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} u_{1} \\ u_{2} \end{array}\right]+\left[\begin{array}{l} \epsilon_{11} \\ \epsilon_{21} \\ \epsilon_{12} \\ \epsilon_{22} \end{array}\right]$$
+$$\left[\begin{array}{l} y_{11} \\ y_{21} \\ y_{12} \\ y_{22} \end{array} \right] = \left[ \begin{array}{ll} 1 & 0 \\ 0 & 1 \\ 1 & 0 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} \beta_{1} \\ \beta_{2} \end{array}\right]+\left[\begin{array}{ll} 1 & 0 \\ 1 & 0 \\ 0 & 1 \\ 0 & 1 \end{array}\right]\left[\begin{array}{l} v_{1} \\ v_{2} \end{array}\right]+\left[\begin{array}{l} \epsilon_{11} \\ \epsilon_{21} \\ \epsilon_{12} \\ \epsilon_{22} \end{array}\right]$$
 
 ---
 # LMMs simulation
@@ -5038,7 +5311,7 @@ mapView(only.park, col.regions = c("green"))+
 #################################
 ---
 class: inverse, center, middle
-
+name: advanced-simulations
 # Advanced simulations
 
 
@@ -5188,6 +5461,7 @@ while ( ! all(parent == target)) {
 
 
 ---
+name: challenge5
 ## Challenge 5 ![:cube]()
 
 - Simulate data to show how natural selection works! 
@@ -5199,6 +5473,7 @@ while ( ! all(parent == target)) {
 
 
 ---
+name: references
 # References
 .tiny[
 Book
@@ -5229,10 +5504,16 @@ Links
 ]
 
 ---
+name: acknowledgements
+# Acknowledgements
+
+Thanks to all the people that contributed to this presentation. All of the inspiration for this workshop is referenced in the markdown or linked in the notes. 
+
+In particular, thank to the Barrett lab graduate students for their valuable insights and support, Winer Daniel Reyes Corral, etc. 
+
+---
 class: inverse, center, bottom
 
 # Thank you for attending this workshop!
 
 ![:scale 50%](images/qcbs_logo.png)
-
-
