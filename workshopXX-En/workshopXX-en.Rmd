@@ -1097,6 +1097,7 @@ set.seed(1217)
 n = 250
 b0 = 0.8 ; b1 = 0.5 ; b2 = 0.5
 x1 = runif(n, min = 0, max = 6)
+lambda1 = exp(b0 + b1*x1)
 y1 = rpois(n, lambda = lambda1) 
 x2 = rnorm(n, mean = 3, sd = 1)
 lambda2 = exp(b0 + b2*x2)
@@ -1299,7 +1300,8 @@ name: what-to-be-known-before-sim
 # What you need to know before doing simulations? 
 
 ???
-We'll explore the functions that you can use in R to help you develop simulations and play with random number generators. 
+- We'll explore the functions that you can use in R to help you develop simulations and play with random number generators. 
+- SEE also `expand.grid()` and `outer` [The Essence of R’s expand.grid() Function](https://towardsdatascience.com/the-essence-of-rs-expand-grid-function-a-love-letter-to-a-function-that-say-it-all-3f0ebba649c)
 
 ---
 # Functions useful in simulations (RNG)
@@ -3506,9 +3508,37 @@ data <- mvrnorm(n = 300,
                 Sigma=covmat) # generate random data that match that variance covariance matrix
 plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
+biplot(prcomp(data))
 ```
 
+
 ???
+
+---
+# Simulate a PCA
+
+```{r, echo=-1, fig.width=5,fig.height=2}
+par(mfrow = c(1,2), mar = c(4,4,0.5,0.5))
+set.seed(123) # setting this so the random results will be repeatable 
+library(MASS)
+# Simulating 3 traits for 4 different species 
+n = 200
+Amat1 = MASS::mvrnorm(n, mu = c(11.2,11.8,9.91), Sigma = diag(c(1.31,1.01,1.02)))
+Amat2 = MASS::mvrnorm(n, mu = c(7.16,8.54,6.82), Sigma = diag(c(0.445,0.546,0.350)))
+Amat3 = MASS::mvrnorm(n, mu = c(15.6,14.6,13.5), Sigma = diag(c(1.43,0.885,0.990)))
+Amat4 = MASS::mvrnorm(n, mu = c(8.65,14.1,8.24), Sigma = diag(c(0.535,0.844,0.426)))
+Amat = rbind(Amat1,Amat2,Amat3,Amat4)
+Amat.gr = cbind(Amat, gl(4,k=n,labels = c(1,2,3,4)))
+by(Amat.gr[,1:3],INDICES = Amat.gr[,4],FUN = cov) # calculate covariance matrix for all groups 
+
+summary(m1 <- prcomp(Amat, scale= T))
+# biplot(m1, xlabs=rep(".", nrow(Amat)), cex = 3)
+plot(vegan::scores(m1), asp = 1, pch = 19, col = gl(4,k=n,labels = c(1,2,3,4)))
+plot(Amat[,1],Amat[,2], pch = 19, col = gl(4,k=n,labels = c(1,2,3,4)))
+# library(ggvegan)
+# autoplot(vegan::rda(Amat))
+```
+
 
 ---
 # Find the parameters of a distribution 
@@ -3646,7 +3676,7 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 
 - $Y$ is the response variable
 - $\beta_0$ is the intercept
-- $\beta_1$ is the coefficient of variation for the first explanatory variable ($x_1$)
+- $\beta_1$ is the coefficient of variation for the first explanatory variable ( $x_1$ )
 - $\beta_p$ is the coefficient of variation for the $p^{th}$ explanatory variable for the $p^{th}$ $x_p$ explanatory variable
 - $\epsilon$ is the residual of the model. Note that $\epsilon \sim N(\mu=0,sd = \sigma)$
 
@@ -3661,11 +3691,94 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
   * N: normally distributed residuals, 
   * E: Equality of variance 
 
+.pull-left4[
+```{r, echo=FALSE, fig.width=5,fig.height=5}
+par(mar=c(4,4,0.1,0.1))
+set.seed(12345678)
+n = 100; beta0 = 2.5; beta1 = 0.8
+x.lm = rnorm(n = n, mean = 10, sd = 1)
+err = rnorm(n = n, mean = 0, sd = 1)
+# Linear combination 
+y.lm = beta0 + beta1*x.lm + err
+# Make a dataframe of the data 
+df.lm = data.frame(x = x.lm, y = y.lm)
+par(mar = c(4,4,.5,.5))
+# Colour 
+b.5 = scales::alpha("black",alpha = .5)
+
+# PLot the data 
+plot(y~x, data = df.lm, pch = 19, col = b.5)
+
+# Model the data 
+lm.out = lm(y~x, data = df.lm)
+# Add a line to the plot 
+abline(lm.out)
+
+####
+slm=summary(lm.out)
+# sd(slm$residuals)
+yvals = seq(floor(range(df.lm$y)[1]),ceiling(range(df.lm$y)[2]),length.out = 1000)
+xvals = seq(8,12, length.out = 10)
+yh = dnorm(x =yvals, mean = predict(lm.out,newdata = data.frame(x = xvals)),sd = (slm$sigma))
+# length(yh)
+xrp = rep(xvals, length(yh)/length(xvals)) # each=length(yh)/length(xvals)
+# length(xrp)
+points(xrp,yvals, cex = yh/max(yh), pch = 19, col = scales::alpha("red",.5))
+```
+]
+
+.pull-right4[
+```{r, echo=FALSE, fig.width=5,fig.height=4.5}
+library(plotly)
+library(dplyr)
+
+beta <- lm.out$coefficients
+fxy <- function(x,y){  beta[1] + beta[2]*x }
+# fxy2 <- function(x,y){  
+#   observeddata <- cbind(predict(lm.out, newdata = data.frame(x = x), se.fit = TRUE,interval = 'confidence'))
+#   # observeddata[2]
+#   dnorm(x =y, mean = predict(lm.out,newdata = data.frame(x = x)),sd = (observeddata[2]))
+#   }
+fxy2 <- function(x,y){  dnorm(x =y, mean = predict(lm.out,newdata = data.frame(x = x)),sd = (slm$sigma))}
+# fxy2 <- function(x,y){  dnorm(x =y, mean = predict(lm.out,newdata = data.frame(x = x)),sd = (sqrt(deviance(lm.out)/df.residual(lm.out))))}
+z <- outer(X = xvals,Y = yvals,FUN = fxy2)
+z2 <- outer(X = xvals,Y = yvals,FUN = fxy)
+# axx <- list(nticks = 4,range = c(-25,75))
+# axy <- list(nticks = 4,range = c(-25,75))
+axz <- list(nticks = 4,range = c(0,1))
+
+df.lm$yhat = fitted(lm.out)
+# df.lm$yhat = predict(lm.out)
+df.lm$z = 0
+plotly::plot_ly(x=xrp,y =yvals,z = t(z), type = "surface",
+                colors = terrain.colors(100),#c("darkblue", "yellow", "darkred"), 
+                opacity = 0.58,showlegend = F) %>% 
+  hide_colorbar() %>% 
+  add_markers(data = df.lm, x = ~x, y = ~y, z = 0,
+            mode = "markers", type = "scatter3d", 
+            marker = list(size = 5, color = "black"), name="Points",showlegend = F) %>% 
+  add_trace(data = df.lm, x = ~x, y = ~yhat, z = 0, 
+            name="Linear", 
+            line = list(dash="solid", color = "red", width = 10.5),
+            inherit = FALSE,showlegend = F,
+            mode = "lines",
+            type = "scatter3d") %>% 
+  layout(scene = list(#xaxis=axx,yaxis=axy,
+                      zaxis=axz),
+           showlegend = F
+  )
+```
+
+]
+
+
+
 ???
 Reference for the section 
 - [Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/) and [Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
 - [Poisson model](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/)
 - [binomial generalized linear mixed model](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/)
+- [Simple Linear Regression](https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R5_Correlation-Regression/R5_Correlation-Regression4.html)
 
 
 ---
@@ -3725,6 +3838,10 @@ plot(y~gr, data = df.aov)
 
 ]
 
+???
+Assumptions? [see Wikipedia](https://en.wikipedia.org/wiki/Student%27s_t-test#Assumptions)
+- Both population have equal variance (compare the variances with a F-ratio test)
+- Both samples are drawn from a normal distribution 
 
 ---
 # GLM: Linear model
@@ -4420,7 +4537,6 @@ set.seed(2345); nb.rep = 2000 # number of replications in the simulation
 l.rp = replicate(n = nb.rep, simplify = FALSE,
                  expr = exp.plant( n = 10)$coefficients["grtrt","t value"])
 p.val.lm = pt(q = abs(unlist(l.rp)),df = s.lm.out$df[2], lower.tail = F)*2 # Get p-values 
-# plots 
 exp.plant(n = 10, plot = T, ret = F) # plot a simulation example 
 hist(unlist(l.rp), main = "t-values", probability = T, xlab ="")
 lines(density(unlist(l.rp)), col="blue", lwd=2); abline(v = qt(0.025, df = s.lm.out$df[2]))
@@ -4572,6 +4688,114 @@ y = rbinom(n = n, size = 1, prob = pr)
 ```
 
 ---
+# GLM: Logistic (quadratic)
+
+
+```{r, echo=FALSE, fig.width=8,fig.height=3}
+set.seed(6)
+n = 150
+x1 = rnorm(n = n, mean = 6, sd = 3)
+# Rescale the data
+x1z = scale(x1)
+B0 = 1
+B1 = .4
+B2 = -.5
+z = B0 + B1*x1z + B2*x1z^2 # This gives the LOG odds. Recall that $p = odds/(1+odds)$
+pr = 1/(1+exp(-z)) # Transform to get the LOG(odds) # inverse-logit function; 
+y = rbinom(n = n, size = 1, prob = pr) # Bernoulli response variable 
+
+# Combine the data in a dataframe 
+df = data.frame(y = y, x1 = x1z, x = x1)
+
+# Compute the model
+glm.logist = glm( y~x1+I(x1^2), data=df, family="binomial")
+
+#now feed it to glm:
+glm.sum = summary(glm.logist)
+# cat("Coefficients\n")
+glm.sum$coefficients
+
+par(mfrow=c(1,3))
+b.5 = scales::alpha("black",.5)
+r.5 = scales::alpha("red",.5)
+col.line = "green"
+plot(z~x1z, ylab = "Log Odds", main = "Theoretical logistic in log(odds)",
+     pch = 19, col = ifelse(df$y==1,b.5,r.5), xlim = c(-5,5), ylim = c(-12,11)); abline(h=0, v=0,lty = 3)
+x.sq = seq(-12,12,length.out = n)
+Y = B0 + B1 *x.sq + B2 *x.sq^2
+lines(x.sq, Y, col = col.line)
+# Add the point of inflection
+# points(-B1/(2*B2),c(B0+B1*(-B1/(2*B2))+B2*(-B1/(2*B2))^2), col = "pink", cex = 3, pch = 19)
+# Where the log odds =0 BUT without the B0
+# points(-B1/(B2),c(B0+B1*(-B1/(B2))+B2*(-B1/(B2))^2), col = "pink", cex = 3, pch = 19)
+nx = -B1/B2
+B0 + B1 *nx + B2 *nx^2
+
+plot(z~x1, ylab = "Log Odds", main = "Estimated logistic in log(odds)",
+     pch = 19, col = ifelse(df$y==1,b.5,r.5), xlim = c(0,10), ylim = c(-12,11));abline(h=0, v=0,lty = 3)
+
+glm.logist2 = glm( y~x+I(x^2), data=df, family="binomial")
+glm.sum = summary(glm.logist2)
+b0 = glm.sum$coefficients["(Intercept)","Estimate"]
+b1 = glm.sum$coefficients["x","Estimate"]
+b2 = glm.sum$coefficients["I(x^2)","Estimate"]
+x.sq = seq(-2,12,length.out = n)
+yhat = b0 + b1 *x.sq + b2 *x.sq^2
+lines(x.sq, yhat, col = col.line)
+points(x = 0, y=b0, pch = 19, col = "blue")
+text(x = 0, y=b0, labels = c("Intercept"), pos =4)
+
+plot(y~x, data = df, main = "Estimated logistic in probability",
+     ylab = "Probability of outcome", xlim =range(-5,x1,20),
+     col = ifelse(df$y==1,b.5,r.5), pch = 19)
+abline(h=0.5, v=mean(x1),lty = 3)
+newdata <- data.frame(x=seq(min(-10,x1), max(x1,20),len=n))
+newdata$y = predict(object = glm.logist2, newdata = newdata, type = "response") 
+lines(x = newdata$x,
+      y = newdata$y, col = col.line,lwd = 2)
+
+cat("Probability at intercept is",1/(1+exp(-glm.sum$coefficients[1,1])),"\n")
+
+mod.test <- function(b0,b1,b2,x) {
+  b0 + b1 *x + b2 *x^2  
+}
+
+# Show the points at certain x values 
+points(mean(df$x)+0*sd(df$x),1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+0*sd(df$x)))))
+points(mean(df$x)+1*sd(df$x),1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+1*sd(df$x)))))
+points(mean(df$x)+2*sd(df$x),1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+2*sd(df$x)))))
+```
+
+???
+
+```{r}
+mean(df$x)+0*sd(df$x)
+1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+0*sd(df$x))))
+mean(df$x)+1*sd(df$x)
+1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+1*sd(df$x))))
+mean(df$x)+2*sd(df$x)
+1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+2*sd(df$x))))
+mean(df$x)+5*sd(df$x)
+1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+5*sd(df$x))))
+```
+
+
+```
+set.seed(6)
+n = 150
+x1 = rnorm(n = n, mean = 6, sd = 3)
+x1z = scale(x1)
+B0 = 1
+B1 = .4
+B2 = -.5
+z = B0 + B1*x1z + B2*x1z^2 
+pr = 1/(1+exp(-z)) 
+y = rbinom(n = n, size = 1, prob = pr) 
+df = data.frame(y = y, x1 = x1z, x = x1)
+glm.logist = glm( y~x1+I(x1^2), data=df, family="binomial")
+```
+
+---
 # GLM: Logistic (categories)
 
 - We can also simulate a model with categorical variables 
@@ -4705,15 +4929,17 @@ lines(xrange, sort(b_probs),
 lines(xrange, sort(c_probs), 
       type="l", lwd=3, lty=4, 
       col="orangered")
+gold.5 = scales::alpha("gold", .3)
+turquoise2.5 = scales::alpha("turquoise2", .3)
+orangered.5 = scales::alpha("orangered", .3)
+points(x = data[data$x %in% "A" & data$y %in% 1,"xxx"],data[data$x %in% "A" & data$y %in% 1,"y"], col = gold.5, pch =19, cex = .5)
+points(x = data[data$x %in% "A" & data$y %in% 0,"xxx"],data[data$x %in% "A" & data$y %in% 0,"y"], col = gold.5, pch =19, cex = .5)
 
-points(x = data[data$x %in% "A" & data$y %in% 1,"xxx"],data[data$x %in% "A" & data$y %in% 1,"y"], col = "gold", pch =19, cex = .5)
-points(x = data[data$x %in% "A" & data$y %in% 0,"xxx"],data[data$x %in% "A" & data$y %in% 0,"y"], col = "gold", pch =19, cex = .5)
+points(x = data[data$x %in% "B" & data$y %in% 1,"xxx"],data[data$x %in% "B" & data$y %in% 1,"y"]-.05, col = turquoise2.5, pch =19, cex = .5)
+points(x = data[data$x %in% "B" & data$y %in% 0,"xxx"],data[data$x %in% "B" & data$y %in% 0,"y"]+.05, col = turquoise2.5, pch =19, cex = .5)
 
-points(x = data[data$x %in% "B" & data$y %in% 1,"xxx"],data[data$x %in% "B" & data$y %in% 1,"y"]-.05, col = "turquoise2", pch =19, cex = .5)
-points(x = data[data$x %in% "B" & data$y %in% 0,"xxx"],data[data$x %in% "B" & data$y %in% 0,"y"]+.05, col = "turquoise2", pch =19, cex = .5)
-
-points(x = data[data$x %in% "C" & data$y %in% 1,"xxx"],data[data$x %in% "C" & data$y %in% 1,"y"]-.025, col = "orangered", pch =19, cex = .5)
-points(x = data[data$x %in% "C" & data$y %in% 0,"xxx"],data[data$x %in% "C" & data$y %in% 0,"y"]+.025, col = "orangered", pch =19, cex = .5)
+points(x = data[data$x %in% "C" & data$y %in% 1,"xxx"],data[data$x %in% "C" & data$y %in% 1,"y"]-.025, col = orangered.5, pch =19, cex = .5)
+points(x = data[data$x %in% "C" & data$y %in% 0,"xxx"],data[data$x %in% "C" & data$y %in% 0,"y"]+.025, col = orangered.5, pch =19, cex = .5)
 
 # add a horizontal line at p=.5
 abline(h=.5, lty=2)
@@ -5164,13 +5390,58 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 ---
 # Time series simulation
 
+- In *The R book* (Crawley 2013) chapter 28 is about simulation models in R. It offers an introduction to temporal and spatial dynamics. 
 - We suggest that for the moment, you consult the [Time Series Analysis CRAN Task View](https://cran.r-project.org/web/views/TimeSeries.html) which contains packages that can simualte time series for you to analyze. 
 - You can also see [this guide to better understand Time series](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
 - There is a neat tutorial by [Daniel Pinedo called Time series analysis in R](https://rpubs.com/odenipinedo/time-series-analysis-in-R)
 
-```{r}
+```{r, echo=FALSE, fig.width=8,fig.height=4}
 ??arima.sim
 ```
+
+```{r, echo=FALSE, fig.width=8,fig.height=4}
+chaos.fun <- function(lambda, n, initial, plot=TRUE, x.out = 20) {
+  x <- numeric(n)
+  x[1] <- initial
+  for (t in 2 : n) x[t] <- lambda * x[t-1] * (1 - x[t-1])
+  if(plot){ plot(1:n,x,type="l",ylim=c(0,1),ylab="population",
+                 xlab="time",main=paste("lambda =", lambda))}
+  tail(x,x.out)
+}
+```
+
+```{r, echo=FALSE, fig.width=8,fig.height=4}
+par(mfrow=c(1,2))
+chaout = chaos.fun(3.3,40,.6) # chaos.fun(4,40,.6)
+
+plot(c(2,4),c(0,1),type="n",xlab="lambda",ylab="population")
+for(lam in seq(2,4,0.001)){
+  points(rep(lam,20), sapply(lam, FUN = function(x) {
+    chaos.fun(lambda = x, n = 400, initial = .6, plot = FALSE)}),
+    pch=16,cex=0.25,col=scales::alpha("blue", alpha = .5))
+}
+
+```
+
+???
+- Crawley, M.J., 2013. The R book 2nd ed., United Kingdom: John Wiley & Sons, Ltd.
+
+---
+# Random walk
+
+```{r, fig.width=4,fig.height=4}
+plot(0:100,0:100,type="n",xlab="",ylab="", main = "Random walk", asp = 1)
+x <- y <- 50
+points(50,50,pch=16,col="red",cex=1.5)
+set.seed(1)
+for (i in 1:1000) {
+  xi <- sample(c(1,0,-1),1);   yi <- sample(c(1,0,-1),1) 
+  lines(c(x,x+xi),c(y,y+yi),col=scales::alpha("blue", alpha = .7)) 
+  x <- x+xi;   y <- y+yi
+  if (x>100 | x<0 | y>100 | y<0) break }
+points(x,y,pch=16,col="green",cex=1.5)
+```
+
 
 
 ---
@@ -5479,6 +5750,33 @@ name: challenge5
 ## Challenge 5 - Solution ![:cube]()
 
 - There are multiple solutions :) 
+
+???
+
+#################################
+---
+class: inverse, center, middle
+name: misc
+# Miscellaneous
+
+---
+# Some R packages to perform simulations 
+
+- `simecol` ([simulation of ecological systems](http://simecol.r-forge.r-project.org)), 
+- `cds` with function `simpca` to simulate PCA.
+- `mobsim` measurement of biodiversity across space (archived)
+- `rspecies` with function `rspecies` (archived)
+
+<!-- - `HMSC` with function `communitySimul` -->
+
+
+???
+```
+library(cds)
+simpca(nr.indv = rep(200, 5), m = 10, q = 7, R = rcormat(m = 10),
+       err.coeff = 0.1, alphamat = rbind(c(0.5, 2, 4), c(10, 2, 10), c(1, 2, 1),
+                                         c(4, 2, 0.5), c(0.1, 2, 0.1))[1:length(rep(200, 5)), ], randomize = FALSE)
+```
 
 
 ---
