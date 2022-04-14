@@ -66,7 +66,7 @@ Might not apply to you
 
 Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p)
 
-The exercices for this workshop: [Challenge 1](#challenge1), [challenge 2](#challenge2), [challenge 3](#challenge3), [challenge 4](#challenge4), [challenge 5](#challenge5)
+The exercices for this workshop: [Challenge 1](#challenge1), [challenge 2](#challenge2), [challenge 3](#challenge3), [challenge 4](#challenge4), [challenge 5](#challenge5), [challenge 6](#challenge6), [challenge 7](#challenge7).
 
 ???
 This workshop was designed to give you the tools to perform simulations in R. 
@@ -163,6 +163,29 @@ Some examples
 - Modelling biological systems (e.g., epidemiology)
 - Simulations (see [Modeling and simulation](https://en.wikipedia.org/wiki/Modeling_and_simulation)), Etc. 
 
+---
+# Background and questions
+
+- Biological models
+  * Exponential growth: $n(t+1)=Rn(t)$ (discrete) or $\frac{dn}{dt}=rn(t)$ (continuous)
+  * Logistic growth: $n(t+1)=n(t)+rn(t) \Big(1-\frac{n(t)}{k} \Big)$ (discrete) or $\frac{dn}{dt}=rn(t) \Big(1-\frac{n(t)}{k} \Big)$ (continuous)
+  * Haploid and diploid selection 
+  * Competition equations
+  * Consumer-resource equations
+  * SIR equations (Susceptible, Infected, Recovered)
+
+- Statistical models 
+  * LM, GLM, GLMMs, GAM, Ordinations, etc.
+  * Machine learning
+  * Dynamical models 
+
+???
+
+- Reference for the models: Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973.
+- See also [Statistical model](https://en.wikipedia.org/wiki/Statistical_model)
+- See also [Mathematical model](https://en.wikipedia.org/wiki/Mathematical_model)
+- See also [Scientific modelling](https://en.wikipedia.org/wiki/Scientific_modelling)
+
 - let's start with what are simulations
 
 ---
@@ -174,7 +197,7 @@ Some examples
 <br>
 
 .center[
-[...] the term 'simulation' describes a wealth of varied and useful techniques, all connected with the mimicking of the rules of a model of some kind.
+"[...] the term 'simulation' describes a wealth of varied and useful techniques, all connected with the mimicking of the rules of a model of some kind."
 ]
 
 .right[— Byron J. T. Morgan 1984]
@@ -185,6 +208,26 @@ Some examples
   * physical reproductions at smaller scale or 
   * mathematical models in computer (*in silico*)
 - See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
+
+---
+# Usefulness of models
+
+<br>
+<br>
+<br>
+<br>
+
+.center[
+"Models can help to guide a scientist's intuition about how various processes interact; they can point out logical flaws in an argument; they can identify testable hypotheses, generate key predictions, and suggest appropriate experiments; and they can reshape fields by providing new ways of thinking about a problem. But mathematical models also have their limitations. The results of an analysis are only as interesting as the biological questions motivating a model. [...]"
+]
+
+A Biologist's Guide to Mathematical Modeling in Ecology and Evolution:1–973.
+.right[— Sarah. P. Otto, and Troy Day 2007]
+
+???
+- "Science will progress faster and further by a marriage of mathematical and empirical biology. This marriage will be even more successful if more biologists can use math, when needed, to advance their own research goals. It is toward this end that we devote this book." — Sarah. P. Otto, and Troy Day 2007
+- [All models are wrong, but some are useful](https://en.wikipedia.org/wiki/All_models_are_wrong) "The aphorism is generally attributed to the statistician George Box, although the underlying concept predates Box's writings." "Box, George E. P. (1976), "Science and statistics" (PDF), Journal of the American Statistical Association, 71 (356): 791–799, doi:10.1080/01621459.1976.10480949."
+- But it would be very unproductive to say that all maps are wrong. They are still very useful! 
 
 ---
 # Simulations are games 
@@ -544,6 +587,8 @@ for (l in n.id.pop) {
   * **makes populations different**, even if the pop are identical at the beginning. 
   * **Fixation** of an allele without natural selection 
 
+- See also this example [Online Box 5: R code to simulate drift, selection, and dispersal of two species in any number of patches: Figures 6.7-6.9 in the book](http://mvellend.recherche.usherbrooke.ca/Box5.htm)
+
 ---
 # Quick (?) example: Natural selection 
 
@@ -877,6 +922,9 @@ What can be seen?
   - Independence? Don't know
   - Normal residuals (not shown)
   - Equality of variance (see residuals)
+  
+  - [R: How to do linear regression with errors in x and y?](https://stat.ethz.ch/pipermail/r-help/2000-June/006992.html)
+  - [Methods for Detecting and Resolving Heteroskedasticity](https://rpubs.com/cyobero/187387)
 
 ```
 set.seed(123)
@@ -1303,6 +1351,33 @@ name: what-to-be-known-before-sim
 - We'll explore the functions that you can use in R to help you develop simulations and play with random number generators. 
 - SEE also `expand.grid()` and `outer` [The Essence of R’s expand.grid() Function](https://towardsdatascience.com/the-essence-of-rs-expand-grid-function-a-love-letter-to-a-function-that-say-it-all-3f0ebba649c)
 
+
+
+---
+# Building simulations is an iterative process 
+
+.alert[ATTENTION]. Usually, coding simulation is written in small increments and then put  together in a cohesive function that will make what we are looking for. 
+
+- It takes practice to code simulations: the more you code, the more you develop tricks. 
+- Always try to relate your simulation to a certain question of interest. This will bring more meaning to the insights that you are trying to make. 
+
+In this section, we will discover functions that might help when coding simulations in R. 
+
+--
+
+| Function  | Definition | 
+| --------- | ---------- | 
+| set.seed  | Control the Random Number Generation |
+| sample	  | Random Samples and Permutations | 
+| rep   	  | Replicate Elements of Vectors and Lists | 
+| gl    	  | Generate Factor Levels | 
+| expand.grid | Create a Data Frame from All Combinations of Factor Variables | 
+| replicate (see sapply)  | Wrapper of sapply for repeated evaluation of an expression | 
+| for, if, while, next, break | Control Flow | 
+| p, d, r, +'name of dist.' | [See the table of distributions in R](#table-distributions) | 
+| plot, hist, points, lines, curve  | Plotting functions | 
+
+
 ---
 # Functions useful in simulations (RNG)
 
@@ -1546,6 +1621,91 @@ data.replicated[[2]]
 - This function allows you to call a function `n` number of times and to record the output. 
 - In this case, it generates 2 simulated (different) dataframes which can be used in a simulation to get some replication all at once. I think this comes handy with the `apply`, `do.call`, etc. 
 - Often, we are interested in *the behaviour of a simulation in the long run*. This means that we want to not only look at 1 simulated event, but at some *'performance'* estimation (maybe showing the spread of a parameter that could be distributed based on the sample size)
+
+---
+# Functions useful in simulations (expand.grid)
+
+- The function `expand.grid()` will make a data frame from all combinations of factor variables
+- It can be useful when making hypothesis testing or want to explore an experimental design 
+
+```{r expand.example}
+set.seed(1234)
+exp.design = expand.grid(height = seq(60, 70, 10), 
+                         weight = seq(100, 200, 100),
+                         sex = c("Male","Female"), 
+                         stringsAsFactors = TRUE) # characters will be factors
+head(exp.design)
+# str(exp.design)
+
+```
+
+???
+
+---
+# Functions useful in simulations (outer)
+
+- The function `outer()` can apply a function to the input arrays. 
+
+
+```{r outer.example.nt, eval=FALSE}
+x <- 1:10; names(x) <- x
+# Multiplication & Power Tables
+x %o% x # same as outer(x, x, "*")
+x.mul = outer(x, x, "*")
+x.sub = outer(x, x, "-")
+x.add = outer(x, x, "+")
+x.div = outer(x, x, "/")
+
+```
+
+```{r outer.example, echo=FALSE, fig.width=8,fig.height=5}
+x <- 1:10; names(x) <- x
+# Multiplication & Power Tables
+# x %o% x # same as outer(x, x, "*")
+x.mul = outer(x, x, "*")
+x.sub = outer(x, x, "-")
+x.add = outer(x, x, "+")
+x.div = outer(x, x, "/")
+add.lab = function(x, out.mat, cex = 1) {
+  for (i in 1:length(x)) {
+    for (j in 1:length(x)) {
+      text(i,j,labels = round(out.mat[i,j],2),cex = cex)
+    }
+  }
+}
+cex=.8
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+image(x = x, y = x, z =x.mul, axes = FALSE, main ='Multiplication')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.mul, cex=cex)
+image(x = x, y = x, z =x.sub, axes = FALSE, main ='Subtraction')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.sub, cex=cex)
+image(x = x, y = x, z =x.add, axes = FALSE, main ='Addition')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.add, cex=cex)
+image(x = x, y = x, z =x.div, axes = FALSE, main ='Division')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.div, cex=cex)
+
+y <- 2:8; names(y) <- paste(y,":", sep = "")
+# outer(y, x, "^")
+
+# outer(month.abb, 1999:2003, FUN = "paste")
+
+## three way multiplication table:
+# x %o% x %o% y[1:3]
+
+```
+
+???
+- You can think outer as taking 2 vectors, putting one vertical the other horizontal and filling all the combinations of each values in each vector 
+- Look at the diagonals 
+
 
 ---
 name: challenge1
@@ -2004,6 +2164,7 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 - That looks normal! 
 
 ---
+name: table-distributions
 # Functions for various distributions
 
 - In `R`, there is a convention on how to call different distributions. 
@@ -2026,28 +2187,28 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 # Functions for various distributions
 
 .xsmall[
-| Distribution | Probability | Quantile | Density | Random | PDF or PMF |
-| ------------ | ----------- | -------- | ------- | ------ | ---------- |
-| Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` | |
-| Binomial	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` | $f(x) = {n \choose x} p^x(1-p)^{n-x}$ |
-| Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` ||
-| Chi-Square	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` | |
-| Exponential	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
-| F	           | `pf`	     | `qf`	| `df`	| `rf` | |
-| Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` | |
-| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | $f(x)=p(1-p)^{x-1}$ |
-| Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` ||
-| Logistic	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` | |
-| Log Normal	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` | |
-| Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom` | |
-| Normal	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm` | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$ |
-| Poisson	     | `ppois`	| `qpois`	| `dpois`	| `rpois` | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$ |
-| Student t	   | `pt`	| `qt`	| `dt`	| `rt` ||
-| Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey` | |
-| Uniform	     | `punif`	| `qunif`	| `dunif`	| `runif` | $f(x) = \frac{1}{b-a}$ for $x \in [a,b]$, $0$ otherwise |
-| Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull` ||
-| Wilcoxon Rank Sum Statistic	   | `pwilcox`	| `qwilcox`	| `dwilcox`	| `rwilcox` ||
-| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` ||
+| Distribution                   | Probability  | Quantile    | Density     | Random      | PDF or PMF |
+| ------------                   | -----------  | --------    | -------     | ------      | ---------- |
+| Beta	                         | `pbeta`	    | `qbeta`	    | `dbeta`	    | `rbeta`     | $f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)}, 0 \lt x \lt 1$ |
+| Binomial	                     | `pbinom`	    | `qbinom`    | `dbinom`	  | `rbinom`    | $f(x) = {n \choose x} p^x(1-p)^{n-x}, x = 0,1,2,...,n$ |
+| Cauchy                         | `pcauchy`    | `qcauchy`   | `dcauchy`	  | `rcauchy`   | $f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty$ |
+| Chi-Square	                   | `pchisq`	    | `qchisq`    | `dchisq`	  | `rchisq`    | $f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0$ |
+| Exponential	                   | `pexp`       | `qexp`	    | `dexp`	    | `rexp`      | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
+| F	                             | `pf`	        | `qf`	      | `df`	      | `rf`        | $f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0$ |
+| Gamma	                         | `pgamma`	    | `qgamma`    | `dgamma`	  | `rgamma`    | $f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0$ |
+| Geometric	                     | `pgeom`	    | `qgeom`	    | `dgeom`	    | `rgeom`     | $f(x) = p(1-p)^{x}, x = 0,1,2,...$ |
+| Hypergeometric                 | `phyper`	    | `qhyper`    | `dhyper`	  | `rhyper`    | $f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n$ |
+| Logistic	                     | `plogis`	    | `qlogis`    | `dlogis`	  | `rlogis`    | $f(x) = \frac{1}{\sqrt{2 \pi \sigma}}e^{\frac{1}{2}(\frac{x-\mu}{\sigma})^2}, -\infty \lt x \lt \infty$ |
+| Log Normal	                   | `plnorm`	    | `qlnorm`    | `dlnorm`	  | `rlnorm`    | $f(x)={\frac{1}{x\sigma\sqrt{2\pi}}}e^{-\Bigl(\frac {(ln(x)-\mu)^2}{2\sigma^2}\Bigr)}$ |
+| Negative Binomial	             | `pnbinom`    | `qnbinom`   | `dnbinom`	  | `rnbinom`   | $f(x) = {x+r-1 \choose r-1}p^r(1-p)^x, x = 0,1,2,...$ |
+| Normal	                       | `pnorm`	    | `qnorm`	    | `dnorm`	    | `rnorm`     | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$ |
+| Poisson	                       | `ppois`	    | `qpois`	    | `dpois`	    | `rpois`     | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}, x = 0,1,2,...$ |
+| Student t	                     | `pt`	        | `qt`	      | `dt`	      | `rt`        | $f(x) = \frac{\Gamma[(r+1)/2]}{\sqrt{\pi r}\Gamma(r/2)}\frac{1}{(1+x^2/r)^{(r+1)/2}}$ |
+| Studentized Range              | `ptukey`	    | `qtukey`    | `dtukey`	  | `rtukey`    | You just don't want to see it... |
+| Uniform	                       | `punif`	    | `qunif`	    | `dunif`	    | `runif`     | $f(x) = \frac{1}{b-a}$ for $x \in [a,b]$, $0$ otherwise |
+| Weibull	                       | `pweibull`	  | `qweibull`  | `dweibull`  | `rweibull`  | $f(x) = \frac{k}{\alpha} \frac{(x-\mu)^{k-1}}{\alpha}e^{-((x-\mu)/\alpha)^k}, x \geq \mu;k.\alpha \gt 0$ |
+| Wilcoxon Rank Sum Statistic	   | `pwilcox`	  | `qwilcox`	  | `dwilcox`	  | `rwilcox`   | |
+| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` | see [here](https://stats.stackexchange.com/questions/307167/what-is-the-distribution-of-the-wilcoxon-signed-ranked-test-statistic) |
 ]
 
 ???
@@ -2055,6 +2216,10 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 - The last column is showing some mathematical formula of the distributions. 
 - PDF is the probability density function (for continuous variables) and 
 - PMF is the probability mass function (for discrete variables)
+- equations from http://publish.illinois.edu/liangf/files/2016/10/Appendix_D_Dist.pdf 
+- See [Distributions in the stats package](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html)
+- See [Foundations Of Statistics With R](https://mathstat.slu.edu/~speegle/_book_spring_2021/RBT.html)
+- T-distribution = accommodates for the uncertainty that you have in the variance.  
 
 ---
 # Functions for various distributions
@@ -2062,31 +2227,34 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 .xsmall[
 | Distribution | Probability | Quantile | Density | Random | PDF or PMF |
 | ------------ | ----------- | -------- | ------- | ------ | ---------- |
-| Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` ||
-| <span style="background-color: #FFFF00">**Binomial**</span>	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` | $f(x) = {n \choose x} p^x(1-p)^{n-x}$ |
-| Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` ||
-| <span style="background-color: #FFFF00">**Chi-Square**</span>	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` ||
+| Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` | $f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)}, 0 \lt x \lt 1$ |
+| <span style="background-color: #FFFF00">**Binomial**</span>	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` | $f(x) = {n \choose x} p^x(1-p)^{n-x}, x = 0,1,2,...,n$ |
+| Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` | $f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty$ |
+| <span style="background-color: #FFFF00">**Chi-Square**</span>	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` | $f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0$ |
 | <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
-| <span style="background-color: #FFFF00">**F**</span>	           | `pf`	     | `qf`	| `df`	| `rf` ||
-| Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` ||
-| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | $f(x)=p(1-p)^{x-1}$ |
-| Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` ||
-| <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` ||
-| <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` ||
-| Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom` ||
+| <span style="background-color: #FFFF00">**F**</span>	           | `pf`	     | `qf`	| `df`	| `rf` | $f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0$ |
+| Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` | $f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0$ |
+| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | $f(x)=p(1-p)^{x}, x = 0,1,2,...$ |
+| Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` | $f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n$ |
+| <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` | $f(x) = \frac{1}{\sqrt{2 \pi \sigma}}e^{\frac{1}{2}(\frac{x-\mu}{\sigma})^2}, -\infty \lt x \lt \infty$ |
+| <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` | $f(x)={\frac{1}{x\sigma\sqrt{2\pi}}}e^{-\Bigl(\frac {(ln(x)-\mu)^2}{2\sigma^2}\Bigr)}$ |
+| Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom` | $f(x) = {x+r-1 \choose r-1}p^r(1-p)^x, x = 0,1,2,...$ |
 | <span style="background-color: #FFFF00">**Normal**</span>	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm` | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$ |
-| <span style="background-color: #FFFF00">**Poisson**</span>	     | `ppois`	| `qpois`	| `dpois`	| `rpois` | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$ |
-| <span style="background-color: #FFFF00">**Student t**</span>	   | `pt`	| `qt`	| `dt`	| `rt` ||
-| Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey` ||
+| <span style="background-color: #FFFF00">**Poisson**</span>	     | `ppois`	| `qpois`	| `dpois`	| `rpois` | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}, x = 0,1,2,...$ |
+| <span style="background-color: #FFFF00">**Student t**</span>	   | `pt`	| `qt`	| `dt`	| `rt` | $f(x) = \frac{\Gamma[(r+1)/2]}{\sqrt{\pi r}\Gamma(r/2)}\frac{1}{(1+x^2/r)^{(r+1)/2}}$ |
+| Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey` | You just don't want to see it... |
 | <span style="background-color: #FFFF00">**Uniform**</span>	     | `punif`	| `qunif`	| `dunif`	| `runif` | $f(x) = \frac{1}{b-a}$ for $x \in [a,b]$, $0$ otherwise |
-| Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull` ||
+| Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull` | $f(x) = \frac{k}{\alpha} \frac{(x-\mu)^{k-1}}{\alpha}e^{-((x-\mu)/\alpha)^k}, x \geq \mu;k.\alpha \gt 0$ |
 | Wilcoxon Rank Sum Statistic	   | `pwilcox`	| `qwilcox`	| `dwilcox`	| `rwilcox` ||
-| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` ||
+| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` | see [here](https://stats.stackexchange.com/questions/307167/what-is-the-distribution-of-the-wilcoxon-signed-ranked-test-statistic) |
 ]
 
 ???
 - Highlighted are interesting distributions. 
 
+| Distribution | Probability | Quantile | Density | Random | PDF or PMF |
+| ------------ | ----------- | -------- | ------- | ------ | ---------- |
+| Bernouli | 	| 	| 	|  | $f(x) = p^x(1-p)^{1-x}, x = 0,1$ |
 <!-- 
 PDF for continuous 
 PMF for discrete 
@@ -2609,6 +2777,34 @@ hist(rbinom(n = 100000, size=50, prob=0.99),xlab = "Nb of successes", breaks = 1
 - Some of the distributions may *look* normal, but they are NOT. 
 - If you look at the histograms and plot the "density", you can see that it can go ABOVE 1. It makes more sense to see the probabilities as the AREA under such curve.
 - See [Probability density function vs. probability mass function](https://math.stackexchange.com/questions/23293/probability-density-function-vs-probability-mass-function)
+
+---
+name: challenge3
+## Challenge 3 ![:cube]()
+
+What is the probability (in %), of getting 4 heads or 4 tails from 4 tosses of a fair coin? 
+Use the binomial distribution to answer this question. 
+
+???
+
+---
+## Challenge 3 - Solution ![:cube]()
+
+What is the probability (in %), for getting 4 heads or 4 tails from tossing 4 times a fair coin? 
+```{r binom_chall_coin, fig.width=8,fig.height=4}
+mybin <- function(x,n,p) { choose(n, x)* p^x* (1-p)^(n-x) } 
+mybin(0,4,.5) + mybin(4,4,.5)
+dbinom(x = 0,4,.5) + dbinom(x = 4,4,.5)
+lwd = 5
+curve(dbinom(x,4,.5),0,6, n = 7,type = "h", lwd = lwd)
+curve(dbinom(x,4,.5),0,0, type = "h",add = TRUE, col = "red", lwd = lwd)
+curve(dbinom(x,4,.5),4,4, type = "h",add = TRUE, col = "red", lwd = lwd)
+
+0.5^4*2
+```
+
+???
+
 
 ---
 # Poisson distribution vs binomial
@@ -3286,8 +3482,8 @@ abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 
 
 ---
-name: challenge3
-## Challenge 3 ![:cube]()
+name: challenge4
+## Challenge 4 ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -3301,7 +3497,7 @@ rnorm()
 - This exercise is to start thinking in outputting data from distributions that relate to a biologically relevant phenotype. 
 
 ---
-## Challenge 3 - Solution ![:cube]()
+## Challenge 4 - Solution ![:cube]()
 
 Let's say you want to simulate the length of different beak sizes for 10 birds. 
 
@@ -3325,6 +3521,46 @@ n <-10
 rnorm(n) + 15
 ```
 
+---
+name: challenge5
+## Challenge 5 ![:cube]()
+
+What is the probability of colonizing an island if a species has a 1 in a million (1/1000000) chance of colonizing it and that we wait 1000000 (1 million) years? 
+
+Hint: think of colonization as a success. 
+
+- Think of the problem for ~1 min;
+- Pair with a neighbor and hare your ideas and code a solution (~4 min)
+- Discuss with the group your findings (~5 min).
+
+???
+- This exercise is to think more about distributions
+- Discussion points
+  * What are the assumptions that need to be made? 
+  * Is that realistic? 
+  * Does the result make intuitive sense? 
+  * Does this result make a upper or lower bound? 
+
+- This is an easy challenge that can be made in a more interactive way: use "think-pair-share" : think individually, pair up and code the answer. Then share your thought process with everyone. 
+
+---
+## Challenge 5 - Solution ![:cube]()
+
+```{r risland_function_example, fig.width=7,fig.height=5}
+size = 1000000
+prob = 1/1000000
+x = seq(0,10,by = 1)
+plot(dbinom(x = x, size = size, prob = prob)~x, 
+     type = "h", lwd = 4, ylab = "Probability", xlab = "Event")
+points(dbinom(x = x[-1], size = size, prob = prob)~x[-1], 
+       type = "h", lwd = 4, col = "red")
+
+# This is the probability 
+pbinom(0,size = size,prob = prob,lower.tail = F)
+# pbinom(0,size = size,prob = prob,lower.tail = T)
+```
+???
+- the probability is `r round(pbinom(0,size = size,prob = prob,lower.tail = F),2)*100`%. 
 
 ---
 # Central limit theorem (CLT)
@@ -4445,8 +4681,8 @@ summary(lm.out)
 
 
 ---
-name: challenge4
-## Challenge 4 ![:cube]()
+name: challenge6
+## Challenge 6 ![:cube]()
 
 - You have 20 seeds from plants that are genetically similar on which you want to see the effect of a treatment, say a species of fungi added to the soil compared to a control with only the soil. 
 - After a certain time, say 6 months, you want to weight the dried plant material and test if there is an effect of your treatment 
@@ -4463,7 +4699,7 @@ Page 9: Plant Weight Data.
 
 
 ---
-## Challenge 4 - Solution ![:cube]()
+## Challenge 6 - Solution ![:cube]()
 
 ```{r challenge4.one.rep, fig.width=5,fig.height=5}
 set.seed(1234)
@@ -4483,7 +4719,7 @@ pt(q = abs(s.lm.out$coefficients["grtrt","t value"]),df = s.lm.out$df[2], lower.
 ```
 
 ---
-## Challenge 4 - Solution ![:cube]()
+## Challenge 6 - Solution ![:cube]()
 
 .pull-left[
 ```{r challenge4.diagnose1, echo=-c(1), fig.width=5,fig.height=4}
@@ -4503,7 +4739,7 @@ plot(lm.out.int, las = 1)
 
 
 ---
-## Challenge 4 - Solution ![:cube]()
+## Challenge 6 - Solution ![:cube]()
 
 ```{r challenge4.fun, fig.width=8,fig.height=5}
 # Make the function for the simulation
@@ -4527,7 +4763,7 @@ exp.plant <- function(n = 100, # number of seeds in EACH group (2*n = total)
 ```
 
 ---
-## Challenge 4 - Solution ![:cube]()
+## Challenge 6 - Solution ![:cube]()
 
 ```{r challenge4.fun.plot, echo=-c(1:3), fig.width=8,fig.height=3.5}
 par(mfrow = c(2,2), mar = c(4,4,.5,.5))
@@ -4768,6 +5004,8 @@ points(mean(df$x)+2*sd(df$x),1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+2*sd(df$x))
 
 ???
 
+- the points on the line are at the mean, 1 x sd and 2 x sd from the mean 
+
 ```{r}
 mean(df$x)+0*sd(df$x)
 1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+0*sd(df$x))))
@@ -4975,11 +5213,11 @@ y <- rbinom(n = n, size = 1, prob = prob_i)
 
 ```{r sim_poisson_glm}
 set.seed(42)
-n = 1000
+n = 500
 x = rnorm(n = n, mean = 0, sd = 1)
 # Rescale the data
 xz = scale(x)
-log.mu = 1 + 2*xz
+log.mu = 1 + .8*xz
 y = rpois(n = n, lambda = exp(log.mu)) 
 
 # Combine the data in a dataframe 
@@ -4988,17 +5226,24 @@ df = data.frame(y = y, x = x)
 
 ---
 # GLM: Poisson
-```{r sim_poisson_glm_plot, fig.width=5,fig.height=5}
+```{r sim_poisson_glm_plot, echo=-1, fig.width=9,fig.height=3.5}
+par(mfrow=c(1,3), mar=c(4,4,1.5,1.5), cex = 1.2)
 #now feed it to glm:
 glm.poisson = glm( y~x, data=df, family="poisson")
-plot(y~x, data = df, col = scales::alpha("black",.5), pch = 19)
-newdata <- data.frame(x=seq(min(x), max(x),len=n))
+plot(y~x, data = df, col = scales::alpha("black", 0.5), pch = 19, cex = 0.5,
+     main = "Poisson regression")
+newdata <- data.frame(x = seq(min(x), max(x), len = n))
 newdata$y = predict(object = glm.poisson, newdata = newdata, type = "response") 
 lines(x = newdata$x,
       y = newdata$y, col = "red",lwd = 2)
+glm.gau = glm( y~x, data=df, family="gaussian")
+hist(residuals(glm.gau), main = "Residuals Gaussian")
+hist(residuals(glm.poisson), main = "Residuals Poisson")
 ```
 
-
+???
+- See how the residuals when modeling the data with Gaussian vs Poisson, is normal or not... 
+- 
 
 ---
 # Linear mixed model (LMMs) refresher
@@ -5741,13 +5986,13 @@ while ( ! all(parent == target)) {
 
 
 ---
-name: challenge5
-## Challenge 5 ![:cube]()
+name: challenge7
+## Challenge 7 ![:cube]()
 
 - Simulate data to show how natural selection works! 
 
 ---
-## Challenge 5 - Solution ![:cube]()
+## Challenge 7 - Solution ![:cube]()
 
 - There are multiple solutions :) 
 
