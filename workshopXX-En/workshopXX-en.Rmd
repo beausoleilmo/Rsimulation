@@ -16,6 +16,7 @@ output:
       highlightLines: true
 ---
 
+
 ```{r setup, echo = F}
 # in the end, should be about 1500 lines
 knitr::opts_chunk$set(
@@ -27,6 +28,11 @@ knitr::opts_chunk$set(
   fig.retina = 3,
   fig.align = 'center'
 )
+
+library(librarian) # even better than pacman 
+# library(pacman)
+# Need to install all packages in initialize
+suppressWarnings(source(file = "scripts/0.0_initialize.R"))
 ```
 
 <!-- How this workshop started (or what prompted the original development of this workshop)
@@ -1509,7 +1515,7 @@ http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf
 
 - You can also simulate random dates in a time interval. 
 
-```{r}
+```{r rdm_dates}
 set.seed(42)
 # GEt a sequence of dates
 datae.seq = seq(from = as.Date('2010/01/01'), 
@@ -1530,7 +1536,7 @@ sample(datae.seq, 5)
 - You can change the probability of landing on one face more than the other. 
 
 .small[
-```{r, echo=-1, fig.width=8, fig.height=3.5}
+```{r sample_die, echo=-1, fig.width=8, fig.height=3.5}
 par(mar=c(4,4,0.1,0.1))
 set.seed(50)
 p_dice = c(1,1,1,1,1,5) # Here we have twice the change of landing on 6
@@ -1575,7 +1581,7 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the length.out
 
 - There are functions in `R` that can help you generate factor levels (with the `gl` function). 
 
-```{r}
+```{r gl_func}
 nb.of.levels = 2
 nb.of.replicates = 8
 labels.for.the.factors = c("Control", "Treat")
@@ -1801,7 +1807,7 @@ name: explore-under-stat-process
 - probability ranges between 0 and 1, but odds range from 0 to $\infty$. 
 
 .pull-left[
-```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+```{r prob_scale_zero_one, echo=FALSE, fig.width=4.7,fig.height=2}
 par(mar = c(0,0,0,0), 
     # mfrow=c(1,2),
     cex = 1.2)
@@ -1823,7 +1829,7 @@ arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "gray10")
 ]
 
 .pull.right[
-```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+```{r odds_scale_zero_inf, echo=FALSE, fig.width=4.7,fig.height=2}
 par(mar = c(0,0,0,0), 
     # mfrow=c(1,2),
     cex = 1.2)
@@ -1863,7 +1869,7 @@ arrows(1,.3,11,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 - Log (natural log, or ln) odds can range from $-\infty$ to $\infty$ and makes the odds symmetric. It is calculated as $ln (odds) = ln(p/(1-p))$ (i.e., the logit function).
 - This will become handy when building a logistic model as this is the 'logit' transformation. 
 
-```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+```{r log_odds_scale_inf_inf, echo=FALSE, fig.width=4.7,fig.height=2}
 par(mar = c(0,0,0,0), cex = 1.2)
 plot(0, type ="n", xlim = c(-6,6), axes = F,ylab = "", xlab = "")
 segments(-5,0,5,0)
@@ -1890,7 +1896,7 @@ points(0,.3, pch =19)
 
 - Also, the Geometric mean (which is the mean of logs) is BETTER when using log-based data (qPCR, where the data doubles each round) and is less sensitive to outliers (which the arithmetic mean is actually VERY sensitive)
 
-```{r}
+```{r prob_odd_log_trans}
 raw.num = c(1,2,8) # numbers NOT on the log scale (simulate a DOUBLING process like qPCR)
 mean(raw.num) # Arithmetic average (which would be WRONG)
 mean.log = mean(log(raw.num)/log(2)) # Taking the mean of the log (this is the geometric mean)
@@ -1922,7 +1928,7 @@ odds.agnst = (tot.nb.ev-success)/(success) # Odds against the event (here 4 to 1
 The horse wins 1 race to 4 fails (odds of winning = `r fractions(odds.favor)`).
 So, for 5 races it will win 1 and loose 4. 
 
-```{r, echo=FALSE, fig.width=4.7,fig.height=2}
+```{r coin_sequence_image, echo=FALSE, fig.width=4.7,fig.height=2}
 par(mar = c(0,0,0,0))
 # Get circles
 nb.flips = 5
@@ -2073,6 +2079,8 @@ plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=
 - The idea here is to find the distribution underlying a random process which generate a particular phenomenon in nature and use it to output values to be used in your simulation.
 - After generating the data, you can analyze it and see how it can be manipulated. 
 
+???
+- See Crawley's R Book chapter 7 "Mathematics"
 
 ---
 # What is a random variable? 
@@ -2086,7 +2094,7 @@ rnorm.val = rnorm(n = n, mean = 15, sd = 2)
 random.var.normal = round(rnorm.val,1)
 ```
 
-```{r, echo=FALSE}
+```{r get_rdm_nb_1, echo=FALSE}
 random.var.normal[1]
 ```
 ???
@@ -2104,7 +2112,7 @@ random.var.normal[1]
 
 - Now imagine you are able to get more numbers from the same process:
 
-```{r, echo=FALSE}
+```{r get_rdm_nb_5, echo=FALSE}
 random.var.normal[1:5]
 ```
 ???
@@ -2139,7 +2147,7 @@ hist(random.var.normal[1:5], main = "Hisogram of random variable", xlab = "x")
 - What if you get even more numbers (say 100) from the same random process:
 
 .tiny[
-```{r, echo=FALSE}
+```{r get_rdm_nb_100, echo=FALSE}
 random.var.normal[1:100]
 ```
 ]
@@ -2187,28 +2195,26 @@ name: table-distributions
 # Functions for various distributions
 
 .xsmall[
-| Distribution                   | Probability  | Quantile    | Density     | Random      | PDF or PMF |
-| ------------                   | -----------  | --------    | -------     | ------      | ---------- |
-| Beta	                         | `pbeta`	    | `qbeta`	    | `dbeta`	    | `rbeta`     | $f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)}, 0 \lt x \lt 1$ |
-| Binomial	                     | `pbinom`	    | `qbinom`    | `dbinom`	  | `rbinom`    | $f(x) = {n \choose x} p^x(1-p)^{n-x}, x = 0,1,2,...,n$ |
-| Cauchy                         | `pcauchy`    | `qcauchy`   | `dcauchy`	  | `rcauchy`   | $f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty$ |
-| Chi-Square	                   | `pchisq`	    | `qchisq`    | `dchisq`	  | `rchisq`    | $f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0$ |
-| Exponential	                   | `pexp`       | `qexp`	    | `dexp`	    | `rexp`      | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
-| F	                             | `pf`	        | `qf`	      | `df`	      | `rf`        | $f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0$ |
-| Gamma	                         | `pgamma`	    | `qgamma`    | `dgamma`	  | `rgamma`    | $f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0$ |
-| Geometric	                     | `pgeom`	    | `qgeom`	    | `dgeom`	    | `rgeom`     | $f(x) = p(1-p)^{x}, x = 0,1,2,...$ |
-| Hypergeometric                 | `phyper`	    | `qhyper`    | `dhyper`	  | `rhyper`    | $f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n$ |
-| Logistic	                     | `plogis`	    | `qlogis`    | `dlogis`	  | `rlogis`    | $f(x) = \frac{1}{\sqrt{2 \pi \sigma}}e^{\frac{1}{2}(\frac{x-\mu}{\sigma})^2}, -\infty \lt x \lt \infty$ |
-| Log Normal	                   | `plnorm`	    | `qlnorm`    | `dlnorm`	  | `rlnorm`    | $f(x)={\frac{1}{x\sigma\sqrt{2\pi}}}e^{-\Bigl(\frac {(ln(x)-\mu)^2}{2\sigma^2}\Bigr)}$ |
-| Negative Binomial	             | `pnbinom`    | `qnbinom`   | `dnbinom`	  | `rnbinom`   | $f(x) = {x+r-1 \choose r-1}p^r(1-p)^x, x = 0,1,2,...$ |
-| Normal	                       | `pnorm`	    | `qnorm`	    | `dnorm`	    | `rnorm`     | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$ |
-| Poisson	                       | `ppois`	    | `qpois`	    | `dpois`	    | `rpois`     | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}, x = 0,1,2,...$ |
-| Student t	                     | `pt`	        | `qt`	      | `dt`	      | `rt`        | $f(x) = \frac{\Gamma[(r+1)/2]}{\sqrt{\pi r}\Gamma(r/2)}\frac{1}{(1+x^2/r)^{(r+1)/2}}$ |
-| Studentized Range              | `ptukey`	    | `qtukey`    | `dtukey`	  | `rtukey`    | You just don't want to see it... |
-| Uniform	                       | `punif`	    | `qunif`	    | `dunif`	    | `runif`     | $f(x) = \frac{1}{b-a}$ for $x \in [a,b]$, $0$ otherwise |
-| Weibull	                       | `pweibull`	  | `qweibull`  | `dweibull`  | `rweibull`  | $f(x) = \frac{k}{\alpha} \frac{(x-\mu)^{k-1}}{\alpha}e^{-((x-\mu)/\alpha)^k}, x \geq \mu;k.\alpha \gt 0$ |
-| Wilcoxon Rank Sum Statistic	   | `pwilcox`	  | `qwilcox`	  | `dwilcox`	  | `rwilcox`   | |
-| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` | see [here](https://stats.stackexchange.com/questions/307167/what-is-the-distribution-of-the-wilcoxon-signed-ranked-test-statistic) |
+| Distribution                   | Probability  | Quantile    | Density     | Random      | Parameters         | PDF or PMF |
+| ------------                   | -----------  | --------    | -------     | ------      | ----------         | ---------- |
+| Beta	                         | `pbeta`	    | `qbeta`	    | `dbeta`	    | `rbeta`     | shape1, shape2     | $f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)}, 0 \lt x \lt 1$ |
+| Binomial	                     | `pbinom`	    | `qbinom`    | `dbinom`	  | `rbinom`    | sample size, prob. | $f(x) = {n \choose x} p^x(1-p)^{n-x}, x = 0,1,2,...,n$ |
+| Cauchy                         | `pcauchy`    | `qcauchy`   | `dcauchy`	  | `rcauchy`   | location, scale    | $f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty$ |
+| Chi-Square	                   | `pchisq`	    | `qchisq`    | `dchisq`	  | `rchisq`    | df                 | $f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0$ |
+| Exponential	                   | `pexp`       | `qexp`	    | `dexp`	    | `rexp`      | rate               | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
+| F	(Fisher's F)                 | `pf`	        | `qf`	      | `df`	      | `rf`        | df1, df2           | $f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0$ |
+| Gamma	                         | `pgamma`	    | `qgamma`    | `dgamma`	  | `rgamma`    | shape              | $f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0$ |
+| Geometric	                     | `pgeom`	    | `qgeom`	    | `dgeom`	    | `rgeom`     | prob.              | $f(x) = p(1-p)^{x}, x = 0,1,2,...$ |
+| Hypergeometric                 | `phyper`	    | `qhyper`    | `dhyper`	  | `rhyper`    | m, n, k            | $f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n$ |
+| Logistic	                     | `plogis`	    | `qlogis`    | `dlogis`	  | `rlogis`    | location, scale    | $f(x) = \frac{e^{a+bx}}{1+e^{a+bx}}, -\infty \lt x \lt \infty$ |
+| Log Normal	                   | `plnorm`	    | `qlnorm`    | `dlnorm`	  | `rlnorm`    | mean, sd           | $f(x)={\frac{1}{x\sigma\sqrt{2\pi}}}e^{-\Bigl(\frac {(ln(x)-\mu)^2}{2\sigma^2}\Bigr)}$ |
+| Negative Binomial	             | `pnbinom`    | `qnbinom`   | `dnbinom`	  | `rnbinom`   | size, prob.        | $f(x) = {x+r-1 \choose r-1}p^r(1-p)^x, x = 0,1,2,...$ |
+| Normal	                       | `pnorm`	    | `qnorm`	    | `dnorm`	    | `rnorm`     | mean, sd           | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}, -\infty \lt x \lt \infty$ |
+| Poisson	                       | `ppois`	    | `qpois`	    | `dpois`	    | `rpois`     | mean               | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}, x = 0,1,2,...$ |
+| t (Student's *t*)              | `pt`	        | `qt`	      | `dt`	      | `rt`        | df                 | $f(x) = \frac{\Gamma[(r+1)/2]}{\sqrt{\pi r}\Gamma(r/2)}\frac{1}{(1+x^2/r)^{(r+1)/2}}$ |
+| Studentized Range              | `ptukey`	    | `qtukey`    | `dtukey`	  | `rtukey`    |                    | You just don't want to see it... |
+| Uniform	                       | `punif`	    | `qunif`	    | `dunif`	    | `runif`     | min, max           | $f(x) = \frac{1}{b-a}$ for $x \in [a,b]$, $0$ otherwise |
+| Weibull	                       | `pweibull`	  | `qweibull`  | `dweibull`  | `rweibull`  | shape              | $f(x) = \frac{k}{\alpha} \frac{(x-\mu)^{k-1}}{\alpha}e^{-((x-\mu)/\alpha)^k}, x \geq \mu;k.\alpha \gt 0$ |
 ]
 
 ???
@@ -2220,41 +2226,49 @@ name: table-distributions
 - See [Distributions in the stats package](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html)
 - See [Foundations Of Statistics With R](https://mathstat.slu.edu/~speegle/_book_spring_2021/RBT.html)
 - T-distribution = accommodates for the uncertainty that you have in the variance.  
+- Chi-squared: for testing hypotheses involving count data 
+- Fisher's F: ANOVA, comparing 2 variances 
+- Student's t: small sample work for comparing 2 parameter estimates 
+<!-- | Distribution                   | Probability  | Quantile    | Density     | Random      | Parameters         | PDF or PMF | -->
+<!-- | ------------                   | -----------  | --------    | -------     | ------      | ----------         | ---------- | -->
+<!-- | Wilcoxon Rank Sum Statistic	   | `pwilcox`	  | `qwilcox`	  | `dwilcox`	  | `rwilcox`   | m, n               |     | -->
+<!-- | Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` |                    | see [here](https://stats.stackexchange.com/questions/307167/what-is-the-distribution-of-the-wilcoxon-signed-ranked-test-statistic) | -->
 
 ---
 # Functions for various distributions
 
 .xsmall[
-| Distribution | Probability | Quantile | Density | Random | PDF or PMF |
-| ------------ | ----------- | -------- | ------- | ------ | ---------- |
-| Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta` | $f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)}, 0 \lt x \lt 1$ |
-| <span style="background-color: #FFFF00">**Binomial**</span>	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom` | $f(x) = {n \choose x} p^x(1-p)^{n-x}, x = 0,1,2,...,n$ |
-| Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy` | $f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty$ |
-| <span style="background-color: #FFFF00">**Chi-Square**</span>	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq` | $f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0$ |
-| <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp`    | `qexp`	 | `dexp`	| `rexp` | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
-| <span style="background-color: #FFFF00">**F**</span>	           | `pf`	     | `qf`	| `df`	| `rf` | $f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0$ |
-| Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma` | $f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0$ |
-| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom` | $f(x)=p(1-p)^{x}, x = 0,1,2,...$ |
-| Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper` | $f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n$ |
-| <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` | $f(x) = \frac{1}{\sqrt{2 \pi \sigma}}e^{\frac{1}{2}(\frac{x-\mu}{\sigma})^2}, -\infty \lt x \lt \infty$ |
-| <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` | $f(x)={\frac{1}{x\sigma\sqrt{2\pi}}}e^{-\Bigl(\frac {(ln(x)-\mu)^2}{2\sigma^2}\Bigr)}$ |
-| Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom` | $f(x) = {x+r-1 \choose r-1}p^r(1-p)^x, x = 0,1,2,...$ |
-| <span style="background-color: #FFFF00">**Normal**</span>	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm` | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$ |
-| <span style="background-color: #FFFF00">**Poisson**</span>	     | `ppois`	| `qpois`	| `dpois`	| `rpois` | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}, x = 0,1,2,...$ |
-| <span style="background-color: #FFFF00">**Student t**</span>	   | `pt`	| `qt`	| `dt`	| `rt` | $f(x) = \frac{\Gamma[(r+1)/2]}{\sqrt{\pi r}\Gamma(r/2)}\frac{1}{(1+x^2/r)^{(r+1)/2}}$ |
-| Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey` | You just don't want to see it... |
-| <span style="background-color: #FFFF00">**Uniform**</span>	     | `punif`	| `qunif`	| `dunif`	| `runif` | $f(x) = \frac{1}{b-a}$ for $x \in [a,b]$, $0$ otherwise |
-| Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull` | $f(x) = \frac{k}{\alpha} \frac{(x-\mu)^{k-1}}{\alpha}e^{-((x-\mu)/\alpha)^k}, x \geq \mu;k.\alpha \gt 0$ |
-| Wilcoxon Rank Sum Statistic	   | `pwilcox`	| `qwilcox`	| `dwilcox`	| `rwilcox` ||
-| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank` | see [here](https://stats.stackexchange.com/questions/307167/what-is-the-distribution-of-the-wilcoxon-signed-ranked-test-statistic) |
+| Distribution | Probability | Quantile | Density | Random | Parameters               | PDF or PMF |
+| ------------ | ----------- | -------- | ------- | ------ | ----------               | ---------- |
+| Beta	       | `pbeta`	 | `qbeta`	| `dbeta`	| `rbeta`                                                       | shape1, shape2     | $f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)}, 0 \lt x \lt 1$ |
+| <span style="background-color: #FFFF00">**Binomial**</span>	   | `pbinom`	 | `qbinom`	| `dbinom`	| `rbinom`  | sample size, prob. | $f(x) = {n \choose x} p^x(1-p)^{n-x}, x = 0,1,2,...,n$ |
+| Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy`                                                 | location, scale    | $f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty$ |
+| <span style="background-color: #FFFF00">**Chi-Square**</span>	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq`  | df                 | $f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0$ |
+| <span style="background-color: #FFFF00">**Exponential**</span>	 | `pexp` | `qexp` | `dexp`	| `rexp`          | rate               | $f(x) = \lambda e^{-\lambda x}$ (when $x \geq 0$, otherwise, 0) |
+| <span style="background-color: #FFFF00">**F (Fisher's F)**</span>	           | `pf`	  | `qf` | `df`	| `rf`    | df1, df2           | $f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0$ |
+| Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma`                                                     | shape             | $f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0$ |
+| Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom`                                                        | prob.             | $f(x)=p(1-p)^{x}, x = 0,1,2,...$ |
+| Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper`                                                   | m, n, k           | $f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n$ |
+| <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` | location, scale   | $f(x) = \frac{e^{a+bx}}{1+e^{a+bx}}, -\infty \lt x \lt \infty$ |
+| <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` | mean, sd          | $f(x)={\frac{1}{x\sigma\sqrt{2\pi}}}e^{-\Bigl(\frac {(ln(x)-\mu)^2}{2\sigma^2}\Bigr)}$ |
+| Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom`                                              | size, prob.       | $f(x) = {x+r-1 \choose r-1}p^r(1-p)^x, x = 0,1,2,...$ |
+| <span style="background-color: #FFFF00">**Normal**</span>	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm`        | mean, sd          | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$ |
+| <span style="background-color: #FFFF00">**Poisson**</span>	     | `ppois`	| `qpois`	| `dpois`	| `rpois`      | mean              | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}, x = 0,1,2,...$ |
+| <span style="background-color: #FFFF00">**t (Student's *t*)**</span>	   | `pt`	| `qt`	| `dt`	| `rt`         | df                | $f(x) = \frac{\Gamma[(r+1)/2]}{\sqrt{\pi r}\Gamma(r/2)}\frac{1}{(1+x^2/r)^{(r+1)/2}}$ |
+| Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey`                                               |                   | You just don't want to see it... |
+| <span style="background-color: #FFFF00">**Uniform**</span>	     | `punif`	| `qunif`	| `dunif`	| `runif`      | min, max          | $f(x) = \frac{1}{b-a}$ for $x \in [a,b]$, $0$ otherwise |
+| Weibull	     | `pweibull`	| `qweibull`	| `dweibull`	| `rweibull`                                             | shape             | $f(x) = \frac{k}{\alpha} \frac{(x-\mu)^{k-1}}{\alpha}e^{-((x-\mu)/\alpha)^k}, x \geq \mu;k.\alpha \gt 0$ |
 ]
 
 ???
 - Highlighted are interesting distributions. 
 
-| Distribution | Probability | Quantile | Density | Random | PDF or PMF |
-| ------------ | ----------- | -------- | ------- | ------ | ---------- |
-| Bernouli | 	| 	| 	|  | $f(x) = p^x(1-p)^{1-x}, x = 0,1$ |
+| Distribution | Probability | Quantile | Density | Random | Parameters               | PDF or PMF |
+| ------------ | ----------- | -------- | ------- | ------ | ----------               | ---------- |
+| Bernouli | 	| 	| 	|  | | $f(x) = p^x(1-p)^{1-x}, x = 0,1$ |
+| Wilcoxon Rank Sum Statistic	   | `pwilcox`	| `qwilcox`	| `dwilcox`	| `rwilcox`                                | m, n              |                                 |
+| Wilcoxon Signed Rank Statistic | `psignrank`	| `qsignrank`	| `dsignrank`	| `rsignrank`                        |                   | see [here](https://stats.stackexchange.com/questions/307167/what-is-the-distribution-of-the-wilcoxon-signed-ranked-test-statistic) |
+
 <!-- 
 PDF for continuous 
 PMF for discrete 
@@ -2347,7 +2361,7 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
 | Poisson	     | probability of a number of cases happening in a defined range of time or space given a constant rate | discrete; | ticks of a radiation counter, DNA mutation, colonization of animals on remote islands (something per unit time or space for example) |
-| Logistic	   | probability of an individual to be in one class or another | continuous; | alive or not, yes or no, diseased or not, etc. |
+| Logistic	   | probability of an individual to be in one class or another (linkk function in GLM) | continuous; | alive or not, yes or no, diseased or not, etc. |
 | Normal	     | probability function which informs how values are distributed, centered on a mean, being symmetric, and having a specific variance | continuous; | height of individuals, beak length, shoe size, time required to run a kilometer, the data shows a 'bell-shaped' curve |
 | Uniform	     | probability of all outcomes are equal | continuous; | angle between 0-360 | 
 | Exponential	 | | continuous;| Used in maximum likelihood, Generating genealogies, continuous rate |
@@ -2560,7 +2574,7 @@ rpois(n = number of repetitions,
 - You can think of this function as the number of times you'd get a success, when the number of events per unit of time or space is lambda 
 - E.g., with a camera trap, I see on average 2 wolves/day (lambda is this rate, doesn't need to be an integer), then if I on the field for one day, what could be the number of wolves that I observe? 
 
-```{r}
+```{r rpois_example_1.2}
 set.seed(5937); rpois(n = 1,lambda = 2)
 ```
 - Wow! That day was amazing! The probability of seeing this number is `r round(dpois(x = 5, lambda=2),2)` and the probability of seeing 5 or more is `r round(ppois(q = 5, lambda=2,lower.tail = F),2)`
@@ -2637,8 +2651,25 @@ where
   * These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.
 - The probability of success or failiure DON'T change as the experiment goes: e.g., the probability of heads or tail for a coin should not change as the experiment is conducted. 
 - See the lecture [Binomial Distribution](https://www.montana.edu/rotella/documents/502/BinomDist.html)
-- The function `choose()` is used in R to find the number combinations (regardless of the order). For example, if you just want to know the number of combinations you can have from choosing 6 numbers out of 49, it is `r choose(49, 6)`. If you wish to know the chances of winning the lotteries it's `r 1/choose(49, 6)`.
+- The function `choose()` is used in R to find the number combinations (regardless of the order, meaning that it could be found in any position). For example, if you just want to know the number of combinations you can have from choosing 6 numbers out of 49, it is `r choose(49, 6)`. If you wish to know the chances of winning the lotteries it's `r 1/choose(49, 6)`.
+  * In other words, the *binomial coefficient* shows the number of ways there are of getting x items out of n items (when the item can be one of just 2 types such as male/female, success/failure) (See Crawley's R book). E.g., from 8 individuals, how many ways there are that 3 are males and hende 5 are females? `choose(8,3)` or `r choose(8,3)`
+  * Note that the **factorial** gives the number of permutations of *n* items. To arrange 4 items 4! in R is `factorial(4)` which in this case gives `r factorial(4)`.
 
+```
+par(mfrow=c(1,2))
+x <- 0:6
+plot(x,factorial(x),
+     type="s", # step option 
+     log="y", # Get logarithmic scale for y 
+     main="factorial x")
+abline(h = seq(0,1000,by = 25), lty = 3)
+
+x = 0:8
+plot(x,choose(8,x),
+     type="s",
+     main="Binomial coefficients")
+abline(h = seq(0,70,by = 10), lty = 3)
+```
 
 ---
 # Binomial distribution
@@ -2680,7 +2711,7 @@ The Punnett square for the male and female union
 Daughter examples
 - You could also discuss this simpler case: 
 - what is the probability of getting 2 daughters out of 3 children
-```{r}
+```{r dbinmon_prob.5}
 dbinom(2,3,prob = .5) # 0.375
 ```
 
@@ -2703,7 +2734,7 @@ dbinom(2,3,prob = .5) # 0.375
 
 - This is a visualization of the previous examples.
 
-```{r, echo=-c(1:4), fig.width=8,fig.height=4}
+```{r dbinom_plot_ex, echo=-c(1:4), fig.width=8,fig.height=4}
 par(mfrow = c(1,1), mar = c(4,4,1,1))
 set.seed(12345); lwd = 3
 col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
@@ -2738,7 +2769,7 @@ rbinom(n = number of repetitions,
 
 - Think of it as the number of times you'd get a success, with probability $p$, for a number of times you repeat the experiment. 
 
-```{r}
+```{r tables_rbinom_ex}
 set.seed(12345)
 # 1000 experiments where each time, e.g., flipping a coin, I can either have a
 table(rbinom(n = 1000, size=1, prob=0.5), dnn=NULL) # success or failure with p=.5
@@ -3294,7 +3325,7 @@ text(x.val+1, y = .6, labels = round(x.val,2))
 
 - Mean of population is = 1
 
-```{r, echo=FALSE, fig.width=7,fig.height=5}
+```{r normal_statistics_areas_1, echo=FALSE, fig.width=7,fig.height=5}
 par(mfrow=c(1,1), mar = c(4,4,0,1))
 hypothesis.testing <- function(mean.pop=2, mean.sn = 0,prob = .05, sd.sn =1, sd = 1, n=NULL) {
   
@@ -3378,7 +3409,7 @@ hypothesis.testing(mean.pop = 1)
 
 - Mean of population is = 2 
 
-```{r, echo=FALSE, fig.width=7,fig.height=5}
+```{r normal_statistics_areas_2, echo=FALSE, fig.width=7,fig.height=5}
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
 hypothesis.testing(mean.pop = 2)
 ```
@@ -3405,7 +3436,7 @@ hypothesis.testing(mean.pop = 2)
 
 - Now, if we have distributions that have a standard deviation of 5 and a sample size of 10.
 
-```{r, echo=FALSE}
+```{r normal_statistics_areas_3, echo=FALSE}
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
 hypothesis.testing(2,sd = 5, n = 10)
 ```
@@ -3421,7 +3452,7 @@ hypothesis.testing(2,sd = 5, n = 10)
 - Let's see what happens if we increase the sample size from 10 to 100.
 
 .pull-right[
-```{r, echo=FALSE}
+```{r normal_statistics_areas_4, echo=FALSE}
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
 hypothesis.testing(2,sd = 5, n = 100)
 ```
@@ -3591,7 +3622,7 @@ See
 - The CLT could be shown by adding more and more random variables distributed as an exponential with rate = 1. 
 
 .tiny[
-```{r, echo=-1, fig.width=8,fig.height=4.5}
+```{r simulation_clt_1, echo=-1, fig.width=8,fig.height=4.5}
 par(mfrow=c(2,2), cex =1.1, mar = c(4,4,1,1)) # set window 
 n = 1000 # Number of points 
 # Generate multiple additions of random variables 
@@ -3612,7 +3643,7 @@ for(i in c(2, 50, 1000, 5000)){
 
 - Same thing as above, but for a random variable coming from a uniform *discrete* distribution (with min = 0, max = 1)!
 
-```{r, echo=FALSE}
+```{r uniform_distcrete_fun, echo=FALSE}
 # Define uniform discrete 
 dunifdisc<-function(x, min=0, max=1) ifelse(x>=min & x<=max & round(x)==x, 1/(max-min+1), 0)
 punifdisc<-function(q, min=0, max=1) ifelse(q<min, 0, ifelse(q>=max, 1, (floor(q)-min+1)/(max-min+1)))
@@ -3646,7 +3677,7 @@ for(i in c(2, 50, 1000, 5000)){
 
 This is an example of a uniform discrete distribution ranging from 7 to 10. 
 
-```{r , echo=FALSE, fig.width=3,fig.height=3}
+```{r uniform_disc_example_plot, echo=FALSE, fig.width=3,fig.height=3}
 curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col="black", lwd=1, ylim = c(0,1), ylab = "Density", main = "Uniform") 
 ```
 ]
@@ -3661,7 +3692,7 @@ curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col="black", lwd=1, ylim = c
 
 - You are asked to throw 20 dice. If the sum of all 20 dice is $\geq 100$, you get a candy, if not, you don't get one. What is the probability of having the candy? 
 
-```{r, echo=-1, fig.width=8,fig.height=3}
+```{r clt_unif_discrete_plots, echo=-1, fig.width=8,fig.height=3}
 par(mfrow=c(1,2), cex = 1.1) # set window 
 n = 1e6 # Number of points 
 # Generate multiple additions of random variables 
@@ -3694,7 +3725,7 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
 - Therefore, the *sampling distribution* of the *sample mean* (so the mean taken out of a sample, multiple times with various samples), approximate a normal distribution, even if the underlying process is not from a normal distribution. $\bar X \sim N(\mu,\frac{\sigma}{\sqrt {n}})$ or the mean of x is approximately normally distributed as with mean mu and variance 
 - See also [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
 
-```{r, echo=FALSE, fig.width=8,fig.height=4}
+```{r clt_uniform_continuous.plots, echo=FALSE, fig.width=8,fig.height=4}
 # modified from [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
 set.seed(2345)
 # Simulation of central limit theorem #=================================================
@@ -3726,25 +3757,48 @@ clt.fun(size = 20)
 
 ```
 
+---
+# Central limit theorem (CLT)
+
+- Galton's board (quincunx) is a representation of a lot of Bernoulli trials that will form a normal distribution
+
+- Below is a simulation of 1000 balls, hitting 500 pegs that were left from the point "0". The normal curve was drawn with a standard deviation of $\sqrt{n}-1$
+
+```{r Galton_board, echo=FALSE}
+source(file = "scripts/Galton_board.R")
+galtonqunincunx
+```
+
+.pull-right[
+![Galton's board (not to scale)](images/Quincunx_Galton_s_box_board.png)
+]
+
+???
+- a quincunx is an arrangement of objects which makes a patterns similar to the 5 dots on the face of a die
+- Video explaining it https://www.youtube.com/watch?v=UCmPmkHqHXk&ab_channel=D%21NG 
+- https://www.youtube.com/watch?v=6YDHBFVIvIs&ab_channel=IMAmaths
+- https://en.wikipedia.org/wiki/Galton_board
+- See online Quincunx (Galton's board) [here](https://www.mathsisfun.com/data/quincunx.html)
+- 3D version printed https://www.instructables.com/3D-Printed-Galton-Board/ 
 
 ---
 # Multivariate normal distribution
 
 - There is a way to generate multiple normal distributions at once from a covariance matrix. 
 
-```{r, echo=-1, fig.width=5,fig.height=2}
+```{r multivar_norm_pca, echo=-1, fig.width=5,fig.height=2}
 par(mfrow = c(1,2), mar = c(4,4,0.5,0.5)); b.5 = scales::alpha("black",0.5)
 set.seed(24601) # setting this so the random results will be repeatable 
 library(MASS)
-covmat <- matrix(c(1.0,   0.2,   0.6, # variance covariance matrix of the data
-                   0.2,   2.0,  -0.5, 
+covmat <- matrix(c(1.0,   0.2,   0.6, # variance covariance matrix of the data 
+                   0.2,   2.0,  -0.5, # Positive-definite symmetric matrix
                    0.6,  -0.5,   1.0), nrow=3) 
 data <- mvrnorm(n = 300, 
                 mu = c(1,-1,0), # mean of the data 
                 Sigma=covmat) # generate random data that match that variance covariance matrix
 plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
-biplot(prcomp(data))
+biplot(prcomp(data)) # check var(data) to verify the covmat
 ```
 
 
@@ -3753,13 +3807,13 @@ biplot(prcomp(data))
 ---
 # Simulate a PCA
 
-```{r, echo=-1, fig.width=5,fig.height=2}
+```{r simulation_PCA, echo=-1, fig.width=5,fig.height=2}
 par(mfrow = c(1,2), mar = c(4,4,0.5,0.5))
 set.seed(123) # setting this so the random results will be repeatable 
 library(MASS)
 # Simulating 3 traits for 4 different species 
 n = 200
-Amat1 = MASS::mvrnorm(n, mu = c(11.2,11.8,9.91), Sigma = diag(c(1.31,1.01,1.02)))
+Amat1 = MASS::mvrnorm(n, mu = c(11.2,11.8,9.91), Sigma = diag(c(1.31,1.01,1.02))) 
 Amat2 = MASS::mvrnorm(n, mu = c(7.16,8.54,6.82), Sigma = diag(c(0.445,0.546,0.350)))
 Amat3 = MASS::mvrnorm(n, mu = c(15.6,14.6,13.5), Sigma = diag(c(1.43,0.885,0.990)))
 Amat4 = MASS::mvrnorm(n, mu = c(8.65,14.1,8.24), Sigma = diag(c(0.535,0.844,0.426)))
@@ -3779,7 +3833,7 @@ plot(Amat[,1],Amat[,2], pch = 19, col = gl(4,k=n,labels = c(1,2,3,4)))
 ---
 # Find the parameters of a distribution 
 
-```{r}
+```{r parameter_distribution}
 x = rnorm(100)
 # x = rt(100,1000)
 library(fitdistrplus)
@@ -3810,7 +3864,7 @@ Now that we have a better understanding of distributions and how to play with th
 - The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
 - We think we have a coin, which has a 75% chance of landing on 'heads':
 
-```{r}
+```{r pwr_test}
 p1 = .75 # Proportion to test 
 p2 = .50 # proportion of the null hypothesis 
 alpha = 0.05 # Type 1 error 
@@ -3844,7 +3898,7 @@ p.table = table(coin.pip)[c(2,1)] # Get the number of 1 and 0s
 
 - from the output we got (previous slide), we can plot the chi-square distribution with the df and see where our statistics ends in the graph. We can see that the p-value must be pretty small. 
 
-```{r, echo=-1, fig.width=7,fig.height=4}
+```{r show_the_pwr, echo=-1, fig.width=7,fig.height=4}
 par(mar=c(4,4,0.1,0.1))
 curve(dchisq(x, df = ptest$parameter), 
       xlim = c(0, ceiling(max(ptest$statistic))))
@@ -3858,7 +3912,7 @@ abline(v = ptest$statistic, lty = 3)
 # Power analysis (linear model)
 
 .pull-left[
-```{r, fig.width=7,fig.height=4}
+```{r get_eff_size, fig.width=7,fig.height=4}
 library(pwr)
 r2 = seq(0,0.9,by =.1)
 f2 <- function(r2) {r2/(1-r2)}
@@ -3866,14 +3920,14 @@ f2 <- function(r2) {r2/(1-r2)}
 ]
 
 .pull-right[
-```{r, echo=-1, fig.width=7,fig.height=4}
+```{r get_eff_size_plot, echo=-1, fig.width=7,fig.height=4}
 par(mar=c(4,4,0.1,0.1))
 plot(f2(r2)~r2)
 curve(expr = (x/(1-x)),add = T)
 ```
 ]
 
-```{r, fig.width=7,fig.height=4}
+```{r get_eff_size_n, fig.width=7,fig.height=4}
 nb.coef.in.model = 2
 pwr.lm = pwr.f2.test(u = nb.coef.in.model, f2 = f2(.3), sig.level = 0.001, power = 0.8)
 
@@ -3928,7 +3982,7 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
   * E: Equality of variance 
 
 .pull-left4[
-```{r, echo=FALSE, fig.width=5,fig.height=5}
+```{r lm_assumtion_expected_mean, echo=FALSE, fig.width=5,fig.height=5}
 par(mar=c(4,4,0.1,0.1))
 set.seed(12345678)
 n = 100; beta0 = 2.5; beta1 = 0.8
@@ -3964,7 +4018,7 @@ points(xrp,yvals, cex = yh/max(yh), pch = 19, col = scales::alpha("red",.5))
 ]
 
 .pull-right4[
-```{r, echo=FALSE, fig.width=5,fig.height=4.5}
+```{r lm_assumtion_expected_mean_interactive, echo=FALSE, fig.width=5,fig.height=4.5}
 library(plotly)
 library(dplyr)
 
@@ -4085,7 +4139,7 @@ Assumptions? [see Wikipedia](https://en.wikipedia.org/wiki/Student%27s_t-test#As
 - We start by generating a linear model with an intercept and slope for 100 points, an the error in the measurements.
 
 .pull-left[
-```{r, echo=-1, fig.width=4,fig.height=2}
+```{r simulate_lm_data, echo=-1, fig.width=4,fig.height=2}
 par(mar=c(4,4,0.1,0.1))
 set.seed(12345678)
 n = 100; beta0 = 2.5; beta1 = 0.8
@@ -4099,7 +4153,7 @@ df.lm = data.frame(x = x.lm, y = y.lm)
 ]
 
 .pull-right[
-```{r, echo=FALSE, fig.width=4,fig.height=3}
+```{r simulate_lm_plot, echo=FALSE, fig.width=4,fig.height=3}
 par(mar = c(4,4,.5,.5))
 # Colour 
 b.5 = scales::alpha("black",alpha = .5)
@@ -4114,7 +4168,7 @@ abline(lm.out)
 ```
 ]
 
-```{r}
+```{r simulate_lm_output}
 round(coefficients(summary(lm.out)), 4)
 # Adjusted R^2
 summary(lm.out)$adj.r.squared
@@ -4130,7 +4184,7 @@ summary(lm.out)$adj.r.squared
 
 - You can simulate the response (fitted line), from a model that you created. 
 
-```{r, echo=-1, fig.width=8,fig.height=3}
+```{r simulate_lm_resimulate_from_model, echo=-1, fig.width=8,fig.height=3}
 par(mfrow = c(1,3), mar = c(4,4,1,1), cex = 1.2)
 sim.lm = simulate(lm.out, nsim = 2000, seed = 12)
 r.x = range(c(y.lm, rowMeans(sim.lm), fitted(lm.out)))
@@ -4167,7 +4221,7 @@ head(res)
   * Below, slopes estimates were extracted from each simulation with various sample sizes. 
   * As the sample size increases, our slope estimation gets better to the "true" underlying value. 
 
-```{r, echo=FALSE, fig.width=8,fig.height=3}
+```{r lm_simulate_slope, echo=FALSE, fig.width=8,fig.height=3}
 par(mar=c(4,4,1,1), cex = 1.3)
 
 set.seed(12345678)
@@ -4283,7 +4337,7 @@ plot.dens(dens200,df.all.sim,5,"n = 5")
 
 - Same simulation as before, but now we plot the adjusted $R^2$ from the linear model. 
 
-```{r, echo=FALSE, fig.width=10,fig.height=5}
+```{r lm_simulate_r_sq, echo=FALSE, fig.width=10,fig.height=5}
 par(mfrow = c(2,3),mar=c(4,4,1,1), cex = 1.1)
 set.seed(2345)
 nb.rep = 1000
@@ -4324,7 +4378,7 @@ lm.sim.fun(n = 200,sd.err = sd.err,plot = T, ret = F)
 
 - Simulate 2 independent variables ( $x_1$ and $x_2$ ). 
 
-```{r, echo=FALSE, fig.width=8,fig.height=4}
+```{r lm_simulate_2x, echo=FALSE, fig.width=8,fig.height=4}
 set.seed(12345678)
 n = 100
 x1 = rnorm(n = n, mean = 10, sd = 1)
@@ -4362,7 +4416,7 @@ abline(a = coef(lm.out)["(Intercept)"]+mean(x1)*coef(lm.out)["x1"], b = coef(lm.
 ```
 
 .tiny[
-```{r, echo=FALSE}
+```{r lm_simulate_2x_out, echo=FALSE}
 cat("Coefficients table:\n"); round(coefficients(summary(lm.out)), 4)
 # Adjusted R^2
 cat("R Squared: "); summary(lm.out)$adj.r.squared
@@ -4415,7 +4469,7 @@ lm.out = lm(y~x+gr, data = df.lm);   lmcoef <- lm.out$coefficients
 ```
 ]
 
-```{r, echo=FALSE, eval=TRUE, results = 'hide'}
+```{r sim_lm_cat_out, echo=FALSE, eval=TRUE, results = 'hide'}
 # Think of beta1 as multiplying the mean of X by beta1 and then seeing the effect of the betaControl and betaTreament
 # See this 
 mean(x.lm) # Mean of the X variable 
@@ -4476,7 +4530,7 @@ anova(lm.out)
 
 ???
 - Here we generate 2 categories that we want to test an effect (e.g., a new drug), but we want to CONTROL for a particular X independent continuous variable (ANCOVA)
-```{r}
+```{r sim_lm_cat_out_summary}
 # Here you can see the beta1 (x), betaControl (Intercept) and betaTreament (grTreatment)
 summary(lm(y~x+gr, data = df.lm))
 # Get JUST the DIFFERENCE with the treatment (Intercept is the Control)
@@ -4501,7 +4555,7 @@ summary(lm.out)$adj.r.squared           # betaTreament is grTreatment.
 
 ???
 
-```{r, echo=FALSE}
+```{r show_df, echo=FALSE}
 df.eo
 ```
 
@@ -4566,7 +4620,7 @@ err.lm = rnorm(n = n, mean = 0, sd = 1)
 # GLM: Linear model (interaction; discrete)
 
 .small[
-```{r, echo=-1, fig.width=5,fig.height=5}
+```{r lm_sim_interaction, echo=-1, fig.width=5,fig.height=5}
 par(mfrow=c(1,1), mar = c(4,4,.1,.1))
 plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, # Add x1 = 0
      col = rgb(red = 0, green = 0, blue = 1, alpha = 0.25), pch = 19,
@@ -4660,7 +4714,7 @@ df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2, breaks = x2s.lg)) %% 2+1
 ---
 # GLM: Linear model (interaction; continuous)
 
-```{r, echo=-c(1:3), fig.width=8,fig.height=4}
+```{r lm_sim_interaction_plot_1x, echo=-c(1:3), fig.width=8,fig.height=4}
 # plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",#col =df.lm$line,
 #      # xlim=range(x2.sim),
 #      pch = 19, xlab = "Level of x2", ylab = "Marginal effect of x1")
@@ -4675,7 +4729,7 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
 
 ???
 
-```{r}
+```{r lm_sim_interaction_out_summary}
 summary(lm.out)
 ```
 
@@ -4784,7 +4838,7 @@ lines(density(p.val.lm), col="red", lwd=2); abline(v = 0.05)
 ???
 
 - Note that we could have checked with the t-values instead
-```{r}
+```{r chall.6.output}
 qt(0.05, df = s.lm.out$df[2])
 sum(unlist(l.rp)<qt(0.025, df = s.lm.out$df[2]))/length(unlist(l.rp))
 sum(p.val.lm<=0.05)/length(p.val.lm)
@@ -4846,7 +4900,7 @@ lines(x = newdata$x1, y = newdata$y, col = "red",lwd = 2)
 
 - The coefficients are given in log(odds)
 
-```{r, echo=FALSE}
+```{r glm_logistic_summary, echo=FALSE}
 glm.sum = summary(glm.logist) # Note that the output of the GLM is in "logit"
 coefficients(glm.sum)[,"Estimate"]
 # glm.sum$coefficients[,1]/glm.sum$coefficients[,2] # Estimate/Std. Error = z val.
@@ -4865,7 +4919,7 @@ coefficients(glm.sum)[,"Estimate"]
 - Here is another example of the logistic regression with only 1 independent variable (z = 0 + 2*rnorm(n = 20, mean = 6, sd = 1))
 - You can see that the coefficients are given in log odds. 
 
-```{r, echo=FALSE, fig.width=8,fig.height=3}
+```{r glm_logistic_odd_prob_linear, echo=FALSE, fig.width=8,fig.height=3}
 set.seed(6)
 n = 20
 x1 = rnorm(n = n, mean = 6, sd = 1)
@@ -4927,7 +4981,7 @@ y = rbinom(n = n, size = 1, prob = pr)
 # GLM: Logistic (quadratic)
 
 
-```{r, echo=FALSE, fig.width=8,fig.height=3}
+```{r glm_logistic_odd_prob_quad, echo=FALSE, fig.width=8,fig.height=3}
 set.seed(6)
 n = 150
 x1 = rnorm(n = n, mean = 6, sd = 3)
@@ -5006,7 +5060,7 @@ points(mean(df$x)+2*sd(df$x),1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+2*sd(df$x))
 
 - the points on the line are at the mean, 1 x sd and 2 x sd from the mean 
 
-```{r}
+```{r glm_logistic_odd_prob_quad_showval}
 mean(df$x)+0*sd(df$x)
 1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+0*sd(df$x))))
 mean(df$x)+1*sd(df$x)
@@ -5038,7 +5092,7 @@ glm.logist = glm( y~x1+I(x1^2), data=df, family="binomial")
 
 - We can also simulate a model with categorical variables 
 
-```{r, echo=FALSE}
+```{r glm_logistic_cat_1, echo=FALSE}
 set.seed(12345678)
 n <- 10000
 # generate categories 
@@ -5122,7 +5176,7 @@ betaCHat <- rep(NA, 1000)
 
 ```
 
-```{r, echo=FALSE, fig.width=6,fig.height=4}
+```{r glm_logistic_cat_plot, echo=FALSE, fig.width=6,fig.height=4}
 b0 <- mod$coef[1] # (Intercept)
 xb <- mod$coef[2] # xB
 xc <- mod$coef[3] # xC
@@ -5309,7 +5363,7 @@ $$\left[\begin{array}{l} y_{11} \\ y_{21} \\ y_{12} \\ y_{22} \end{array} \right
 
 - (G)LMMs are a neat extention of the LM models that can take into account different type of response variables and variance parterns in the response data (see [QCBS workshop ](http://r.qcbs.ca/Workshops/workshop07/workshop07-en/workshop07-en.html#1) on the topic)
 
-```{r, echo=FALSE, fig.width=5, fig.height=3}
+```{r sim_lmms, echo=FALSE, fig.width=5, fig.height=3}
 library(lme4)
 set.seed(16)
 # Experimental design 
@@ -5407,7 +5461,7 @@ colnames(Species.coef) <- c("Intercept", "Slope")
 ```
 
 .pull-left[
-```{r, echo=FALSE, fig.width=4, fig.height=3}
+```{r sim_lmms_lines_species, echo=FALSE, fig.width=4, fig.height=3}
 plot <- ggplot(aes(z_lgt, z.t.lvl), data = f.dat)
 Plot_BySpecies <- plot +
   geom_point(aes(colour = species), size = 1) +
@@ -5426,7 +5480,7 @@ Plot_BySpecies +
 ]
 
 .pull-right[
-```{r, echo=FALSE, fig.width=4, fig.height=3}
+```{r sim_lmms_lines_lakes, echo=FALSE, fig.width=4, fig.height=3}
 Plot_ByLake <- plot +
   geom_point(aes(colour = lake), size = 1) +
   xlab("Length (mm)") + ylab("Trophic Position") +
@@ -5456,7 +5510,7 @@ Plot_ByLake +
 
 .pull-left[
 .tiny[
-```{r}
+```{r sim_lmms_data_gen}
 set.seed(16)
 # Experimental design 
 lakes = 6
@@ -5496,7 +5550,7 @@ f.id = paste0("f.",1:(lakes*f.sp*n.id))
 
 .pull-right[
 .tiny[
-```{r}
+```{r sim_lmms_data_gen_randm}
 # Random effects 
 # Setting it up with rnorm (the correct way)
 # lake.rdm.eff = rep( rnorm(lakes, 0, sd.lake), each = f.sp*n.id)
@@ -5536,7 +5590,7 @@ f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$
 # LMMs simulation
 
 - This simulation is from [Simulate! Simulate! - Part 2: A linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
-```{r, fig.width=8, fig.height=3}
+```{r lmm_sim.blog, fig.width=8, fig.height=3}
 set.seed(16)
 nstand = 5
 nplot = 4
@@ -5640,11 +5694,11 @@ legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 - You can also see [this guide to better understand Time series](https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/)
 - There is a neat tutorial by [Daniel Pinedo called Time series analysis in R](https://rpubs.com/odenipinedo/time-series-analysis-in-R)
 
-```{r, echo=FALSE, fig.width=8,fig.height=4}
+```{r help_arima, echo=FALSE, fig.width=8,fig.height=4}
 ??arima.sim
 ```
 
-```{r, echo=FALSE, fig.width=8,fig.height=4}
+```{r chaos_fun, echo=FALSE, fig.width=8,fig.height=4}
 chaos.fun <- function(lambda, n, initial, plot=TRUE, x.out = 20) {
   x <- numeric(n)
   x[1] <- initial
@@ -5655,7 +5709,7 @@ chaos.fun <- function(lambda, n, initial, plot=TRUE, x.out = 20) {
 }
 ```
 
-```{r, echo=FALSE, fig.width=8,fig.height=4}
+```{r plot_chaos, echo=FALSE, fig.width=8,fig.height=4}
 par(mfrow=c(1,2))
 chaout = chaos.fun(3.3,40,.6) # chaos.fun(4,40,.6)
 
@@ -5674,7 +5728,7 @@ for(lam in seq(2,4,0.001)){
 ---
 # Random walk
 
-```{r, fig.width=4,fig.height=4}
+```{r plot_random_walk, fig.width=4,fig.height=4}
 plot(0:100,0:100,type="n",xlab="",ylab="", main = "Random walk", asp = 1)
 x <- y <- 50
 points(50,50,pch=16,col="red",cex=1.5)
@@ -5695,7 +5749,7 @@ points(x,y,pch=16,col="green",cex=1.5)
 - The examples here were taken from [this post on Stack Overflow](https://stackoverflow.com/questions/68761166/create-random-points-inside-a-shape-in-r)
 - See also the help for `st_sample()`. In the *Examples* section, there are some neat simulations of points in polygons. 
 
-```{r, fig.width=8, fig.height=3}
+```{r rdm_points_in_polygon, fig.width=8, fig.height=3}
 library(sf); library(ggplot2)
 polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4, 
                         3, 4, 2.5, 5, 1, 4, 
@@ -5713,7 +5767,7 @@ ggplot() + geom_sf(aes(), data=polygon) +
 - [QGIS](https://qgis.org/en/site/) was used to draw the Jardin Botanique de Montréal. Buildings were added to remove them from the Jardin Botanique polygon. 
 - Here, 5 random points were generated and added to the polygon
 
-```{r echo=FALSE}
+```{r rdm_pts_in_polygon, echo=FALSE}
 library(sf, warn.conflicts = FALSE)
 library(mapview, warn.conflicts = FALSE)
 
@@ -5757,7 +5811,7 @@ mapView(only.park,
 - 2 points were added to that polygon with known location. 
 - But we'd like to add random points in the 100m buffer around these points 
 
-```{r, echo=FALSE}
+```{r rdm_pts_in_polygon_buffer, echo=FALSE}
 # Add a buffer around the point we want to look at 
 n = 10*2
 min.buff = units::set_units(x = 0, value = "m")
@@ -5782,7 +5836,7 @@ mapView(only.park,
 - 2 points were added to that polygon with known location.
 - Uniformly distributed in the 100m buffer 
 
-```{r, echo=FALSE}
+```{r rdm_pts_in_polygon_buffer_uniform, echo=FALSE}
 # Get random distance 
 # rdm.disttmp = rexp(n = n, rate = 1)*20
 # hist(rdm.disttmp)
@@ -5817,7 +5871,7 @@ mapView(only.park, col.regions = c("green"))+
 
 - What if we want to add a grid to the polygon:
 
-```{r, echo=FALSE}
+```{r rdm_pts_in_polygon_grid, echo=FALSE}
 set.seed(456)
 # Add random points that are occupying the space of the polygon (grid )
 rdm.pt = st_sample(x = only.park, 
@@ -5914,7 +5968,7 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 - The sentence "METHINKS IT IS LIKE A WEASEL" is from Shakespeare's *Hamlet*
 - Richard Dawkins, in his 1986 book *The Blind Watchmaker*, used it to simulate natural selection on random genetic mutation. 
 
-```{r, echo=FALSE}
+```{r Dawkins_natural_Selection_example, echo=FALSE}
 set.seed(12345, kind="Mersenne-Twister")
 
 ## Easier if the string is a character vector
@@ -5973,7 +6027,7 @@ while ( ! all(parent == target)) {
 ```
 
 - After the same number of generations, but if a monkey would randomly be typing on a keyboard! 
-```{r, echo=FALSE}
+```{r Dawkin_print, echo=FALSE}
 .printGen(rdm, target, i)
 ```
 
@@ -6029,6 +6083,7 @@ name: references
 # References
 .tiny[
 Book
+- Crawley, M.J., 2013. The R book 2nd ed., United Kingdom: John Wiley & Sons, Ltd. (see chapter 7)
 - Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973.
 
 <!-- ![:scale 5%](images/Otto_Day.2007. Biologist Guide to Mathematical Modeling in Ecology and Evolution.jpg) -->
