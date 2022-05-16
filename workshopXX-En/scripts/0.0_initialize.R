@@ -16,7 +16,7 @@ librarian::shelf(tidyverse, plotly, viridis, purrr, dplyr,
                  scales, MASS, Rlab, fitdistrplus, dummies, 
                  pwr, lme4, broom.mixed, lmerTest, 
                  sf, mapview, 
-                 cds, TeachingDemos, remotes)
+                 cds, TeachingDemos, remotes, cran_repo = 'https://cran.r-project.org')
 
 # Load packages and install  ----------------------------------------------
 # # Package names
@@ -106,6 +106,6 @@ sessionInfo()
 # loadedNamespaces()
 sink()
 
-cat("Done!\n")
+# cat("Done!\n")
 
 

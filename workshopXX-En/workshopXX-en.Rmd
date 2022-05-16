@@ -17,7 +17,7 @@ output:
 ---
 
 
-```{r setup, echo = F}
+```{r setup, echo=F, warning=FALSE}
 # in the end, should be about 1500 lines
 knitr::opts_chunk$set(
   comment = "#",
