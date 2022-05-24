@@ -5791,9 +5791,10 @@ pol.sf = ggplot() + geom_sf(aes(), data=polygon) +
 library(sf); library(ggplot2)
 polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4, 
                         3, 4, 2.5, 5, 1, 4, 
-                        0, 5, 1, 3, 2, 2), ncol=2, byrow=T)) 
+                        0, 5, 1, 3, 2, 2), 
+                      ncol=2, byrow=T)) 
 polygon = sf::st_polygon(polygon) # Create an sf polygon
-points = sf::st_sample(polygon, size=50) # Sample 50 rdm pts in the polygon
+points = sf::st_sample(polygon, size = 50) # Sample 50 rdm pts in the polygon
 # Plot using the ggplot geom_sf function.
 pol.sf = ggplot() + geom_sf(aes(), data=polygon) + 
   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
