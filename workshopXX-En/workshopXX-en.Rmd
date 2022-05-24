@@ -2252,7 +2252,7 @@ name: table-distributions
 | <span style="background-color: #FFFF00">**Logistic**</span>	     | `plogis`	| `qlogis`	| `dlogis`	| `rlogis` | location, scale   | $f(x) = \frac{e^{a+bx}}{1+e^{a+bx}}, -\infty \lt x \lt \infty$ |
 | <span style="background-color: #FFFF00">**Log Normal**</span>	   | `plnorm`	| `qlnorm`	| `dlnorm`	| `rlnorm` | mean, sd          | $f(x)={\frac{1}{x\sigma\sqrt{2\pi}}}e^{-\Bigl(\frac {(ln(x)-\mu)^2}{2\sigma^2}\Bigr)}$ |
 | Negative Binomial	| `pnbinom`	| `qnbinom`	| `dnbinom`	| `rnbinom`                                              | size, prob.       | $f(x) = {x+r-1 \choose r-1}p^r(1-p)^x, x = 0,1,2,...$ |
-| <span style="background-color: #FFFF00">**Normal**</span>	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm`        | mean, sd          | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$ |
+| <span style="background-color: #FFFF00">**Normal**</span>	     | `pnorm`	| `qnorm`	| `dnorm`	| `rnorm`        | mean, sd          | $f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}, -\infty \lt x \lt \infty$ |
 | <span style="background-color: #FFFF00">**Poisson**</span>	     | `ppois`	| `qpois`	| `dpois`	| `rpois`      | mean              | $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}, x = 0,1,2,...$ |
 | <span style="background-color: #FFFF00">**t (Student's *t*)**</span>	   | `pt`	| `qt`	| `dt`	| `rt`         | df                | $f(x) = \frac{\Gamma[(r+1)/2]}{\sqrt{\pi r}\Gamma(r/2)}\frac{1}{(1+x^2/r)^{(r+1)/2}}$ |
 | Studentized Range | `ptukey`	| `qtukey`	| `dtukey`	| `rtukey`                                               |                   | You just don't want to see it... |
@@ -4035,28 +4035,54 @@ z <- outer(X = xvals,Y = yvals,FUN = fxy2)
 z2 <- outer(X = xvals,Y = yvals,FUN = fxy)
 # axx <- list(nticks = 4,range = c(-25,75))
 # axy <- list(nticks = 4,range = c(-25,75))
-axz <- list(nticks = 4,range = c(0,1))
+# axz <- list(nticks = 4,range = c(0,1))
 
 df.lm$yhat = fitted(lm.out)
 # df.lm$yhat = predict(lm.out)
 df.lm$z = 0
-plotly::plot_ly(x=xrp,y =yvals,z = t(z), type = "surface",
-                colors = terrain.colors(100),#c("darkblue", "yellow", "darkred"), 
-                opacity = 0.58,showlegend = F) %>% 
+zoom=4
+lm.model.interactive = plotly::plot_ly(x = xrp,
+                                       y = yvals,
+                                       z = t(z), 
+                                       type = "surface",
+                                       colors = terrain.colors(100),#c("darkblue", "yellow", "darkred"), 
+                                       opacity = 0.58,showlegend = F) %>% 
   hide_colorbar() %>% 
   add_markers(data = df.lm, x = ~x, y = ~y, z = 0,
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 5, color = "black"), name="Points",showlegend = F) %>% 
+              mode = "markers", 
+              type = "scatter3d", 
+              marker = list(size = 5, color = "black"), 
+              name="Points",showlegend = F) %>% 
   add_trace(data = df.lm, x = ~x, y = ~yhat, z = 0, 
             name="Linear", 
             line = list(dash="solid", color = "red", width = 10.5),
             inherit = FALSE,showlegend = F,
             mode = "lines",
             type = "scatter3d") %>% 
-  layout(scene = list(#xaxis=axx,yaxis=axy,
-                      zaxis=axz),
-           showlegend = F
-  )
+  layout(title = '<b> Linear model expected values </b>',
+         # margin = list(t = 80),
+         scene = list(#xaxis=axx,yaxis=axy,
+           xaxis = list(#title = 'X',
+             range = c(range(xrp)), autorange = "reversed"),
+           yaxis = list(#title = 'Y',
+             range = range(yvals), autorange = "reversed"),
+           zaxis=list(title = 'Z',nticks = 10,range = c(0,1)),
+           camera = list(eye = list(x = 1.25,#cos(1.3*pi)*zoom, # see https://plotly.com/python/3d-camera-controls/
+                                    y = 1.25,#sin(1.8*pi)*zoom, 
+                                    z = 2.25))),#4.0))),
+         showlegend = F
+         ); lm.model.interactive
+
+
+
+## save the output 
+# htmlwidgets::saveWidget(lm.model.interactive, file = "images/lm.model.interactive.html")
+# path_to_python <- "~/miniconda3/bin/python"
+# reticulate::use_python(path_to_python)
+# reticulate::import("plotly")
+# reticulate::import("kaleido")
+# plotly::save_image(lm.model.interactive, file = "images/lm.model.interactive.png")
+
 ```
 
 ]
@@ -5749,7 +5775,7 @@ points(x,y,pch=16,col="green",cex=1.5)
 - The examples here were taken from [this post on Stack Overflow](https://stackoverflow.com/questions/68761166/create-random-points-inside-a-shape-in-r)
 - See also the help for `st_sample()`. In the *Examples* section, there are some neat simulations of points in polygons. 
 
-```{r rdm_points_in_polygon, fig.width=8, fig.height=3}
+```{r rdm_points_in_polygon_code, eval=FALSE, fig.width=8, fig.height=3}
 library(sf); library(ggplot2)
 polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4, 
                         3, 4, 2.5, 5, 1, 4, 
@@ -5757,9 +5783,30 @@ polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4,
 polygon = sf::st_polygon(polygon) # Create an sf polygon
 points = sf::st_sample(polygon, size=50) # Sample 50 rdm pts in the polygon
 # Plot using the ggplot geom_sf function.
-ggplot() + geom_sf(aes(), data=polygon) + 
+pol.sf = ggplot() + geom_sf(aes(), data=polygon) + 
   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 ```
+
+```{r rdm_points_in_polygon, echo=FALSE, fig.width=8, fig.height=3}
+library(sf); library(ggplot2)
+polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4, 
+                        3, 4, 2.5, 5, 1, 4, 
+                        0, 5, 1, 3, 2, 2), ncol=2, byrow=T)) 
+polygon = sf::st_polygon(polygon) # Create an sf polygon
+points = sf::st_sample(polygon, size=50) # Sample 50 rdm pts in the polygon
+# Plot using the ggplot geom_sf function.
+pol.sf = ggplot() + geom_sf(aes(), data=polygon) + 
+  geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
+
+pol.sf + 
+  theme(axis.text = element_text(colour = "black",size = 14),
+    axis.text.x = element_text(colour = "black", size = 14),
+    axis.text.y = element_text(colour = "black", size = 14),
+    axis.line = element_line(size = 1.2,linetype = "solid"), 
+    axis.ticks = element_line(colour = "black", size = 1.2), 
+    panel.grid.major = element_line(colour = "gray98", linetype = "dashed"))
+```
+
 
 ---
 # Spatial simulation
@@ -5800,9 +5847,13 @@ set.seed(456)
 rdm.n = 5
 rdm.pt = st_sample(x = only.park, 
                    size = rdm.n)
-mapView(only.park, 
-        col.regions = c("green"))+
+map.rdm = mapView(only.park, 
+        col.regions = c("green")) +
   mapView(rdm.pt)  # Random points
+map.rdm
+
+## save html to png
+# mapshot(x = map.rdm, file = "images/map_rdm.png")
 ```
 
 ---
@@ -5819,11 +5870,15 @@ max.buff = units::set_units(x = 100, value = "m")
 buffer = st_buffer(x = c(selected.point,selected.point.no.tree), dist = units::set_units(x = 100, value = "m"))
 
 
-mapView(only.park, 
+map.unif = mapView(only.park, 
         col.regions = c("green"))+
   mapView(c(selected.point,selected.point.no.tree), # Get the poitn that was added to be looked at 
           col.regions = c("red")) +
-  mapView(buffer, col.regions = c("red")) 
+  mapView(buffer, col.regions = c("red")); map.unif
+
+## save html to png
+# mapshot(x = map.unif, file = "images/map_unif.png")
+
 ```
 
 
@@ -5859,11 +5914,15 @@ rmd.ptdf.sf = sf::st_as_sf(rmd.ptdf, coords = c("rdm.ppt_x","rdm.ppt_y"), crs = 
 # rmd.ptdf.sf = st_transform(rmd.ptdf.sf, crs = 32188)
 
 set.seed(456)
-mapView(only.park, col.regions = c("green"))+
+map.unif.rdm = mapView(only.park, col.regions = c("green"))+
   mapView(st_sample(only.park,5)) + 
   mapView(c(selected.point,selected.point.no.tree),col.regions = c("red")) + 
   mapView(buffer, col.regions = c("red")) + 
-  mapview(rmd.ptdf.sf,col.regions = c("pink"))
+  mapview(rmd.ptdf.sf,col.regions = c("pink")); map.unif.rdm
+
+## save html to png
+# mapshot(x = map.unif.rdm, file = "images/map_unif_rdm.png")
+
 ```
 
 ---
@@ -5877,11 +5936,13 @@ set.seed(456)
 rdm.pt = st_sample(x = only.park, 
                    size = 100,type ="hexagonal")
 
-mapView(only.park, col.regions = c("green"))+
-  mapView(rdm.pt) 
+map.grid = mapView(only.park, col.regions = c("green"))+
+  mapView(rdm.pt); map.grid
+
+## save html to png
+# mapshot(x = map.grid, file = "images/map_grid.png")
+
 ```
-
-
 
 
 
