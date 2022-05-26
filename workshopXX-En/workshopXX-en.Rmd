@@ -93,6 +93,8 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 - We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop. 
 - We are going to be more explicitly show assumptions of models and use for loops in this workshop 
 
+- You should also have installed [R](https://cran.r-project.org) and you could get [RStudio](https://www.rstudio.com) as well. 
+
 ???
 
 - This workshop builds on the previous workshops. 
@@ -110,8 +112,16 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 
 ???
 
-Hopefully, this is what people will get out of this workshop. 
+- Hopefully, this is what people will get out of this workshop. 
 
+Ultimately, I would like the students to be able
+
+  - to *evaluate* what type of random process generated a particular biological situations.  
+  - to *apply* the various functions in R to simulate data (pseudo-random number generators)
+  - to *interpret* and *analyse* the data that has been generated with R. 
+  - to *create* their own simulations in R in order to answer a particular question or learn about a particular topic 
+
+Consider that it takes time to develop a 'programers' intuition when coding. There are multiple ways to get to the same answer and the idea is not to be perfect at first, but to try to answer a question and improve. 
 
 #################################
 ---
@@ -168,6 +178,9 @@ Some examples
 - Ecological, Climate, Statistical Model
 - Modelling biological systems (e.g., epidemiology)
 - Simulations (see [Modeling and simulation](https://en.wikipedia.org/wiki/Modeling_and_simulation)), Etc. 
+- Some definitions from Banks (1998, p. 6)
+  * **Model**: Representation of an actual system (concern about the limits or boundaries of the model that supposedly represent the system). Known complexity (just enough). 
+  * **Event**: Occurence that changes the state of the system 
 
 ---
 # Background and questions
@@ -225,7 +238,7 @@ Some examples
 <br>
 
 .center[
-"Models can help to guide a scientist's intuition about how various processes interact; they can point out logical flaws in an argument; they can identify testable hypotheses, generate key predictions, and suggest appropriate experiments; and they can reshape fields by providing new ways of thinking about a problem. But mathematical models also have their limitations. The results of an analysis are only as interesting as the biological questions motivating a model. [...]"
+"Models can help to guide a scientist's intuition about *how various processes interact*; they can point out logical *flaws in an argument*; they can identify *testable hypotheses*, *generate key predictions*, and *suggest appropriate experiments*; and they can reshape fields by providing new ways of *thinking about a problem*. But mathematical models also have their limitations. The results of an analysis are only as interesting as the biological questions motivating a model. [...]"
 ]
 
 A Biologist's Guide to Mathematical Modeling in Ecology and Evolution:1–973.
@@ -323,6 +336,7 @@ You probably learned how to use statistical models on certain types of data.
 - Epidemics, road congestion, simulate tragic events to see their impact (e.g., nuclear explosion, flood, emergence of hurricane, etc.)
 - See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
 
+
 ---
 # Find patterns in the natural world
 
@@ -353,6 +367,44 @@ Everything that we measure is caused by factors that scientists try to make sens
 
 For power analysis...
 - See also `power.prop.test()`
+
+
+---
+# Pros and cons of simulations
+
+The list below was taken from Banks (1998 Handbook of simulation).
+
+.pull-left[
+**Pros:** 
+- Choose correctly 
+- Compress and expand time
+- Understand why
+- Explore possibilities
+- Diagnose problems
+- Identify constraints
+- Develop understanding
+- Visualize the plan 
+- Build consensus
+- Prepare for change 
+- Invest wisely
+- Train the team
+- Specify requirements
+]
+
+.pull-right[
+**Cons:**
+- Model building requires special training
+- Simulation results may be difficult to interpret 
+- Simulation modeling and analysis can be time consuming and expensive 
+- Simulation may be used inappropriately 
+
+They are offset by simulation software (R), which can also analyse the results. Personal computers are faster (with programming tricks!) and most complex systems in biology are not closed-form model, justifying the usefulness of simulations. 
+]
+
+
+???
+- Read Banks 1998 to understand better what is meant here (Banks, J. 1998. Handbook of simulation. Pages 1–840. John Wiley & Sons, Inc., New York.)
+
 
 ---
 # Probability distributions are crucial for simulations
@@ -477,6 +529,12 @@ You might be wondering:
 ???
 - The surprising answer is that it can be **used at all stages of research**. 
 - Here is a short list of elements for when you could be using it
+
+- Simulation is (Banks 1998)
+  * an indispensable problem-solving methodology 
+  * used to describe and analyze the behaviour of a system, ask "what-if" questions and aid in the design of real systems 
+  * Existing and conceptual systems can be modelled with simulations 
+
 
 ---
 # Quick example: Genetic drift
@@ -1808,7 +1866,7 @@ name: explore-under-stat-process
 - probability ranges between 0 and 1, but odds range from 0 to $\infty$. 
 
 .pull-left[
-```{r prob_scale_zero_one, echo=FALSE, fig.width=4.7,fig.height=2}
+```{r odds_prob_scale_zero_one, echo=FALSE, fig.width=4.7,fig.height=2}
 par(mar = c(0,0,0,0), 
     # mfrow=c(1,2),
     cex = 1.2)
@@ -2035,7 +2093,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
 
 - The three plots show the contrast between probability, odds and log odds.
 
-```{r odds_prob_plot, echo=-c(1), fig.width=12,fig.height=4}
+```{r odds_prob_plot, echo=FALSE, eval=FALSE, fig.width=12,fig.height=8}
 par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.3)
 o.lo = d$odds~d$log_odds
 p.o = d$p~d$odds
@@ -2044,6 +2102,71 @@ plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
 plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
 plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
 ```
+
+```{r odds_prob_plot_with_pol, echo=FALSE, eval=TRUE, fig.width=12,fig.height=8}
+# adde prob scale
+par(mfrow = c(2,3))
+par(mar = c(0,4,0,0), 
+    # mfrow=c(1,2),
+    cex = 1.2)
+# Probability
+plot(0, type ="n", xlim = c(0,1), axes = F,ylab = "", xlab = "")
+segments(0,0,1,0)
+yval = .05
+lwd = 2
+axis.t = -.17
+seqp=seq(0,1,by = .2)
+for (i in seqp) {
+  segments(i,-yval,i,yval)
+}
+ytext = .55
+text(seqp,y = axis.t,labels = seqp)
+text(.5,y = ytext,labels = c("Probability"))
+arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "gray10")
+###
+# Odds
+plot(0, type ="n", xlim = c(0,11), axes = F,ylab = "", xlab = "")
+segments(0,0,10,0)
+lwd = 2
+for (i in 0:10) {
+  segments(i,-yval,i,yval)
+}
+text(0:10,y = axis.t,labels = c(0:10))
+text(.7,y = ytext,labels = c("Odds \nlosing"))
+text((10+1)/2,y = ytext,labels = c("Odds \nwinning"))
+arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
+arrows(1,.3,11,.3,length = .1,code = 3, lwd = lwd, col = "blue")
+###
+plot(0, type ="n", xlim = c(-6,6), axes = F,ylab = "", xlab = "")
+segments(-5,0,5,0)
+lwd = 2
+for (i in -5:5) {
+  segments(i,-yval,i,yval)
+}
+text(-5:5,y = axis.t,labels = c(-5:5))
+text(-5/2,y = ytext,labels = c("Log odds \nlosing"))
+text((5)/2,y = ytext,labels = c("Log odds \nwinning"))
+arrows(-6,.3,0,.3,length = .1,code = 1, lwd = lwd, col = "red")
+arrows(0,.3,6,.3,length = .1,code = 2, lwd = lwd, col = "blue")
+points(0,.3, pch =19)
+
+###
+
+par(mar =c(4,4,.5,.5), cex = 1.3)
+p.o = d$p~d$odds
+p.lo = d$p~d$log_odds
+o.lo = d$odds~d$log_odds
+plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
+
+plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
+polygon(x = c(0,1,1,0),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
+polygon(x = c(1,150,150,1),y = c(0,0,1,1), col = scales::alpha("green",.5), border =  scales::alpha("green",.5))
+
+plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
+polygon(x = c(-10,0,0,-10),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
+polygon(x = c(0,10,10,0),y = c(0,0,1,1), col = scales::alpha("green",.5), border =  scales::alpha("green",.5))
+```
+
 
 ???
 - You can recognize from the third graph, the familiar shape of a logistic regression. This is purely due to the transformation of space from [0,1] to ]-infinity, infinity[. 
@@ -2384,6 +2507,7 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 
 ???
 - This is a small reminder of what are some of the important distributions with some examples. We will explore some of them in more details later in the talk. 
+- Make sure that the distribution you use are parameterised the way you expect. For example, you might see sometimes the normal distribution taking a *variance* instead of a *standard deviation*. In R, it is parameterised with a *standard deviation*. 
 
 ---
 # Selecting the right distribution
@@ -3870,6 +3994,7 @@ name: simulating-power
 
 ???
 Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
+- Bolker, B. M. 2015. Ecological Models and Data in R. (see chapter 5, p. 209)
 - [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&ab_channel=DaCCoTABiostatsCore)
 - [Power Analysis, Clearly Explained!!!](https://www.youtube.com/watch?v=VX_M3tIyiYk&ab_channel=StatQuestwithJoshStarmer)
 - [Power Analysis in R: Introduction](https://www.youtube.com/watch?v=wYZ6oD_cgMg&ab_channel=DaCCoTABiostatsCore)
@@ -4123,11 +4248,11 @@ Reference for the section
 
 | Type | Equation |
 | ---- | -------- |
-| Linear | $Y = \beta_{0} + \beta_{1} x_{1}  + \epsilon$ |
+| Linear | $Y = \beta_{0} + \beta_{1} x_{1}  + \epsilon$ or $\mu = \beta_{0} + \beta_{1} x_{1}$ for $Y = Normal(\mu, \sigma)$ |
 | Poisson | $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ (no separate error term as $\lambda$ determines both the mean and variance) |
 | Logistic | $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) |
 
-- Keep in mind that the x-values *don't* *need to be normally distributed*. 
+- Keep in mind that the x-values *don't need to be normally distributed*. 
 
 ???
 
@@ -4254,6 +4379,50 @@ for(i in 1:nsim) {
 head(res)
 ```
 
+---
+# GLM: Linear model
+
+- You can add the confidence limits for the expected values (or uncertainty around the mean predictions; blue shaded polygon) to the line and the 95% central quantiles of the Normal distribution (grey shaded polygon)
+
+```{r simulate.gaussian.model, echo=FALSE, fig.width=8,fig.height=6}
+
+sim.lm = simulate(lm.out, nsim = 1e5, seed = 12) %>% data.frame
+lower_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.025) )
+upper_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.975) )
+sims_summary <- data.frame(
+  lower = lower_ci_sim,
+  upper = upper_ci_sim
+)
+
+# PLot the data 
+plot(y~x, data = df.lm, pch = 19, col = b.5)
+# Add a line to the plot 
+df.lm$sims = sims_summary
+o.sim = df.lm[order(df.lm[,1]),]
+polygon(x = c(o.sim$x, rev(o.sim$x)),  
+        y = c(o.sim$sims$lower,rev(o.sim$sims$upper)), col = scales::alpha("grey50",.5))
+
+# GeneralStandardDev<-sd(lm.out$residuals)
+# UpperLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x + GeneralStandardDev
+# LowerLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x - GeneralStandardDev
+# 
+# lines(df.lm$x, UpperLine, col = "blue")
+# lines(df.lm$x, LowerLine, col = "blue")
+pred = predict(lm.out, interval = "confidence") # 95%  confidence interval
+# lines(df.lm$x[order(df.lm$x)], pred[, "lwr"][order(df.lm$x)], col = "blue") 
+# lines(df.lm$x[order(df.lm$x)], pred[, "upr"][order(df.lm$x)], col = "blue") 
+
+
+polygon(x = c(df.lm$x[order(df.lm$x)], rev(df.lm$x[order(df.lm$x)])),  
+        y = c(pred[, "lwr"][order(df.lm$x)],rev(pred[, "upr"][order(df.lm$x)])), 
+        col = scales::alpha("blue",.5))
+abline(lm.out)
+points(df.lm$x,df.lm$y)
+
+```
+
+???
+- Idea from https://www.barelysignificant.com/post/glm/
 
 ---
 # GLM: Linear model
@@ -4928,6 +5097,16 @@ glm.logist = glm( y~x1+x2, data=df, family="binomial")
 - Using the exp (exponential), you get the odds. 
 - Use the $p = odds/(1+odds)$ formula to get the probability
 - Bernoulli response variable (which is a special case of the binomial with size = 1)
+```{r}
+# source : https://sebastiansauer.github.io/convert_logit2prob/
+logit2prob <- function(logit){
+  odds <- exp(logit)
+  prob <- odds / (1 + odds)
+  return(prob)
+}
+coef(glm.logist)
+round(logit2prob(coef(glm.logist)),5)
+```
 
 ---
 # GLM: Logistic
@@ -6160,13 +6339,30 @@ simpca(nr.indv = rep(200, 5), m = 10, q = 7, R = rcormat(m = 10),
 ---
 name: references
 # References
+
 .tiny[
 Book
-- Crawley, M.J., 2013. The R book 2nd ed., United Kingdom: John Wiley & Sons, Ltd. (see chapter 7)
-- Otto, S.P. & Day, T., 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution. pp.1–973.
-- Whitlock, M. C., & Schluter, D., 2020. The analysis of biological data. Third edition. Macmillan Learning, Austin.
+- Aho, K. A. 2013. Foundational and applied statistics for biologists using R.
+- Banks, J. 1998. Handbook of simulation.
+- Bloomfield, V. A. 2009a. Using R for computer simulation and data analysis in biochemistry, molecular biology, and biophysics
+- Bloomfield, V. A. 2009b. Computer simulation and data analysis in molecular biology and biophysics: an introduction using R. 
+- Bolker, B. M. 2015. Ecological Models and Data in R. 
+- Crawley, M. J. 2013. The R book. Pages 1–1051. 2nd ed. (see chapter 7)
+- Dobrow, R. P. 2013. Probability: With Applications and R. 
+- Jones, O., R. Maillardet, and A. Robinson. 2014. Introduction to scientific programming and simulation using R. 2nd ed.
+- Morgan, B. J. T. 1984. Elements of simulation.
+- Otto, S. P., and T. Day. 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution.
+- Ross, K. 2021. An introduction to probability and simulation.
+- Seefeld, K., and E. Linder. 2007. Statistics using R with biological examples.
+- Soetaert, K., J. Cash, and F. Mazzia. 2012. Solving Differential Equations in R.
+- Templ, M. 2016. Simulation for data science with R. 
+- Whitlock, M. C., and D. Schluter. 2020. The analysis of biological data. 3rd ed.
 
 <!-- ![:scale 5%](images/Otto_Day.2007. Biologist Guide to Mathematical Modeling in Ecology and Evolution.jpg) -->
+
+
+---
+# References 
 
 Links 
 - [Getting started simulating data in R: some helpful functions and how to use them (Ariel Muldoon)](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
@@ -6196,7 +6392,7 @@ name: acknowledgements
 
 Thanks to all the people that contributed to this presentation. All of the inspiration for this workshop is referenced in the markdown or linked in the notes. 
 
-In particular, thank to the Barrett lab graduate students for their valuable insights and support, Winer Daniel Reyes Corral, etc. 
+In particular, thank to the Barrett lab graduate students (McGill) for their valuable insights and support, Winer Daniel Reyes Corral (McGill), Pierre-Olivier Montiglio (UQAM), etc. 
 
 ---
 class: inverse, center, bottom

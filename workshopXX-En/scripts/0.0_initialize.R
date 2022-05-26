@@ -9,14 +9,25 @@
   # loading a bunch of packages efficiently https://statsandr.com/blog/an-efficient-way-to-install-and-load-r-packages/
 ##########################################################################################
 
+# install.packages("librarian")
+
 # Load libraries ----------------------------------------------------------
-librarian::shelf(tidyverse, plotly, viridis, purrr, dplyr, 
-                 ggplot2, ggExtra, gridExtra, 
+librarian::shelf(tidyverse, 
+                 broom.mixed,
+                 dplyr, 
+                 cds, 
+                 dummies, 
+                 fitdistrplus, 
                  gavinsimpson / ggvegan, 
-                 scales, MASS, Rlab, fitdistrplus, dummies, 
-                 pwr, lme4, broom.mixed, lmerTest, 
-                 sf, mapview, 
-                 cds, TeachingDemos, remotes, cran_repo = 'https://cran.r-project.org')
+                 ggplot2, ggExtra, gridExtra, 
+                 lme4, lmerTest, 
+                 mapview, MASS, 
+                 plotly, purrr, pwr, 
+                 remotes, Rlab, 
+                 scales, sf, 
+                 TeachingDemos, 
+                 viridis, 
+                 cran_repo = 'https://cran.r-project.org')
 
 # Load packages and install  ----------------------------------------------
 # # Package names
