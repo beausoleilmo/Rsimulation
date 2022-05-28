@@ -1,4 +1,4 @@
-## ----setup, echo = F---------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----setup, echo=F, warning=FALSE-------------------------------------------------------------------------------------
 # in the end, should be about 1500 lines
 knitr::opts_chunk$set(
   comment = "#",
@@ -10,8 +10,13 @@ knitr::opts_chunk$set(
   fig.align = 'center'
 )
 
+library(librarian) # even better than pacman 
+# library(pacman)
+# Need to install all packages in initialize
+suppressWarnings(source(file = "scripts/0.0_initialize.R"))
 
-## ----normal_compare_theoretical_simulated, echo=FALSE, fig.width=8, fig.height=4---------------------------------------------------------------------------------------------
+
+## ----normal_compare_theoretical_simulated, echo=FALSE, fig.width=8, fig.height=4--------------------------------------
 par(mfrow=c(1,2))
 set.seed(12345)
 curve(expr = dnorm(x), 
@@ -30,26 +35,26 @@ plot(density(rnorm(6)),
      lwd = 3)
 
 
-## ----r_tips1, eval=FALSE-----------------------------------------------------------------------------------------------------------------------------------------------------
-## # Description  ------------------------------------------------------------
-## # This is the description section as previously presented
-## 
-## # Libraries ---------------------------------------------------------------
-## # Here load the libraries used in the script
-## library(ggplot2)
-## 
-## # Functions ---------------------------------------------------------------
-## # Add and describe the functions used in the script
-## ## Add more information
-## function.name = function(var){tmp=2+var; return(tmp)}
-## 
-## # Plots -------------------------------------------------------------------
-## # Plotting the data simulated
-## ## Add more information
-## plot(function.name(1:10)+rnorm(10))
+## ----r_tips1, eval=FALSE----------------------------------------------------------------------------------------------
+# # Description  ------------------------------------------------------------
+# # This is the description section as previously presented
+# 
+# # Libraries ---------------------------------------------------------------
+# # Here load the libraries used in the script
+# library(ggplot2)
+# 
+# # Functions ---------------------------------------------------------------
+# # Add and describe the functions used in the script
+# ## Add more information
+# function.name = function(var){tmp=2+var; return(tmp)}
+# 
+# # Plots -------------------------------------------------------------------
+# # Plotting the data simulated
+# ## Add more information
+# plot(function.name(1:10)+rnorm(10))
 
 
-## ----r_tips2, echo=FALSE, fig.width=13,fig.height=7--------------------------------------------------------------------------------------------------------------------------
+## ----r_tips2, echo=FALSE, fig.width=13,fig.height=7-------------------------------------------------------------------
 # Description  ------------------------------------------------------------
 #### ### ### ## #### ### ### ## #### ### ### ## 
 # Genetic drift simulation
@@ -147,7 +152,7 @@ for (l in n.id.pop) {
 
 
 
-## ----fake_fitness_functions, echo=FALSE, fig.width=8,fig.height=3------------------------------------------------------------------------------------------------------------
+## ----fake_fitness_functions, echo=FALSE, fig.width=8,fig.height=3-----------------------------------------------------
 # Fake fitness landscapes 
 # Fitness test theoretical fitness landscapes 
 par(mfrow=c(1,3))
@@ -195,7 +200,7 @@ q.fun(-70:70,factor = 1,xlab = "(Disruptive)",lwd = 5,cex.text = 2,
 
 
 
-## ----normalX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4--------------------------------------------------------------------------------------------------------
+## ----normalX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4-------------------------------------------------
 # source(file = "scripts/marginal_plot.R")
 set.seed(123)
 # par(mfrow = c(1,2), mar =c(4,4,3,3), cex = 1.4)
@@ -299,52 +304,52 @@ p.marg2
 
 
 
-## ----normalX_Y1, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y1, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 p.1
 
 
-## ----normalX_Y2, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y2, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 p.2
 
 
-## ----normalX_Y3, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y3, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 # p.h1
 p.h.v1
 
 
-## ----normalX_Y4, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y4, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 # p.h2
 p.h.v2
 
 
 
-## ----normalX_Y5, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y5, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 # p.h.v.sd.x1
 p.h.v.sd.x.sd.y1
 
 
-## ----normalX_Y6, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y6, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 # p.h.v.sd.x2
 p.h.v.sd.x.sd.y2
 
 
-## ----normalX_Y7, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y7, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 p.h.v.sd.x.sd.y.l1
 
 
-## ----normalX_Y8, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y8, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 p.h.v.sd.x.sd.y.l2
 
 
-## ----normalX_Y9, echo=FALSE, fig.width=5,fig.height=4------------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y9, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------
 p.marg1
 
 
-## ----normalX_Y10, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------------------------------------------------------------
+## ----normalX_Y10, echo=FALSE, fig.width=5,fig.height=4----------------------------------------------------------------
 p.marg2
 
 
-## ----poissonX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4-------------------------------------------------------------------------------------------------------
+## ----poissonX_Y, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4------------------------------------------------
 set.seed(1217)
 n = 250
 b0 = 0.8
@@ -489,23 +494,23 @@ p.marg2
 
 
 
-## ----poissonX_Y1, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------------------------------------------------------------
+## ----poissonX_Y1, echo=FALSE, fig.width=5,fig.height=4----------------------------------------------------------------
 p.1
 
 
-## ----poissonX_Y2, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------------------------------------------------------------
+## ----poissonX_Y2, echo=FALSE, fig.width=5,fig.height=4----------------------------------------------------------------
 p.2
 
 
-## ----poissonX_Y3, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------------------------------------------------------------
+## ----poissonX_Y3, echo=FALSE, fig.width=5,fig.height=4----------------------------------------------------------------
 p.marg1
 
 
-## ----poissonX_Y4, echo=FALSE, fig.width=5,fig.height=4-----------------------------------------------------------------------------------------------------------------------
+## ----poissonX_Y4, echo=FALSE, fig.width=5,fig.height=4----------------------------------------------------------------
 p.marg2
 
 
-## ----poissonX_logY, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4----------------------------------------------------------------------------------------------------
+## ----poissonX_logY, echo=FALSE, fig.show='hide', fig.width=8,fig.height=4---------------------------------------------
 library(scales)
 set.seed(1217)
 # n = 250
@@ -618,19 +623,19 @@ p.marg2 = ggExtra::ggMarginal(p.h.v.sd.x.sd.y.l2, type = "histogram", fill = "gr
 p.marg2
 
 
-## ----poissonX_logY3, echo=FALSE, fig.width=5,fig.height=4--------------------------------------------------------------------------------------------------------------------
+## ----poissonX_logY3, echo=FALSE, fig.width=5,fig.height=4-------------------------------------------------------------
 p.marg1
 
 
-## ----poissonX_logY4, echo=FALSE, fig.width=5,fig.height=4--------------------------------------------------------------------------------------------------------------------
+## ----poissonX_logY4, echo=FALSE, fig.width=5,fig.height=4-------------------------------------------------------------
 p.marg2
 
 
-## ----set.seed_function, echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------
+## ----set.seed_function, echo=FALSE------------------------------------------------------------------------------------
 set.seed(123)
 
 
-## ----runif_example-----------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----runif_example----------------------------------------------------------------------------------------------------
 runif(n = 1, min = 1, max = 10) # Gives a random number between 1 and 10
 runif(n = 1, min = 1, max = 10) # RNG wasn't reset, different answer (see above)
 runif(n = 1, min = 1, max = 10) # Different again... 
@@ -640,50 +645,50 @@ set.seed(42); runif(n = 1, min = 1, max = 10) # The exact same number
 
 
 
-## ----set.seed_hidden, echo=FALSE---------------------------------------------------------------------------------------------------------------------------------------------
+## ----set.seed_hidden, echo=FALSE--------------------------------------------------------------------------------------
 set.seed(123)
 
 
-## ----sample_numerical_example------------------------------------------------------------------------------------------------------------------------------------------------
+## ----sample_numerical_example-----------------------------------------------------------------------------------------
 set.seed(12) # Set the RNG 
 v.1.10 = 1:10 # Make a vector from 1 to 10 
 # Randomly pick 1 (size) value from the vector (x), without replacement 
 sample(x = v.1.10, size = 1, replace = FALSE) 
 
 
-## ----sample_characters_example-----------------------------------------------------------------------------------------------------------------------------------------------
+## ----sample_characters_example----------------------------------------------------------------------------------------
 set.seed(3) # Set the RNG 
 # Randomly pick 5 (size) letters from the vector (x), without replacement 
 sample(x = LETTERS, size = 5, replace = FALSE) 
 sample(x = as.factor(month.abb), size = 5, replace = FALSE) 
 
 
-## ----permutations_load_viridis, echo=FALSE-----------------------------------------------------------------------------------------------------------------------------------
+## ----permutations_load_viridis, echo=FALSE----------------------------------------------------------------------------
 library(viridis)
 
 
-## ----permutations_df, fig.width=4,fig.height=3-------------------------------------------------------------------------------------------------------------------------------
+## ----permutations_df, fig.width=4,fig.height=3------------------------------------------------------------------------
 set.seed(123)
 n = 40; col = viridis::viridis(n = n)
 x = 1:n ; y = 2+.5*x + rnorm(n, sd=7)
 df.xy = data.frame(x,y, col )
 
 
-## ----permutations_XY, fig.width=4,fig.height=3-------------------------------------------------------------------------------------------------------------------------------
+## ----permutations_XY, fig.width=4,fig.height=3------------------------------------------------------------------------
 set.seed(321)
 df.xy$x.s = sample(df.xy$x) #<<
 df.xy$y.s = sample(df.xy$y) #<<
 # We break up the link of X and Y 
 
 
-## ----permutations_plot, fig.width=9,fig.height=3-----------------------------------------------------------------------------------------------------------------------------
+## ----permutations_plot, fig.width=9,fig.height=3----------------------------------------------------------------------
 par(mfrow=c(1,3), mar=c(4,4,1,1), cex = 1.2)
 plot(y~x,  col=col, data=df.xy, pch=19);abline(lm(y~x,  data=df.xy)) # Original 
 plot(y~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permutated 
 plot(y.s~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permutated 
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----rdm_dates--------------------------------------------------------------------------------------------------------
 set.seed(42)
 # GEt a sequence of dates
 datae.seq = seq(from = as.Date('2010/01/01'), 
@@ -695,7 +700,7 @@ head(datae.seq, 4); tail(datae.seq, 4)
 sample(datae.seq, 5)
 
 
-## ---- echo=-1, fig.width=8, fig.height=3.5-----------------------------------------------------------------------------------------------------------------------------------
+## ----sample_die, echo=-1, fig.width=8, fig.height=3.5-----------------------------------------------------------------
 par(mar=c(4,4,0.1,0.1))
 set.seed(50)
 p_dice = c(1,1,1,1,1,5) # Here we have twice the change of landing on 6
@@ -707,7 +712,7 @@ die_results <- sample(x = 1:6, # or seq(from = 1, to=6, by=1)
 barplot(table(die_results)) # table(die_results)/nb.tosses
 
 
-## ----rep_function_example----------------------------------------------------------------------------------------------------------------------------------------------------
+## ----rep_function_example---------------------------------------------------------------------------------------------
 (let4first = LETTERS[1:4])
 rep(let4first, times = 2) # Repeat the WHOLE sequence twice 
 rep(let4first, each = 2) # Repeat each element twice 
@@ -719,7 +724,7 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the length.out
 
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----gl_func----------------------------------------------------------------------------------------------------------
 nb.of.levels = 2
 nb.of.replicates = 8
 labels.for.the.factors = c("Control", "Treat")
@@ -733,7 +738,7 @@ gl(n = 2, k = 1, length = 20)
 gl(n = 2, k = 2, length = 20)
 
 
-## ----data_replicate----------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----data_replicate---------------------------------------------------------------------------------------------------
 set.seed(1234)
 data.replicated = replicate(n = 2,
                             expr = data.frame(gr = rep(LETTERS[1:3], each = 2),
@@ -741,30 +746,96 @@ data.replicated = replicate(n = 2,
                             simplify = FALSE)
 
 
-## ----data_replicate1---------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----data_replicate1--------------------------------------------------------------------------------------------------
 data.replicated[[1]]
 
 
-## ----data_replicate2---------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----data_replicate2--------------------------------------------------------------------------------------------------
 data.replicated[[2]]
 
 
-## ----show_sample, eval=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------
-## sample()
+## ----expand.example---------------------------------------------------------------------------------------------------
+set.seed(1234)
+exp.design = expand.grid(height = seq(60, 70, 10), 
+                         weight = seq(100, 200, 100),
+                         sex = c("Male","Female"), 
+                         stringsAsFactors = TRUE) # characters will be factors
+head(exp.design)
+# str(exp.design)
 
 
-## ----sample_replacement------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## ----outer.example.nt, eval=FALSE-------------------------------------------------------------------------------------
+# x <- 1:10; names(x) <- x
+# # Multiplication & Power Tables
+# x %o% x # same as outer(x, x, "*")
+# x.mul = outer(x, x, "*")
+# x.sub = outer(x, x, "-")
+# x.add = outer(x, x, "+")
+# x.div = outer(x, x, "/")
+# 
+
+
+## ----outer.example, echo=FALSE, fig.width=8,fig.height=5--------------------------------------------------------------
+x <- 1:10; names(x) <- x
+# Multiplication & Power Tables
+# x %o% x # same as outer(x, x, "*")
+x.mul = outer(x, x, "*")
+x.sub = outer(x, x, "-")
+x.add = outer(x, x, "+")
+x.div = outer(x, x, "/")
+add.lab = function(x, out.mat, cex = 1) {
+  for (i in 1:length(x)) {
+    for (j in 1:length(x)) {
+      text(i,j,labels = round(out.mat[i,j],2),cex = cex)
+    }
+  }
+}
+cex=.8
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+image(x = x, y = x, z =x.mul, axes = FALSE, main ='Multiplication')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.mul, cex=cex)
+image(x = x, y = x, z =x.sub, axes = FALSE, main ='Subtraction')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.sub, cex=cex)
+image(x = x, y = x, z =x.add, axes = FALSE, main ='Addition')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.add, cex=cex)
+image(x = x, y = x, z =x.div, axes = FALSE, main ='Division')
+axis(1, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(x), by = 1))
+add.lab(x,x.div, cex=cex)
+
+y <- 2:8; names(y) <- paste(y,":", sep = "")
+# outer(y, x, "^")
+
+# outer(month.abb, 1999:2003, FUN = "paste")
+
+## three way multiplication table:
+# x %o% x %o% y[1:3]
+
+
+
+## ----show_sample, eval=FALSE------------------------------------------------------------------------------------------
+# sample()
+
+
+## ----sample_replacement-----------------------------------------------------------------------------------------------
 set.seed(12345) # Sets the random number generator to a fix value
 vec.1.10 = 1:10 # Make the vector to choose from 
 sample(x = vec.1.10, size = 4, replace = FALSE) # Sample 4 nb without replacement
 sample(x = vec.1.10, size = 4, replace = TRUE) # Sample 4 nb with replacement
 
 
-## ----sample_example----------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----sample_example---------------------------------------------------------------------------------------------------
 set.seed(123); table(sample(x = 0:1, size = 1000, replace = T,prob = c(.5,.5)))
 
 
-## ----linear_no_error, echo=-1, fig.width=6, fig.height=5---------------------------------------------------------------------------------------------------------------------
+## ----linear_no_error, echo=-1, fig.width=6, fig.height=5--------------------------------------------------------------
 par(mar=c(4,4,.5,.5), cex = 1.5)
 x = 1:10
 y = 2 + 3 * x
@@ -773,7 +844,7 @@ linear.df = data.frame(x,y,gr)
 plot(y~x, col = as.factor(gr), data = linear.df, pch = 19, cex = 1.5)
 
 
-## ---- echo=FALSE, fig.width=4.7,fig.height=2---------------------------------------------------------------------------------------------------------------------------------
+## ----odds_prob_scale_zero_one, echo=FALSE, fig.width=4.7,fig.height=2-------------------------------------------------
 par(mar = c(0,0,0,0), 
     # mfrow=c(1,2),
     cex = 1.2)
@@ -793,7 +864,7 @@ arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "gray10")
 
 
 
-## ---- echo=FALSE, fig.width=4.7,fig.height=2---------------------------------------------------------------------------------------------------------------------------------
+## ----odds_scale_zero_inf, echo=FALSE, fig.width=4.7,fig.height=2------------------------------------------------------
 par(mar = c(0,0,0,0), 
     # mfrow=c(1,2),
     cex = 1.2)
@@ -812,7 +883,7 @@ arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
 arrows(1,.3,11,.3,length = .1,code = 3, lwd = lwd, col = "blue")
 
 
-## ---- echo=FALSE, fig.width=4.7,fig.height=2---------------------------------------------------------------------------------------------------------------------------------
+## ----log_odds_scale_inf_inf, echo=FALSE, fig.width=4.7,fig.height=2---------------------------------------------------
 par(mar = c(0,0,0,0), cex = 1.2)
 plot(0, type ="n", xlim = c(-6,6), axes = F,ylab = "", xlab = "")
 segments(-5,0,5,0)
@@ -831,7 +902,7 @@ points(0,.3, pch =19)
 
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----prob_odd_log_trans-----------------------------------------------------------------------------------------------
 raw.num = c(1,2,8) # numbers NOT on the log scale (simulate a DOUBLING process like qPCR)
 mean(raw.num) # Arithmetic average (which would be WRONG)
 mean.log = mean(log(raw.num)/log(2)) # Taking the mean of the log (this is the geometric mean)
@@ -844,14 +915,14 @@ gm
 2^mean.log
 
 
-## ----odds_example, echo=-1---------------------------------------------------------------------------------------------------------------------------------------------------
+## ----odds_example, echo=-1--------------------------------------------------------------------------------------------
 library(MASS)
 tot.nb.ev = 100; success = 20
 odds.favor = (success)/(tot.nb.ev-success) # Odds in favor of event ( 1 in 4)
 odds.agnst = (tot.nb.ev-success)/(success) # Odds against the event (here 4 to 1)
 
 
-## ---- echo=FALSE, fig.width=4.7,fig.height=2---------------------------------------------------------------------------------------------------------------------------------
+## ----coin_sequence_image, echo=FALSE, fig.width=4.7,fig.height=2------------------------------------------------------
 par(mar = c(0,0,0,0))
 # Get circles
 nb.flips = 5
@@ -878,13 +949,13 @@ for (i in 1:nb.flips) {
 
 
 
-## ----probability_example-----------------------------------------------------------------------------------------------------------------------------------------------------
+## ----probability_example----------------------------------------------------------------------------------------------
 tot.nb.ev = 100; success = 20
 probability.favor = (success)/(tot.nb.ev) # probability of event (here 20%)
 probability.favor # fractions(probability.favor)
 
 
-## ----odds_prob, fig.width=9,fig.height=7.5-----------------------------------------------------------------------------------------------------------------------------------
+## ----odds_prob, fig.width=9,fig.height=7.5----------------------------------------------------------------------------
 # Get some LOG ODDS numbers 
 log_odds = seq(from = -5, to = 5, by = .25)
 # Transformed into odds 
@@ -902,46 +973,130 @@ d = data.frame(log_odds, odds, p, p2, q)
 head(signif(d,2), 3)
 
 
-## ----odds_prob_plot, echo=-c(1), fig.width=12,fig.height=4-------------------------------------------------------------------------------------------------------------------
-par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.3)
-o.lo = d$odds~d$log_odds
+## ----odds_prob_plot, echo=FALSE, eval=FALSE, fig.width=12,fig.height=8------------------------------------------------
+# par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.3)
+# o.lo = d$odds~d$log_odds
+# p.o = d$p~d$odds
+# p.lo = d$p~d$log_odds
+# plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
+# plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
+# plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
+
+
+## ----odds_prob_plot_with_pol, echo=FALSE, eval=TRUE, fig.width=12,fig.height=8----------------------------------------
+# adde prob scale
+par(mfrow = c(2,3))
+par(mar = c(0,4,0,0), 
+    # mfrow=c(1,2),
+    cex = 1.2)
+# Probability
+plot(0, type ="n", xlim = c(0,1), axes = F,ylab = "", xlab = "")
+segments(0,0,1,0)
+yval = .05
+lwd = 2
+axis.t = -.17
+seqp=seq(0,1,by = .2)
+for (i in seqp) {
+  segments(i,-yval,i,yval)
+}
+ytext = .55
+text(seqp,y = axis.t,labels = seqp)
+text(.5,y = ytext,labels = c("Probability"))
+arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "gray10")
+###
+# Odds
+plot(0, type ="n", xlim = c(0,11), axes = F,ylab = "", xlab = "")
+segments(0,0,10,0)
+lwd = 2
+for (i in 0:10) {
+  segments(i,-yval,i,yval)
+}
+text(0:10,y = axis.t,labels = c(0:10))
+text(.7,y = ytext,labels = c("Odds \nlosing"))
+text((10+1)/2,y = ytext,labels = c("Odds \nwinning"))
+arrows(0,.3,1,.3,length = .1,code = 3, lwd = lwd, col = "red")
+arrows(1,.3,11,.3,length = .1,code = 3, lwd = lwd, col = "blue")
+###
+plot(0, type ="n", xlim = c(-6,6), axes = F,ylab = "", xlab = "")
+segments(-5,0,5,0)
+lwd = 2
+for (i in -5:5) {
+  segments(i,-yval,i,yval)
+}
+text(-5:5,y = axis.t,labels = c(-5:5))
+text(-5/2,y = ytext,labels = c("Log odds \nlosing"))
+text((5)/2,y = ytext,labels = c("Log odds \nwinning"))
+arrows(-6,.3,0,.3,length = .1,code = 1, lwd = lwd, col = "red")
+arrows(0,.3,6,.3,length = .1,code = 2, lwd = lwd, col = "blue")
+points(0,.3, pch =19)
+
+###
+
+par(mar =c(4,4,.5,.5), cex = 1.3)
 p.o = d$p~d$odds
 p.lo = d$p~d$log_odds
+o.lo = d$odds~d$log_odds
 plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
+
 plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
+polygon(x = c(0,1,1,0),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
+polygon(x = c(1,150,150,1),y = c(0,0,1,1), col = scales::alpha("green",.5), border =  scales::alpha("green",.5))
+
 plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
+polygon(x = c(-10,0,0,-10),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
+polygon(x = c(0,10,10,0),y = c(0,0,1,1), col = scales::alpha("green",.5), border =  scales::alpha("green",.5))
 
 
-## ----feel_random_var, echo=FALSE---------------------------------------------------------------------------------------------------------------------------------------------
+## ----feel_random_var, echo=FALSE--------------------------------------------------------------------------------------
 set.seed(123)
 n = 1000
 rnorm.val = rnorm(n = n, mean = 15, sd = 2)
 random.var.normal = round(rnorm.val,1)
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----get_rdm_nb_1, echo=FALSE-----------------------------------------------------------------------------------------
 random.var.normal[1]
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----get_rdm_nb_5, echo=FALSE-----------------------------------------------------------------------------------------
 random.var.normal[1:5]
 
 
-## ----feel_random_var_hist_5, echo=FALSE, fig.width=6, fig.height=5-----------------------------------------------------------------------------------------------------------
+## ----feel_random_var_hist_5, echo=FALSE, fig.width=6, fig.height=5----------------------------------------------------
 par(mfrow=c(1,1),cex = 1.5)
 hist(random.var.normal[1:5], main = "Hisogram of random variable", xlab = "x")
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----get_rdm_nb_100, echo=FALSE---------------------------------------------------------------------------------------
 random.var.normal[1:100]
 
 
-## ----feel_random_var_hist_100, echo=FALSE, fig.width=6, fig.height=5---------------------------------------------------------------------------------------------------------
+## ----feel_random_var_hist_100, echo=FALSE, fig.width=6, fig.height=5--------------------------------------------------
 par(mfrow=c(1,1),cex = 1.5)
 hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 
 
-## ----Statistical_dist, echo=FALSE, out.width=750, out.height=600, fig.width=9,fig.height=7.4---------------------------------------------------------------------------------
+## ----happy_birthday, echo=c(-1), eval=FALSE---------------------------------------------------------------------------
+# # from the ??birthday page in R help
+# ## probability of > 2 people with the same birthday
+# pbirthday(23, coincident = 3)
+# ## 0.9 probability of >=3 coincident birthdays
+# qbirthday(coincident = 3, prob = 0.9) # Gives the number of people
+# ## Chance of >=4  coincident birthdays in 300 people
+# pbirthday(300, coincident = 4)
+
+
+## ---------------------------------------------------------------------------------------------------------------------
+## from Diaconis & Mosteller p. 858. 'coincidence' is that husband, wife, daughter all born on the 16th
+qbirthday(classes = 30, coincident = 3) # approximately 18
+
+coin = 2
+n.seq = 1:qbirthday(p = 0.999,coincident = coin)
+get.probs = mapply(pbirthday, n = n.seq, classes = 365, coincident = coin)
+plot(get.probs~n.seq, type = "l"); abline(h = 0.5, v = qbirthday(p = 0.5,coincident = coin), lty = 3)
+
+
+## ----Statistical_dist, echo=FALSE, out.width=750, out.height=600, fig.width=9,fig.height=7.4--------------------------
 par(mfrow = c(3,3), 
     # bg = NA,
     mar= c(4,4,3,3))
@@ -1006,7 +1161,7 @@ abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, max = 18"),lty = c(1,1,1), col =c(col.b,col,col.r), lwd = 2)
 
 
-## ----similar_plot_from_different_distributions, echo=FALSE, fig.width=7,fig.height=3-----------------------------------------------------------------------------------------
+## ----similar_plot_from_different_distributions, echo=FALSE, fig.width=7,fig.height=3----------------------------------
 par(mfrow = c(1,2))
 set.seed(1234)
 hist(rbinom(10000, 10, 0.5), #breaks = seq(-0.5, 10.5, by = 1), 
@@ -1014,7 +1169,7 @@ hist(rbinom(10000, 10, 0.5), #breaks = seq(-0.5, 10.5, by = 1),
 hist(rnorm(10000, 5, 1.5), xlim = c(0,10), main = "Normal")
 
 
-## ----equivalence_between_distributions_Bern_binom, echo=FALSE, fig.width=7,fig.height=4--------------------------------------------------------------------------------------
+## ----equivalence_between_distributions_Bern_binom, echo=FALSE, fig.width=7,fig.height=4-------------------------------
 par(mfrow = c(1,2), cex = 1.4)
 # install.packages("Rlab")
 library("Rlab")
@@ -1037,44 +1192,44 @@ barplot(height = y_binom,
 # rbinom(n = 10, size = 1, prob = 0.5)
 
 
-## ----simulate_coin_flips_plot, echo=FALSE, eval=FALSE------------------------------------------------------------------------------------------------------------------------
-## # Coin flips visualize
-## set.seed(1235)
-## 
-## nb.flips = 10
-## set.seed(98765)
-## coin.flips = rbinom(n = nb.flips, size = 1, prob = 0.5)
-## heads.tails = ifelse(coin.flips==1,"H","T")
-## radius =1
-## # initialize a plot
-## plot(x = c(0, nb.flips*(radius+.5)), y = c(-.5, 1), type = "n",
-##      axes = F,
-##      asp = 1,
-##      ylab = "", xlab = "")
-## w = 0
-## pos=0
-## for (i in 1:nb.flips) {
-##   if (i %% 5 == 0) {
-##     pos = pos + 2.5
-##     w = 0
-##   }
-## 
-##   # prepare "circle data"
-##   radius = 1
-##   center_x = w + 1
-##   center_y = pos
-##   theta = seq(0, 2 * pi, length = 200) # angles for drawing points around the circle
-## 
-##   # draw the circle
-##   lines(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y)
-##   polygon(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y, col = scales::alpha("beige",.5))
-##   text(center_x,center_y,labels = heads.tails[i], cex = 3)
-##   w = w + 2*radius+.5
-## }
-## 
+## ----simulate_coin_flips_plot, echo=FALSE, eval=FALSE-----------------------------------------------------------------
+# # Coin flips visualize
+# set.seed(1235)
+# 
+# nb.flips = 10
+# set.seed(98765)
+# coin.flips = rbinom(n = nb.flips, size = 1, prob = 0.5)
+# heads.tails = ifelse(coin.flips==1,"H","T")
+# radius =1
+# # initialize a plot
+# plot(x = c(0, nb.flips*(radius+.5)), y = c(-.5, 1), type = "n",
+#      axes = F,
+#      asp = 1,
+#      ylab = "", xlab = "")
+# w = 0
+# pos=0
+# for (i in 1:nb.flips) {
+#   if (i %% 5 == 0) {
+#     pos = pos + 2.5
+#     w = 0
+#   }
+# 
+#   # prepare "circle data"
+#   radius = 1
+#   center_x = w + 1
+#   center_y = pos
+#   theta = seq(0, 2 * pi, length = 200) # angles for drawing points around the circle
+# 
+#   # draw the circle
+#   lines(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y)
+#   polygon(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y, col = scales::alpha("beige",.5))
+#   text(center_x,center_y,labels = heads.tails[i], cex = 3)
+#   w = w + 2*radius+.5
+# }
+# 
 
 
-## ----petri_dish_bacteria_colonny, echo=FALSE, fig.width=5,fig.height=3-------------------------------------------------------------------------------------------------------
+## ----petri_dish_bacteria_colonny, echo=FALSE, fig.width=5,fig.height=3------------------------------------------------
 set.seed(1235)
 # initialize a plot
 plot(c(-1, 3.5), c(-1, 1), type = "n", axes = F, asp = 1, ylab = "", xlab = "")
@@ -1112,11 +1267,11 @@ for (i in 1:length(x.pos)) {
 }
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----rpois_example_1.2------------------------------------------------------------------------------------------------
 set.seed(5937); rpois(n = 1,lambda = 2)
 
 
-## ----Statistical_dist_poisson_wolf, echo=FALSE, fig.width=8,fig.height=2-----------------------------------------------------------------------------------------------------
+## ----Statistical_dist_poisson_wolf, echo=FALSE, fig.width=8,fig.height=2----------------------------------------------
 par(mfrow = c(1,1), mar = c(4,4,1,1))
 set.seed(12345)
 col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
@@ -1126,7 +1281,7 @@ add.l <- function(by=.1) {  abline(h=seq(0,1, by = by), lty = 3, lwd = .3)}
 plot(0:10, dpois(x = 0:10, lambda=2),type='h', col = col.b, lwd=lwd, ylim = c(0,.41), ylab = "Probability", main = "lambda = 2"); add.l()
 
 
-## ----Statistical_dist_poisson, echo=-c(1:6), fig.width=8,fig.height=4--------------------------------------------------------------------------------------------------------
+## ----Statistical_dist_poisson, echo=-c(1:6), fig.width=8,fig.height=4-------------------------------------------------
 # Poisson
 par(mfrow = c(2,3), mar = c(4,4,1,1))
 set.seed(12345)
@@ -1145,11 +1300,11 @@ hist(rpois(n = 1000, lambda=25), xlab = "Nb of successes", breaks = 100, col = c
 hist(rpois(n = 100000, lambda=50),xlab = "Nb of successes", breaks = 100, col = col.b, main = "n = 100000, lambda = 50", probability = F);abline(v = 50, lty = 3)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----dbinmon_prob.5---------------------------------------------------------------------------------------------------
 dbinom(2,3,prob = .5) # 0.375
 
 
-## ---- echo=-c(1:4), fig.width=8,fig.height=4---------------------------------------------------------------------------------------------------------------------------------
+## ----dbinom_plot_ex, echo=-c(1:4), fig.width=8,fig.height=4-----------------------------------------------------------
 par(mfrow = c(1,1), mar = c(4,4,1,1))
 set.seed(12345); lwd = 3
 col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
@@ -1162,7 +1317,7 @@ lines(c(0:8)+0.1, dbinom(x = 0:8, size=5, prob=0.5),type='h', col = col.r, lwd=l
 points(x = 3+.1, y = dbinom(x = 3, size=5, prob=0.5), pch =19, col = col.r)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----tables_rbinom_ex-------------------------------------------------------------------------------------------------
 set.seed(12345)
 # 1000 experiments where each time, e.g., flipping a coin, I can either have a
 table(rbinom(n = 1000, size=1, prob=0.5), dnn=NULL) # success or failure with p=.5
@@ -1172,7 +1327,7 @@ table(rbinom(n = 1, size=1000, prob=0.5), dnn=NULL)
 table(rbinom(n = 1000, size=10, prob=0.5), dnn=NULL) # sum the success with p=.5
 
 
-## ----Statistical_dist_binom, echo=-c(1:6), fig.width=8,fig.height=4----------------------------------------------------------------------------------------------------------
+## ----Statistical_dist_binom, echo=-c(1:6), fig.width=8,fig.height=4---------------------------------------------------
 par(mfrow = c(2,3), mar = c(4,4,1,1))
 set.seed(12345)
 col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
@@ -1191,7 +1346,19 @@ plot(40:51, dbinom(x = 40:51, size=50, prob=0.99),type='h', col = col.b, lwd=lwd
 hist(rbinom(n = 100000, size=50, prob=0.99),xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.99", probability = F)
 
 
-## ----equivalence_between_distributions_Binom_poisson, echo=FALSE-------------------------------------------------------------------------------------------------------------
+## ----binom_chall_coin, fig.width=8,fig.height=4-----------------------------------------------------------------------
+mybin <- function(x,n,p) { choose(n, x)* p^x* (1-p)^(n-x) } 
+mybin(0,4,.5) + mybin(4,4,.5)
+dbinom(x = 0,4,.5) + dbinom(x = 4,4,.5)
+lwd = 5
+curve(dbinom(x,4,.5),0,6, n = 7,type = "h", lwd = lwd)
+curve(dbinom(x,4,.5),0,0, type = "h",add = TRUE, col = "red", lwd = lwd)
+curve(dbinom(x,4,.5),4,4, type = "h",add = TRUE, col = "red", lwd = lwd)
+
+0.5^4*2
+
+
+## ----equivalence_between_distributions_Binom_poisson, echo=FALSE------------------------------------------------------
 par(mfrow = c(2,2), mar = c(4,4,1,1))
 x <- 0:10
 n <- 10000
@@ -1204,7 +1371,7 @@ pbinom(q = 2, size = n, prob = 2/n)
 ppois(q = 2, lambda = 2)
 
 
-## ----Iris_normal, echo=FALSE, fig.width=12,fig.height=4----------------------------------------------------------------------------------------------------------------------
+## ----Iris_normal, echo=FALSE, fig.width=12,fig.height=4---------------------------------------------------------------
 par(mfrow = c(1,3), cex = 1.4)
 spiris = unique(iris$Species)
 for (i in 1:length(spiris)) {
@@ -1217,7 +1384,7 @@ for (i in 1:length(spiris)) {
 }
 
 
-## ----Density_normal, fig.width=5,fig.height=5--------------------------------------------------------------------------------------------------------------------------------
+## ----Density_normal, fig.width=5,fig.height=5-------------------------------------------------------------------------
 curve(expr = dnorm(x = x, mean=0,sd=1), 
       from = -5, to = 5, ylim = c(0,1),
       col="black", ylab = "Density",
@@ -1227,7 +1394,7 @@ abline(h=seq(0,1, by = .1),
 
 
 
-## ----Density_normal_dissection_all_info, echo=FALSE, fig.width=5,fig.height=5------------------------------------------------------------------------------------------------
+## ----Density_normal_dissection_all_info, echo=FALSE, fig.width=5,fig.height=5-----------------------------------------
 x <- seq(-5, 5, 0.1)
 cex  = .7
 plot(x, dnorm(x, 0, 1), main = "Density normal", type = "l", lwd = 3, col = "black", ylab = "", xlab = "x", ylim = c(0,1))
@@ -1284,7 +1451,7 @@ crn = mybins$density
 brn = mybins$breaks
 
 
-## ----pnorm_qnorm2------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----pnorm_qnorm2-----------------------------------------------------------------------------------------------------
 pnorm(1.645)
 
 qnorm(p = 0.05, lower.tail = F)
@@ -1292,7 +1459,7 @@ qnorm(p = 0.05, lower.tail = F)
 qnorm(p = 0.025, lower.tail = F)
 
 
-## ----normal_shade_95_5, echo=FALSE, fig.width=5,fig.height=5-----------------------------------------------------------------------------------------------------------------
+## ----normal_shade_95_5, echo=FALSE, fig.width=5,fig.height=5----------------------------------------------------------
 x <- seq(-5, 5, 0.1)
 cex  = 1
 plot(x, dnorm(x, 0, 1), main = "Density normal", type = "l", lwd = 3, col = "black", ylab = "", xlab = "x", ylim = c(0,1))
@@ -1322,7 +1489,7 @@ text(x = 0, y = .55,labels = paste0(quote("Mean")),adj = 0,pos = 1,offset = 0, c
 arrows(x0 = 0,x1 = 0, y0 = .5,y1 = .42,code = 2,length=.1)
 
 
-## ----normal_area_function, echo=FALSE, eval=TRUE-----------------------------------------------------------------------------------------------------------------------------
+## ----normal_area_function, echo=FALSE, eval=TRUE----------------------------------------------------------------------
 draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE, text.height = .55, where = c("both","left","right","middle"), middle = c(-1,1)) {
   set.seed(set.seed)
   x <- seq(-5, 5, 0.1)
@@ -1470,7 +1637,7 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
 }
 
 
-## ----normal_dist_area, echo=-1, fig.width=9,fig.height=5---------------------------------------------------------------------------------------------------------------------
+## ----normal_dist_area, echo=-1, fig.width=9,fig.height=5--------------------------------------------------------------
 par(mfrow=c(2,3), mar = c(4,4,.1,.1), cex = 1.1)
 # The function is not shown, but can be found in the script (Markdown)
 draw.normal(where = "both",  prob = 0.05/2)
@@ -1481,7 +1648,7 @@ draw.normal(where = "left",  prob = 0.05  )
 draw.normal(where = "right", prob = 0.05  )
 
 
-## ----Normal_pdf_important_values---------------------------------------------------------------------------------------------------------------------------------------------
+## ----Normal_pdf_important_values--------------------------------------------------------------------------------------
 sd = 1
 probability.left.side = (pnorm(q = c(sd*1,sd*2,sd*3),lower.tail = F)*100)
 probability.right.side = (pnorm(q = c(sd*1,sd*2,sd*3),lower.tail = T)*100)
@@ -1489,19 +1656,19 @@ percent.data.under.curve = probability.right.side - probability.left.side
 p.from.mean = round(percent.data.under.curve,2)
 
 
-## ----normal_dist_area2, echo=FALSE, fig.width=11,fig.height=3----------------------------------------------------------------------------------------------------------------
+## ----normal_dist_area2, echo=FALSE, fig.width=11,fig.height=3---------------------------------------------------------
 par(mfrow=c(1,3), mar = c(4,4,1,1), cex = 1.1)
 draw.normal(where = "both",  prob = round(probability.left.side[1]/100,3))
 draw.normal(where = "both",  prob = round(probability.left.side[2]/100,3))
 draw.normal(where = "both",  prob = round(probability.left.side[3]/100,3))
 
 
-## ----Normal_pdf_important_values2--------------------------------------------------------------------------------------------------------------------------------------------
+## ----Normal_pdf_important_values2-------------------------------------------------------------------------------------
 qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
 qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 
 
-## ----normal_dist_area3, echo=FALSE, fig.width=14,fig.height=3----------------------------------------------------------------------------------------------------------------
+## ----normal_dist_area3, echo=FALSE, fig.width=14,fig.height=3---------------------------------------------------------
 par(mfrow=c(1,4), mar = c(4,4,1,1), cex = 1.1)
 length.arrow.head = 0.10
 draw.normal(where = "both",  prob = .25); x.val = qnorm(p = c(.25),lower.tail = T)
@@ -1522,7 +1689,7 @@ text(x.val+1, y = .6, labels = round(x.val,2))
 
 
 
-## ---- echo=FALSE, fig.width=7,fig.height=5-----------------------------------------------------------------------------------------------------------------------------------
+## ----normal_statistics_areas_1, echo=FALSE, fig.width=7,fig.height=5--------------------------------------------------
 par(mfrow=c(1,1), mar = c(4,4,0,1))
 hypothesis.testing <- function(mean.pop=2, mean.sn = 0,prob = .05, sd.sn =1, sd = 1, n=NULL) {
   
@@ -1600,22 +1767,22 @@ legend("topleft",
 hypothesis.testing(mean.pop = 1)
 
 
-## ---- echo=FALSE, fig.width=7,fig.height=5-----------------------------------------------------------------------------------------------------------------------------------
+## ----normal_statistics_areas_2, echo=FALSE, fig.width=7,fig.height=5--------------------------------------------------
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
 hypothesis.testing(mean.pop = 2)
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----normal_statistics_areas_3, echo=FALSE----------------------------------------------------------------------------
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
 hypothesis.testing(2,sd = 5, n = 10)
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----normal_statistics_areas_4, echo=FALSE----------------------------------------------------------------------------
 par(mfrow=c(1,1), mar = c(4,4,0,1), cex = 1.1)
 hypothesis.testing(2,sd = 5, n = 100)
 
 
-## ----Standard_normal_transformation, echo=FALSE, fig.width=10,fig.height=5---------------------------------------------------------------------------------------------------
+## ----Standard_normal_transformation, echo=FALSE, fig.width=10,fig.height=5--------------------------------------------
 par(mfrow = c(1,2))
 set.seed(1235)
 x <- seq(-5, 20, 0.1)
@@ -1653,17 +1820,31 @@ abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 
 
 
-## ----rnom_function, eval=FALSE-----------------------------------------------------------------------------------------------------------------------------------------------
-## rnorm()
+## ----rnom_function, eval=FALSE----------------------------------------------------------------------------------------
+# rnorm()
 
 
-## ----rnom_function_example---------------------------------------------------------------------------------------------------------------------------------------------------
+## ----rnom_function_example--------------------------------------------------------------------------------------------
 set.seed(1234)
 n <-10
 rnorm(n)
 
 
-## ---- echo=-1, fig.width=8,fig.height=4.5------------------------------------------------------------------------------------------------------------------------------------
+## ----risland_function_example, fig.width=7,fig.height=5---------------------------------------------------------------
+size = 1000000
+prob = 1/1000000
+x = seq(0,10,by = 1)
+plot(dbinom(x = x, size = size, prob = prob)~x, 
+     type = "h", lwd = 4, ylab = "Probability", xlab = "Event")
+points(dbinom(x = x[-1], size = size, prob = prob)~x[-1], 
+       type = "h", lwd = 4, col = "red")
+
+# This is the probability 
+pbinom(0,size = size,prob = prob,lower.tail = F)
+# pbinom(0,size = size,prob = prob,lower.tail = T)
+
+
+## ----simulation_clt_1, echo=-1, fig.width=8,fig.height=4.5------------------------------------------------------------
 par(mfrow=c(2,2), cex =1.1, mar = c(4,4,1,1)) # set window 
 n = 1000 # Number of points 
 # Generate multiple additions of random variables 
@@ -1673,7 +1854,7 @@ for(i in c(2, 50, 1000, 5000)){
 }
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----uniform_distcrete_fun, echo=FALSE--------------------------------------------------------------------------------
 # Define uniform discrete 
 dunifdisc<-function(x, min=0, max=1) ifelse(x>=min & x<=max & round(x)==x, 1/(max-min+1), 0)
 punifdisc<-function(q, min=0, max=1) ifelse(q<min, 0, ifelse(q>=max, 1, (floor(q)-min+1)/(max-min+1)))
@@ -1681,29 +1862,29 @@ qunifdisc<-function(p, min=0, max=1) floor(p*(max-min+1))
 runifdisc<-function(n, min=0, max=1) sample(min:max, n, replace=T)
 
 
-## ----CLT_uniform_example_dice, echo=-1, eval=FALSE, fig.width=8,fig.height=5-------------------------------------------------------------------------------------------------
-## par(mfrow=c(2,2)) # set window
-## # Generate multiple additions of random variables
-## for(i in c(2, 50, 1000, 5000)){
-##   clt = replicate(i, runifdisc(n),simplify = FALSE)
-##   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram
-## }
+## ----CLT_uniform_example_dice, echo=-1, eval=FALSE, fig.width=8,fig.height=5------------------------------------------
+# par(mfrow=c(2,2)) # set window
+# # Generate multiple additions of random variables
+# for(i in c(2, 50, 1000, 5000)){
+#   clt = replicate(i, runifdisc(n),simplify = FALSE)
+#   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram
+# }
 
 
-## ----CLT_uniform_example_dice_hist, echo=FALSE, fig.width=8,fig.height=5-----------------------------------------------------------------------------------------------------
+## ----CLT_uniform_example_dice_hist, echo=FALSE, fig.width=8,fig.height=5----------------------------------------------
 par(mfrow=c(2,2)) # set window 
 # Generate multiple additions of random variables 
-for(i in c(2, 50, 1000, 5000)){
-  clt = replicate(i, runifdisc(n),simplify = FALSE)
+for(i in c(1, 50, 1000, 5000)){
+  clt = replicate(i, runifdisc(n,1,6),simplify = FALSE)
   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram 
 }
 
 
-## ---- echo=FALSE, fig.width=3,fig.height=3-----------------------------------------------------------------------------------------------------------------------------------
+## ----uniform_disc_example_plot, echo=FALSE, fig.width=3,fig.height=3--------------------------------------------------
 curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col="black", lwd=1, ylim = c(0,1), ylab = "Density", main = "Uniform") 
 
 
-## ---- echo=-1, fig.width=8,fig.height=3--------------------------------------------------------------------------------------------------------------------------------------
+## ----clt_unif_discrete_plots, echo=-1, fig.width=8,fig.height=3-------------------------------------------------------
 par(mfrow=c(1,2), cex = 1.1) # set window 
 n = 1e6 # Number of points 
 # Generate multiple additions of random variables 
@@ -1716,7 +1897,7 @@ curve(expr = dnorm(x,mean = mean.rdmv,sd = sd.rdmv),
       from = mean.rdmv-5*sd.rdmv, to = mean.rdmv+5*sd.rdmv,ylab = "Density")
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------
+## ----clt_uniform_continuous.plots, echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------
 # modified from [Using R to simulate the Central Limit Theorem](https://consultglp.com/wp-content/uploads/2016/10/using-r-to-simulate-the-central-limit-theorem.pdf)
 set.seed(2345)
 # Simulation of central limit theorem #=================================================
@@ -1748,28 +1929,33 @@ clt.fun(size = 20)
 
 
 
-## ---- echo=-1, fig.width=5,fig.height=2--------------------------------------------------------------------------------------------------------------------------------------
+## ----Galton_board, echo=FALSE-----------------------------------------------------------------------------------------
+source(file = "scripts/Galton_board.R")
+galtonqunincunx
+
+
+## ----multivar_norm_pca, echo=-1, fig.width=5,fig.height=2-------------------------------------------------------------
 par(mfrow = c(1,2), mar = c(4,4,0.5,0.5)); b.5 = scales::alpha("black",0.5)
 set.seed(24601) # setting this so the random results will be repeatable 
 library(MASS)
-covmat <- matrix(c(1.0,   0.2,   0.6, # variance covariance matrix of the data
-                   0.2,   2.0,  -0.5, 
+covmat <- matrix(c(1.0,   0.2,   0.6, # variance covariance matrix of the data 
+                   0.2,   2.0,  -0.5, # Positive-definite symmetric matrix
                    0.6,  -0.5,   1.0), nrow=3) 
 data <- mvrnorm(n = 300, 
                 mu = c(1,-1,0), # mean of the data 
                 Sigma=covmat) # generate random data that match that variance covariance matrix
 plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
-biplot(prcomp(data))
+biplot(prcomp(data)) # check var(data) to verify the covmat
 
 
-## ---- echo=-1, fig.width=5,fig.height=2--------------------------------------------------------------------------------------------------------------------------------------
+## ----simulation_PCA, echo=-1, fig.width=5,fig.height=2----------------------------------------------------------------
 par(mfrow = c(1,2), mar = c(4,4,0.5,0.5))
 set.seed(123) # setting this so the random results will be repeatable 
 library(MASS)
 # Simulating 3 traits for 4 different species 
 n = 200
-Amat1 = MASS::mvrnorm(n, mu = c(11.2,11.8,9.91), Sigma = diag(c(1.31,1.01,1.02)))
+Amat1 = MASS::mvrnorm(n, mu = c(11.2,11.8,9.91), Sigma = diag(c(1.31,1.01,1.02))) 
 Amat2 = MASS::mvrnorm(n, mu = c(7.16,8.54,6.82), Sigma = diag(c(0.445,0.546,0.350)))
 Amat3 = MASS::mvrnorm(n, mu = c(15.6,14.6,13.5), Sigma = diag(c(1.43,0.885,0.990)))
 Amat4 = MASS::mvrnorm(n, mu = c(8.65,14.1,8.24), Sigma = diag(c(0.535,0.844,0.426)))
@@ -1785,7 +1971,7 @@ plot(Amat[,1],Amat[,2], pch = 19, col = gl(4,k=n,labels = c(1,2,3,4)))
 # autoplot(vegan::rda(Amat))
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----parameter_distribution-------------------------------------------------------------------------------------------
 x = rnorm(100)
 # x = rt(100,1000)
 library(fitdistrplus)
@@ -1794,7 +1980,7 @@ fit.pois <- fitdist(x, "norm")
 plot(fit.pois)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----pwr_test---------------------------------------------------------------------------------------------------------
 p1 = .75 # Proportion to test 
 p2 = .50 # proportion of the null hypothesis 
 alpha = 0.05 # Type 1 error 
@@ -1806,26 +1992,26 @@ p.table = table(coin.pip)[c(2,1)] # Get the number of 1 and 0s
 (ptest = prop.test(p.table, alternative = "greater")) # Do the test 
 
 
-## ---- echo=-1, fig.width=7,fig.height=4--------------------------------------------------------------------------------------------------------------------------------------
+## ----show_the_pwr, echo=-1, fig.width=7,fig.height=4------------------------------------------------------------------
 par(mar=c(4,4,0.1,0.1))
 curve(dchisq(x, df = ptest$parameter), 
       xlim = c(0, ceiling(max(ptest$statistic))))
 abline(v = ptest$statistic, lty = 3)
 
 
-## ---- fig.width=7,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------------------
+## ----get_eff_size, fig.width=7,fig.height=4---------------------------------------------------------------------------
 library(pwr)
 r2 = seq(0,0.9,by =.1)
 f2 <- function(r2) {r2/(1-r2)}
 
 
-## ---- echo=-1, fig.width=7,fig.height=4--------------------------------------------------------------------------------------------------------------------------------------
+## ----get_eff_size_plot, echo=-1, fig.width=7,fig.height=4-------------------------------------------------------------
 par(mar=c(4,4,0.1,0.1))
 plot(f2(r2)~r2)
 curve(expr = (x/(1-x)),add = T)
 
 
-## ---- fig.width=7,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------------------
+## ----get_eff_size_n, fig.width=7,fig.height=4-------------------------------------------------------------------------
 nb.coef.in.model = 2
 pwr.lm = pwr.f2.test(u = nb.coef.in.model, f2 = f2(.3), sig.level = 0.001, power = 0.8)
 
@@ -1834,7 +2020,7 @@ n = ceiling(pwr.lm$v + nb.coef.in.model + 1)
 n
 
 
-## ---- echo=FALSE, fig.width=5,fig.height=5-----------------------------------------------------------------------------------------------------------------------------------
+## ----lm_assumtion_expected_mean, echo=FALSE, fig.width=5,fig.height=5-------------------------------------------------
 par(mar=c(4,4,0.1,0.1))
 set.seed(12345678)
 n = 100; beta0 = 2.5; beta1 = 0.8
@@ -1868,7 +2054,7 @@ xrp = rep(xvals, length(yh)/length(xvals)) # each=length(yh)/length(xvals)
 points(xrp,yvals, cex = yh/max(yh), pch = 19, col = scales::alpha("red",.5))
 
 
-## ---- echo=FALSE, fig.width=5,fig.height=4.5---------------------------------------------------------------------------------------------------------------------------------
+## ----lm_assumtion_expected_mean_interactive, echo=FALSE, fig.width=5,fig.height=4.5-----------------------------------
 library(plotly)
 library(dplyr)
 
@@ -1885,31 +2071,57 @@ z <- outer(X = xvals,Y = yvals,FUN = fxy2)
 z2 <- outer(X = xvals,Y = yvals,FUN = fxy)
 # axx <- list(nticks = 4,range = c(-25,75))
 # axy <- list(nticks = 4,range = c(-25,75))
-axz <- list(nticks = 4,range = c(0,1))
+# axz <- list(nticks = 4,range = c(0,1))
 
 df.lm$yhat = fitted(lm.out)
 # df.lm$yhat = predict(lm.out)
 df.lm$z = 0
-plotly::plot_ly(x=xrp,y =yvals,z = t(z), type = "surface",
-                colors = terrain.colors(100),#c("darkblue", "yellow", "darkred"), 
-                opacity = 0.58,showlegend = F) %>% 
+zoom=4
+lm.model.interactive = plotly::plot_ly(x = xrp,
+                                       y = yvals,
+                                       z = t(z), 
+                                       type = "surface",
+                                       colors = terrain.colors(100),#c("darkblue", "yellow", "darkred"), 
+                                       opacity = 0.58,showlegend = F) %>% 
   hide_colorbar() %>% 
   add_markers(data = df.lm, x = ~x, y = ~y, z = 0,
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 5, color = "black"), name="Points",showlegend = F) %>% 
+              mode = "markers", 
+              type = "scatter3d", 
+              marker = list(size = 5, color = "black"), 
+              name="Points",showlegend = F) %>% 
   add_trace(data = df.lm, x = ~x, y = ~yhat, z = 0, 
             name="Linear", 
             line = list(dash="solid", color = "red", width = 10.5),
             inherit = FALSE,showlegend = F,
             mode = "lines",
             type = "scatter3d") %>% 
-  layout(scene = list(#xaxis=axx,yaxis=axy,
-                      zaxis=axz),
-           showlegend = F
-  )
+  layout(title = '<b> Linear model expected values </b>',
+         # margin = list(t = 80),
+         scene = list(#xaxis=axx,yaxis=axy,
+           xaxis = list(#title = 'X',
+             range = c(range(xrp)), autorange = "reversed"),
+           yaxis = list(#title = 'Y',
+             range = range(yvals), autorange = "reversed"),
+           zaxis=list(title = 'Z',nticks = 10,range = c(0,1)),
+           camera = list(eye = list(x = 1.25,#cos(1.3*pi)*zoom, # see https://plotly.com/python/3d-camera-controls/
+                                    y = 1.25,#sin(1.8*pi)*zoom, 
+                                    z = 2.25))),#4.0))),
+         showlegend = F
+         ); lm.model.interactive
 
 
-## ----Sim_t_test_anova--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## save the output 
+# htmlwidgets::saveWidget(lm.model.interactive, file = "images/lm.model.interactive.html")
+# path_to_python <- "~/miniconda3/bin/python"
+# reticulate::use_python(path_to_python)
+# reticulate::import("plotly")
+# reticulate::import("kaleido")
+# plotly::save_image(lm.model.interactive, file = "images/lm.model.interactive.png")
+
+
+
+## ----Sim_t_test_anova-------------------------------------------------------------------------------------------------
 set.seed(1234); n = 1000
 y1 = rnorm(n, mean = 15, sd = 1)
 y2 = rnorm(n, mean = 15.5, sd = 1)
@@ -1926,11 +2138,11 @@ tk.test = TukeyHSD(aov.out)
 round(tk.test$gr,2)
 
 
-## ----Sim_t_test_anova_plot, fig.width=5,fig.height=5-------------------------------------------------------------------------------------------------------------------------
+## ----Sim_t_test_anova_plot, fig.width=5,fig.height=5------------------------------------------------------------------
 plot(y~gr, data = df.aov)
 
 
-## ---- echo=-1, fig.width=4,fig.height=2--------------------------------------------------------------------------------------------------------------------------------------
+## ----simulate_lm_data, echo=-1, fig.width=4,fig.height=2--------------------------------------------------------------
 par(mar=c(4,4,0.1,0.1))
 set.seed(12345678)
 n = 100; beta0 = 2.5; beta1 = 0.8
@@ -1942,7 +2154,7 @@ y.lm = beta0 + beta1*x.lm + err
 df.lm = data.frame(x = x.lm, y = y.lm)
 
 
-## ---- echo=FALSE, fig.width=4,fig.height=3-----------------------------------------------------------------------------------------------------------------------------------
+## ----simulate_lm_plot, echo=FALSE, fig.width=4,fig.height=3-----------------------------------------------------------
 par(mar = c(4,4,.5,.5))
 # Colour 
 b.5 = scales::alpha("black",alpha = .5)
@@ -1956,7 +2168,7 @@ lm.out = lm(y~x, data = df.lm)
 abline(lm.out)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----simulate_lm_output-----------------------------------------------------------------------------------------------
 round(coefficients(summary(lm.out)), 4)
 # Adjusted R^2
 summary(lm.out)$adj.r.squared
@@ -1964,7 +2176,7 @@ summary(lm.out)$adj.r.squared
 # anova(lm.out)
 
 
-## ---- echo=-1, fig.width=8,fig.height=3--------------------------------------------------------------------------------------------------------------------------------------
+## ----simulate_lm_resimulate_from_model, echo=-1, fig.width=8,fig.height=3---------------------------------------------
 par(mfrow = c(1,3), mar = c(4,4,1,1), cex = 1.2)
 sim.lm = simulate(lm.out, nsim = 2000, seed = 12)
 r.x = range(c(y.lm, rowMeans(sim.lm), fitted(lm.out)))
@@ -1975,7 +2187,44 @@ c(mean(rowMeans(sim.lm)), mean(x.lm),  mean(fitted(lm.out))) # compare
 rbind(head(rowMeans(sim.lm)), head(fitted(lm.out)))
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=3-----------------------------------------------------------------------------------------------------------------------------------
+## ----simulate.gaussian.model, echo=FALSE, fig.width=8,fig.height=6----------------------------------------------------
+
+sim.lm = simulate(lm.out, nsim = 1e5, seed = 12) %>% data.frame
+lower_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.025) )
+upper_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.975) )
+sims_summary <- data.frame(
+  lower = lower_ci_sim,
+  upper = upper_ci_sim
+)
+
+# PLot the data 
+plot(y~x, data = df.lm, pch = 19, col = b.5)
+# Add a line to the plot 
+df.lm$sims = sims_summary
+o.sim = df.lm[order(df.lm[,1]),]
+polygon(x = c(o.sim$x, rev(o.sim$x)),  
+        y = c(o.sim$sims$lower,rev(o.sim$sims$upper)), col = scales::alpha("grey50",.5))
+
+# GeneralStandardDev<-sd(lm.out$residuals)
+# UpperLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x + GeneralStandardDev
+# LowerLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x - GeneralStandardDev
+# 
+# lines(df.lm$x, UpperLine, col = "blue")
+# lines(df.lm$x, LowerLine, col = "blue")
+pred = predict(lm.out, interval = "confidence") # 95%  confidence interval
+# lines(df.lm$x[order(df.lm$x)], pred[, "lwr"][order(df.lm$x)], col = "blue") 
+# lines(df.lm$x[order(df.lm$x)], pred[, "upr"][order(df.lm$x)], col = "blue") 
+
+
+polygon(x = c(df.lm$x[order(df.lm$x)], rev(df.lm$x[order(df.lm$x)])),  
+        y = c(pred[, "lwr"][order(df.lm$x)],rev(pred[, "upr"][order(df.lm$x)])), 
+        col = scales::alpha("blue",.5))
+abline(lm.out)
+points(df.lm$x,df.lm$y)
+
+
+
+## ----lm_simulate_slope, echo=FALSE, fig.width=8,fig.height=3----------------------------------------------------------
 par(mar=c(4,4,1,1), cex = 1.3)
 
 set.seed(12345678)
@@ -2080,7 +2329,7 @@ plot.dens(dens200,df.all.sim,5,"n = 5")
 # }
 
 
-## ---- echo=FALSE, fig.width=10,fig.height=5----------------------------------------------------------------------------------------------------------------------------------
+## ----lm_simulate_r_sq, echo=FALSE, fig.width=10,fig.height=5----------------------------------------------------------
 par(mfrow = c(2,3),mar=c(4,4,1,1), cex = 1.1)
 set.seed(2345)
 nb.rep = 1000
@@ -2109,7 +2358,7 @@ lm.sim.fun(n = 200,sd.err = sd.err,plot = T, ret = F)
 
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------
+## ----lm_simulate_2x, echo=FALSE, fig.width=8,fig.height=4-------------------------------------------------------------
 set.seed(12345678)
 n = 100
 x1 = rnorm(n = n, mean = 10, sd = 1)
@@ -2146,7 +2395,7 @@ abline(a = coef(lm.out)["(Intercept)"]+mean(x1)*coef(lm.out)["x1"], b = coef(lm.
 # abline(lm.out)
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----lm_simulate_2x_out, echo=FALSE-----------------------------------------------------------------------------------
 cat("Coefficients table:\n"); round(coefficients(summary(lm.out)), 4)
 # Adjusted R^2
 cat("R Squared: "); summary(lm.out)$adj.r.squared
@@ -2155,7 +2404,7 @@ cat("R Squared: "); summary(lm.out)$adj.r.squared
 # vcov(lm.out)
 
 
-## ----sim_lm_cat, fig.width=5,fig.height=5------------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lm_cat, fig.width=5,fig.height=5-----------------------------------------------------------------------------
 set.seed(12345678)
 n = 100; meanx = 10
 x.lm = rnorm(n = n, mean = meanx, sd = 1)
@@ -2178,7 +2427,7 @@ b.5 = scales::alpha("black",alpha = .5); r.5 = scales::alpha("red",alpha = .5)
 lm.out = lm(y~x+gr, data = df.lm);   lmcoef <- lm.out$coefficients
 
 
-## ---- echo=FALSE, eval=TRUE, results = 'hide'--------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lm_cat_out, echo=FALSE, eval=TRUE, results = 'hide'----------------------------------------------------------
 # Think of beta1 as multiplying the mean of X by beta1 and then seeing the effect of the betaControl and betaTreament
 # See this 
 mean(x.lm) # Mean of the X variable 
@@ -2236,7 +2485,7 @@ summary(aov(y~x+gr,data = df.lm))
 anova(lm.out)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lm_cat_out_summary-------------------------------------------------------------------------------------------
 # Here you can see the beta1 (x), betaControl (Intercept) and betaTreament (grTreatment)
 summary(lm(y~x+gr, data = df.lm))
 # Get JUST the DIFFERENCE with the treatment (Intercept is the Control)
@@ -2244,7 +2493,7 @@ summary(lm(y~x+gr, data = df.lm))
 # coefficients(gr.means)
 
 
-## ----sim_lm_cat_plot, echo=-1, fig.width=8,fig.height=3.5--------------------------------------------------------------------------------------------------------------------
+## ----sim_lm_cat_plot, echo=-1, fig.width=8,fig.height=3.5-------------------------------------------------------------
 par(mfrow=c(1,2))
 plot(y~x, data = df.lm, pch = 19, col = ifelse(gr=="Treatment",r.5,b.5))
 abline(a= lmcoef["(Intercept)"], b= lmcoef["x"], col = "black") # control
@@ -2254,11 +2503,11 @@ round(coefficients(summary(lm.out)), 4) # betaControl is (Intercept)
 summary(lm.out)$adj.r.squared           # betaTreament is grTreatment. 
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----show_df, echo=FALSE----------------------------------------------------------------------------------------------
 df.eo
 
 
-## ----sim_lm_interaction_discrete, echo=FALSE, fig.width=8,fig.height=3-------------------------------------------------------------------------------------------------------
+## ----sim_lm_interaction_discrete, echo=FALSE, fig.width=8,fig.height=3------------------------------------------------
 set.seed(1)
 n = 100
 x.lm1 = rbinom(n = n, size = 1, prob = 0.5)
@@ -2291,7 +2540,7 @@ summary(lm.out)$adj.r.squared
 # coef(lm.out)
 
 
-## ---- echo=-1, fig.width=5,fig.height=5--------------------------------------------------------------------------------------------------------------------------------------
+## ----lm_sim_interaction, echo=-1, fig.width=5,fig.height=5------------------------------------------------------------
 par(mfrow=c(1,1), mar = c(4,4,.1,.1))
 plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, # Add x1 = 0
      col = rgb(red = 0, green = 0, blue = 1, alpha = 0.25), pch = 19,
@@ -2303,7 +2552,7 @@ abline(a = coef(lm.out)[1] + coef(lm.out)[2],
        b = coef(lm.out)[3] + coef(lm.out)[4], col = "red", lwd = 2)
 
 
-## ----sim_lm_interaction, echo=FALSE, fig.width=8,fig.height=5----------------------------------------------------------------------------------------------------------------
+## ----sim_lm_interaction, echo=FALSE, fig.width=8,fig.height=5---------------------------------------------------------
 library(viridis)
 set.seed(1)
 n = 100
@@ -2323,7 +2572,7 @@ df.lm = data.frame(x1 = x.lm1, x2 = x.lm2, y = y.lm)
 b.5 = scales::alpha("black",alpha = .5)
 
 
-## ---- echo=-c(1:2), fig.width=8,fig.height=2,.5------------------------------------------------------------------------------------------------------------------------------
+## ---- echo=-c(1:2), fig.width=8,fig.height=2,.5-----------------------------------------------------------------------
 par(mfrow=c(1,3))
 # apply(df.lm, 2, hist)
 hist(df.lm$x1);hist(df.lm$x2);hist(df.lm$y)
@@ -2340,7 +2589,7 @@ df.lm$col <- virPal[as.numeric(cut(df.lm$x2, breaks = x2s.lg))]
 df.lm$line <- c("black","red")[as.numeric(cut(df.lm$x2, breaks = x2s.lg)) %% 2+1]
 
 
-## ---- echo=-c(1:3), fig.width=8,fig.height=4---------------------------------------------------------------------------------------------------------------------------------
+## ----lm_sim_interaction_plot_1x, echo=-c(1:3), fig.width=8,fig.height=4-----------------------------------------------
 # plot(x = eff.dat$x2.sim, y = eff.dat$eff.x1, type = "l",#col =df.lm$line,
 #      # xlim=range(x2.sim),
 #      pch = 19, xlab = "Level of x2", ylab = "Marginal effect of x1")
@@ -2353,11 +2602,11 @@ legend("topleft", title = "x2",legend = round(eff.dat$x2.sim,1), lty = 1, lwd = 
        col = eff.dat$col, bg = scales::alpha("white",.5))
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----lm_sim_interaction_out_summary-----------------------------------------------------------------------------------
 summary(lm.out)
 
 
-## ----challenge4.one.rep, fig.width=5,fig.height=5----------------------------------------------------------------------------------------------------------------------------
+## ----challenge4.one.rep, fig.width=5,fig.height=5---------------------------------------------------------------------
 set.seed(1234)
 n = 10;  sd.e = 0.3
 control = rnorm(n, mean = 5.03, sd = 0.28)
@@ -2374,17 +2623,17 @@ s.lm.out = summary(lm.out.int)
 pt(q = abs(s.lm.out$coefficients["grtrt","t value"]),df = s.lm.out$df[2], lower.tail = F) *2
 
 
-## ----challenge4.diagnose1, echo=-c(1), fig.width=5,fig.height=4--------------------------------------------------------------------------------------------------------------
+## ----challenge4.diagnose1, echo=-c(1), fig.width=5,fig.height=4-------------------------------------------------------
 par(mfrow = c(1,1), mar = c(4, 4, .1, 0.1))
 plot(weight~gr, data=plant.weight, las=1)
 
 
-## ----challenge4.diagnose2, echo=-c(1), fig.width=5,fig.height=5--------------------------------------------------------------------------------------------------------------
+## ----challenge4.diagnose2, echo=-c(1), fig.width=5,fig.height=5-------------------------------------------------------
 par(mfrow = c(2,2), oma = c(0, 0, 1.1, 0))
 plot(lm.out.int, las = 1)
 
 
-## ----challenge4.fun, fig.width=8,fig.height=5--------------------------------------------------------------------------------------------------------------------------------
+## ----challenge4.fun, fig.width=8,fig.height=5-------------------------------------------------------------------------
 # Make the function for the simulation
 exp.plant <- function(n = 100, # number of seeds in EACH group (2*n = total)
                       sd.e = 0.3, plot=F, ret = T) {
@@ -2405,7 +2654,7 @@ exp.plant <- function(n = 100, # number of seeds in EACH group (2*n = total)
 
 
 
-## ----challenge4.fun.plot, echo=-c(1:3), fig.width=8,fig.height=3.5-----------------------------------------------------------------------------------------------------------
+## ----challenge4.fun.plot, echo=-c(1:3), fig.width=8,fig.height=3.5----------------------------------------------------
 par(mfrow = c(2,2), mar = c(4,4,.5,.5))
 layout.matrix <- matrix(c(1, 1, 2, 3), nrow = 2, ncol = 2)
 layout(layout.matrix, widths = c(2,2), heights = c(1,1))
@@ -2420,13 +2669,13 @@ hist(p.val.lm, main = "p-values", probability = T, xlab ="", xlim = c(0,1))
 lines(density(p.val.lm), col="red", lwd=2); abline(v = 0.05)
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----chall.6.output---------------------------------------------------------------------------------------------------
 qt(0.05, df = s.lm.out$df[2])
 sum(unlist(l.rp)<qt(0.025, df = s.lm.out$df[2]))/length(unlist(l.rp))
 sum(p.val.lm<=0.05)/length(p.val.lm)
 
 
-## ----sim_logistic------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----sim_logistic-----------------------------------------------------------------------------------------------------
 set.seed(987654)
 n = 100
 x1 = rnorm(n = n, mean = 6, sd = 1)
@@ -2446,7 +2695,18 @@ glm.logist = glm( y~x1+x2, data=df, family="binomial")
 
 
 
-## ----sim_logistic_glm, echo=-1, fig.width=5,fig.height=3---------------------------------------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------------------------------------------------
+# source : https://sebastiansauer.github.io/convert_logit2prob/
+logit2prob <- function(logit){
+  odds <- exp(logit)
+  prob <- odds / (1 + odds)
+  return(prob)
+}
+coef(glm.logist)
+round(logit2prob(coef(glm.logist)),5)
+
+
+## ----sim_logistic_glm, echo=-1, fig.width=5,fig.height=3--------------------------------------------------------------
 par(mar = c(4,4,0.2,0.1))
 plot(y~x1, data = df, col = scales::alpha("black",.5), pch = 19)
 newdata <- data.frame(x1=seq(min(x1), max(x1),len=n), 
@@ -2455,13 +2715,13 @@ newdata$y = predict(object = glm.logist, newdata = newdata, type = "response")
 lines(x = newdata$x1, y = newdata$y, col = "red",lwd = 2)
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----glm_logistic_summary, echo=FALSE---------------------------------------------------------------------------------
 glm.sum = summary(glm.logist) # Note that the output of the GLM is in "logit"
 coefficients(glm.sum)[,"Estimate"]
 # glm.sum$coefficients[,1]/glm.sum$coefficients[,2] # Estimate/Std. Error = z val.
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=3-----------------------------------------------------------------------------------------------------------------------------------
+## ----glm_logistic_odd_prob_linear, echo=FALSE, fig.width=8,fig.height=3-----------------------------------------------
 set.seed(6)
 n = 20
 x1 = rnorm(n = n, mean = 6, sd = 1)
@@ -2509,7 +2769,7 @@ cat("Probability at intercept is",1/(1+exp(-glm.sum$coefficients[1,1])),"\n")
 cat("Probability for an increase in 1 sd of X is",1/(1+exp(-glm.sum$coefficients[2,1])))
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=3-----------------------------------------------------------------------------------------------------------------------------------
+## ----glm_logistic_odd_prob_quad, echo=FALSE, fig.width=8,fig.height=3-------------------------------------------------
 set.seed(6)
 n = 150
 x1 = rnorm(n = n, mean = 6, sd = 3)
@@ -2584,7 +2844,7 @@ points(mean(df$x)+1*sd(df$x),1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+1*sd(df$x))
 points(mean(df$x)+2*sd(df$x),1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+2*sd(df$x)))))
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----glm_logistic_odd_prob_quad_showval-------------------------------------------------------------------------------
 mean(df$x)+0*sd(df$x)
 1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+0*sd(df$x))))
 mean(df$x)+1*sd(df$x)
@@ -2595,7 +2855,7 @@ mean(df$x)+5*sd(df$x)
 1-1/(1+exp(mod.test(b0,b1,b2,mean(df$x)+5*sd(df$x))))
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----glm_logistic_cat_1, echo=FALSE-----------------------------------------------------------------------------------
 set.seed(12345678)
 n <- 10000
 # generate categories 
@@ -2679,7 +2939,7 @@ betaCHat <- rep(NA, 1000)
 
 
 
-## ---- echo=FALSE, fig.width=6,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------
+## ----glm_logistic_cat_plot, echo=FALSE, fig.width=6,fig.height=4------------------------------------------------------
 b0 <- mod$coef[1] # (Intercept)
 xb <- mod$coef[2] # xB
 xc <- mod$coef[3] # xC
@@ -2740,30 +3000,35 @@ points(x = data[data$x %in% "C" & data$y %in% 0,"xxx"],data[data$x %in% "C" & da
 abline(h=.5, lty=2)
 
 
-## ----sim_poisson_glm---------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----sim_poisson_glm--------------------------------------------------------------------------------------------------
 set.seed(42)
-n = 1000
+n = 500
 x = rnorm(n = n, mean = 0, sd = 1)
 # Rescale the data
 xz = scale(x)
-log.mu = 1 + 2*xz
+log.mu = 1 + .8*xz
 y = rpois(n = n, lambda = exp(log.mu)) 
 
 # Combine the data in a dataframe 
 df = data.frame(y = y, x = x)
 
 
-## ----sim_poisson_glm_plot, fig.width=5,fig.height=5--------------------------------------------------------------------------------------------------------------------------
+## ----sim_poisson_glm_plot, echo=-1, fig.width=9,fig.height=3.5--------------------------------------------------------
+par(mfrow=c(1,3), mar=c(4,4,1.5,1.5), cex = 1.2)
 #now feed it to glm:
 glm.poisson = glm( y~x, data=df, family="poisson")
-plot(y~x, data = df, col = scales::alpha("black",.5), pch = 19)
-newdata <- data.frame(x=seq(min(x), max(x),len=n))
+plot(y~x, data = df, col = scales::alpha("black", 0.5), pch = 19, cex = 0.5,
+     main = "Poisson regression")
+newdata <- data.frame(x = seq(min(x), max(x), len = n))
 newdata$y = predict(object = glm.poisson, newdata = newdata, type = "response") 
 lines(x = newdata$x,
       y = newdata$y, col = "red",lwd = 2)
+glm.gau = glm( y~x, data=df, family="gaussian")
+hist(residuals(glm.gau), main = "Residuals Gaussian")
+hist(residuals(glm.poisson), main = "Residuals Poisson")
 
 
-## ---- echo=FALSE, fig.width=5, fig.height=3----------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lmms, echo=FALSE, fig.width=5, fig.height=3------------------------------------------------------------------
 library(lme4)
 set.seed(16)
 # Experimental design 
@@ -2860,7 +3125,7 @@ Species.coef           <- coef(M8)$species
 colnames(Species.coef) <- c("Intercept", "Slope")
 
 
-## ---- echo=FALSE, fig.width=4, fig.height=3----------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lmms_lines_species, echo=FALSE, fig.width=4, fig.height=3----------------------------------------------------
 plot <- ggplot(aes(z_lgt, z.t.lvl), data = f.dat)
 Plot_BySpecies <- plot +
   geom_point(aes(colour = species), size = 1) +
@@ -2877,7 +3142,7 @@ Plot_BySpecies +
 
 
 
-## ---- echo=FALSE, fig.width=4, fig.height=3----------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lmms_lines_lakes, echo=FALSE, fig.width=4, fig.height=3------------------------------------------------------
 Plot_ByLake <- plot +
   geom_point(aes(colour = lake), size = 1) +
   xlab("Length (mm)") + ylab("Trophic Position") +
@@ -2898,7 +3163,7 @@ Plot_ByLake +
               slope     = Lake.coef[6,2], col = "magenta3")
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lmms_data_gen------------------------------------------------------------------------------------------------
 set.seed(16)
 # Experimental design 
 lakes = 6
@@ -2934,7 +3199,7 @@ sp.rep = rep( x = gl(n = f.sp,k = n.id, labels = paste0("s",1:f.sp)), lakes)
 f.id = paste0("f.",1:(lakes*f.sp*n.id)) 
 
 
-## ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----sim_lmms_data_gen_randm------------------------------------------------------------------------------------------
 # Random effects 
 # Setting it up with rnorm (the correct way)
 # lake.rdm.eff = rep( rnorm(lakes, 0, sd.lake), each = f.sp*n.id)
@@ -2966,7 +3231,7 @@ f.dat$z_lgt = scale(f.dat$length) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$l
 f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
 
 
-## ---- fig.width=8, fig.height=3----------------------------------------------------------------------------------------------------------------------------------------------
+## ----lmm_sim.blog, fig.width=8, fig.height=3--------------------------------------------------------------------------
 set.seed(16)
 nstand = 5
 nplot = 4
@@ -3042,7 +3307,7 @@ stand_vars %>%
 
 
 
-## ----lmmmmmmmmms, fig.width=8, fig.height=3----------------------------------------------------------------------------------------------------------------------------------
+## ----lmmmmmmmmms, fig.width=8, fig.height=3---------------------------------------------------------------------------
 library(lmerTest, warn.conflicts = F)
 n = 20; sd.n = 2
 # Generate dataframe 
@@ -3056,11 +3321,11 @@ lines(density(sim.df[sim.df$gr%in%"tall","values"]), col = "red")
 legend("toprigh",legend = c("Short","Tall"),col = c("black","red"), lty = 1)
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------
+## ----help_arima, echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------------------------
 ??arima.sim
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------
+## ----chaos_fun, echo=FALSE, fig.width=8,fig.height=4------------------------------------------------------------------
 chaos.fun <- function(lambda, n, initial, plot=TRUE, x.out = 20) {
   x <- numeric(n)
   x[1] <- initial
@@ -3071,7 +3336,7 @@ chaos.fun <- function(lambda, n, initial, plot=TRUE, x.out = 20) {
 }
 
 
-## ---- echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------
+## ----plot_chaos, echo=FALSE, fig.width=8,fig.height=4-----------------------------------------------------------------
 par(mfrow=c(1,2))
 chaout = chaos.fun(3.3,40,.6) # chaos.fun(4,40,.6)
 
@@ -3084,7 +3349,7 @@ for(lam in seq(2,4,0.001)){
 
 
 
-## ---- fig.width=4,fig.height=4-----------------------------------------------------------------------------------------------------------------------------------------------
+## ----plot_random_walk, fig.width=4,fig.height=4-----------------------------------------------------------------------
 plot(0:100,0:100,type="n",xlab="",ylab="", main = "Random walk", asp = 1)
 x <- y <- 50
 points(50,50,pch=16,col="red",cex=1.5)
@@ -3097,19 +3362,40 @@ for (i in 1:1000) {
 points(x,y,pch=16,col="green",cex=1.5)
 
 
-## ---- fig.width=8, fig.height=3----------------------------------------------------------------------------------------------------------------------------------------------
+## ----rdm_points_in_polygon_code, eval=FALSE, fig.width=8, fig.height=3------------------------------------------------
+# library(sf); library(ggplot2)
+# polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4,
+#                         3, 4, 2.5, 5, 1, 4,
+#                         0, 5, 1, 3, 2, 2), ncol=2, byrow=T))
+# polygon = sf::st_polygon(polygon) # Create an sf polygon
+# points = sf::st_sample(polygon, size=50) # Sample 50 rdm pts in the polygon
+# # Plot using the ggplot geom_sf function.
+# pol.sf = ggplot() + geom_sf(aes(), data=polygon) +
+#   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
+
+
+## ----rdm_points_in_polygon, echo=FALSE, fig.width=8, fig.height=3-----------------------------------------------------
 library(sf); library(ggplot2)
 polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4, 
                         3, 4, 2.5, 5, 1, 4, 
-                        0, 5, 1, 3, 2, 2), ncol=2, byrow=T)) 
+                        0, 5, 1, 3, 2, 2), 
+                      ncol=2, byrow=T)) 
 polygon = sf::st_polygon(polygon) # Create an sf polygon
-points = sf::st_sample(polygon, size=50) # Sample 50 rdm pts in the polygon
+points = sf::st_sample(polygon, size = 50) # Sample 50 rdm pts in the polygon
 # Plot using the ggplot geom_sf function.
-ggplot() + geom_sf(aes(), data=polygon) + 
+pol.sf = ggplot() + geom_sf(aes(), data=polygon) + 
   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 
+pol.sf + 
+  theme(axis.text = element_text(colour = "black",size = 14),
+    axis.text.x = element_text(colour = "black", size = 14),
+    axis.text.y = element_text(colour = "black", size = 14),
+    axis.line = element_line(size = 1.2,linetype = "solid"), 
+    axis.ticks = element_line(colour = "black", size = 1.2), 
+    panel.grid.major = element_line(colour = "gray98", linetype = "dashed"))
 
-## ----echo=FALSE--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## ----rdm_pts_in_polygon, echo=FALSE-----------------------------------------------------------------------------------
 library(sf, warn.conflicts = FALSE)
 library(mapview, warn.conflicts = FALSE)
 
@@ -3142,12 +3428,16 @@ set.seed(456)
 rdm.n = 5
 rdm.pt = st_sample(x = only.park, 
                    size = rdm.n)
-mapView(only.park, 
-        col.regions = c("green"))+
+map.rdm = mapView(only.park, 
+        col.regions = c("green")) +
   mapView(rdm.pt)  # Random points
+map.rdm
+
+## save html to png
+# mapshot(x = map.rdm, file = "images/map_rdm.png")
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----rdm_pts_in_polygon_buffer, echo=FALSE----------------------------------------------------------------------------
 # Add a buffer around the point we want to look at 
 n = 10*2
 min.buff = units::set_units(x = 0, value = "m")
@@ -3155,14 +3445,18 @@ max.buff = units::set_units(x = 100, value = "m")
 buffer = st_buffer(x = c(selected.point,selected.point.no.tree), dist = units::set_units(x = 100, value = "m"))
 
 
-mapView(only.park, 
+map.unif = mapView(only.park, 
         col.regions = c("green"))+
   mapView(c(selected.point,selected.point.no.tree), # Get the poitn that was added to be looked at 
           col.regions = c("red")) +
-  mapView(buffer, col.regions = c("red")) 
+  mapView(buffer, col.regions = c("red")); map.unif
+
+## save html to png
+# mapshot(x = map.unif, file = "images/map_unif.png")
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## ----rdm_pts_in_polygon_buffer_uniform, echo=FALSE--------------------------------------------------------------------
 # Get random distance 
 # rdm.disttmp = rexp(n = n, rate = 1)*20
 # hist(rdm.disttmp)
@@ -3185,24 +3479,32 @@ rmd.ptdf.sf = sf::st_as_sf(rmd.ptdf, coords = c("rdm.ppt_x","rdm.ppt_y"), crs = 
 # rmd.ptdf.sf = st_transform(rmd.ptdf.sf, crs = 32188)
 
 set.seed(456)
-mapView(only.park, col.regions = c("green"))+
+map.unif.rdm = mapView(only.park, col.regions = c("green"))+
   mapView(st_sample(only.park,5)) + 
   mapView(c(selected.point,selected.point.no.tree),col.regions = c("red")) + 
   mapView(buffer, col.regions = c("red")) + 
-  mapview(rmd.ptdf.sf,col.regions = c("pink"))
+  mapview(rmd.ptdf.sf,col.regions = c("pink")); map.unif.rdm
+
+## save html to png
+# mapshot(x = map.unif.rdm, file = "images/map_unif_rdm.png")
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## ----rdm_pts_in_polygon_grid, echo=FALSE------------------------------------------------------------------------------
 set.seed(456)
 # Add random points that are occupying the space of the polygon (grid )
 rdm.pt = st_sample(x = only.park, 
                    size = 100,type ="hexagonal")
 
-mapView(only.park, col.regions = c("green"))+
-  mapView(rdm.pt) 
+map.grid = mapView(only.park, col.regions = c("green"))+
+  mapView(rdm.pt); map.grid
+
+## save html to png
+# mapshot(x = map.grid, file = "images/map_grid.png")
 
 
-## ----simulate_sampling_function----------------------------------------------------------------------------------------------------------------------------------------------
+
+## ----simulate_sampling_function---------------------------------------------------------------------------------------
 # Defining the population 
 n = 600 # Number of elements to be generated 
 set.seed(13) # Set RNG 
@@ -3240,7 +3542,7 @@ sample.mean.pop.est <- function(x,n, sample.size, ylim = NULL) {
 } # End sample.mean.pop.est
 
 
-## ----simulate_sampling_plots-------------------------------------------------------------------------------------------------------------------------------------------------
+## ----simulate_sampling_plots------------------------------------------------------------------------------------------
 par(mfrow=c(2,2), lwd = .3)
 sample.mean.pop.est(x = x, n = n, sample.size = 1, ylim = 300)
 sample.mean.pop.est(x = x, n = n, sample.size = 10, ylim = 300)
@@ -3248,7 +3550,7 @@ sample.mean.pop.est(x = x, n = n, sample.size = 50, ylim = 300)
 sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----Dawkins_natural_Selection_example, echo=FALSE--------------------------------------------------------------------
 set.seed(12345, kind="Mersenne-Twister")
 
 ## Easier if the string is a character vector
@@ -3306,6 +3608,6 @@ while ( ! all(parent == target)) {
 .printGen(parent, target, i)
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ----Dawkin_print, echo=FALSE-----------------------------------------------------------------------------------------
 .printGen(rdm, target, i)
 
