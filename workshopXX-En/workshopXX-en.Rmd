@@ -342,7 +342,7 @@ You probably learned how to use statistical models on certain types of data.
 
 - We might start with a research question or simply want to understand a process.
 - We might be interested in understanding how a certain process was generated 
-  * how $X$ influences $Y$, which could be written as $X \xrightarrow{Affects} Y$ or $Y \sim X$. 
+  * how $X$ is related $Y$, which could be written as $Y \sim X$. 
 
 <br>
 
@@ -351,6 +351,8 @@ You probably learned how to use statistical models on certain types of data.
 - Therefore, being able to do simulations can be a nice addition to your research toolkit. 
 
 ???
+
+$X \xrightarrow{correlated} Y$
 
 Everything that we measure is caused by factors that scientists try to make sense. 
 - e.g. a phenotype, the number of eggs birds lay in a population, the survival of individuals in a population, or other ecological (and environmental) variables, etc.
@@ -1771,6 +1773,64 @@ y <- 2:8; names(y) <- paste(y,":", sep = "")
 - You can think outer as taking 2 vectors, putting one vertical the other horizontal and filling all the combinations of each values in each vector 
 - Look at the diagonals 
 
+---
+name: challenge_1_wallpaper
+## Challenge 0: wallpapeR ![:cube]()
+
+
+```{r wallpapeR, eval=FALSE}
+#<<
+par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
+x = 1:70; y = 1:70 # make variables 
+x.val = (x^2);   y.val = y
+xy.out = outer(x.val, y.val, "-") # manipulate the variables
+nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
+#<<
+
+xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
+image(t(xy.out),
+      col = hcl.colors(1000, palette = hcl.pals()[rdm.nb]), # 61,93 looks good
+      xaxt = "n", yaxt = "n", bty = "n")
+```
+
+
+```{r waller, echo=FALSE, eval=FALSE}
+# Make computer wallpapers
+# png("~/Desktop/wallpapers_sunwaves.png", res = 300, units = "px",
+#     width = 1920, # add your screen resolution here
+#     height = 1080)
+set.seed(9) 
+par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
+x = 1:70; y = 1:70 # make variables 
+x.val = (x^2);   y.val = y
+xy.out = outer(x.val, y.val, "-") # manipulate the variables
+nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
+rdm.nb = sample(c(1:nb.col.pal), size = 1); print(rdm.nb) # Get random number
+xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
+# f.na.iamge = which(is.na(xy.out))
+# xy.out[f.na.iamge] <- rnorm(length(f.na.iamge),mean = mean(tan(x)))
+image(t(xy.out),
+      col = hcl.colors(1000, palette = hcl.pals()[rdm.nb]), # 61,93 looks good
+      xaxt = "n", yaxt = "n", bty = "n")
+# dev.off()
+```
+
+---
+## Challenge 0: wallpapeR ![:cube]()
+
+```{r wallpapeR_solution, fig.width=6, fig.height=5}
+set.seed(9) #<<
+par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
+x = 1:70; y = 1:70 # make variables 
+x.val = (x^2);   y.val = y
+xy.out = outer(x.val, y.val, "-") # manipulate the variables
+nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
+rdm.nb = sample(c(1:nb.col.pal), size = 1); print(rdm.nb) # Get random number #<<
+xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
+image(t(xy.out),
+      col = hcl.colors(1000, palette = hcl.pals()[rdm.nb]), # 61,93 looks good
+      xaxt = "n", yaxt = "n", bty = "n")
+```
 
 ---
 name: challenge1
@@ -2160,11 +2220,11 @@ plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
 
 plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
 polygon(x = c(0,1,1,0),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
-polygon(x = c(1,150,150,1),y = c(0,0,1,1), col = scales::alpha("green",.5), border =  scales::alpha("green",.5))
+polygon(x = c(1,150,150,1),y = c(0,0,1,1), col = scales::alpha("blue",.5), border =  scales::alpha("green",.5))
 
 plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
 polygon(x = c(-10,0,0,-10),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
-polygon(x = c(0,10,10,0),y = c(0,0,1,1), col = scales::alpha("green",.5), border =  scales::alpha("green",.5))
+polygon(x = c(0,10,10,0),y = c(0,0,1,1), col = scales::alpha("blue",.5), border =  scales::alpha("green",.5))
 ```
 
 
@@ -2315,10 +2375,32 @@ name: table-distributions
 
 - In the next slide, you'll see some built in functions to use these distributions 
 
+```{r happy_birthday, echo=c(-1), eval=FALSE}
+# from the ??birthday page in R help 
+## probability of > 2 people with the same birthday
+pbirthday(23, coincident = 3)
+## 0.9 probability of >=3 coincident birthdays
+qbirthday(coincident = 3, prob = 0.9) # Gives the number of people
+## Chance of >=4  coincident birthdays in 300 people
+pbirthday(300, coincident = 4)
+```
+
+
 ???
 - Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
 - In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
 - Here is a table showing the nomenclature used in R to generate data of 
+
+```{r}
+## from Diaconis & Mosteller p. 858. 'coincidence' is that husband, wife, daughter all born on the 16th
+qbirthday(classes = 30, coincident = 3) # approximately 18
+
+coin = 2
+n.seq = 1:qbirthday(p = 0.999,coincident = coin)
+get.probs = mapply(pbirthday, n = n.seq, classes = 365, coincident = coin)
+plot(get.probs~n.seq, type = "l"); abline(h = 0.5, v = qbirthday(p = 0.5,coincident = coin), lty = 3)
+```
+
 
 ---
 # Functions for various distributions
@@ -3737,10 +3819,10 @@ pbinom(0,size = size,prob = prob,lower.tail = F)
 ---
 # Central limit theorem (CLT)
 
-- It has been said that if "physicists have general relativity, chemists have the periodic table of elements and biologists have evolution or DNA, statisticians have the central limit theorem" ([Nathan Uyttendaele](https://www.youtube.com/watch?v=vWTKVMf5HQI&ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)). 
+- It has been said that if "physicists have *general relativity*, chemists have the *periodic table of elements* and biologists have *evolution* or *DNA*, statisticians have the **central limit theorem**" ([Nathan Uyttendaele](https://www.youtube.com/watch?v=vWTKVMf5HQI&ab_channel=Lastatistiqueexpliqu%C3%A9e%C3%A0monchat)). 
 
 - The Central limit theorem (CLT) stipulates that:
-  * The more you add (sum) identically distributed *random variables*, the more the probability distribution of the new variable will tend to converge to a normal distribution (or is approximated by a normal distribution). 
+  * The more you add (sum) identically distributed *random variables*, the more the distribution function of the new variable will converge to a normal distribution (or could be approximated by a normal distribution). 
 
 - We will use simulations to test this assertion! 
 
@@ -3756,6 +3838,66 @@ See
 - [Understanding the Central Limit Theorem With Simulation](https://rstudio-pubs-static.s3.amazonaws.com/40602_03881f4466844aed83feb45f48444906.html)
 - [The Central Limit Theorem and Power Simulation in R](https://www.kenwuyang.com/en/post/the-central-limit-theorem-and-power-simulation/)
 - [The central limit theorem using simulation](https://vasishth.github.io/Freq_CogSci/the-central-limit-theorem-using-simulation.html)
+
+
+---
+name: challengeCLT
+## Challenge CLT ![:cube]()
+
+- Imagine I give you a set of dice to conduct an experiment in which you are going to roll them 10,000 times. 
+- *X* is a random variable which represents the **sum of the 2 numbers after rolling the die**
+  * $S = {(x_1, x_2, ...,  x_n): x_1 = 1,2,3,4,5,6; x_2 = 1,2,3,4,5,6;  ...;  x_n = 1,2,3,4,5,6}$
+  * $X(\omega) = x_1+x_2+...+x_n$ for $\omega = (x_1, x_2, ..., x_n) \in S$
+
+Make a histogram of the sum of the values from rolling a set of 1, 2, 10 and 50 die 10,000 times. 
+
+Hint: to roll a dice, use the following code
+
+```{r clt_challenger, eval=FALSE}
+set.seed(42)
+sample(1:6, size = 1, replace = TRUE)
+```
+
+- Note: these are discrete values 
+
+???
+- Larson, H. J. 1982. Introduction to probability theory and statistical inference. Third edition. John Wiley & Sons, New York.
+
+---
+## Challenge CLT - Solution ![:cube]()
+
+Make a histogram of the sum of the values from rolling a set of 1, 2, 10 and 50 die 10,000 times. 
+
+```{r clt_challenger_ans, echo=c(-1), fig.width=11,fig.height=3.5}
+par(mfrow = c(1,4),mar = c(4,4,1,1), cex = 1.2)
+set.seed(12345)
+roll = 1e4 # Nb of times we do the experiment (characterize the underlying r.v.)
+for (nb.dice in c(1,2,10,50)) {
+  res.exp = replicate(roll, simplify = T,
+                      sample(1:6, size = nb.dice, replace = TRUE))
+  if(nb.dice == 1){Xsum = res.exp } 
+  else {Xsum = apply(res.exp, 2, sum)} # add independent r.v. (sum of cols)
+  hist(Xsum, main=paste("n =",roll,ifelse(nb.dice==1,"dice =","die ="),nb.dice))}
+```
+
+
+???
+
+```{r clt_challenger_ans_normalized, echo=c(-1), fig.width=9,fig.height=3.8}
+par(mfrow = c(1,4),mar = c(4,4,1,1), cex = 1.2)
+set.seed(12345)
+roll = 1e4 # Nb of times we do the experiment (characterize the underlying r.v.)
+for (nb.dice in c(1,2,10,500)) {
+  res.exp = replicate(roll, simplify = T,
+                      sample(1:6, size = nb.dice, replace = TRUE))
+  if(nb.dice == 1){Xsum = res.exp; Xmean = (res.exp)} else {
+    Xsum = apply(res.exp, 2, sum) # add independent r.v. (sum of cols)
+    Xmean = apply(res.exp, 2, mean)}
+  hist((Xmean-mean(Xmean))/(sd(Xmean)), xlim = c(-4,4), ylim = c(0,1),
+       main=paste("n =",roll,ifelse(nb.dice==1,"dice =","die ="),nb.dice), probability = T)
+curve(dnorm, from = -10, to =10, add =TRUE)}
+```
+
 
 ---
 # Central limit theorem (CLT)
@@ -3806,8 +3948,8 @@ for(i in c(2, 50, 1000, 5000)){
 ```{r CLT_uniform_example_dice_hist, echo=FALSE, fig.width=8,fig.height=5}
 par(mfrow=c(2,2)) # set window 
 # Generate multiple additions of random variables 
-for(i in c(2, 50, 1000, 5000)){
-  clt = replicate(i, runifdisc(n),simplify = FALSE)
+for(i in c(1, 50, 1000, 5000)){
+  clt = replicate(i, runifdisc(n,1,6),simplify = FALSE)
   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram 
 }
 ```
@@ -3939,11 +4081,24 @@ data <- mvrnorm(n = 300,
                 Sigma=covmat) # generate random data that match that variance covariance matrix
 plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
 plot(data[,2:3], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
-biplot(prcomp(data)) # check var(data) to verify the covmat
 ```
 
 
 ???
+
+---
+# Multivariate normal distribution
+
+- There is a way to generate multiple normal distributions at once from a covariance matrix. 
+
+```{r multivar_norm_pca_plot, echo=-1, fig.width=6,fig.height=5}
+# biplot(prcomp(data)) # check var(data) to verify the covmat
+ggplot2::autoplot(vegan::rda(data)) + theme_classic() + 
+  theme(plot.margin = unit(c(0,0.5,0,0.5), "cm"), legend.position="none")+
+  geom_hline(yintercept=0, linetype="dotted",color = "grey50", size=0.5)+
+  geom_vline(xintercept=0, linetype="dotted",color = "grey50", size=0.5)
+
+```
 
 ---
 # Simulate a PCA
@@ -3960,16 +4115,23 @@ Amat3 = MASS::mvrnorm(n, mu = c(15.6,14.6,13.5), Sigma = diag(c(1.43,0.885,0.990
 Amat4 = MASS::mvrnorm(n, mu = c(8.65,14.1,8.24), Sigma = diag(c(0.535,0.844,0.426)))
 Amat = rbind(Amat1,Amat2,Amat3,Amat4)
 Amat.gr = cbind(Amat, gl(4,k=n,labels = c(1,2,3,4)))
-by(Amat.gr[,1:3],INDICES = Amat.gr[,4],FUN = cov) # calculate covariance matrix for all groups 
+
+# by(Amat.gr[,1:3],INDICES = Amat.gr[,4],FUN = cov) # calc. cov. mat. for all gr 
 
 summary(m1 <- prcomp(Amat, scale= T))
+```
+
+---
+# Simulate a PCA
+
+```{r simulation_PCA_plot, echo=-1, fig.width=5,fig.height=2}
+par(mfrow = c(1,2), mar = c(4,4,0.5,0.5))
 # biplot(m1, xlabs=rep(".", nrow(Amat)), cex = 3)
-plot(vegan::scores(m1), asp = 1, pch = 19, col = gl(4,k=n,labels = c(1,2,3,4)))
-plot(Amat[,1],Amat[,2], pch = 19, col = gl(4,k=n,labels = c(1,2,3,4)))
+plot(Amat[,1],Amat[,2], pch = 19, col = gl(4,k=n,labels = c(1,2,3,4))); abline(h=mean(Amat[,1]),v=mean(Amat[,2]),lty = 3)
+plot(vegan::scores(m1), asp = 1, pch = 19, col = gl(4,k=n,labels = c(1,2,3,4))); abline(h=0,v=0,lty = 3)
 # library(ggvegan)
 # autoplot(vegan::rda(Amat))
 ```
-
 
 ---
 # Find the parameters of a distribution 
@@ -4238,6 +4400,51 @@ Reference for the section
 - [binomial generalized linear mixed model](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/)
 - [Simple Linear Regression](https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R5_Correlation-Regression/R5_Correlation-Regression4.html)
 
+---
+# Linear model (lm) refresher
+
+- You can add the confidence limits for the expected values (or uncertainty around the mean predictions; blue shaded polygon) to the line and the 95% central quantiles of the Normal distribution (grey shaded polygon)
+
+```{r simulate.gaussian.model, echo=FALSE, fig.width=8,fig.height=6}
+
+sim.lm = simulate(lm.out, nsim = 1e5, seed = 12) %>% data.frame
+lower_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.025) )
+upper_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.975) )
+sims_summary <- data.frame(
+  lower = lower_ci_sim,
+  upper = upper_ci_sim
+)
+
+# PLot the data 
+plot(y~x, data = df.lm, pch = 19, col = b.5)
+# Add a line to the plot 
+df.lm$sims = sims_summary
+o.sim = df.lm[order(df.lm[,1]),]
+polygon(x = c(o.sim$x, rev(o.sim$x)),  
+        y = c(o.sim$sims$lower,rev(o.sim$sims$upper)), col = scales::alpha("grey50",.5))
+
+# GeneralStandardDev<-sd(lm.out$residuals)
+# UpperLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x + GeneralStandardDev
+# LowerLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x - GeneralStandardDev
+# 
+# lines(df.lm$x, UpperLine, col = "blue")
+# lines(df.lm$x, LowerLine, col = "blue")
+pred = predict(lm.out, interval = "confidence") # 95%  confidence interval
+# lines(df.lm$x[order(df.lm$x)], pred[, "lwr"][order(df.lm$x)], col = "blue") 
+# lines(df.lm$x[order(df.lm$x)], pred[, "upr"][order(df.lm$x)], col = "blue") 
+
+
+polygon(x = c(df.lm$x[order(df.lm$x)], rev(df.lm$x[order(df.lm$x)])),  
+        y = c(pred[, "lwr"][order(df.lm$x)],rev(pred[, "upr"][order(df.lm$x)])), 
+        col = scales::alpha("blue",.5))
+abline(lm.out)
+points(df.lm$x,df.lm$y)
+
+```
+
+???
+- Idea from https://www.barelysignificant.com/post/glm/
+
 
 ---
 # Generalized linear model (GLM) refresher
@@ -4248,9 +4455,9 @@ Reference for the section
 
 | Type | Equation |
 | ---- | -------- |
-| Linear | $Y = \beta_{0} + \beta_{1} x_{1}  + \epsilon$ or $\mu = \beta_{0} + \beta_{1} x_{1}$ for $Y = Normal(\mu, \sigma)$ |
-| Poisson | $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ (no separate error term as $\lambda$ determines both the mean and variance) |
-| Logistic | $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. The Y values are determined by a Bernoulli distribution (binomial of size = 1) |
+| Linear | $Y = \beta_{0} + \beta_{1} x_{1}  + \epsilon$ or $\mu = \beta_{0} + \beta_{1} x_{1}$ for $Y \sim Normal(\mu, \sigma)$ |
+| Poisson | $Y \sim Poisson(\mu)$ with $\text {ln} \mu=\beta_0+\beta_1x$ or $\mu=e^{\beta_0+\beta_1x}$ <br /> (no separate error term as $\lambda$ determines both the mean and variance) |
+| Logistic | $Y \sim Binomial(p)$ with $\text{log} \Bigl(\frac{p}{1-p}\Bigr) = \beta_0 +\beta_1x$ or $p=\frac{e^{\beta_0+\beta_1x}}{1+e^{\beta_0+\beta_1x}}$ where $\text{log} \Bigl(\frac{p}{1-p}\Bigr)$ is the log odds or log likelihood. <br /> The Y values are determined by a Bernoulli distribution (binomial of size = 1) |
 
 - Keep in mind that the x-values *don't need to be normally distributed*. 
 
@@ -4379,50 +4586,6 @@ for(i in 1:nsim) {
 head(res)
 ```
 
----
-# GLM: Linear model
-
-- You can add the confidence limits for the expected values (or uncertainty around the mean predictions; blue shaded polygon) to the line and the 95% central quantiles of the Normal distribution (grey shaded polygon)
-
-```{r simulate.gaussian.model, echo=FALSE, fig.width=8,fig.height=6}
-
-sim.lm = simulate(lm.out, nsim = 1e5, seed = 12) %>% data.frame
-lower_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.025) )
-upper_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.975) )
-sims_summary <- data.frame(
-  lower = lower_ci_sim,
-  upper = upper_ci_sim
-)
-
-# PLot the data 
-plot(y~x, data = df.lm, pch = 19, col = b.5)
-# Add a line to the plot 
-df.lm$sims = sims_summary
-o.sim = df.lm[order(df.lm[,1]),]
-polygon(x = c(o.sim$x, rev(o.sim$x)),  
-        y = c(o.sim$sims$lower,rev(o.sim$sims$upper)), col = scales::alpha("grey50",.5))
-
-# GeneralStandardDev<-sd(lm.out$residuals)
-# UpperLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x + GeneralStandardDev
-# LowerLine<- lm.out$coefficients[1]+lm.out$coefficients[2]*df.lm$x - GeneralStandardDev
-# 
-# lines(df.lm$x, UpperLine, col = "blue")
-# lines(df.lm$x, LowerLine, col = "blue")
-pred = predict(lm.out, interval = "confidence") # 95%  confidence interval
-# lines(df.lm$x[order(df.lm$x)], pred[, "lwr"][order(df.lm$x)], col = "blue") 
-# lines(df.lm$x[order(df.lm$x)], pred[, "upr"][order(df.lm$x)], col = "blue") 
-
-
-polygon(x = c(df.lm$x[order(df.lm$x)], rev(df.lm$x[order(df.lm$x)])),  
-        y = c(pred[, "lwr"][order(df.lm$x)],rev(pred[, "upr"][order(df.lm$x)])), 
-        col = scales::alpha("blue",.5))
-abline(lm.out)
-points(df.lm$x,df.lm$y)
-
-```
-
-???
-- Idea from https://www.barelysignificant.com/post/glm/
 
 ---
 # GLM: Linear model
@@ -4756,7 +4919,7 @@ summary(lm(y~x+gr, data = df.lm))
 # GLM: Linear model (with categorical)
 
 ```{r sim_lm_cat_plot, echo=-1, fig.width=8,fig.height=3.5}
-par(mfrow=c(1,2))
+par(mfrow=c(1,2), mar = c(4,4,.5,.5))
 plot(y~x, data = df.lm, pch = 19, col = ifelse(gr=="Treatment",r.5,b.5))
 abline(a= lmcoef["(Intercept)"], b= lmcoef["x"], col = "black") # control
 abline(a= lmcoef["(Intercept)"] + lmcoef["grTreatment"], b=lmcoef["x"], col="red")
@@ -5738,6 +5901,7 @@ set.seed(16)
 lakes = 6
 f.sp = 3
 n.id = 10 
+
 # Setting parameters
 sd = 0.3# Individual measure 
 sd.lake = .05
@@ -5752,6 +5916,13 @@ n.juv = length(which(age =="Juv"))
 n.ado = length(which(age =="Ado"))
 n.adt = length(which(age =="Adt"))
 age.df = data.frame(age,length = NA)
+```
+]
+]
+
+.pull-right[
+.tiny[
+```{r sim_lmms_data_gen_randm}
 # Generating the length of the fish depending on the age it has 
 age.df[age.df$age =="Juv","length"] <- rnorm(n.juv,mean = 100,sd = 10)
 age.df[age.df$age =="Ado","length"] <- rnorm(n.ado,mean = 250,sd = 50)
@@ -5766,13 +5937,7 @@ lake.rep = gl(n = lakes,k = f.sp*n.id,labels = paste0("L",1:lakes))
 sp.rep = rep( x = gl(n = f.sp,k = n.id, labels = paste0("s",1:f.sp)), lakes)
 # length(sp.rep)
 f.id = paste0("f.",1:(lakes*f.sp*n.id)) 
-```
-]
-]
 
-.pull-right[
-.tiny[
-```{r sim_lmms_data_gen_randm}
 # Random effects 
 # Setting it up with rnorm (the correct way)
 # lake.rdm.eff = rep( rnorm(lakes, 0, sd.lake), each = f.sp*n.id)
@@ -5811,21 +5976,50 @@ f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$
 ---
 # LMMs simulation
 
+```{r sim_lmms_data_gen_indv.err}
+# Individual error 
+id.err = rnorm(lakes*f.sp*n.id, 0, sd)
+
+f.dat = data.frame(lake = lake.rep,
+                   lake.rdm.eff,
+                   species = sp.rep,
+                   lake.rdm.eff,
+                   fish.rdm.eff,
+                   id = f.id,
+                   age.df)
+
+f.dat$t.lvl = with(f.dat, beta0 + beta1*length +lake.rdm.eff+fish.rdm.eff+ id.err )
+
+f.dat$z_lgt = scale(f.dat$length) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
+```
+
+---
+# LMMs simulation
+
 - This simulation is from [Simulate! Simulate! - Part 2: A linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
-```{r lmm_sim.blog, fig.width=8, fig.height=3}
+```{r lmm_sim.blog1, fig.width=8, fig.height=3}
 set.seed(16)
 nstand = 5
 nplot = 4
 mu = 10
 sds = 2
 sd = 1
-( stand = rep(LETTERS[1:nstand], each = nplot) )
-( plot = letters[1:(nstand*nplot)] )
-( standeff = rnorm(nstand, 0, sds) )
-( standeff = rep(standeff, each = nplot) )
-( ploteff = rnorm(nstand*nplot, 0, sd) )
-( dat = data.frame(stand, standeff, plot, ploteff) )
-( dat$resp = with(dat, mu + standeff + ploteff ) )
+stand = rep(LETTERS[1:nstand], each = nplot) 
+plot = letters[1:(nstand*nplot)] 
+standeff = rnorm(nstand, 0, sds) 
+standeff = rep(standeff, each = nplot) 
+ploteff = rnorm(nstand*nplot, 0, sd) 
+dat = data.frame(stand, standeff, plot, ploteff) 
+dat$resp = with(dat, mu + standeff + ploteff ) 
+```
+
+---
+# LMMs simulation
+
+- This simulation is from [Simulate! Simulate! - Part 2: A linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
+
+```{r lmm_sim.blog2, fig.width=8, fig.height=3}
 library(lme4,warn.conflicts = FALSE)
 fit1 = lmer(resp ~ 1 + (1|stand), data = dat)
 fit1
@@ -5856,6 +6050,14 @@ stand_vars = stand_sims %>%
      map_dfr(bind_rows, .id = "stand_num") %>%
      filter(group == "stand")
 head(stand_vars)
+```
+
+---
+# LMMs simulation
+
+- This simulation is from [Simulate! Simulate! - Part 2: A linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/)
+
+```{r lmm_sim.blog3, fig.width=8, fig.height=3}
 ggplot(stand_vars, aes(x = estimate) ) +
      geom_density(fill = "blue", alpha = .25) +
      facet_wrap(~stand_num) +
@@ -5885,14 +6087,12 @@ stand_vars %>%
 stand_vars %>%
      group_by(stand_num) %>%
      summarise(mean(estimate < 4) )
-
 ```
-
 
 ---
 # LMMs simulation
 
-For now, please see [this link](https://debruine.github.io/tutorials/sim-lmer.html). 
+For now, please see [this link: Chapter 4 Simulating Mixed Effects by Lisa DeBruine](https://debruine.github.io/tutorials/sim-lmer.html). 
 
 ```{r lmmmmmmmmms, fig.width=8, fig.height=3}
 library(lmerTest, warn.conflicts = F)
@@ -6338,48 +6538,51 @@ simpca(nr.indv = rep(200, 5), m = 10, q = 7, R = rcormat(m = 10),
 
 ---
 name: references
-# References
+# References Books
 
-.tiny[
-Book
-- Aho, K. A. 2013. Foundational and applied statistics for biologists using R.
-- Banks, J. 1998. Handbook of simulation.
-- Bloomfield, V. A. 2009a. Using R for computer simulation and data analysis in biochemistry, molecular biology, and biophysics
-- Bloomfield, V. A. 2009b. Computer simulation and data analysis in molecular biology and biophysics: an introduction using R. 
-- Bolker, B. M. 2015. Ecological Models and Data in R. 
-- Crawley, M. J. 2013. The R book. Pages 1–1051. 2nd ed. (see chapter 7)
-- Dobrow, R. P. 2013. Probability: With Applications and R. 
-- Jones, O., R. Maillardet, and A. Robinson. 2014. Introduction to scientific programming and simulation using R. 2nd ed.
-- Morgan, B. J. T. 1984. Elements of simulation.
-- Otto, S. P., and T. Day. 2007. A Biologist's Guide to Mathematical Modeling in Ecology and Evolution.
-- Ross, K. 2021. An introduction to probability and simulation.
-- Seefeld, K., and E. Linder. 2007. Statistics using R with biological examples.
-- Soetaert, K., J. Cash, and F. Mazzia. 2012. Solving Differential Equations in R.
-- Templ, M. 2016. Simulation for data science with R. 
-- Whitlock, M. C., and D. Schluter. 2020. The analysis of biological data. 3rd ed.
+.pull-left[
+- Aho. 2013. Foundational & applied statistics for biologists using R.
+- Banks. 1998. H&book of simulation.
+- Bloomfield. 2009a. Using R for computer simulation & data analysis in biochemistry, molecular biology, & biophysics
+- —. 2009b. Computer simulation & data analysis in molecular biology & biophysics: an introduction using R. 
+- Bolker. 2015. Ecological Models & Data in R. 
+- Crawley. 2013. The R book. 2ed. (Chap. 7)
+- Dobrow. 2013. Probability: With Applications & R. 
+]
 
+.pull-right[
+- Jones, Maillardet, & Robinson. 2014. Introduction to scientific programming & simulation using R. 2ed.
+- Morgan. 1984. Elements of simulation.
+- Otto & Day. 2007. A Biologist's Guide to Mathematical Modeling in Ecology & Evolution.
+- Ross. 2021. An introduction to probability & simulation.
+- Seefeld & Linder. 2007. Statistics using R with biological examples.
+- Soetaert, Cash, & Mazzia. 2012. Solving Differential Equations in R.
+- Templ. 2016. Simulation for data science with R. 
+- Whitlock & Schluter. 2020. The analysis of biological data. 3ed.
+]
 <!-- ![:scale 5%](images/Otto_Day.2007. Biologist Guide to Mathematical Modeling in Ecology and Evolution.jpg) -->
 
 
 ---
-# References 
+# References links
 
-Links 
-- [Getting started simulating data in R: some helpful functions and how to use them (Ariel Muldoon)](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/)
-- [Simulate Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/) and [Simulate Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/) by Ariel Muldoon
-- [Simulate Poisson model (Ariel Muldoon)](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/)
-- [Simulate binomial generalized linear mixed model (Ariel Muldoon)](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/)
-- [Statistical Simulation in R with Code — Part 1](https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9)
-- [Power Analysis by Data Simulation in R – Part 2](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/)
+.pull-left[
+- [Simulate Linear model](https://aosmith.rbind.io/2018/01/09/simulate-simulate-part1/), [Simulate Linear mixed model](https://aosmith.rbind.io/2018/04/23/simulate-simulate-part-2/), [Simulate Poisson model](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/), [Simulate binomial generalized linear mixed model](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/), and [Getting started simulating data in R: some helpful functions and how to use them](https://aosmith.rbind.io/2018/08/29/getting-started-simulating-data/) by Ariel Muldoon
+- [Statistical Simulation in R with Code — Part I](https://towardsdatascience.com/statistical-simulation-in-r-part-1-d9cb4dc393c9)
+- [Power Analysis by Data Simulation in R – Part II](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/)
 - [bios221; Lab 3: Simulations in R](https://web.stanford.edu/class/bios221/labs/simulation/Lab_3_simulation.html)
 - [R Programming for Data Science; See 20 Simulation](https://bookdown.org/rdpeng/rprogdatascience/simulation.html)
 - [Simulation in R (YouTube)](https://www.youtube.com/watch?v=tvv4IA8PEzw)
+- [An Introduction to Probability and Simulation by Kevin Ross](https://bookdown.org/kevin_davisross/probsim-book/)
+]
+
+.pull-right[
 - [Introduction to Simulations in R](http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/simRreg.pdf)
-- [Crump Lab; see Chapter 5 Simulating and Analyzing Data in R](https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.html)
-- [Intro to R Lecture Notes; see Chapter 13 Simulations](https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html)
+- [Crump Lab; Chap. 5 Simulating and Analyzing Data in R](https://www.crumplab.com/programmingforpsych/simulating-and-analyzing-data-in-r.html)
+- [Intro to R Lecture Notes; Chap. 13 Simulations](https://users.phhp.ufl.edu/rlp176/Courses/PHC6089/R_notes/simulations.html)
 - [Simulation Cheat Sheet, by Nick Huntington-Klein](https://nickch-k.github.io/introcausality/Cheat%20Sheets/Simulation_Cheat_Sheet.pdf)
-- [Simulating mixed effets; see chapter 4](https://debruine.github.io/tutorials/sim-lmer.html)
-- [Cours 'Econ 224'; Lab #9 - Logistic Regression Part I](https://ditraglia.com/econ224/lab09.pdf)
+- [Simulating mixed effets; Chap. 4](https://debruine.github.io/tutorials/sim-lmer.html)
+- [Cours 'Econ 224'; Lab #9 Logistic Regression Part I](https://ditraglia.com/econ224/lab09.pdf)
 - [ECON 41 Labs; useful ressources about distributions](https://bookdown.org/gabriel_butler/ECON41Labs/)
 - [Binomial regression in R](https://kkorthauer.org/fungeno2019/methylation/vignettes/1-binomial-regression.html#4_pitfalls_of_glm)
 - [Simple Data Simulations in R, of course](https://it.unt.edu/simple-data-simulations)
@@ -6393,6 +6596,8 @@ name: acknowledgements
 Thanks to all the people that contributed to this presentation. All of the inspiration for this workshop is referenced in the markdown or linked in the notes. 
 
 In particular, thank to the Barrett lab graduate students (McGill) for their valuable insights and support, Winer Daniel Reyes Corral (McGill), Pierre-Olivier Montiglio (UQAM), etc. 
+
+Thank you for your participation and helping me improve the workshop.
 
 ---
 class: inverse, center, bottom
