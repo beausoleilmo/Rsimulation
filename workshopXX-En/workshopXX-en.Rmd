@@ -62,7 +62,7 @@ Might not apply to you
 1. [Why are simulations relevant?](#why-sim-revelant) 
 2. [When simulations are useful?](#when-sim-useful) 
 3. [What you need to know before doing simulations?](#what-to-be-known-before-sim)
-4. [Let's explore what underlie some statistical processes](#explore-under-stat-process)
+4. [Let's explore what underlie some random processes](#explore-under-stat-process)
 5. [Statistical distributions in more details](#statistical-distributions)
 6. [Simulating data for power analysis (in development)](#simulating-power)
 7. [Simulating data for models (lm, glm, lmm, in development)](#sim-data-models)
@@ -72,7 +72,9 @@ Might not apply to you
 
 Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p)
 
-The exercices for this workshop: [Challenge 1](#challenge1), [challenge 2](#challenge2), [challenge 3](#challenge3), [challenge 4](#challenge4), [challenge 5](#challenge5), [challenge 6](#challenge6), [challenge 7](#challenge7).
+The exercices for this workshop: [Challenge wallpaper](#challenge_0_wallpaper), [Challenge 1](#challenge1), [challenge 2](#challenge2), [challenge 3](#challenge3), [challenge 4](#challenge4), [challenge 5](#challenge5), [challenge 6](#challenge6), [challenge 7](#challenge7).
+
+If R is not installed yet, visit the [CRAN here](https://cran.r-project.org).
 
 ???
 This workshop was designed to give you the tools to perform simulations in R. 
@@ -135,7 +137,7 @@ In this section, we will explore
 - What are simulations 
 - What is the idea behind simulations
 - What statistics has to do with simulations.
-- Understand, with all of these, wy simulations are relevant.
+- Understand, with all of these, why simulations are relevant.
 
 ---
 # Background and questions
@@ -146,7 +148,7 @@ In this section, we will explore
 - When do you think they are helpful? 
 - What is a model? Can you give examples of models that are not statistical models? 
 ???
-- Have you ever performed a simulation in R?  Elsewhere? 
+- Have you ever performed a simulation in R?  Elsewhere? (bootstrapping? Permutations? Bayesian using MCMC?, a secret Santa?)
 - What are simulations for? Would simulations be useful for your current or future work? 
 - Why do you think they are important? 
 - When do you think they are helpful? 
@@ -1774,7 +1776,7 @@ y <- 2:8; names(y) <- paste(y,":", sep = "")
 - Look at the diagonals 
 
 ---
-name: challenge_1_wallpaper
+name: challenge_0_wallpaper
 ## Challenge 0: wallpapeR ![:cube]()
 
 
@@ -1788,9 +1790,8 @@ nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
 #<<
 
 xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
-image(t(xy.out),
-      col = hcl.colors(1000, palette = hcl.pals()[rdm.nb]), # 61,93 looks good
-      xaxt = "n", yaxt = "n", bty = "n")
+image(t(xy.out),xaxt = "n", yaxt = "n", bty = "n",
+      col = hcl.colors(1000, palette = hcl.pals()[rdm.nb])) # 61,93 looks good
 ```
 
 
@@ -1827,9 +1828,8 @@ xy.out = outer(x.val, y.val, "-") # manipulate the variables
 nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
 rdm.nb = sample(c(1:nb.col.pal), size = 1); print(rdm.nb) # Get random number #<<
 xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
-image(t(xy.out),
-      col = hcl.colors(1000, palette = hcl.pals()[rdm.nb]), # 61,93 looks good
-      xaxt = "n", yaxt = "n", bty = "n")
+image(t(xy.out),xaxt = "n", yaxt = "n", bty = "n",
+      col = hcl.colors(1000, palette = hcl.pals()[rdm.nb])) # 61,93 looks good
 ```
 
 ---
@@ -1906,21 +1906,64 @@ plot(y~x, col = as.factor(gr), data = linear.df, pch = 19, cex = 1.5)
 ---
 class: inverse, center, middle
 name: explore-under-stat-process
-# Let's explore what underlies some statistical processes
+# Let's explore what underlies some random processes
 
 ???
 - This is where the statistical background is important. 
 - we will revise some concepts to make sure we can continue on programming simulations
 
 ---
+# Are you sure?
+
+- What characterize all situations that involves chance or a likelihood?
+???
+- Ross, K. 2021. An introduction to probability and simulation:563.
+- A process is random if multiple outcomes and uncertain about a specific outcome
+--
+
+- A degree of **uncertainty**!
+- Below are 3 and 100 coins (the lines) flipped 10 and 5000 times each (the x-axis). 
+
+```{r coin_tosses, echo=FALSE, fig.width=10,fig.height=4}
+# This is an example of "long run frequency" probability
+par(mfrow = c(1,2), mar = c(4,4,2.5,.5), cex = 1.2)
+toss.coin <- function(n.tosses = 1000) {
+  ctos = rbinom(n.tosses, 1, .5)
+  nb = 1:length(ctos)
+  r.sum = cumsum(ctos)
+  d.coin.toss = data.frame(nb, ctos, r.sum, run.prop = r.sum/nb)
+  d.coin.toss
+}
+set.seed(123456)
+rep.toss = replicate(n = 3,toss.coin(n.tosses = 10), simplify = F)
+result = lapply(rep.toss, "[", "run.prop")
+tosses= do.call(cbind,result)
+matplot(tosses,type = "l", ylim = c(0,1), main = "3 coins, 10 tosses",
+        ylab = "Proportion of tosses", xlab = "Number of tosses")
+abline(h = 0.5,lty = 3, lwd= 3)
+
+set.seed(123456)
+rep.toss = replicate(n = 100,toss.coin(n.tosses = 5e3), simplify = F)
+result = lapply(rep.toss, "[", "run.prop")
+tosses= do.call(cbind,result)
+matplot(tosses,type = "l", ylim = c(0,1),  main = "100 coins, 5000 tosses",
+        ylab = "Proportion of tosses", xlab = "Number of tosses")
+abline(h = 0.5,lty = 3, lwd= 3)
+
+# plot(d.coin.toss$run.prop~d.coin.toss$nb, type = "l", ylim = c(0,1))
+```
+
+
+---
 # Probability and odds 
 
-- When describing the "chance" or "likelihood" of an outcome, you can use a probability or odds
-- They are related: odds of an event is $odds = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$
+- When describing the "chance" or "likelihood" of an outcome, you can use a probability or odds (which reports probabilities in terms of ratios)
+- They are related: odds in favor of an event occurring is $odds_{favour} = p/(1-p)$  or $odds = \frac{\text{probability of success}}{\text{probability of failure}}$. Otherwise, the odds against is $odds_{against} = (1-p)/p$
 - Why bother using probability or odds? 
 ???
 - Let's explore the basic concepts like probability and odds.  
-- This is important when you start simulating data, but also understand how to interpret some of the equations that we'll see later when we want to develop simulations for certain models  
+- This is important when you start simulating data (e.g., logistic model), but also understand how to interpret some of the equations that we'll see later when we want to develop simulations for certain models  
+- See `MASS::fractions(.25)` to convert a decimal to a fraction! 
 --
 
 - probability ranges between 0 and 1, but odds range from 0 to $\infty$. 
@@ -2163,7 +2206,7 @@ plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=
 plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
 ```
 
-```{r odds_prob_plot_with_pol, echo=FALSE, eval=TRUE, fig.width=12,fig.height=8}
+```{r odds_prob_plot_with_pol, echo=FALSE, eval=TRUE, fig.width=12,fig.height=6}
 # adde prob scale
 par(mfrow = c(2,3))
 par(mar = c(0,4,0,0), 
@@ -2212,7 +2255,7 @@ points(0,.3, pch =19)
 
 ###
 
-par(mar =c(4,4,.5,.5), cex = 1.3)
+par(mar =c(4,4,.25,.25), cex = 1.3)
 p.o = d$p~d$odds
 p.lo = d$p~d$log_odds
 o.lo = d$odds~d$log_odds
@@ -2288,6 +2331,7 @@ random.var.normal[1]
 ```
 ???
 - This is an exercise to let the attendees feel what are random variables and why statistical distributions are interesting. 
+- Note that a regular distribution of outcomes might be perceptible if a relatively large number of repetition is made
 --
 
 - From which distribution is this variable coming from?
@@ -2627,6 +2671,7 @@ The image below shows a small roadmap demonstrating the link between different s
 ![Relationship between statistical distributions:scale 90%](images/Relationships_among_some_of_univariate_probability_distributions.jpg)
 ???
 - Source https://en.wikipedia.org/wiki/Relationships_among_probability_distributions and http://www.math.wm.edu/~leemis/2008amstat.pdf (Ehsan.azhdari)
+- Leemis, L. M., and J. T. McQueston. 2008. Univariate Distribution Relationships. The American Statistician 62:45–53.
 
 ---
 # Other distributions with packages
@@ -2711,6 +2756,217 @@ name: statistical-distributions
 - In this section, we'll explore in more details some statistical distributions that are important in biology 
 
 ---
+# Binomial distribution
+
+- Binomial distribution is finite (number of trials is not infinite) and discrete.
+- It assumes that:
+  - Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
+  - There is a *fixed* number of trials and the probability on each trial is constant.
+
+- The probability mass function is:
+
+$$f(x) = {n \choose x} p^x(1-p)^{n-x} $$
+where 
+- $p$ is the probability of success in a single trial (so $(1-p)$ is the probability of failure, sometimes seen as $q$)
+- $n$ is the number of trials 
+- $x$ is the number of trials that are successes
+- ${n \choose x} = \frac{n!}{r!(n-r)!}$ is the number of combinations where the order doesn't matter. 
+
+???
+- Note that a 'success' or 'failure' is a *contrast* between 2 elements. 
+  * These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.
+- The probability of success or failure DON'T change as the experiment goes: e.g., the probability of heads or tail for a coin should not change as the experiment is conducted. 
+
+- See the lecture [Binomial Distribution](https://www.montana.edu/rotella/documents/502/BinomDist.html)
+- The function `choose()` is used in R to find the number combinations (regardless of the order, meaning that it could be found in any position). For example, if you just want to know the number of combinations you can have from choosing 6 numbers out of 49, it is `r choose(49, 6)`. If you wish to know the chances of winning the lotteries it's `r 1/choose(49, 6)`.
+  * In other words, the *binomial coefficient* shows the number of ways there are of getting x items out of n items (when the item can be one of just 2 types such as male/female, success/failure) (See Crawley's R book). E.g., from 8 individuals, how many ways there are that 3 are males and hende 5 are females? `choose(8,3)` or `r choose(8,3)`
+  * Note that the **factorial** gives the number of permutations of *n* items. To arrange 4 items 4! in R is `factorial(4)` which in this case gives `r factorial(4)`.
+
+```
+par(mfrow=c(1,2))
+x <- 0:6
+plot(x,factorial(x),
+     type="s", # step option 
+     log="y", # Get logarithmic scale for y 
+     main="factorial x")
+abline(h = seq(0,1000,by = 25), lty = 3)
+
+x = 0:8
+plot(x,choose(8,x),
+     type="s",
+     main="Binomial coefficients")
+abline(h = seq(0,70,by = 10), lty = 3)
+```
+
+---
+# Binomial distribution
+
+- Examples 
+  - Number of heads in a row after 3 tosses (heads or tail)
+  - Wright-Fisher model (Genetic drift, p and q)
+  - Testing the side effects of a new medications (with and without effect)
+  - Model river overflows due to excessive rain (overflows or not). 
+  - Number of individuals that have a survival probability in an experiment. 
+
+???
+- Wright–Fisher model is a mathematical model of genetic drift. p and q are the frequency of 2 different alleles. (Generations do not overlap, like annual plants, and that the copy of the gene in the new generation is independently drawn from the gene pool of the previous generation)
+  * Here is a simulation of the Wright-Fisher model [Introduction to the Wright-Fisher Model](https://stephens999.github.io/fiveMinuteStats/wright_fisher_model.html#simulating_the_wright-fisher_model) (cleaner compared to my version!)
+- For the medical side effect (affected or not), the river overflows (overflow or not) example, read [5 Real-Life Examples of the Binomial Distribution](https://www.statology.org/binomial-distribution-real-life-examples/)
+- https://towardsdatascience.com/why-is-logistic-regression-the-spokesperson-of-binomial-regression-models-54a65a3f368e
+
+<!-- , 'cancer cell death/alive' -->
+
+
+---
+# Binomial distribution
+
+- Example 1: probability of having a certain number of offspring with a certain genotype (e.g., Aa) given the genotypes of the parents 
+  - If a male (AA) mates a female (Aa), what is the probability that 6 of their 7 offspring is Aa (7 choose 6)
+  - The probability of getting Aa from AA x Aa is [1/2 AA and 1/2 Aa], 
+  - $P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128$ (about 0.055)
+- Example 2: Probability of having 3 daughters if you have 5 children.
+  * if you have 5 children, these are independent trials, so n = 5
+  * "success" is the probability that the child is a daughter (p = 1/2)
+  * $P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16$ (about 0.31)
+
+???
+genotype examples
+The Punnett square for the male and female union 
+
+| Gametes | A | a | 
+| ------- | - | - | 
+| A	      | AA | Aa	| 
+
+Daughter examples
+- You could also discuss this simpler case: 
+- what is the probability of getting 2 daughters out of 3 children
+```{r dbinmon_prob.5}
+dbinom(2,3,prob = .5) # 0.375
+```
+
+```
+000 # 0 ## 1/8      1/8
+001 # 1 ## 1/8  #
+010 # 1 ## 1/8  #   3/8
+100 # 1 ## 1/8  #
+011 # 2 ## 1/8  ##
+110 # 2 ## 1/8  ##  3/8
+101 # 2 ## 1/8  ##
+111 # 3 ## 1/8  ### 1/8
+
+```
+
+
+
+---
+# Binomial distribution
+
+- This is a visualization of the previous examples.
+
+```{r dbinom_plot_ex, echo=-c(1:5), fig.width=8,fig.height=4}
+par(mfrow = c(1,1), mar = c(4,4,1,1))
+set.seed(12345); lwd = 3
+col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
+col.g = scales::alpha("green",.5); col.b = scales::alpha("blue",.8)
+add.l <- function(by=.1) {  abline(h=seq(0,1, by = by), lty = 3, lwd = .3)}
+n = 7; x = 6; prob = 0.5
+plot(0:8, dbinom(x = 0:8, size=n, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.4), ylab = "Probability", main = "s=7 and s=5; p=0.5 "); add.l(.05)
+points(x = x, y = dbinom(x = x, size=n, prob=0.5), pch =19, col = col.b)
+
+lines(c(0:8)+0.1, dbinom(x = 0:8, size=5, prob=0.5),type='h', col = col.r, lwd=lwd)
+points(x = 3+.1, y = dbinom(x = 3, size=5, prob=0.5), pch =19, col = col.r)
+```
+
+???
+- blue = genotype examples
+- Red = Daughter examples
+- Examples taken from 
+  * [Polynomial Applications Binomial Distribution](http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html)
+  * [Biology 300 Notes on the binomial distribution](https://www.zoology.ubc.ca/~bio300b/binomialnotes.html)
+  * [The Binomial Distribution: A Probability Model for a Discrete Outcome](https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probability7.html)
+
+
+---
+# Binomial distribution
+
+- In `R`, you can generate binomial distributed variables with the `rbinom` function. 
+
+```
+rbinom(n = number of repetitions,
+       size = sample size, # between 0 and up to the size 
+       p = probability of success)
+```
+
+- Think of it as the number of times you'd get a success, with probability $p$, for a number of times you repeat the experiment. 
+
+```{r tables_rbinom_ex}
+set.seed(12345)
+# 1000 experiments where each time, e.g., flipping a coin, I can either have a
+table(rbinom(n = 1000, size=1, prob=0.5), dnn=NULL) # success or failure with p=.5
+# 1 experiment where I have 1000 coins Where I sum all successes with p=.5
+table(rbinom(n = 1, size=1000, prob=0.5), dnn=NULL) 
+# 1000 experiments where each time, for example flipping 10 coins, where I 
+table(rbinom(n = 1000, size=10, prob=0.5), dnn=NULL) # sum the success with p=.5
+```
+???
+- The structure of the function is shown in R notation .
+
+---
+# Binomial distribution
+
+
+```{r Statistical_dist_binom, echo=-c(1:6), fig.width=8,fig.height=4}
+par(mfrow = c(2,3), mar = c(4,4,1,1))
+set.seed(12345)
+col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
+col.g = scales::alpha("green",.5); col.b = scales::alpha("blue",.8)
+lwd=2
+add.l <- function(by=.1) {  abline(h=seq(0,1, by = by), lty = 3, lwd = .3)}
+# For dbinom, x is the vector of quantiles 
+plot(0:1, dbinom(x = 0:1, size=1, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "s=1, p=.5"); add.l()
+plot(0:20, dbinom(x = 0:20, size=20, prob=0.4),type='h', col = col.b, lwd=lwd, ylim = c(0,.2), ylab = "Probability", main = "s=20, p=.4");add.l()
+plot(0:23, dbinom(x = 0:23, size=20, prob=0.9),type='h', col = col.b, lwd=lwd, ylim = c(0,0.3), ylab = "Probability", main = "s=20, p=.9");add.l()
+plot(40:110, dbinom(x = 40:110, size=150, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.15), ylab = "Probability", main = "s=150, p=.5");add.l()
+
+
+# hist(rbinom(n = 100000, size=50, prob=0.5), xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.5", probability = F)
+plot(40:51, dbinom(x = 40:51, size=50, prob=0.99),type='h', col = col.b, lwd=lwd, ylim = c(0,.8), ylab = "Probability", main = "s=50, p=.99");add.l()
+hist(rbinom(n = 100000, size=50, prob=0.99),xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.99", probability = F)
+```
+
+???
+- Some of the distributions may *look* normal, but they are NOT. 
+- If you look at the histograms and plot the "density", you can see that it can go ABOVE 1. It makes more sense to see the probabilities as the AREA under such curve.
+- See [Probability density function vs. probability mass function](https://math.stackexchange.com/questions/23293/probability-density-function-vs-probability-mass-function)
+
+---
+name: challenge3
+## Challenge 3 ![:cube]()
+
+What is the probability (in %), of getting 4 heads or 4 tails from 4 tosses of a fair coin? 
+Use the binomial distribution to answer this question. 
+
+???
+
+---
+## Challenge 3 - Solution ![:cube]()
+
+What is the probability (in %), for getting 4 heads or 4 tails from tossing 4 times a fair coin? 
+```{r binom_chall_coin, fig.width=8,fig.height=4}
+mybin <- function(x,n,p) { choose(n, x)* p^x* (1-p)^(n-x) } 
+mybin(0,4,.5) + mybin(4,4,.5)
+dbinom(x = 0,4,.5) + dbinom(x = 4,4,.5)
+lwd = 5
+curve(dbinom(x,4,.5),0,6, n = 7,type = "h", lwd = lwd)
+curve(dbinom(x,4,.5),0,0, type = "h",add = TRUE, col = "red", lwd = lwd)
+curve(dbinom(x,4,.5),4,4, type = "h",add = TRUE, col = "red", lwd = lwd)
+
+0.5^4*2
+```
+
+???
+
+---
 # Poisson distribution
 
 - To be Poisson distributed, the data generally assumes that 
@@ -2724,7 +2980,7 @@ $$f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$$ where $\mu = \sigma^2 = \lambda$
 
 ???
 - See the article [The Poisson Distribution and Poisson Process Explained](https://towardsdatascience.com/the-poisson-distribution-and-poisson-process-explained-4e2cb17d459) "A Poisson Process is a model for a series of discrete event where the average time (or space) between events is known, but the exact timing of events is random. The arrival of an event is independent of the event before (waiting time between events is memoryless)."
-
+- The important point here is that 1. the *NUMBER OF TRIALS IS UNKNOWN*, 2. But there are a lot of them
 
 ---
 # Poisson distribution
@@ -2852,218 +3108,13 @@ hist(rpois(n = 100000, lambda=50),xlab = "Nb of successes", breaks = 100, col = 
   * If you have a probability mass function (PMF), you can just add the probabilities of the X number of events and MORE
   * If you have a frequency histogram, you need to get the probability of observing the data first and get sum as the PMF (if R, you can just use the `ppois()` function as this just does that.)
 
----
-# Binomial distribution
 
-- Binomial distribution is finite (n is not infinite) and discrete.
-- Binomial distribution assumes that:
-  - Each *independent* trial is either a success (1, T, Yes) or failure (0, F, No)
-  - There is a *fixed* number of trials and the probability on each trial is constant.
-
-- The probability mass function is:
-
-$$f(x) = {n \choose x} p^x(1-p)^{n-x} $$
-where 
-- $p$ is the probability of success in a single trial (so $(1-p)$ is the probability of failure, sometimes seen as $q$)
-- $n$ is the number of trials 
-- $x$ is the number of trials that are successes
-- ${n \choose x} = \frac{n!}{r!(n-r)!}$ is the number of combinations where the order doesn't matter. 
-
-???
-- Note that a 'success' or 'failure' is a *contrast* between 2 elements. 
-  * These could be 'heads/tail', 'girl/boy', 'diseased/not', etc.
-- The probability of success or failiure DON'T change as the experiment goes: e.g., the probability of heads or tail for a coin should not change as the experiment is conducted. 
-- See the lecture [Binomial Distribution](https://www.montana.edu/rotella/documents/502/BinomDist.html)
-- The function `choose()` is used in R to find the number combinations (regardless of the order, meaning that it could be found in any position). For example, if you just want to know the number of combinations you can have from choosing 6 numbers out of 49, it is `r choose(49, 6)`. If you wish to know the chances of winning the lotteries it's `r 1/choose(49, 6)`.
-  * In other words, the *binomial coefficient* shows the number of ways there are of getting x items out of n items (when the item can be one of just 2 types such as male/female, success/failure) (See Crawley's R book). E.g., from 8 individuals, how many ways there are that 3 are males and hende 5 are females? `choose(8,3)` or `r choose(8,3)`
-  * Note that the **factorial** gives the number of permutations of *n* items. To arrange 4 items 4! in R is `factorial(4)` which in this case gives `r factorial(4)`.
-
-```
-par(mfrow=c(1,2))
-x <- 0:6
-plot(x,factorial(x),
-     type="s", # step option 
-     log="y", # Get logarithmic scale for y 
-     main="factorial x")
-abline(h = seq(0,1000,by = 25), lty = 3)
-
-x = 0:8
-plot(x,choose(8,x),
-     type="s",
-     main="Binomial coefficients")
-abline(h = seq(0,70,by = 10), lty = 3)
-```
-
----
-# Binomial distribution
-
-- Examples 
-  - Number of heads in a row after 3 tosses (heads or tail)
-  - Wright-Fisher model (Genetic drift, p and q)
-  - Testing the side effects of a new medications (with and without effect)
-  - Model river overflows due to excessive rain (overflows or not). 
-
-???
-- Wright–Fisher model is a mathematical model of genetic drift. p and q are the frequency of 2 different alleles. (Generations do not overlap, like annual plants, and that the copy of the gene in the new generation is independently drawn from the gene pool of the previous generation)
-  * Here is a simulation of the Wright-Fisher model [Introduction to the Wright-Fisher Model](https://stephens999.github.io/fiveMinuteStats/wright_fisher_model.html#simulating_the_wright-fisher_model) (cleaner compared to my version!)
-- For the medical side effect (affected or not), the river overflows (overflow or not) example, read [5 Real-Life Examples of the Binomial Distribution](https://www.statology.org/binomial-distribution-real-life-examples/)
-
-<!-- , 'cancer cell death/alive' -->
-
-
----
-# Binomial distribution
-
-- Example 1: probability of having a certain number of offspring with a certain genotype (e.g., Aa) given the genotypes of the parents 
-  - If a male (AA) mates a female (Aa), what is the probability that 6 of their 7 offspring is Aa (7 choose 6)
-  - The probability of getting Aa from AA x Aa is [1/2 AA and 1/2 Aa], 
-  - $P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128$ (about 0.055)
-- Example 2: Probability of having 3 daughters if you have 5 children.
-  * if you have 5 children, these are independent trials, so n = 5
-  * "success" is the probability that the child is a daughter (p = 1/2)
-  * $P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16$ (about 0.31)
-
-???
-genotype examples
-The Punnett square for the male and female union 
-
-| Gametes | A | a | 
-| ------- | - | - | 
-| A	      | AA | Aa	| 
-
-Daughter examples
-- You could also discuss this simpler case: 
-- what is the probability of getting 2 daughters out of 3 children
-```{r dbinmon_prob.5}
-dbinom(2,3,prob = .5) # 0.375
-```
-
-```
-000 # 0 ## 1/8      1/8
-001 # 1 ## 1/8  #
-010 # 1 ## 1/8  #   3/8
-100 # 1 ## 1/8  #
-011 # 2 ## 1/8  ##
-110 # 2 ## 1/8  ##  3/8
-101 # 2 ## 1/8  ##
-111 # 3 ## 1/8  ### 1/8
-
-```
-
-
-
----
-# Binomial distribution
-
-- This is a visualization of the previous examples.
-
-```{r dbinom_plot_ex, echo=-c(1:4), fig.width=8,fig.height=4}
-par(mfrow = c(1,1), mar = c(4,4,1,1))
-set.seed(12345); lwd = 3
-col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
-col.g = scales::alpha("green",.5); col.b = scales::alpha("blue",.8)
-n = 7; x = 6; prob = 0.5
-plot(0:8, dbinom(x = 0:8, size=n, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.4), ylab = "Probability", main = "s=7 and s=5; p=0.5 "); add.l(.05)
-points(x = x, y = dbinom(x = x, size=n, prob=0.5), pch =19, col = col.b)
-
-lines(c(0:8)+0.1, dbinom(x = 0:8, size=5, prob=0.5),type='h', col = col.r, lwd=lwd)
-points(x = 3+.1, y = dbinom(x = 3, size=5, prob=0.5), pch =19, col = col.r)
-```
-
-???
-- blue = genotype examples
-- Red = Daughter examples
-- Examples taken from 
-  * [Polynomial Applications Binomial Distribution](http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html)
-  * [Biology 300 Notes on the binomial distribution](https://www.zoology.ubc.ca/~bio300b/binomialnotes.html)
-  * [The Binomial Distribution: A Probability Model for a Discrete Outcome](https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probability7.html)
-
-
----
-# Binomial distribution
-
-- In `R`, you can generate binomial distributed variables with the `rbinom` function. 
-
-```
-rbinom(n = number of repetitions,
-       size = sample size, # between 0 and up to the size 
-       p = probability of success)
-```
-
-- Think of it as the number of times you'd get a success, with probability $p$, for a number of times you repeat the experiment. 
-
-```{r tables_rbinom_ex}
-set.seed(12345)
-# 1000 experiments where each time, e.g., flipping a coin, I can either have a
-table(rbinom(n = 1000, size=1, prob=0.5), dnn=NULL) # success or failure with p=.5
-# 1 experiment where I have 1000 coins Where I sum all successes with p=.5
-table(rbinom(n = 1, size=1000, prob=0.5), dnn=NULL) 
-# 1000 experiments where each time, for example flipping 10 coins, where I 
-table(rbinom(n = 1000, size=10, prob=0.5), dnn=NULL) # sum the success with p=.5
-```
-???
-- The structure of the function is shown in R notation .
-
----
-# Binomial distribution
-
-
-```{r Statistical_dist_binom, echo=-c(1:6), fig.width=8,fig.height=4}
-par(mfrow = c(2,3), mar = c(4,4,1,1))
-set.seed(12345)
-col = scales::alpha("black",.5); col.r = scales::alpha("red",.5)
-col.g = scales::alpha("green",.5); col.b = scales::alpha("blue",.8)
-lwd=2
-add.l <- function(by=.1) {  abline(h=seq(0,1, by = by), lty = 3, lwd = .3)}
-# For dbinom, x is the vector of quantiles 
-plot(0:1, dbinom(x = 0:1, size=1, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "s=1, p=.5"); add.l()
-plot(0:20, dbinom(x = 0:20, size=20, prob=0.4),type='h', col = col.b, lwd=lwd, ylim = c(0,.2), ylab = "Probability", main = "s=20, p=.4");add.l()
-plot(0:23, dbinom(x = 0:23, size=20, prob=0.9),type='h', col = col.b, lwd=lwd, ylim = c(0,0.3), ylab = "Probability", main = "s=20, p=.9");add.l()
-plot(40:110, dbinom(x = 40:110, size=150, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.15), ylab = "Probability", main = "s=150, p=.5");add.l()
-
-
-# hist(rbinom(n = 100000, size=50, prob=0.5), xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.5", probability = F)
-plot(40:51, dbinom(x = 40:51, size=50, prob=0.99),type='h', col = col.b, lwd=lwd, ylim = c(0,.8), ylab = "Probability", main = "s=50, p=.99");add.l()
-hist(rbinom(n = 100000, size=50, prob=0.99),xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.99", probability = F)
-```
-
-???
-- Some of the distributions may *look* normal, but they are NOT. 
-- If you look at the histograms and plot the "density", you can see that it can go ABOVE 1. It makes more sense to see the probabilities as the AREA under such curve.
-- See [Probability density function vs. probability mass function](https://math.stackexchange.com/questions/23293/probability-density-function-vs-probability-mass-function)
-
----
-name: challenge3
-## Challenge 3 ![:cube]()
-
-What is the probability (in %), of getting 4 heads or 4 tails from 4 tosses of a fair coin? 
-Use the binomial distribution to answer this question. 
-
-???
-
----
-## Challenge 3 - Solution ![:cube]()
-
-What is the probability (in %), for getting 4 heads or 4 tails from tossing 4 times a fair coin? 
-```{r binom_chall_coin, fig.width=8,fig.height=4}
-mybin <- function(x,n,p) { choose(n, x)* p^x* (1-p)^(n-x) } 
-mybin(0,4,.5) + mybin(4,4,.5)
-dbinom(x = 0,4,.5) + dbinom(x = 4,4,.5)
-lwd = 5
-curve(dbinom(x,4,.5),0,6, n = 7,type = "h", lwd = lwd)
-curve(dbinom(x,4,.5),0,0, type = "h",add = TRUE, col = "red", lwd = lwd)
-curve(dbinom(x,4,.5),4,4, type = "h",add = TRUE, col = "red", lwd = lwd)
-
-0.5^4*2
-```
-
-???
 
 
 ---
 # Poisson distribution vs binomial
 
-- Difference between Binomial and Poisson distrivutions:
+- Difference between Binomial and Poisson distributions:
   - Number of events in Poisson can be infinite (so n tends towards infinity and the probability of each event approaches 0)
   - Number of trials is finite ( $n$ ) in Binomial distribution 
 
@@ -3083,6 +3134,39 @@ ppois(q = 2, lambda = 2)
 ???
 - Actually, the Poisson distribution approximates the Binomial with $\lambda = np$ if $n \geq 20$ and $p \leq 0.05$
 - See [The Poisson Distribution in R](https://rstudio-pubs-static.s3.amazonaws.com/456645_107fa2aa82de4b1da6c78c418bab9fe9.html)
+
+---
+# Uniform distribution (discrete)
+
+- This distribution can take any discrete value in a range 
+
+```{r uniform_distcrete_fun_dist, echo=TRUE, fig.width=5,fig.height=3}
+# Define uniform discrete 
+dunifdisc<-function(x, min=0, max=1) ifelse(x>=min & x<=max & round(x)==x, 1/(max-min+1), 0)
+runifdisc<-function(n, min=0, max=1) sample(min:max, n, replace=T)
+curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col="black", 
+      lwd=1, ylim = c(0,.5), ylab = "Probability", main = "Uniform") 
+```
+
+```{r uniform_distcrete_rdm_nb, echo=TRUE}
+set.seed(12345)
+sample(7:10, size = 1,replace = T)
+runifdisc(1,7,10)
+```
+
+
+---
+# Uniform distribution (continuous)
+
+- This distribution will give any (continuous) value between a minimum and a maximum value. 
+- This can come handy when generating angles. 
+
+```{r uniform_cont_angles, echo=TRUE, fig.width=5,fig.height=4}
+x = seq(0,360,by = .1)
+y <- dunif(x, min = min(x),max = max(x))
+plot(y~x, type = "n", ylim = c(0,1.5*max(y)), ylab = "Density", main = "Uniform")
+polygon(c(x, rev(x), 0), c(y, rep(0,length(y)), 0), col="blue")
+```
 
 ---
 # Normal distribution (Gaussian)
@@ -5227,6 +5311,9 @@ sum(p.val.lm<=0.05)/length(p.val.lm)
 - We use maximum likelihood to fit a line to the data. It doesn't have 'residuals' and don't have an $R^2$
 - Remember that in order to make the domain $]-\infty,\infty[$ for the y values (instead of $[0,1]$), we need to transform the probability to the $log(odds)$. 
 
+???
+- A Binomial regression with a logit link is a logistic regression! See [Why Is Logistic Regression the Spokesperson of Binomial Regression Models?](https://towardsdatascience.com/why-is-logistic-regression-the-spokesperson-of-binomial-regression-models-54a65a3f368e)
+
 ---
 # GLM: Logistic
 
@@ -6542,21 +6629,21 @@ name: references
 
 .pull-left[
 - Aho. 2013. Foundational & applied statistics for biologists using R.
-- Banks. 1998. H&book of simulation.
+- Banks. 1998. Handbook of simulation.
 - Bloomfield. 2009a. Using R for computer simulation & data analysis in biochemistry, molecular biology, & biophysics
 - —. 2009b. Computer simulation & data analysis in molecular biology & biophysics: an introduction using R. 
-- Bolker. 2015. Ecological Models & Data in R. 
+- Bolker. 2015. Ecological models & data in R. 
 - Crawley. 2013. The R book. 2ed. (Chap. 7)
-- Dobrow. 2013. Probability: With Applications & R. 
+- Dobrow. 2013. Probability: With applications & R. 
 ]
 
 .pull-right[
-- Jones, Maillardet, & Robinson. 2014. Introduction to scientific programming & simulation using R. 2ed.
+- Jones, Maillardet, & Robinson. 2014. Intro. to scientific programming & simulation using R. 2ed.
 - Morgan. 1984. Elements of simulation.
 - Otto & Day. 2007. A Biologist's Guide to Mathematical Modeling in Ecology & Evolution.
 - Ross. 2021. An introduction to probability & simulation.
 - Seefeld & Linder. 2007. Statistics using R with biological examples.
-- Soetaert, Cash, & Mazzia. 2012. Solving Differential Equations in R.
+- Soetaert, Cash, & Mazzia. 2012. Solving Diff. Eq. in R.
 - Templ. 2016. Simulation for data science with R. 
 - Whitlock & Schluter. 2020. The analysis of biological data. 3ed.
 ]
