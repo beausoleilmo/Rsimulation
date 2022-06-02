@@ -14,7 +14,7 @@
 # Load libraries ----------------------------------------------------------
 librarian::shelf(tidyverse, 
                  broom.mixed,
-                 dplyr, 
+                 dplyr, DT,
                  cds, 
                  dummies, 
                  fitdistrplus, 
@@ -106,8 +106,8 @@ source(file = "scripts/marginal_plot.R")
 
 
 # Get session information -------------------------------------------------
-dir.create("workshopXX-En/output/session_info",recursive = TRUE, showWarnings = FALSE)
-sink("workshopXX-En/output/session_info/session_information.txt",append = FALSE)
+dir.create("output/session_info",recursive = TRUE, showWarnings = FALSE)
+sink("output/session_info/session_information.txt",append = FALSE)
 # sink("~/Desktop/session_information.txt",append = FALSE)
 cat("##### R Version Information ############################################################\n")
 version

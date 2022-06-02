@@ -7,13 +7,14 @@ output:
     includes:
       in_header: "qcbsR-header.html"
     lib_dir: assets
-    seal: true
+    seal: true # creates title slide
     css: ["default", "qcbsR.css", "qcbsR-fonts.css"]
     nature:
-      ratio: '4:3'      
+      ratio: '16:9' # "4:3"
       beforeInit: "qcbsR-macros.js"
       highlightStyle: github
       highlightLines: true
+      countIncrementalSlides: true # Otherwise, it's hard to reference a slide
 ---
 
 
@@ -547,7 +548,7 @@ You might be wondering:
 - The only difference is the number of individuals in each population
 - Your can deduce many things from the allele frequency change.
 
-```{r r_tips2, echo=FALSE, fig.width=13,fig.height=7}
+```{r r_tips2, echo=FALSE, fig.width=13,fig.height=6.5}
 # Description  ------------------------------------------------------------
 #### ### ### ## #### ### ### ## #### ### ### ## 
 # Genetic drift simulation
@@ -567,7 +568,7 @@ You might be wondering:
 #### ### ### ## #### ### ### ## #### ### ### ## 
 
 # graphing parameters -----------------------------------------------------
-par(mfrow = c(2,2), cex = 1.2)
+par(mfrow = c(2,2), mar = c(3,3,2,2), cex = 1.2)
 # Random seed -------------------------------------------------------------
 set.seed(1245)
 
@@ -628,11 +629,18 @@ for (l in n.id.pop) {
   plot(all.pops$p.fq~c(1:nrow(all.pops)), 
        col = as.factor(all.pops$pop),
        main = paste0("Pop N=",max.pop, ", Start p=",p.init),
-       ylab = "Allele frq p",
-       xlab = "Generations",
+       ylab = "",
+       xlab = "",
        ylim = c(0,1),
        xlim = c(1,gen),
        type = "n")
+  if (l%in% n.id.pop[c(1,3)]) {
+  title(ylab="Allele fq p", line=2, cex.lab=1.2)
+  }
+  if (l%in% n.id.pop[c(3,4)]) {
+  title(xlab="Generations", line=2, cex.lab=1.2)
+  }
+  
   
   # Add the lines per population and colour them 
   for (k in 1:popu) {
@@ -1533,11 +1541,15 @@ df.xy$y.s = sample(df.xy$y) #<<
 ```
 ]
 
-```{r permutations_plot, fig.width=9,fig.height=3}
-par(mfrow=c(1,3), mar=c(4,4,1,1), cex = 1.2)
-plot(y~x,  col=col, data=df.xy, pch=19);abline(lm(y~x,  data=df.xy)) # Original 
-plot(y~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permutated 
-plot(y.s~x.s,col=col, data=df.xy, pch=19);abline(lm(y~x.s,data=df.xy)) # Permutated 
+```{r permutations_plot, echo=-c(1:5), fig.width=11,fig.height=5}
+par(mfrow=c(1,3), mar=c(3,4,2,1), cex = 1.2)
+plot.lm.c <- function(data, formula,main = "") {
+  plot(as.formula(formula), col=col, xlab ="", data=data, pch=19, main = main)
+  abline(lm(as.formula(formula),  data=data))
+  title(xlab = as.character(as.formula(formula)[3]), line=2, cex.lab=1.2)}
+plot.lm.c(df.xy,"y~x",    main = "Original x-y")
+plot.lm.c(df.xy,"y~x.s",  main = "Permutated x")
+plot.lm.c(df.xy,"y.s~x.s",main = "Permutated x and y")
 ```
 ]
 
@@ -1578,7 +1590,7 @@ http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf
 
 - You can also simulate random dates in a time interval. 
 
-```{r rdm_dates}
+```{r rdm_dates,}
 set.seed(42)
 # GEt a sequence of dates
 datae.seq = seq(from = as.Date('2010/01/01'), 
@@ -1600,7 +1612,7 @@ sample(datae.seq, 5)
 
 .small[
 ```{r sample_die, echo=-1, fig.width=8, fig.height=3.5}
-par(mar=c(4,4,0.1,0.1))
+par(mar=c(4,4,1,0.1))
 set.seed(50)
 p_dice = c(1,1,1,1,1,5) # Here we have twice the change of landing on 6
                         # Same as writing p_dice/sum(p_dice) or the prob.
@@ -1608,7 +1620,7 @@ nb.tosses = 100
 die_results <- sample(x = 1:6, # or seq(from = 1, to=6, by=1)
                       size = nb.tosses,
                       replace = T, prob = p_dice) 
-barplot(table(die_results)) # table(die_results)/nb.tosses
+barplot(table(die_results), ylab = "Fq", xlab ="Face", main = "Loaded dice") # table(die_results)/nb.tosses
 ```
 ]
 
@@ -1626,8 +1638,10 @@ barplot(table(die_results)) # table(die_results)/nb.tosses
 (let4first = LETTERS[1:4])
 rep(let4first, times = 2) # Repeat the WHOLE sequence twice 
 rep(let4first, each = 2) # Repeat each element twice 
+
 # Set the number of repeat for each element in the vector 
 rep(let4first, times = c(1,2,3,6))
+
 # Complete replication: replicate each element twice and do this three times 
 rep(let4first, each = 2, times = 3)
 rep(let4first, length.out = 6) # Repeat the vector until you hit the length.out
@@ -1648,6 +1662,7 @@ rep(let4first, length.out = 6) # Repeat the vector until you hit the length.out
 nb.of.levels = 2
 nb.of.replicates = 8
 labels.for.the.factors = c("Control", "Treat")
+
 ## First control, then treatment:
 gl(n = nb.of.levels, k = nb.of.replicates, labels = labels.for.the.factors)
 
@@ -1703,12 +1718,66 @@ exp.design = expand.grid(height = seq(60, 70, 10),
                          weight = seq(100, 200, 100),
                          sex = c("Male","Female"), 
                          stringsAsFactors = TRUE) # characters will be factors
-head(exp.design)
-# str(exp.design)
-
+exp.design
 ```
 
 ???
+
+```
+DT::datatable(exp.design, fillContainer=FALSE, options=list(pageLength = 5))
+```
+
+
+---
+# Functions useful in simulations (expand.grid)
+
+- For example, you could `expand.grid()` to make a deck of cards
+
+```{r deck_of_caRds, echo=-1}
+# Nicer deck 
+cards = c( "A",2:10, "J", "Q", "K"); length(cards) # Get cards type
+suits = c("♦", "♣", "♥", "♠" ) # Get the suits c("Diamonds", "Clubs", "Hearts", "Spades")
+cute.deck <- expand.grid(cards = cards, suits = suits) #<<
+cute.cards = apply(cute.deck, 1, function(x) paste0(x, collapse = ""))
+cute.deck$nice.cards = cute.cards
+cute.deck$col = ifelse(cute.deck$suits %in% c("♦","♥"),"red","black")
+
+# Select cards at random 
+set.seed(1234)
+n.c = 5; row.sel = sample(1:nrow(cute.deck),size = n.c, replace = FALSE)
+cute.deck[row.sel,"nice.cards"]
+```
+
+???
+
+```{r}
+# probability of extracting 2 aces from a deck of 52 cards which has 4 aces and that we draw 3 cards
+nb.aces.in.deck = 4
+nb.of.cards.in.deck = 52
+draw.cards = 3
+nb.cards.wish.to.check = 2
+# This is modeled with a hypergeometric distribution (discrete), which calculate probabilities when sampling without replacement
+dhyper(nb.cards.wish.to.check, 
+       m = nb.aces.in.deck,
+       n = nb.of.cards.in.deck-nb.aces.in.deck,
+       k = draw.cards)
+```
+
+
+```{r}
+# Check prop. of each suits in a deck 
+table(cute.deck$suits)/nrow(cute.deck) 
+
+# cards <- c("Ace", "Deuce", "Three", "Four","Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King")
+# Define suits, cards, values
+suits <- c("Diamonds", "Clubs", "Hearts", "Spades")
+cards <- c("Ace", 2:10, "Jack", "Queen", "King")
+# Build deck, replicated proper number of times
+deck <- expand.grid(cards=cards, suits=suits)
+deck$value <- c(1, 2:9, rep(10, 4))
+deck$col = ifelse(deck$suits %in% c("Diamonds","Hearts"),"red","black")
+```
+
 
 ---
 # Functions useful in simulations (outer)
@@ -1744,19 +1813,26 @@ add.lab = function(x, out.mat, cex = 1) {
 }
 cex=.8
 par(mfrow = c(2,2), mar = c(4,4,1,1))
-image(x = x, y = x, z =x.mul, axes = FALSE, main ='Multiplication')
+image(x = x, y = x, z = x.mul, axes = FALSE, main ='Multiplication', xlab = "")
+title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
 axis(2, at = seq(1, max(x), by = 1))
 add.lab(x,x.mul, cex=cex)
-image(x = x, y = x, z =x.sub, axes = FALSE, main ='Subtraction')
+
+image(x = x, y = x, z =x.sub, axes = FALSE, main ='Subtraction', xlab = "")
+title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
 axis(2, at = seq(1, max(x), by = 1))
 add.lab(x,x.sub, cex=cex)
-image(x = x, y = x, z =x.add, axes = FALSE, main ='Addition')
+
+image(x = x, y = x, z =x.add, axes = FALSE, main ='Addition', xlab = "")
+title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
 axis(2, at = seq(1, max(x), by = 1))
 add.lab(x,x.add, cex=cex)
-image(x = x, y = x, z =x.div, axes = FALSE, main ='Division')
+
+image(x = x, y = x, z =x.div, axes = FALSE, main ='Division', xlab = "")
+title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
 axis(2, at = seq(1, max(x), by = 1))
 add.lab(x,x.div, cex=cex)
@@ -1819,7 +1895,7 @@ image(t(xy.out),
 ---
 ## Challenge 0: wallpapeR ![:cube]()
 
-```{r wallpapeR_solution, fig.width=6, fig.height=5}
+```{r wallpapeR_solution, fig.width=6, fig.height=3.5}
 set.seed(9) #<<
 par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
 x = 1:70; y = 1:70 # make variables 
@@ -2083,9 +2159,9 @@ gm
 
 ```{r odds_example, echo=-1}
 library(MASS)
-tot.nb.ev = 100; success = 20
-odds.favor = (success)/(tot.nb.ev-success) # Odds in favor of event ( 1 in 4)
-odds.agnst = (tot.nb.ev-success)/(success) # Odds against the event (here 4 to 1)
+tot.nb.ev = 100; success = 20; failure = tot.nb.ev-success; p = success/tot.nb.ev; q = failure/tot.nb.ev
+odds.favor = (success)/(failure) # Odds in favor of event ( 1 in 4), same as p/q
+odds.agnst = (failure)/(success) # Odds against the event (here 4 to 1), same as q/p
 ```
 
 <!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example -->
@@ -2122,7 +2198,7 @@ for (i in 1:nb.flips) {
 
 
 Conversely, the horse  odds of failing is `r paste0(odds.agnst,":1")` (read 4 *to* 1). 
-The horse is 4 times more *likely* to fail than to succeed in a race.
+The horse is 4 times more *likely* to fail than to succeed in a race. Odds can also be represented as ratios (and integer ratios).
 
 ???
 - If the `odds = 1` or `log(odds)= 0`: 
@@ -2162,26 +2238,42 @@ probability.favor # fractions(probability.favor)
 
 - Let's code the difference between probability, odds and log odds. 
 
+```{r get_head_tail, echo=FALSE}
+ht <- function(d, m=5, n=m){
+  # print the head and tail together
+  get.ht=list(head = head(d,m), tail = tail(d,n))
+  do.call(rbind,get.ht)
+}
+```
+
+
 ```{r odds_prob, fig.width=9,fig.height=7.5}
 # Get some LOG ODDS numbers 
 log_odds = seq(from = -5, to = 5, by = .25)
 # Transformed into odds 
 odds = exp(log_odds)
-# Make 
-inv.logit <- function(x) {exp(x)/(1 + exp(x))}
-p = inv.logit(log_odds) # This is the same as 
-p2 = odds/(1 + odds)
+# Make inverse logit function 
+inv.logit <- function(x) {exp(x)/(1 + exp(x))} # takes log odds as input 
+inv.logit2 <- function(x) {1/(1 + exp(-x))} # takes log odds as input 
+p = inv.logit(log_odds) # This is the same as  p = odds/(1 + odds)
+p2 = inv.logit(log_odds) 
 # Probability of failure (1-p)
 q = 1-p
 
 # Store log_odds other data to plot 
-d = data.frame(log_odds, odds, p, p2, q) 
-
-head(signif(d,2), 3)
+d = data.frame(log_odds, odds, p, q) 
+format(ht(d,3),digits = 2, scientific = F)
 ```
 
 ???
 - We first generate a series of number in LOG odds that we will transform in the probability scale (between 0 and 1) 
+
+- proof for `inv.logit2`
+- $p = \frac{ e^{(\text{log odds})} }{1+e^{(\text{log odds})}}$
+- $p = \frac{ \frac{1}{e^{(\text{log odds})}}*e^{(\text{log odds})} }{ \frac{1}{e^{(\text{log odds})}}* (1+e^{(\text{log odds})}) }$
+- $p = \frac{ 1 }{ \frac{1}{e^{(\text{log odds})}} + \frac{e^{(\text{log odds})}}{e^{(\text{log odds})}} }$
+- $p = \frac{ 1 }{ 1+ \frac{1}{e^{(\text{log odds})}} }$
+- $p = \frac{ 1 }{ 1+ e^{-(\text{log odds})} }$
 
 <!-- Reference 
 https://www.montana.edu/rotella/documents/502/Prob_odds_log-odds.pdf 
@@ -2195,16 +2287,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
 # Probability and odds 
 
 - The three plots show the contrast between probability, odds and log odds.
-
-```{r odds_prob_plot, echo=FALSE, eval=FALSE, fig.width=12,fig.height=8}
-par(mfrow = c(1,3), mar =c(4,4,.5,.5), cex = 1.3)
-o.lo = d$odds~d$log_odds
-p.o = d$p~d$odds
-p.lo = d$p~d$log_odds
-plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
-plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
-plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
-```
+- The regions in blue (success) and red (failure) are highlighting the part of the function that is considering a success and a failure for the black line. 
 
 ```{r odds_prob_plot_with_pol, echo=FALSE, eval=TRUE, fig.width=12,fig.height=6}
 # adde prob scale
@@ -2255,19 +2338,24 @@ points(0,.3, pch =19)
 
 ###
 
-par(mar =c(4,4,.25,.25), cex = 1.3)
+par(mar =c(4,4,1.5,.25), cex = 1.3)
 p.o = d$p~d$odds
 p.lo = d$p~d$log_odds
 o.lo = d$odds~d$log_odds
-plot(o.lo, type="l", ylab="Odds", xlab="Ln odds", lwd=3); abline(v=0, lty=3)
-
-plot(p.o,  type="l", ylab="p",    xlab="Odds",    lwd=3); abline(h=.5, v=0, lty=3)
-polygon(x = c(0,1,1,0),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
-polygon(x = c(1,150,150,1),y = c(0,0,1,1), col = scales::alpha("blue",.5), border =  scales::alpha("green",.5))
-
-plot(p.lo, type="l", ylab="p",    xlab="Ln odds", lwd=3); abline(h=.5, v=0, lty=3)
+plot(o.lo, type="l", ylab="Odds", xlab="", lwd=3, main = "ln(odds) ~ odds"); abline(v=0, lty=3)
 polygon(x = c(-10,0,0,-10),y = c(0,0,1,1), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
-polygon(x = c(0,10,10,0),y = c(0,0,1,1), col = scales::alpha("blue",.5), border =  scales::alpha("green",.5))
+polygon(x = c(0,10,10,0),y = c(1,1,150,150), col = scales::alpha("blue",.5), border =  scales::alpha("blue",.5))
+title(xlab = "Ln odds", ylab="", line=2.2, cex.lab=1.2)
+
+plot(p.o,  type="l", ylab="Probability", xlab="",    lwd=3, main = "p ~ odds"); abline(h=.5, v=0, lty=3)
+polygon(x = c(0,1,1,0),y = c(0,0,.5,.5), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
+polygon(x = c(1,150,150,1),y = c(0.5,0.5,1,1), col = scales::alpha("blue",.5), border =  scales::alpha("blue",.5))
+title(xlab = "Odds", ylab="", line=2.2, cex.lab=1.2)
+
+plot(p.lo, type="l", ylab="Probability", xlab="", lwd=3, main = "p ~ ln(odds)"); abline(h=.5, v=0, lty=3)
+polygon(x = c(-10,0,0,-10),y = c(0,0,.5,.5), col = scales::alpha("red",.5), border =  scales::alpha("red",.5))
+polygon(x = c(0,10,10,0),y = c(0.5,0.5,1,1), col = scales::alpha("blue",.5), border =  scales::alpha("blue",.5))
+title(xlab = "Ln odds", ylab="", line=2.2, cex.lab=1.2)
 ```
 
 
@@ -2532,12 +2620,12 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 -->
 
 ---
-# Common statistical distributions
+# Common statistical distributions (density or mass)
 
-```{r Statistical_dist, echo=FALSE, out.width=750, out.height=600, fig.width=9,fig.height=7.4}
-par(mfrow = c(3,3), 
+```{r Statistical_dist, echo=FALSE, fig.width=14,fig.height=8}
+par(mfrow = c(3,4), 
     # bg = NA,
-    mar= c(4,4,3,3))
+    mar= c(3.5,4,3,3))
 # par(mfrow = c(1,1), bg = NA)
 col = scales::alpha("black",.5)
 col.r = scales::alpha("red",.5)
@@ -2547,55 +2635,103 @@ lwd=2
 # Binom
 #define range of "successes"
 success <- 0:20
-plot(success, dbinom(x = success, size=20, prob=0.4),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Binomial")
+plot(success, dbinom(x = success, size=1, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,1), xlab ="",ylab = "Probability", main = "Binomial")
 curve(expr = dbinom(x = x, size=20, prob=0.6),col = col, lwd=lwd, ylim = c(0,1), type = 'h',add = T)
-curve(expr = dbinom(x = x, size=1, prob=0.5),col = col.r, lwd=lwd, ylim = c(0,1), type = 'h',add = T)
+curve(expr = dbinom(x = x, size=20, prob=0.4),col = col.r, lwd=lwd, ylim = c(0,1), type = 'h',add = T)
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
-legend("topright",legend = c("n = 20, p = .4","n = 20, p = .6","n = 1, p = .5"),lty = c(1,1,1), col =c(col.b,col, col.r), lwd = 2)
+title(xlab = "Success",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("n = 1, p = .5","n = 20, p = .6","n = 20, p = .4"),lty = c(1,1,1), col =c(col.b,col, col.r), lwd = 2)
 
 # Poisson
-plot(success, dpois(success, lambda=5), type='h', col=col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Poisson, lambda = 5")
+plot(success, dpois(success, lambda=1), type='h', col = col.b, lwd=lwd, ylim = c(0,1), xlab = "", ylab = "Probability", main = "Poisson")
+points(success, dpois(success, lambda=5), type='h', col=col, lwd=lwd)
+points(success, dpois(success, lambda=12.56), type='h', col=col.r, lwd=lwd)
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+title(xlab = "Success",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("lambda = 1","lambda = 5","lambda = 12.56"),lty = c(1,1,1), col =c(col.b,col, col.r), lwd = 2)
+
+# Uniform discrete
+# Define uniform discrete 
+dunifdisc<-function(x, min=0, max=1) ifelse(x>=min & x<=max & round(x)==x, 1/(max-min+1), 0)
+curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col=col, xlab = "",
+      lwd=3, ylim = c(0,1), ylab = "Probability", main = "Uniform discrete"); title(xlab = "x",line=2.2, cex.lab=1.2) 
+curve(dunifdisc(x, 6,7), type = "h",add=TRUE, col=col.b, xlab = "",
+      lwd=2, ylim = c(0,1), ylab = "Probability", main = "Uniform discrete"); title(xlab = "x",line=2.2, cex.lab=1.2) 
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+legend("topright",legend = c("min = 6, max = 7", "min = 7, max = 10"),lty = c(1), col =c(col.b, col), lwd = 2)
+
+# Hypergeometric
+xs <- 0:20
+plot(xs,dhyper(xs, m =20,n = 10,k = 10), type = "h",from=0, to=15, col=col.b, xlab = "",
+      lwd=1, ylim = c(0,0.5), ylab = "Probability", main = "Hypergeometric")
+curve(expr = dhyper(x, m =30,n = 30,k = 30),col = col, lwd=lwd, ylim = c(0,1), type = 'h',add = T)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+legend("topright",legend = c("m = 20, n = 10, k = 10", "m = 30, n = 30, k = 30"),lty = c(1), col =c(col.b, col), lwd = 2)
+
+
 
 # Chi-sq
-curve(dchisq(x, df = 10), from = 0, to = 40, col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Chi-square")
+curve(dchisq(x, df = 1), from = 0, to = 40, col = col.b, lwd=lwd, ylim = c(0,1), xlab = "", ylab = "Density", main = "Chi-square")
 curve(dchisq(x, df = 4), from = 0, to = 40, col = col, lwd=lwd, ylim = c(0,1), add = T)
-curve(dchisq(x, df = 1), from = 0, to = 40, col = col.r, lwd=lwd, ylim = c(0,1), add = T)
+curve(dchisq(x, df = 10), from = 0, to = 40, col = col.r, lwd=lwd, ylim = c(0,1), add = T)
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
-legend("topright",legend = c("df = 10","df = 4","df = 1"),lty = c(1,1,1), col =c(col.b,col, col.r), lwd = 2)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("df = 1","df = 4","df = 10"),lty = c(1,1,1), col =c(col.b,col, col.r), lwd = 2)
 
 # Exponential 
-curve(dexp(x, rate = .5), from=0, to=10, col=col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Exponential")
+curve(dexp(x, rate = .5), from=0, to=10, col=col.b, lwd=lwd, ylim = c(0,1), xlab = "",ylab = "Density", main = "Exponential")
 curve(dexp(x, rate = .2), from=0, to=10, col=col, lwd=lwd, ylim = c(0,1),add = T)
 curve(dexp(x, rate = .8), from=0, to=10, col=col.r, lwd=lwd, ylim = c(0,1),add = T)
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
 legend("topright",legend = c("rate = 0.8","rate = 0.5","rate = 0.2"),lty = c(1,1,1), col =c(col.b,col,col.r), lwd = 2)
 
 # F-distribution
-curve(df(x, df1 = 10, df2 = 20), from = 0, to = 4, n = 5000, col= col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "F-distribution, df1 = 10, df2 = 20")
+curve(df(x, df1 = 1, df2 = 1), from = 0, to = 4, n = 5000, col= col.b, lwd=lwd, ylim = c(0,1), xlab = "", ylab = "Density", main = "F-distribution")
+curve(df(x, df1 = 10, df2 = 20), add = TRUE, n = 5000, col= col, lwd=lwd)
+curve(df(x, df1 = 20, df2 = 1), add = TRUE, n = 5000, col= col.r, lwd=lwd)
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("df1 = 1, df2 = 1", "df1 = 10, df2 = 20", "df1 = 20, df2 = 1"),lty = c(1,1,1), col =c(col.b, col, col.r), lwd = 2)
 
-# normal 
-curve(expr = dnorm(x = x, mean=0,sd=1), from = -5, to = 5, col=col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Normal")
+# Normal1
+curve(expr = dnorm(x = x, mean=0,sd=1), from = -5, to = 5, col=col.b, lwd=lwd, ylim = c(0,1), xlab ="", ylab = "Density", main = "Normal")
 curve(expr = dnorm(x = x, mean=0,sd=2), from = -5, to = 5, col=col, lwd=lwd, ylim = c(0,1), add = T)
 curve(expr = dnorm(x = x, mean=2,sd=1), from = -5, to = 5, col=col.r, lwd=lwd, ylim = c(0,1), add = T)
-curve(dt(x, df=1), from=-5, to=5, col=col.g, lty = 1, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "t-distribution df = 10", add=TRUE)
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
-legend("topright",legend = c("Normal, m = 0, sd = 1","Normal, m = 0, sd = 2","Normal, m = 2, sd = 1","t-distribution, df =1"),lty = c(1,1,1,1), col =c(col.b,col,col.r,col.g), lwd = 2)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("Normal, m = 0, sd = 1","Normal, m = 0, sd = 2","Normal, m = 2, sd = 1"),lty = c(1,1,1), col =c(col.b,col,col.r), lwd = 2)
+
+# Normal2
+curve(dt(x, df=1), from=-5, to=5, col=col.b, lty = 1, lwd=lwd, ylim = c(0,1), xlab ="", ylab = "Density", main = "t-distribution")
+curve(expr = dnorm(x = x, mean=0,sd=1), from = -5, to = 5, col=col, lwd=lwd, ylim = c(0,1), add=TRUE)
+curve(dt(x, df=10), from=-5, to=5, col=col.r, lty = 2, lwd=lwd, ylim = c(0,1),add = TRUE)
+abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("t-distribution, df = 1", "t-distribution, df = 10", "Normal, m = 0, sd = 1"),lty = c(1,2,1), col =c(col.b,col.r,col), lwd = 2)
 
 # Log normal 
-curve(dlnorm(x, meanlog=0, sdlog=1), from=0, to=10, col=col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Log-normal, m = 0 sd = 1")
+curve(dlnorm(x, meanlog=0, sdlog=1), from=0, to=10, col=col.b, lwd=lwd, ylim = c(0,1), xlab = "", ylab = "Density", main = "Log-normal")
+curve(dlnorm(x, meanlog=1.5, sdlog=1.2), add = TRUE, col=col, lwd=lwd, ylim = c(0,1))
+curve(dlnorm(x, meanlog=1.8, sdlog=.15), add = TRUE, col=col.r, lwd=lwd, ylim = c(0,1))
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("meanlog = 0, sdlog = 1", "meanlog = 1.5, sdlog = 1.2", "meanlog = 1.8, sdlog = 0.15"),lty = c(1), col =c(col.b, col, col.r), lwd = 2)
 
 # Logistic
-curve(dlogis(x,location = 0, scale = 1), from=-10, to=10, col = col, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Logistic, l = 0, s = 1")
+curve(dlogis(x,location = 0, scale = 1), from=-10, to=10, col = col.b, lwd=lwd, xlab ="",ylim = c(0,1), ylab = "Density", main = "Logistic")
+curve(dlogis(x,location = 2, scale = 2), add = TRUE, col = col, lwd=lwd)
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
+legend("topright",legend = c("loc = 0, scale = 1", "loc = 2, scale = 2"),lty = c(1), col =c(col.b, col), lwd = 2)
 
 # unifrom
-curve(dunif(x, min = 8,max = 9), from=5, to=25, col=col.b, lwd=lwd, ylim = c(0,1), ylab = "Density", main = "Uniform") 
+curve(dunif(x, min = 8,max = 9), from=5, to=25, col=col.b, lwd=lwd, ylim = c(0,1), xlab ="",ylab = "Density", main = "Uniform continuous") 
 curve(dunif(x, min = 10,max = 15), from=5, to=25, col=col, lwd=lwd, ylim = c(0,1), add=T) 
 curve(dunif(x, min = 16,max = 18), from=5, to=25, col=col.r, lwd=lwd, ylim = c(0,1), add = T) 
 abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
+title(xlab = "x",line=2.2, cex.lab=1.2) 
 legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, max = 18"),lty = c(1,1,1), col =c(col.b,col,col.r), lwd = 2)
 ```
 ???
@@ -2618,17 +2754,18 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 | Poisson	     | probability of a number of cases happening in a defined range of time or space given a constant rate | discrete; | ticks of a radiation counter, DNA mutation, colonization of animals on remote islands (something per unit time or space for example) |
 | Logistic	   | probability of an individual to be in one class or another (linkk function in GLM) | continuous; | alive or not, yes or no, diseased or not, etc. |
 | Normal	     | probability function which informs how values are distributed, centered on a mean, being symmetric, and having a specific variance | continuous; | height of individuals, beak length, shoe size, time required to run a kilometer, the data shows a 'bell-shaped' curve |
-| Uniform	     | probability of all outcomes are equal | continuous; | angle between 0-360 | 
-| Exponential	 | | continuous;| Used in maximum likelihood, Generating genealogies, continuous rate |
+| Uniform	continuous     | probability of all outcomes are equal | continuous; | angle between 0-360 | 
+| Uniform	discrete     | probability of all outcomes are equal | discrete; | Faces of a dice | 
+| Exponential	 | times it takes, starting from now, before something happens | continuous;| Used in maximum likelihood, Generating genealogies, continuous rate |
 <!-- | Student t	   |            | continuous; | | -->
 <!-- | Geometric	   |            | continuous; | Gene conversion (recombination) | -->
 <!-- | Beta	       |            |              | -->
 <!-- | Chi-Square	 |            |              | -->
 <!-- | F	           |            |              | -->
 
-- see [Probability Cheat Sheet](https://web.cs.elte.hu/~mesti/valszam/kepletek) for more details
-- see [Probability Cheat Sheet2](https://github.com/jfieberg/probability_cheatsheet) for more details
-- see [Probability Cheat Sheet3](https://github.com/wzchen/probability_cheatsheet) for more details
+- see [Probability Cheat Sheet (Peleg Michaeli)](https://web.cs.elte.hu/~mesti/valszam/kepletek) for more details
+- see [Probability Cheat Sheet (John Fieberg)](https://github.com/jfieberg/probability_cheatsheet) for more details
+- see [Probability Cheat Sheet (William Chen)](https://github.com/wzchen/probability_cheatsheet) for more details
 ]
 
 ???
@@ -2641,7 +2778,7 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 - See "Figure 6A.15 from Probabilistic approaches to risk by Aswath Damodaran"
 
 <!-- ![:scale 100%](images/probabilistic.png) -->
-![:scale 100%](images/Prob.distrib.choices.png)
+![:scale 90%](images/Prob.distrib.choices.png)
 ???
 This figure contains a decision graph that *could* help figure out what distribution you are facing. BUT, it doesn't guarantee that you'll find the right distribution. 
 
@@ -2668,7 +2805,7 @@ hist(rnorm(10000, 5, 1.5), xlim = c(0,10), main = "Normal")
 
 The image below shows a small roadmap demonstrating the link between different statistical distributions. 
 
-![Relationship between statistical distributions:scale 90%](images/Relationships_among_some_of_univariate_probability_distributions.jpg)
+![:scale 70%](images/Relationships_among_some_of_univariate_probability_distributions.jpg)
 ???
 - Source https://en.wikipedia.org/wiki/Relationships_among_probability_distributions and http://www.math.wm.edu/~leemis/2008amstat.pdf (Ehsan.azhdari)
 - Leemis, L. M., and J. T. McQueston. 2008. Univariate Distribution Relationships. The American Statistician 62:45–53.
@@ -3140,12 +3277,13 @@ ppois(q = 2, lambda = 2)
 
 - This distribution can take any discrete value in a range 
 
-```{r uniform_distcrete_fun_dist, echo=TRUE, fig.width=5,fig.height=3}
+```{r uniform_distcrete_fun_dist, echo=-1, fig.width=5,fig.height=3}
+par(mar = c(3,4,1,1))
 # Define uniform discrete 
 dunifdisc<-function(x, min=0, max=1) ifelse(x>=min & x<=max & round(x)==x, 1/(max-min+1), 0)
 runifdisc<-function(n, min=0, max=1) sample(min:max, n, replace=T)
-curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col="black", 
-      lwd=1, ylim = c(0,.5), ylab = "Probability", main = "Uniform") 
+curve(dunifdisc(x, 7,10), type = "h",from=6, to=11, col="black", xlab = "",
+      lwd=1, ylim = c(0,.5), ylab = "Probability", main = "Uniform discrete"); title(xlab = "x",line=2.2, cex.lab=1.2) 
 ```
 
 ```{r uniform_distcrete_rdm_nb, echo=TRUE}
@@ -3161,12 +3299,20 @@ runifdisc(1,7,10)
 - This distribution will give any (continuous) value between a minimum and a maximum value. 
 - This can come handy when generating angles. 
 
-```{r uniform_cont_angles, echo=TRUE, fig.width=5,fig.height=4}
+```{r uniform_cont_angles, echo=-1, fig.width=5,fig.height=3}
+par(mar = c(3,4,1,1))
 x = seq(0,360,by = .1)
 y <- dunif(x, min = min(x),max = max(x))
-plot(y~x, type = "n", ylim = c(0,1.5*max(y)), ylab = "Density", main = "Uniform")
-polygon(c(x, rev(x), 0), c(y, rep(0,length(y)), 0), col="blue")
+plot(y~x, type = "n", ylim = c(0,1.5*max(y)), ylab = "Density", xlab = "", main = "Uniform continuous")
+polygon(c(x, rev(x), 0), c(y, rep(0,length(y)), 0), col=scales::alpha("blue",.5))
+title(xlab = "x",line=2.2, cex.lab=1.2)
 ```
+
+```{r uniform_continuous_rdm_nb, echo=TRUE}
+set.seed(12345)
+runif(n = 1, min = 0, max = 360)
+```
+
 
 ---
 # Normal distribution (Gaussian)
@@ -3180,7 +3326,9 @@ The general form of the probability density function for a normal distribution i
 
 $$f(x)={\frac{1}{\sigma\sqrt{2\pi}}}e^{-{\frac{1}{2}}\Bigl(\frac {x-\mu}{\sigma}\Bigr)^2}$$
 
-The important part here is the mean $\mu$ and the standard deviation $\sigma$. Usually summarized as $N(\mu, \sigma)$
+The important part here is the mean $\mu$ and the standard deviation $\sigma$. Usually summarized as $N(\mu, \sigma)$. However, note that sometimes, $\sigma$ is the variance, but in R, it is the standard deviation. 
+
+Here is a [link to play with a Normal distribution interactively](https://www.desmos.com/calculator/w2lfompsop). 
 
 ???
 - This is one of the most important distribution in statistics
@@ -4364,13 +4512,10 @@ $$Y = \beta_{0} + \beta_{1} x_{1} + \cdots + \beta_{p} x_{p} + \epsilon$$
 - The goal is to find the **best estimation** of the parameters ( $\beta$ s), while minimizing the residuals, and assess the goodness of fit of the model
 - We use the least-squares in order to fit the line to the data.
 - In order to interpret your results correctly when using a linear model, be sure you are not crossing the *LINE*: 
-  * L: Linearity, 
-  * I: Independence, 
-  * N: normally distributed residuals, 
-  * E: Equality of variance 
+  * L: Linearity, —  I: Independence,  — N: normally distributed residuals, — E: Equality of variance 
 
 .pull-left4[
-```{r lm_assumtion_expected_mean, echo=FALSE, fig.width=5,fig.height=5}
+```{r lm_assumtion_expected_mean, echo=FALSE, fig.width=4,fig.height=4}
 par(mar=c(4,4,0.1,0.1))
 set.seed(12345678)
 n = 100; beta0 = 2.5; beta1 = 0.8
@@ -4385,8 +4530,8 @@ par(mar = c(4,4,.5,.5))
 b.5 = scales::alpha("black",alpha = .5)
 
 # PLot the data 
-plot(y~x, data = df.lm, pch = 19, col = b.5)
-
+plot(y~x, data = df.lm, pch = 19, col = b.5, xlab = "")
+title(xlab = "x", ylab="", line=2.2, cex.lab=1.2)
 # Model the data 
 lm.out = lm(y~x, data = df.lm)
 # Add a line to the plot 
@@ -4406,7 +4551,7 @@ points(xrp,yvals, cex = yh/max(yh), pch = 19, col = scales::alpha("red",.5))
 ]
 
 .pull-right4[
-```{r lm_assumtion_expected_mean_interactive, echo=FALSE, fig.width=5,fig.height=4.5}
+```{r lm_assumtion_expected_mean_interactive, echo=FALSE, fig.width=3,fig.height=3}
 library(plotly)
 library(dplyr)
 
@@ -4424,17 +4569,16 @@ z2 <- outer(X = xvals,Y = yvals,FUN = fxy)
 # axx <- list(nticks = 4,range = c(-25,75))
 # axy <- list(nticks = 4,range = c(-25,75))
 # axz <- list(nticks = 4,range = c(0,1))
-
 df.lm$yhat = fitted(lm.out)
 # df.lm$yhat = predict(lm.out)
 df.lm$z = 0
-zoom=4
 lm.model.interactive = plotly::plot_ly(x = xrp,
                                        y = yvals,
                                        z = t(z), 
                                        type = "surface",
                                        colors = terrain.colors(100),#c("darkblue", "yellow", "darkred"), 
-                                       opacity = 0.58,showlegend = F) %>% 
+                                       opacity = 1,
+                                       showlegend = F) %>% 
   hide_colorbar() %>% 
   add_markers(data = df.lm, x = ~x, y = ~y, z = 0,
               mode = "markers", 
@@ -4447,34 +4591,38 @@ lm.model.interactive = plotly::plot_ly(x = xrp,
             inherit = FALSE,showlegend = F,
             mode = "lines",
             type = "scatter3d") %>% 
-  layout(title = '<b> Linear model expected values </b>',
+  layout(#title = '<b> Linear model expected values </b>',
          # margin = list(t = 80),
+    autosize = F,
+    width = 500, height = 500,
+    margin =list(l = 0, r=0,b = 0, t = 0),
          scene = list(#xaxis=axx,yaxis=axy,
            xaxis = list(#title = 'X',
              range = c(range(xrp)), autorange = "reversed"),
            yaxis = list(#title = 'Y',
              range = range(yvals), autorange = "reversed"),
            zaxis=list(title = 'Z',nticks = 10,range = c(0,1)),
-           camera = list(eye = list(x = 1.25,#cos(1.3*pi)*zoom, # see https://plotly.com/python/3d-camera-controls/
-                                    y = 1.25,#sin(1.8*pi)*zoom, 
-                                    z = 2.25))),#4.0))),
+           camera = list(eye = list(x = 1.8, # 0  see https://plotly.com/python/3d-camera-controls/
+                                    y = 1.8, # 0.9
+                                    z = 0.5))),#2.0))),
+           # camera = list(eye = list(x = 0, # 0  see https://plotly.com/python/3d-camera-controls/
+           #                          y = .9, # 0.9
+           #                          z = 2))),#2.0))),
          showlegend = F
-         ); lm.model.interactive
+         )
 
-
-
+# lm.model.interactive
 ## save the output 
 # htmlwidgets::saveWidget(lm.model.interactive, file = "images/lm.model.interactive.html")
 # path_to_python <- "~/miniconda3/bin/python"
-# reticulate::use_python(path_to_python)
-# reticulate::import("plotly")
-# reticulate::import("kaleido")
+# suppressMessages(reticulate::use_python(path_to_python))
+# suppressMessages(reticulate::import("plotly"))
+# suppressMessages(reticulate::import("kaleido"))
 # plotly::save_image(lm.model.interactive, file = "images/lm.model.interactive.png")
-
 ```
+![:scale 50%](images/lm.model.interactive.png)
 
 ]
-
 
 
 ???
@@ -4680,7 +4828,7 @@ head(res)
   * Below, slopes estimates were extracted from each simulation with various sample sizes. 
   * As the sample size increases, our slope estimation gets better to the "true" underlying value. 
 
-```{r lm_simulate_slope, echo=FALSE, fig.width=8,fig.height=3}
+```{r lm_simulate_slope, echo=FALSE, fig.width=12,fig.height=4}
 par(mar=c(4,4,1,1), cex = 1.3)
 
 set.seed(12345678)
@@ -4739,7 +4887,7 @@ for (i in c(5,20,200)) {
 }
 
 plot.dens <- function(density, data, subset, main) {
-  plot(density,   xlim = c(-3,4), main = main)
+  plot(density,   xlim = c(-3,4), main = main, cex = 1.3)
 abline(v = mean(data[data$n==subset,"all.slp"]),   lty =1)
 abline(v = beta1, lty = 3)
 polygon(x = c(-10, density$x[density$x>-10 & density$x < 10], 10), 
@@ -4747,7 +4895,7 @@ polygon(x = c(-10, density$x[density$x>-10 & density$x < 10], 10),
         col=scales::alpha("blue",.5))
 }
 
-par(mfrow = c(1,3))
+par(mfrow = c(1,3), cex = 1.2)
 # get the density 
 dens5 = density(df.all.sim[df.all.sim$n==5,"all.slp"]  )
 dens20 = density(df.all.sim[df.all.sim$n==20,"all.slp"] )
@@ -6298,7 +6446,7 @@ pol.sf +
 - [QGIS](https://qgis.org/en/site/) was used to draw the Jardin Botanique de Montréal. Buildings were added to remove them from the Jardin Botanique polygon. 
 - Here, 5 random points were generated and added to the polygon
 
-```{r rdm_pts_in_polygon, echo=FALSE}
+```{r spatial_read, echo=FALSE}
 library(sf, warn.conflicts = FALSE)
 library(mapview, warn.conflicts = FALSE)
 
@@ -6316,16 +6464,18 @@ only.park = st_difference(bot.gardp, st_union(bot.gardb))
 # Get a specific point where we want to sample and get points around it  
 selected.point = st_point(c(-73.566190,45.560516)) # Get point in CRS EPSG:4326
 selected.point.no.tree = st_point(c(-73.56407,45.56502)) # Get point in CRS EPSG:4326
-selected.point = st_sfc(selected.point) %>% 
-  st_set_crs(4326)
-selected.point.no.tree = st_sfc(selected.point.no.tree) %>% 
-  st_set_crs(4326)
+selected.point = st_sfc(selected.point) %>% st_set_crs(4326)
+selected.point.no.tree = st_sfc(selected.point.no.tree) %>% st_set_crs(4326)
 
 # Transform all the data to be in "NAD83 / MTM zone 8" or EPSG:32188
 selected.point = st_transform(x = selected.point, crs = 32188)
 selected.point.no.tree = st_transform(x = selected.point.no.tree, crs = 32188)
 only.park = st_transform(x = only.park, crs = 32188)
 
+```
+
+.pull-left[
+```{r rdm_pts_in_polygon, echo=TRUE}
 # Get random points
 set.seed(456)
 rdm.n = 5
@@ -6334,11 +6484,17 @@ rdm.pt = st_sample(x = only.park,
 map.rdm = mapView(only.park, 
         col.regions = c("green")) +
   mapView(rdm.pt)  # Random points
-map.rdm
+# map.rdm
 
-## save html to png
-# mapshot(x = map.rdm, file = "images/map_rdm.png")
+## save the output 
+# mapshot(map.rdm,file = "images/map_rdm.png", 
+        # url = "images/map_rdm.html")
 ```
+]
+
+.pull-right[
+![:scale 95%](images/map_rdm.png)
+]
 
 ---
 # Spatial simulation
@@ -6346,24 +6502,33 @@ map.rdm
 - 2 points were added to that polygon with known location. 
 - But we'd like to add random points in the 100m buffer around these points 
 
-```{r rdm_pts_in_polygon_buffer, echo=FALSE}
+.pull-left[
+```{r spatial_add_buffer}
 # Add a buffer around the point we want to look at 
 n = 10*2
 min.buff = units::set_units(x = 0, value = "m")
 max.buff = units::set_units(x = 100, value = "m")
-buffer = st_buffer(x = c(selected.point,selected.point.no.tree), dist = units::set_units(x = 100, value = "m"))
+buffer = st_buffer(x = c(selected.point,
+                         selected.point.no.tree), 
+                   dist = units::set_units(x = 100, 
+                                           value = "m"))
+```
+]
 
+```{r rdm_pts_in_polygon_buffer, echo=FALSE}
 
 map.unif = mapView(only.park, 
         col.regions = c("green"))+
   mapView(c(selected.point,selected.point.no.tree), # Get the poitn that was added to be looked at 
           col.regions = c("red")) +
-  mapView(buffer, col.regions = c("red")); map.unif
+  mapView(buffer, col.regions = c("red"))#; map.unif
 
 ## save html to png
-# mapshot(x = map.unif, file = "images/map_unif.png")
-
+# mapshot(map.unif,file = "images/map_unif.png", url = "images/map_unif.html")
 ```
+.pull-right[
+![:scale 95%](images/map_unif.png)
+]
 
 
 
@@ -6373,16 +6538,17 @@ map.unif = mapView(only.park,
 
 - 5 random points were generated and added to the polygon
 - 2 points were added to that polygon with known location.
-- Uniformly distributed in the 100m buffer 
+- 10 Uniformly distributed points in each of the 100m buffer 
 
-```{r rdm_pts_in_polygon_buffer_uniform, echo=FALSE}
-# Get random distance 
-# rdm.disttmp = rexp(n = n, rate = 1)*20
-# hist(rdm.disttmp)
+.pull-left[
+```{r}
 set.seed(6543)
 n = 10*2
 min.buff = units::set_units(x = 0, value = "m")
 max.buff = units::set_units(x = 100, value = "m")
+
+# Get random distance 
+# rdm.disttmp = rexp(n = n, rate = 1)*20
 rdm.disttmp = runif(n = n, min = 0, max = max.buff)
 # get random angle
 rdm.angtmp = runif(n = n, min=0, max = 360)
@@ -6395,38 +6561,49 @@ rmd.ptdf = data.frame(rdm.ppt_x,
                       rdm.ppt_y, length(rdm.ppt_x))
 
 rmd.ptdf.sf = sf::st_as_sf(rmd.ptdf, coords = c("rdm.ppt_x","rdm.ppt_y"), crs = 32188)#4326)
-# rmd.ptdf.sf = st_transform(rmd.ptdf.sf, crs = 32188)
+```
 
+]
+
+```{r rdm_pts_in_polygon_buffer_uniform, echo=FALSE}
 set.seed(456)
 map.unif.rdm = mapView(only.park, col.regions = c("green"))+
   mapView(st_sample(only.park,5)) + 
   mapView(c(selected.point,selected.point.no.tree),col.regions = c("red")) + 
   mapView(buffer, col.regions = c("red")) + 
-  mapview(rmd.ptdf.sf,col.regions = c("pink")); map.unif.rdm
+  mapview(rmd.ptdf.sf,col.regions = c("pink"))#; map.unif.rdm
 
 ## save html to png
-# mapshot(x = map.unif.rdm, file = "images/map_unif_rdm.png")
-
+# mapshot(map.unif.rdm,file = "images/map_unif_rdm.png", url = "images/map_unif_rdm.html")
 ```
+.pull-right[
+![:scale 95%](images/map_unif_rdm.png)
+]
 
 ---
 # Spatial simulation
 
-- What if we want to add a grid to the polygon:
+- What if we want to add a grid to the polygon?
+- This is one way of doing it: 
 
-```{r rdm_pts_in_polygon_grid, echo=FALSE}
+.pull-left[
+```{r rdm_pts_in_polygon_grid, echo=TRUE}
 set.seed(456)
 # Add random points that are occupying the space of the polygon (grid )
-rdm.pt = st_sample(x = only.park, 
-                   size = 100,type ="hexagonal")
-
-map.grid = mapView(only.park, col.regions = c("green"))+
-  mapView(rdm.pt); map.grid
-
+rdm.pt = st_sample(x = only.park,
+                   size = 100,
+                   type ="hexagonal")
+map.grid = mapView(only.park, 
+                   col.regions = c("green")) + 
+  mapView(rdm.pt)#; map.grid
 ## save html to png
-# mapshot(x = map.grid, file = "images/map_grid.png")
-
+# mapshot(map.grid,file = "images/map_grid.png", url = "images/map_grid.html")
 ```
+]
+
+.pull-right[
+![:scale 95%](images/map_grid.png)
+]
 
 
 
