@@ -30,6 +30,7 @@ knitr::opts_chunk$set(
   fig.align = 'center'
 )
 
+if("librarian" %in% rownames(installed.packages()) == FALSE) {install.packages("librarian")}
 library(librarian) # even better than pacman 
 # library(pacman)
 # Need to install all packages in initialize
@@ -51,6 +52,8 @@ It was proposed that this workshop could be recorded (with or without an audienc
 
 - I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
 - In addition, this is a work in progress. Any input you have is more than welcome. 
+- Some sloppy mathematical notation is  used. It'd help to be more rigorous if you could provide ways to write the notation better. 
+- Not all the code is shown in the presentation to reproduce the examples. You have to go in the [presentation RMarkdown files](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/workshopXX-en.Rmd) or the script file [Workshop R script](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/workshopXX-en.r), which requires the [0.0_initialize.R](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/0.0_initialize.R) and other scripts specified within. 
 
 ???
 
@@ -60,6 +63,7 @@ Might not apply to you
 ---
 # Outline
 
+Theory: 
 1. [Why are simulations relevant?](#why-sim-revelant) 
 2. [When simulations are useful?](#when-sim-useful) 
 3. [What you need to know before doing simulations?](#what-to-be-known-before-sim)
@@ -71,11 +75,12 @@ Might not apply to you
 9. [References](#references)
 10. [Acknowledgements](#acknowledgements)
 
-Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p)
-
 The exercices for this workshop: [Challenge wallpaper](#challenge_0_wallpaper), [Challenge 1](#challenge1), [challenge 2](#challenge2), [challenge 3](#challenge3), [challenge 4](#challenge4), [challenge 5](#challenge5), [challenge 6](#challenge6), [challenge 7](#challenge7).
 
-If R is not installed yet, visit the [CRAN here](https://cran.r-project.org).
+Supporting material:
+
+Please check out the [Simulation in R Cheat Sheet](https://docs.google.com/presentation/d/11bNgLUCyvlL8Ndq_nF-N6T71dZwgETbhbSHuc40VqvU/edit#slide=id.p)
+
 
 ???
 This workshop was designed to give you the tools to perform simulations in R. 
@@ -96,7 +101,7 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 - We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop. 
 - We are going to be more explicitly show assumptions of models and use for loops in this workshop 
 
-- You should also have installed [R](https://cran.r-project.org) and you could get [RStudio](https://www.rstudio.com) as well. 
+- You should also have installed [R on CRAN here](https://cran.r-project.org) and you could get [RStudio](https://www.rstudio.com) as well. 
 
 ???
 
@@ -108,7 +113,7 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 # Learning objectives
 
 1. Develop intuition and skills to perform simulations
-2. Explore useful functions when designing simulations 
+2. Use specific and relevant functions in R when designing simulations 
 3. Articulate what are the assumptions underlying a simulation (for the models tested or the scope of the simulation)
 4. Know how and when to use important statistical distributions
 5. Simulate different data structure to perform LMs, GLMs, and (G)LMMs. 
@@ -125,6 +130,12 @@ Ultimately, I would like the students to be able
   - to *create* their own simulations in R in order to answer a particular question or learn about a particular topic 
 
 Consider that it takes time to develop a 'programers' intuition when coding. There are multiple ways to get to the same answer and the idea is not to be perfect at first, but to try to answer a question and improve. 
+
+---
+# Expectation from the course
+
+- Please, I invite you to participate as much as you can. 
+- I certainly have a lot to learn and I wish that our learning environment is welcoming to committing errors and learning from them 
 
 #################################
 ---
@@ -211,6 +222,38 @@ Some examples
 - let's start with what are simulations
 
 ---
+# Usefulness of models
+
+<br>
+<br>
+<br>
+<br>
+
+
+"Models can help to guide a scientist's intuition about 
+- *_how various processes interact_*; 
+- they can point out logical *_flaws in an argument_*; 
+- they can identify *_testable hypotheses_*, *_generate key predictions_*, and *_suggest appropriate experiments_*; and 
+- they can reshape fields by providing *_new ways of thinking about a problem_*. 
+
+But mathematical models also have their limitations. The results of an analysis are only as interesting as the biological questions motivating a model. [...]"
+
+
+.right[— Sarah. P. Otto, and Troy Day 2007 (modified)]
+
+???
+
+- As a definition, "a model is a representation of an actual system". (Banks 1998). 
+- Models can be **deterministic** (full information, prédicts entirely the future) or **stochastic** (random events affect the system, prediction can be only probabilistic)
+
+- Citation: "Science will progress faster and further by a marriage of mathematical and empirical biology. This marriage will be even more successful if more biologists can use math, when needed, to advance their own research goals. It is toward this end that we devote this book." — Sarah. P. Otto, and Troy Day 2007
+- NOTE: Box's, [All models are wrong, but some are useful](https://en.wikipedia.org/wiki/All_models_are_wrong) "The aphorism is generally attributed to the statistician George Box, although the underlying concept predates Box's writings." "Box, George E. P. (1976), "Science and statistics" (PDF), Journal of the American Statistical Association, 71 (356): 791–799, doi:10.1080/01621459.1976.10480949."
+
+- Would be unproductive to say that all **maps** are wrong and dismiss them because of that. They are still very **useful**! 
+
+
+
+---
 # Defining simulations
 
 <br>
@@ -232,53 +275,47 @@ Some examples
 - See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
 - Whitlock and Schluter define "Simulation" (chapter 19, 2020, 3rd edition) as "Simulation uses a computer to imitate the process of repeated sampling from a population to approximate the null distribution of a test statistic".
 
----
-# Usefulness of models
-
-<br>
-<br>
-<br>
-<br>
-
-.center[
-"Models can help to guide a scientist's intuition about *how various processes interact*; they can point out logical *flaws in an argument*; they can identify *testable hypotheses*, *generate key predictions*, and *suggest appropriate experiments*; and they can reshape fields by providing new ways of *thinking about a problem*. But mathematical models also have their limitations. The results of an analysis are only as interesting as the biological questions motivating a model. [...]"
-]
-
-A Biologist's Guide to Mathematical Modeling in Ecology and Evolution:1–973.
-.right[— Sarah. P. Otto, and Troy Day 2007]
-
-???
-- "Science will progress faster and further by a marriage of mathematical and empirical biology. This marriage will be even more successful if more biologists can use math, when needed, to advance their own research goals. It is toward this end that we devote this book." — Sarah. P. Otto, and Troy Day 2007
-- [All models are wrong, but some are useful](https://en.wikipedia.org/wiki/All_models_are_wrong) "The aphorism is generally attributed to the statistician George Box, although the underlying concept predates Box's writings." "Box, George E. P. (1976), "Science and statistics" (PDF), Journal of the American Statistical Association, 71 (356): 791–799, doi:10.1080/01621459.1976.10480949."
-- But it would be very unproductive to say that all maps are wrong. They are still very useful! 
 
 ---
-# Simulations are games 
+# Simulations are games: we make up the rules
 
-- Simulations are games where we make up the rules
-- Simulations are powerful tool that can generate 'alternative worlds'. 
-- We are responsible and need to take conscious choices in order to get an answer (and we sometimes need to make a lot of choices). 
-- One of the challenges in this game is to figure out what the parameters are (or the rules) for the processes that make up the natural world. 
+- A challenges is to figure out what parameters (or rules) are governing a natural process. 
+- Simulations are powerful tool that can generate 'alternative worlds' or models of the world. 
+- We are responsible and need to be conscious about the choices we make in order to get an answer. 
+- In summary:
+  * We try to understand **natural processes**, which are often manifestations of **random variables** or **stochastic process**
+- Being able to do simulations can be a nice addition to your research toolkit. 
 
+--
 
-.alert[Are these two distribution showing the same random process? ] 
+.alert[Are these two distribution showing the same stochastic process? ] 
 ```{r normal_compare_theoretical_simulated, echo=FALSE, fig.width=8, fig.height=4}
-par(mfrow=c(1,2))
+par(mfrow=c(1,2), mar = c(3,4,.5,.5), cex = 1.3)
 set.seed(12345)
+x = seq(-5,5,by=.1)
+y = dnorm(x)
+
 curve(expr = dnorm(x), 
       from = -5,
       to = 5, 
       ylim = c(0,1), 
-      xlab = "x", 
+      xlab = "", 
       ylab = "Density", 
-      lwd =3)
-plot(density(rnorm(6)), 
+      lwd =3);abline(v = 0, lty =3)
+  title(xlab="x", line=2, cex.lab=1.2)
+polygon(c(x, rev(x), 0), c(y, rep(0,length(y)), 0), col=scales::alpha("blue",.5))
+x2 = rnorm(6)
+y2 = density(x2)
+plot(y2, 
      main = "", 
-     xlab = "x", 
+     xlab = "", 
      ylab = "Density", 
      xlim = c(-5,5), 
      ylim = c(0,1),
-     lwd = 3)
+     lwd = 3);abline(v = 0, lty =3)
+  title(xlab="x", line=2, cex.lab=1.2)
+polygon(c(y2$x, rev(y2$x), 0), c(y2$y, rep(0,length(y2$y)), 0), col=scales::alpha("blue",.5))
+
 ```
 
 ???
@@ -290,19 +327,18 @@ plot(density(rnorm(6)),
 
 **responsible and need to take conscious choices [...]**
 - When we design a simulation, we have to build in the **assumptions of the models** or the **processes** we are trying to recreate. 
-- So we need to **decide** (or plan), what is going to make up the process. 
+- So we need to **decide**, what is going to make up the process. 
 - The *parameters and variable are chosen by you*
-  * They need to be plausible (look into literature, ask a colleague for data already collected).
-- In a nutshell, you need to be **statistically aware** of what you are modeling and what you want to know. 
-
+  * Plausibility (look in lit., ask colleagues for data already collected).
+- Be **statistically aware** of what you are *modeling* and what you *want to know.* 
 
 **IMAGE**: Are these two distribution showing the same *random process*?
 - Yes! They are both normally distributed 
   * **left**: standard normal curve and 
-  * **right**: density plot of 6 pts randomly drawn from a normal distribution
+  * **right**: density plot of 6 pts randomly drawn from a normal dist.
   * BUT, they are NOT identical. The SAME RULES are generating the 2 distributions, but they are NOT showing the same curves...
 
-- Like Étienne Low-Décarie said it "it eliminates the need for dice when playing Dungeons and Dragons"
+- Étienne Low-Décarie says "it eliminates the need for dice when playing Dungeons and Dragons"
 ```
 library(TeachingDemos)
 dice(rolls=3, ndice=4, sides=6, plot.it=T,
@@ -310,50 +346,44 @@ dice(rolls=3, ndice=4, sides=6, plot.it=T,
 ```
 
 ---
-# Find patterns in random processes
+# Why simulations? Find patterns from stochastic processes
 
 - Simulations are useful to test the properties of randomly generated data 
 - Since we design the simulation, we know the parameters of the processes.
 ???
 You probably learned how to use statistical models on certain types of data. 
-- In order to answer your research question, you need to collect data. 
-- We then have an a posteriori understanding of the parameters that make up the phenomenon we are interested in. 
+- To answer your research question, you could collect data and get an *a posteriori* understanding of the parameters that make up a phenomenon. 
 - Simulations help you, 
   * bypass the requirement of data, AND
-  * Let you SET the exact parameters you think are relevant for the pattern you want to characterize (perhaps based on the literature on a subject.)
+  * Let *YOU SET* the  parameters you think are relevant for a pattern (based on lit.)
   * **CAREFUL**! Do not simulate data to generate **FAKE** data. 
 --
 
 - It is then possible to test various methods or statistical analysis to 
-    1. see if they work and verify their assumptions, 
-    2. do [power analysis](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) and dry run [an experimental design](https://low-decarie.github.io/Introduction-to-simulation-for-experimental-design-using-R/#/),
-    3. learn how data is generated,
+    1. learn how data are generated,
+    2. Understand and see a model works and verify its assumptions or predictions, 
+    3. explore old and new ideas, theories, hypothesis, the existence of a phenomenon or a slow process,
     4. prepare your analysis script before data collection (or preregistration),
-    5. understand and "see" what a model or equation predicts,
-    6. [give you teaching material](https://serc.carleton.edu/sp/library/datasim//examples.html), 
-    7. explore ideas, theories, hypothesis, the existence of a phenomenon or a slow process,
-    8. simulate tragic events to see their impact (e.g., nuclear explosion, flood, emergence and trajectories of hurricanes, etc.) 
-    9. etc. 
+    5. do [power analysis](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) and dry run [an experimental design](https://low-decarie.github.io/Introduction-to-simulation-for-experimental-design-using-R/#/),
+    6. simulate tragic events to see their impact (e.g., nuclear explosion, flood, emergence and trajectories of hurricanes, etc.) 
+    7. [give you teaching material](https://serc.carleton.edu/sp/library/datasim//examples.html), 
+    8. etc. 
 ???
+- **Random**: 'That is governed by the law of probability'
+  * "The law of probability tells us about the probability of specific events occurring." or a collection of equations that define probabilistic relationships among events [See this](https://magoosh.com/statistics/what-is-the-law-of-probability/) or [this link](https://methods.sagepub.com/reference/encyc-of-research-design/n336.xml)
+- **Stochastic**: 'determined randomly or involves random probability distribution.' 
+  * From Greek roots meaning **conjectural** or pertaining to conjecture (form an opinion about something without much information to base it on), or another word saying "**to guess**" or "target" or even literally "Stick used as aim by archers". 
+  * "the sense of “randomly determined” is from 1934, from German stochastik (1917)." See [GLOSSARY GUIDE](https://glossary.guide/stochastic-1935/)
+- **Expected value**:
+  * It is the mean of a random variable *X*: it's a misnomer as we don't necessarily "expect" an event to be near the 'expected value'. Just that *in the long run*, or if *we collect enough information about the random variable*, we might get an expected value for the distribution of the random variable. 
+
 - Forest management: could be long to get data: simulations can help to take faster decision
 - Epidemics, road congestion, simulate tragic events to see their impact (e.g., nuclear explosion, flood, emergence of hurricane, etc.)
-- See book Morgan, B.J.T., 1984. Elements of simulation, Boca Raton, FL: CRC Press.
-
-
----
-# Find patterns in the natural world
+- See book Morgan, B.J.T., 1984. Elements of simulation
 
 - We might start with a research question or simply want to understand a process.
 - We might be interested in understanding how a certain process was generated 
   * how $X$ is related $Y$, which could be written as $Y \sim X$. 
-
-<br>
-
-- This is probably the most important points for simulations in biology:
-  * We are trying to understand **natural processes**, which are themselves manifestations of **random processes** or **stochastic process**
-- Therefore, being able to do simulations can be a nice addition to your research toolkit. 
-
-???
 
 $X \xrightarrow{correlated} Y$
 
@@ -366,12 +396,14 @@ Everything that we measure is caused by factors that scientists try to make sens
      1. How is the data that I've measured distributed? and 
      2. What causes my data to be distributed that way?
 
-- Random ([stochastic](https://en.wikipedia.org/wiki/Stochastic_process)) process
+- Random (or [stochastic process](https://en.wikipedia.org/wiki/Stochastic_process)) variables
   * Collection of random variables defined by some parameters
   * E.g., bacterial growth: you can probably not predict exactly the exact time when a single bacterium will divide, but over a certain amount of time, you might get an idea of the rate at which bacteria divide and colonize a petri dish. 
 
 For power analysis...
 - See also `power.prop.test()`
+
+
 
 
 ---
@@ -403,103 +435,29 @@ The list below was taken from Banks (1998 Handbook of simulation).
 - Simulation modeling and analysis can be time consuming and expensive 
 - Simulation may be used inappropriately 
 
-They are offset by simulation software (R), which can also analyse the results. Personal computers are faster (with programming tricks!) and most complex systems in biology are not closed-form model, justifying the usefulness of simulations. 
+They are offset by 
+- simulation software (R), which can also analyse the results; 
+- Personal computers are faster (with programming tricks!) and 
+- most complex systems in biology are not closed-form model, justifying the usefulness of simulations. 
 ]
 
 
 ???
-- Read Banks 1998 to understand better what is meant here (Banks, J. 1998. Handbook of simulation. Pages 1–840. John Wiley & Sons, Inc., New York.)
+- Read *Banks* (1998) for a detailed description od each(Banks, J. 1998. Handbook of simulation) See p.10-11. 
+- **Choose correctly**: Test multiple proposed change without committing resources to their acquisition
+- **Compress and expand time**: you can speed up or slow down some processes 
+- **Understand why**: a certain phenomena occur in the system (connection with other systems)
+- **Explore possibilities**: of a valid simulation
+- **Diagnose problems**: Simulations allows you to better understand the interactions among the variables in the system
+- **Identify constraints**: Bottlenecks or sampling constraints
+- **Develop understanding**: about what underlies the concept studied 
+- **Visualize the plan**: 
+- **Build consensus**: by forging a demonstrable argument and its assumptions.
+- **Prepare for change**: future brings change
+- **Invest wisely**: for planning your experiment 
+- **Train the team**: learn by making mistakes and learn to operate better
+- **Specify requirements**: of a system. 
 
-
----
-# Probability distributions are crucial for simulations
-
-- When performing simulations, one has to keep in mind the
-  1. **type of distribution** underlying the data of interest
-  2. **parameters** of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
-  3. **statistical model** making the relationship between the response variable and the explanatory variable. 
-  4. ideas or things we *want to show or learn* with the simulation
-???
-- That might not apply to all sorts of simulations, 
-  * but will at least cover the ones that relate to statistical models.
-- It is still very useful to know the different types of distributions that random variables can take.
-
-
-- Note that (in Frequentist inference statistics) 
-  * a **"parameter"** is a quantity that is CONSTANT. 
-  * a **"variable"** can take multiple values. 
-- BUT a parameter could become a variable if this is the thing we want to see how it affects our models. 
-- Greek letters are often used to denote these parameters 
-
----
-# Tips when performing simulation
-
-.alert[Description section]. Add a 'Description' section to all your simulation scripts to introduce what the script is about. 
-
-- You can add information how to use important arguments or a step-by-step description on how to use the script.
-- You can add some references that you used to build your scrip. 
-
-.small[
-```r
-# Description  ------------------------------------------------------------
-#### ### ### ## #### ### ### ## #### ### ### ## 
-# TITLE OF THE SCRIPT
-# Created by YOUR_NAME
-# 
-# Why: 
-# Requires:
-# NOTES: 
-# Reference : 
-#### ### ### ## #### ### ### ## #### ### ### ## 
-
-# Code here ... 
-
-```
-]
-
-???
-- Before the meat of the presentation, I want to give you this tip. 
-- Here we present a 'header' that you could use at the beginning of EACH of you script
-- Believe us, it makes it much easier when you go back to an old script if you have at least this information in the header. 
-
-
----
-# Tips when performing simulation
-
-.alert[Comments]. Be extra generous when commenting your code to describe as precisely as possible for the information that is not variable. 
-
-
-.small[
-```{r r_tips1, eval=FALSE}
-# Description  ------------------------------------------------------------
-# This is the description section as previously presented 
-
-# Libraries ---------------------------------------------------------------
-# Here load the libraries used in the script 
-library(ggplot2)
-
-# Functions ---------------------------------------------------------------
-# Add and describe the functions used in the script 
-## Add more information
-function.name = function(var){tmp=2+var; return(tmp)}
-
-# Plots -------------------------------------------------------------------
-# Plotting the data simulated 
-## Add more information
-plot(function.name(1:10)+rnorm(10))
-```
-]
-
-.small[
-(We used fewer comments to lighten the presentation, but please add comments.)
-]
-
-???
-- Also don't forget to add sections in your script. 
-  - On macOS press `Alt + Shift + K` to get the shortcut list of RStudio. 
-  - See the `Cmd + Shift + R` to automatically add a section that will be visible in the document outline. 
-
-- Time to run a simulation is important: knowing that some functions are faster in R can make a difference for a slow simulation with a fast one.
 
 #################################
 ---
@@ -517,16 +475,20 @@ You might be wondering:
 
 - Simulations can help you at all stages of your research from planning to publishing and beyond! 
 - Whether you want to: 
-1. Learn about science in general
+1. Learn about science in general 
   - learn how a mechanism work (i.e., genetic drift, natural selection), 
+  - develop a deeper understanding of a concept.
 
 2. Design a particular study 
-  - test a statistical method or a research question you have, 
+  - Specify and refine a research objective, question, hypotheses to test and their predictions,
+  - a research plan, an experimental and sampling design or test a statistical method, 
   - play with data before your field work, 
-  - simulate random point on a map to sample it, 
+  - simulate random point on a map to sample it. 
 
-3. Publish an article 
+3. Publish an article or criticize 
   - respond to reviewers for a paper you want to publish,
+  - support an argument or a point you want to make,
+  - verify the claims made by other researchers.
   
 4. etc. 
 
@@ -542,7 +504,7 @@ You might be wondering:
 
 
 ---
-# Quick example: Genetic drift
+# Quick example: Genetic drift without mutation
 
 - Here we have 4 plots showing genetic drift with the same simulation. 
 - The only difference is the number of individuals in each population
@@ -648,6 +610,12 @@ for (l in n.id.pop) {
     points(c(1:nrow(pttmp)), pttmp$p.fq, 
            type = "l",
            col = k)
+    final.allele.fq = ifelse(pttmp$p.fq[length(pttmp$p.fq)] %in% c(0),"red",
+                             ifelse(pttmp$p.fq[length(pttmp$p.fq)] %in% c(1),"green","black"))
+    points(c(nrow(pttmp)), pttmp$p.fq[length(pttmp$p.fq)], 
+           type = "p",
+           col = scales::alpha(final.allele.fq, .5), pch = 19)
+           # col = scales::alpha(c("black","red","green","blue","cyan")[k], .5), pch = 19)
   } # End k
 } # End l
 
@@ -656,7 +624,10 @@ for (l in n.id.pop) {
 ???
 - Here is an example of simulation that was made in R to show genetic drift without natural selection. 
 - The same script, or function, can be used to generate patterns like these, but by varying the parameters (population sizes or starting alleles). 
-- Each plot contains 5 populations that started with an allele which had a frequency of 50%. 
+- Each plot contains 
+  * 5 populations that started (initial condition) with an allele frequency p of 50% (so q = .5).
+  * Genetic drift for a population stops when an allele is fixed (its fq = 1)
+  * Points mark if an allele is lost (red) or fixed (green), or in a mixture (black)
 - You can see now see with the simulation that 
   * No **particular** allele will be fixated (unbiased)
   * the **number of individuals** seems an important factor in the fixation of alleles. The fluctuations in allele fq are largers in smaller pop. 
@@ -1429,14 +1400,83 @@ name: what-to-be-known-before-sim
 - SEE also `expand.grid()` and `outer` [The Essence of R’s expand.grid() Function](https://towardsdatascience.com/the-essence-of-rs-expand-grid-function-a-love-letter-to-a-function-that-say-it-all-3f0ebba649c)
 
 
+---
+# Tips when performing simulation
+
+.alert[Description section]. Add a 'Description' section to all your simulation scripts to introduce what the script is about. 
+
+- You can add information how to use important arguments or a step-by-step description on how to use the script.
+- You can add some references that you used to build your scrip. 
+
+.small[
+```r
+# Description  ------------------------------------------------------------
+#### ### ### ## #### ### ### ## #### ### ### ## 
+# TITLE OF THE SCRIPT
+# Created by YOUR_NAME
+# 
+# Why: 
+# Requires:
+# NOTES: 
+# Reference : 
+#### ### ### ## #### ### ### ## #### ### ### ## 
+
+# Code here ... 
+
+```
+]
+
+???
+- Before the meat of the presentation, I want to give you this tip. 
+- Here we present a 'header' that you could use at the beginning of EACH of you script
+- Believe us, it makes it much easier when you go back to an old script if you have at least this information in the header. 
+
+
+---
+# Tips when performing simulation
+
+.alert[Comments]. Be extra generous when commenting your code to describe as precisely as possible for the information that is not variable. 
+
+
+.small[
+```{r r_tips1, eval=FALSE}
+# Description  ------------------------------------------------------------
+# This is the description section as previously presented 
+
+# Libraries ---------------------------------------------------------------
+# Here load the libraries used in the script 
+library(ggplot2)
+
+# Functions ---------------------------------------------------------------
+# Add and describe the functions used in the script 
+## Add more information
+function.name = function(var){tmp=2+var; return(tmp)}
+
+# Plots -------------------------------------------------------------------
+# Plotting the data simulated 
+## Add more information
+plot(function.name(1:10)+rnorm(10))
+```
+]
+
+.small[
+(We used fewer comments to lighten the presentation, but please add comments.)
+]
+
+???
+- Also don't forget to add sections in your script. 
+  - On macOS press `Alt + Shift + K` to get the shortcut list of RStudio. 
+  - See the `Cmd + Shift + R` to automatically add a section that will be visible in the document outline. 
+
+- Time to run a simulation is important: knowing that some functions are faster in R can make a difference for a slow simulation with a fast one.
 
 ---
 # Building simulations is an iterative process 
 
-.alert[ATTENTION]. Usually, coding simulation is written in small increments and then put  together in a cohesive function that will make what we are looking for. 
+.alert[ATTENTION]. Usually, coding simulation is written in **small increments** and then put together in a cohesive function that will make what we are looking for. 
 
-- It takes practice to code simulations: the more you code, the more you develop tricks. 
-- Always try to relate your simulation to a certain question of interest. This will bring more meaning to the insights that you are trying to make. 
+- It **takes practice to code simulations**: the more you code, the more you develop tricks. 
+- Always try to **relate your simulation to a certain question of interest.** This will bring more meaning to the insights that you are trying to make. 
 
 In this section, we will discover functions that might help when coding simulations in R. 
 
@@ -1666,11 +1706,11 @@ labels.for.the.factors = c("Control", "Treat")
 ## First control, then treatment:
 gl(n = nb.of.levels, k = nb.of.replicates, labels = labels.for.the.factors)
 
-## 20 alternating 1s and 2s
-gl(n = 2, k = 1, length = 20)
+## 20 alternating As and Bs
+gl(n = 2, k = 1, length = 20, labels = LETTERS[1:2])
 
 ## alternating pairs of 1s and 2s
-gl(n = 2, k = 2, length = 20)
+gl(n = 2, k = 2, length = 19) # see last element missing
 ```
 
 ???
@@ -1738,13 +1778,13 @@ DT::datatable(exp.design, fillContainer=FALSE, options=list(pageLength = 5))
 cards = c( "A",2:10, "J", "Q", "K"); length(cards) # Get cards type
 suits = c("♦", "♣", "♥", "♠" ) # Get the suits c("Diamonds", "Clubs", "Hearts", "Spades")
 cute.deck <- expand.grid(cards = cards, suits = suits) #<<
-cute.cards = apply(cute.deck, 1, function(x) paste0(x, collapse = ""))
-cute.deck$nice.cards = cute.cards
-cute.deck$col = ifelse(cute.deck$suits %in% c("♦","♥"),"red","black")
+cute.deck$nice.cards = apply(cute.deck, 1, function(x) paste0(x, collapse = "")) # Combine cards and suits
+cute.deck$col = ifelse(cute.deck$suits %in% c("♦","♥"),"red","black") # add colour 
 
 # Select cards at random 
 set.seed(1234)
-n.c = 5; row.sel = sample(1:nrow(cute.deck),size = n.c, replace = FALSE)
+n.c = 5
+row.sel = sample(1:nrow(cute.deck),size = n.c, replace = FALSE) #<<
 cute.deck[row.sel,"nice.cards"]
 ```
 
@@ -1797,13 +1837,13 @@ x.div = outer(x, x, "/")
 ```
 
 ```{r outer.example, echo=FALSE, fig.width=8,fig.height=5}
-x <- 1:10; names(x) <- x
+x <- 1:10; names(x) <- x; y <- 1:10; names(y) <- y
 # Multiplication & Power Tables
 # x %o% x # same as outer(x, x, "*")
-x.mul = outer(x, x, "*")
-x.sub = outer(x, x, "-")
-x.add = outer(x, x, "+")
-x.div = outer(x, x, "/")
+x.mul = outer(x, y, "*")
+x.sub = outer(x, y, "-")
+x.add = outer(x, y, "+")
+x.div = outer(x, y, "/")
 add.lab = function(x, out.mat, cex = 1) {
   for (i in 1:length(x)) {
     for (j in 1:length(x)) {
@@ -1813,28 +1853,28 @@ add.lab = function(x, out.mat, cex = 1) {
 }
 cex=.8
 par(mfrow = c(2,2), mar = c(4,4,1,1))
-image(x = x, y = x, z = x.mul, axes = FALSE, main ='Multiplication', xlab = "")
+image(x = x, y = y, z = x.mul, axes = FALSE, main ='Multiplication', xlab = "")
 title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
-axis(2, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(y), by = 1))
 add.lab(x,x.mul, cex=cex)
 
-image(x = x, y = x, z =x.sub, axes = FALSE, main ='Subtraction', xlab = "")
+image(x = x, y = y, z =x.sub, axes = FALSE, main ='Subtraction', xlab = "")
 title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
-axis(2, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(y), by = 1))
 add.lab(x,x.sub, cex=cex)
 
-image(x = x, y = x, z =x.add, axes = FALSE, main ='Addition', xlab = "")
+image(x = x, y = y, z =x.add, axes = FALSE, main ='Addition', xlab = "")
 title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
-axis(2, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(y), by = 1))
 add.lab(x,x.add, cex=cex)
 
-image(x = x, y = x, z =x.div, axes = FALSE, main ='Division', xlab = "")
+image(x = x, y = y, z =x.div, axes = FALSE, main ='Division', xlab = "")
 title(xlab = "x", line=2, cex.lab=1.2)
 axis(1, at = seq(1, max(x), by = 1))
-axis(2, at = seq(1, max(x), by = 1))
+axis(2, at = seq(1, max(y), by = 1))
 add.lab(x,x.div, cex=cex)
 
 y <- 2:8; names(y) <- paste(y,":", sep = "")
@@ -1850,11 +1890,15 @@ y <- 2:8; names(y) <- paste(y,":", sep = "")
 ???
 - You can think outer as taking 2 vectors, putting one vertical the other horizontal and filling all the combinations of each values in each vector 
 - Look at the diagonals 
+- READ the images as the X axis having an OPERATION on the Y axis 
 
 ---
 name: challenge_0_wallpaper
 ## Challenge 0: wallpapeR ![:cube]()
 
+- Provide 2 functions (see the #<<) with their argument(s) to 
+1. store a random number between 1 and `r length(grDevices::hcl.pals())` in `rdm.nb` and 
+2. one that will give the same number from the pseudo-random generator each time the script is ran. 
 
 ```{r wallpapeR, eval=FALSE}
 #<<
@@ -1892,10 +1936,17 @@ image(t(xy.out),
 # dev.off()
 ```
 
----
-## Challenge 0: wallpapeR ![:cube]()
+???
+- I you get out of this workshop without any use for what you are doing in research, at least, you can say that I haven't given you anything! 
 
-```{r wallpapeR_solution, fig.width=6, fig.height=3.5}
+---
+## Challenge 0: wallpapeR - Solution ![:cube]()
+
+- Provide 2 functions (see the #<<) with their argument(s) to 
+1. store a random number between 1 and `r length(grDevices::hcl.pals())` in `rdm.nb` and 
+2. one that will give the same number from the pseudo-random generator each time the script is ran. 
+
+```{r wallpapeR_solution, fig.width=6, fig.height=2}
 set.seed(9) #<<
 par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
 x = 1:70; y = 1:70 # make variables 
@@ -1906,6 +1957,17 @@ rdm.nb = sample(c(1:nb.col.pal), size = 1); print(rdm.nb) # Get random number #<
 xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
 image(t(xy.out),xaxt = "n", yaxt = "n", bty = "n",
       col = hcl.colors(1000, palette = hcl.pals()[rdm.nb])) # 61,93 looks good
+```
+
+???
+
+- To export the graph 
+```
+png("~/Desktop/wallpapers_sunwaves.png", res = 300, units = "px",
+    width = 1920, # add your screen resolution here
+    height = 1080)
+# [wallpapercode here]
+dev.off()
 ```
 
 ---
@@ -1925,6 +1987,27 @@ sample()
 - For people that are finished before the end: 
   * take 1000 draws with replacement from, two values (0 or 1), with equal probability for each. 
   * Here you could specify how the probability is selected 
+- If someone finishes early, you could ask them to use the `replicate` function to generate a lot of draws from the `sample` function 
+
+```{r}
+set.seed(12345) # Sets the random number generator to a fix value
+vec.1.10 = 1:10 # Make the vector to choose from 
+mean(vec.1.10)
+size = 10
+n = 10
+replicate.draws = replicate(n = n,simplify = TRUE,
+          expr = sample(x = vec.1.10, size = size, replace = TRUE))
+
+get.average = apply(replicate.draws, 2, mean)
+hist(get.average)
+
+# Check out what simplify does and deal with it 
+replicate.draws.list = replicate(n = n,simplify = FALSE,
+                            expr = sample(x = vec.1.10, size = size, replace = TRUE))
+# Make into a matrix
+do.call(cbind, replicate.draws.list)
+do.call(rbind, replicate.draws.list)
+```
 
 
 ---
@@ -1991,7 +2074,7 @@ name: explore-under-stat-process
 ---
 # Are you sure?
 
-- What characterize all situations that involves chance or a likelihood?
+- What characterizes a random phenomenon or all situations that involves chance or a likelihood that certain outcomes are realized?
 ???
 - Ross, K. 2021. An introduction to probability and simulation:563.
 - A process is random if multiple outcomes and uncertain about a specific outcome
@@ -2382,24 +2465,40 @@ title(xlab = "Ln odds", ylab="", line=2.2, cex.lab=1.2)
   - We add part 2. and 3. because it gives us information about the *specialness* of this rare event. 
   - In other words, we want to know if the event we measured is statistically special or, as you might have heard it, statistically significant!
 
+---
+# Probability distributions are crucial for simulations
+
+- When performing simulations, one has to keep in mind the
+  1. **type of distribution** underlying the data of interest
+  2. "**arguments**" or "**parameters**" of the distribution itself (mean, standard deviation, rate, degrees of freedom, etc.)
+  3. **statistical model** making the relationship between the response variable and the explanatory variable. 
+  4. ideas or things we *want to show or learn* with the simulation
+???
+- That might not apply to all sorts of simulations, 
+  * but will at least cover the ones that relate to statistical models.
+- It is still very useful to know the different types of distributions that random variables can take.
+
+- Note that (in Frequentist inference statistics) 
+  * a **"parameter"** is a quantity that is CONSTANT. 
+  * a **"variable"** can take multiple values. 
+- BUT a parameter could become a variable if this is the thing we want to see how it affects our models. 
+- Greek letters are often used to denote these parameters 
 
 ---
 # Why statistical distributions matter? 
 
 - As we discussed in the introduction, we are interested in what is underlying natural processes.
-- To be able to mimic the natural processes, we need a way to get some similar data as we would if we collect them (we need a way to generate (pseudo-)random variables).
+- To mimic the natural processes, 
+  * we need a way to get some similar data as we would if we collect them (we need a way to generate (pseudo-)random variables).
+  * In other words, to help us in performing simulations, we need to get some data (random variables, *X*) which numerical values are outcomes of random processes. 
+- The idea here is to find the distribution underlying a random process which generate a particular phenomenon in nature and use it to output values to be used in your simulation.
+- After generating the data, you can analyze it and see how it can be manipulated. 
+
 ???
 - Here, we are coming back to the idea of looking at pattern in random processes. 
 - random variables in the natural world are generated from what has been called statistical distribution. 
 - Statistician have been studying random variables by mapping , measuring, describing, and making taxonomies of them which now they are able to understand them in a more general way: based on statistical distributions from which they are drawn. 
 - Take a look at Khan Academy [Random variables](https://www.khanacademy.org/math/statistics-probability/random-variables-stats-library/random-variables-discrete/v/random-variables)
---
-
-- In other words, to help us in performing simulations, we need to get some data (random variables, X) which numerical values are outcomes of random processes. 
-- The idea here is to find the distribution underlying a random process which generate a particular phenomenon in nature and use it to output values to be used in your simulation.
-- After generating the data, you can analyze it and see how it can be manipulated. 
-
-???
 - See Crawley's R Book chapter 7 "Mathematics"
 
 ---
@@ -2752,7 +2851,7 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
 | Poisson	     | probability of a number of cases happening in a defined range of time or space given a constant rate | discrete; | ticks of a radiation counter, DNA mutation, colonization of animals on remote islands (something per unit time or space for example) |
-| Logistic	   | probability of an individual to be in one class or another (linkk function in GLM) | continuous; | alive or not, yes or no, diseased or not, etc. |
+| Logistic	   | probability of an individual to be in one class or another (link function in GLM) | continuous; | alive or not, yes or no, diseased or not, etc. |
 | Normal	     | probability function which informs how values are distributed, centered on a mean, being symmetric, and having a specific variance | continuous; | height of individuals, beak length, shoe size, time required to run a kilometer, the data shows a 'bell-shaped' curve |
 | Uniform	continuous     | probability of all outcomes are equal | continuous; | angle between 0-360 | 
 | Uniform	discrete     | probability of all outcomes are equal | discrete; | Faces of a dice | 
