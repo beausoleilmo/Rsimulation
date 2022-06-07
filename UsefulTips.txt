@@ -23,6 +23,13 @@ https://rpruim.github.io/s341/S19/from-class/MathinRmd.html
   Please consult the presentation template at the following links 
     - http://r.qcbs.ca/templateWorkshops/presentation-template/index.html#1
     - https://slides.yihui.org/xaringan/#p1
+    - https://remarkjs.com/#1
+    - https://github.com/gnab/remark/wiki/Configuration
+    - https://irene.vrbik.ok.ubc.ca/slides/NHSRxaringan.html#1
+    - https://github.com/gnab/remark/wiki/Markdown#slide-properties
+
+- Highlight specific cells: 
+  - https://stackoverflow.com/questions/67206278/how-to-highlight-specific-cells-in-a-dataframe-in-r-markdown-html
 
 ###
 Name each and every R chunk as they are going to make the sections of the R script 
