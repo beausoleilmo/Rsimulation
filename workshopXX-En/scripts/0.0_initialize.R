@@ -18,6 +18,7 @@ librarian::shelf(tidyverse,
                  dplyr, DT,
                  cds, 
                  dummies, 
+                 fontawesome,
                  fitdistrplus, 
                  gavinsimpson / ggvegan, 
                  ggplot2, ggExtra, gridExtra, 
@@ -34,6 +35,7 @@ librarian::shelf(tidyverse,
 # Source scripts ----------------------------------------------------------
 source(file = "scripts/Galton_board.R")
 source(file = "scripts/marginal_plot.R")
+source(file = "scripts/draw.normal.R")
 
 # Get session information -------------------------------------------------
 dir.create("output/session_info",recursive = TRUE, showWarnings = FALSE)
