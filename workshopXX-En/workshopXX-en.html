@@ -21,7 +21,11 @@ class: center, middle, inverse, title-slide
 
 ---
 
-
+&lt;!-- # ?xaringan::moon_reader --&gt;
+&lt;!-- seal: true  # creates title slide --&gt;
+&lt;!-- ratio: '16:9' # "4:3" --&gt;
+&lt;!-- countIncrementalSlides: true # Otherwise, it's hard to reference a slide --&gt;
+&lt;!-- github --&gt;
 
 
 
@@ -41,7 +45,7 @@ It was proposed that this workshop could be recorded (with or without an audienc
 - I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
 - In addition, this is a work in progress. Any input you have is more than welcome. 
 - Some sloppy mathematical notation is  used. It'd help to be more rigorous if you could provide ways to write the notation better. 
-- Not all the code is shown in the presentation to reproduce the examples. You have to go in the [presentation RMarkdown files](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/workshopXX-en.Rmd) or the script file [Workshop R script](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/workshopXX-en.r), which requires the [0.0_initialize.R](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/0.0_initialize.R) and other scripts specified within. 
+- Not all the code is shown in the presentation to reproduce the examples. You have to go in the [presentation RMarkdown files](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/workshopXX-en.Rmd) or the script file [Workshop R script](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/workshopXX-en.r), which requires the [0.0_initialize.R](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/0.0_initialize.R) and other scripts specified within. Don't forget to change the paths associated with some files to load everything. 
 
 ???
 
@@ -57,8 +61,8 @@ Theory:
 3. [What you need to know before doing simulations?](#what-to-be-known-before-sim)
 4. [Let's explore what underlie some random processes](#explore-under-stat-process)
 5. [Statistical distributions in more details](#statistical-distributions)
-6. [Simulating data for power analysis (in development)](#simulating-power)
-7. [Simulating data for models (lm, glm, lmm, in development)](#sim-data-models)
+6. [Simulating data for models (lm, glm, lmm, in development)](#sim-data-models)
+7. [Simulating data for power analysis (in development)](#simulating-power)
 8. [Advanced simulations](#advanced-simulations)
 9. [References](#references)
 10. [Acknowledgements](#acknowledgements)
@@ -89,7 +93,7 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 - We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop. 
 - We are going to be more explicitly show assumptions of models and use for loops in this workshop 
 
-- You should also have installed [R on CRAN here](https://cran.r-project.org) and you could get [RStudio](https://www.rstudio.com) as well. 
+- You should also have installed [R on CRAN here](https://cran.r-project.org) <svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg> and you could get [RStudio](https://www.rstudio.com) as well. 
 
 ???
 
@@ -125,6 +129,7 @@ Consider that it takes time to develop a 'programers' intuition when coding. The
 - Please, I invite you to participate as much as you can. 
 - I certainly have a lot to learn and I wish that our learning environment is welcoming to committing errors and learning from them 
 
+???
 #################################
 ---
 class: inverse, center, middle
@@ -821,7 +826,6 @@ name: what-to-be-known-before-sim
 - You can add information how to use important arguments or a step-by-step description on how to use the script.
 - You can add some references that you used to build your scrip. 
 
-.small[
 ```r
 # Description  ------------------------------------------------------------
 #### ### ### ## #### ### ### ## #### ### ### ## 
@@ -837,7 +841,6 @@ name: what-to-be-known-before-sim
 # Code here ... 
 
 ```
-]
 
 ???
 - Before the meat of the presentation, I want to give you this tip. 
@@ -851,7 +854,6 @@ name: what-to-be-known-before-sim
 .alert[Comments]. Be extra generous when commenting your code to describe as precisely as possible for the information that is not variable. 
 
 
-.small[
 
 ```r
 # Description  ------------------------------------------------------------
@@ -871,11 +873,8 @@ function.name = function(var){tmp=2+var; return(tmp)}
 ## Add more information
 plot(function.name(1:10)+rnorm(10))
 ```
-]
 
-.small[
 (We used fewer comments to lighten the presentation, but please add comments.)
-]
 
 ???
 - Also don't forget to add sections in your script. 
@@ -1002,7 +1001,7 @@ set.seed(321)
 ```
 ]
 
-&lt;img src="workshopXX-en_files/figure-html/permutations_plot-1.png" width="792" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/permutations_plot-1.png" width="864" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -1040,6 +1039,27 @@ http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf
 ---
 # Functions useful in simulations (sample)
 
+- Below is an example using sample to generate 
+  * permutation of the data (orange lines) and 
+  * Bootstrap leaving-'one'-out data points (here leaving 20 out), recalculating the lm
+
+
+```r
+permutate.df = replicate(n = 200, # nperm 
+*         expr = data.frame(y = sample(df.lm$y,size = nrow(df.lm), replace = FALSE),
+                            x = df.lm$x), simplify = FALSE)
+bootstrap.fun &lt;- function(data) {
+* tmp.sample = sample(1:nrow(data),size = c(nrow(data)-20), replace = FALSE)
+  data.frame(y = data[tmp.sample,"y"], x = data[tmp.sample,"x"]) } # end boot fun
+bootstrap.df = replicate(n = 200, expr = bootstrap.fun(df.lm), simplify = FALSE)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/permutations_bootstrap_df_lm-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Functions useful in simulations (sample)
+
 - You can also simulate random dates in a time interval. 
 
 
@@ -1066,7 +1086,6 @@ sample(datae.seq, 5)
 - You can also generate a die and randomly toss it. 
 - You can change the probability of landing on one face more than the other. 
 
-.small[
 
 ```r
 set.seed(50)
@@ -1080,7 +1099,6 @@ barplot(table(die_results), ylab = "Fq", xlab ="Face", main = "Loaded dice") # t
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/sample_die-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
 
 ???
 - simulate a die and change the probability of landing on a particular face 
@@ -1535,7 +1553,9 @@ name: explore-under-stat-process
 # Probability and odds 
 
 - When describing the "chance" or "likelihood" of an outcome, you can use a probability or odds (which reports probabilities in terms of ratios)
-- They are related: odds in favor of an event occurring is `\(odds_{favour} = p/(1-p)\)`  or `\(odds = \frac{\text{probability of success}}{\text{probability of failure}}\)`. Otherwise, the odds against is `\(odds_{against} = (1-p)/p\)`
+- They are related: 
+  * `\(p_{success} = \frac{\text{Nb of successes}}{\text{Total number of events}}\)` and `\(1-p_{success} \text{ or } q = \frac{\text{Nb of failures}}{\text{Total number of events}}\)`
+  * odds in favor of an event occurring is `\(odds_{favour} = p/(1-p)\)`  or `\(odds = \frac{\text{probability of success}}{\text{probability of failure}}\)` or `\(odds_{success} = \frac{\frac{\text{Nb of successes}}{\text{Total number of events}}}{\frac{\text{Nb of failures}}{\text{Total number of events}}}=\frac{\text{Nb of successes}}{\text{Nb of failures}}\)`. Otherwise, the odds against is `\(odds_{against} = (1-p)/p\)`
 - Why bother using probability or odds? 
 ???
 - Let's explore the basic concepts like probability and odds.  
@@ -1553,8 +1573,7 @@ name: explore-under-stat-process
 &lt;img src="workshopXX-en_files/figure-html/odds_scale_zero_inf-1.png" width="338.4" style="display: block; margin: auto;" /&gt;
 ]
 
-- As you can see, it can be useful to change the scale on which the probability is shown. The "Odds scale" is aiming in the direction of having a scale where all the number are represented. 
-- But as you can see, the odds of losing is not symmetric (between 0 and 1) compared to odds of winning (between 1 and `\(\infty\)`). How can we solve that? 
+- It is useful to change the scale characterizing the chance of an event occurring. But from the "odds scale" on the right, **the odds of losing is not symmetric** (between 0 and 1) **compared to odds of winning** (between 1 and `\(\infty\)`). How can we solve that and make both sides symmetric? 
 
 ???
 - Whitlock and Schluter: "The odds of success are the probability of success divided by the probability of failure" 
@@ -1571,8 +1590,11 @@ name: explore-under-stat-process
 # Probability and odds 
 
 - By using the log of the odds. 
-- Log (natural log, or ln) odds can range from `\(-\infty\)` to `\(\infty\)` and makes the odds symmetric. It is calculated as `\(ln (odds) = ln(p/(1-p))\)` (i.e., the logit function).
-- This will become handy when building a logistic model as this is the 'logit' transformation. 
+- Log (natural log, or ln) odds can now 
+   * range from `\(-\infty\)` to `\(\infty\)` and 
+   * makes the (log)odds-scale symmetric. 
+   * It is calculated as `\(ln (odds) = ln(p/(1-p))\)` (i.e., the logit function).
+- This will become handy when building a logistic model as this is the 'logit' link 
 
 &lt;img src="workshopXX-en_files/figure-html/log_odds_scale_inf_inf-1.png" width="338.4" style="display: block; margin: auto;" /&gt;
 
@@ -1614,9 +1636,13 @@ gm
 
 
 ```r
-tot.nb.ev = 100; success = 20; failure = tot.nb.ev-success; p = success/tot.nb.ev; q = failure/tot.nb.ev
-odds.favor = (success)/(failure) # Odds in favor of event ( 1 in 4), same as p/q
-odds.agnst = (failure)/(success) # Odds against the event (here 4 to 1), same as q/p
+tot.nb.ev = 100; success = 20
+failure = tot.nb.ev-success
+p = success/tot.nb.ev; q = failure/tot.nb.ev
+(odds.favor = (success)/(failure)) # Odds in favor of event ( 1 in 4), same as p/q
+# [1] 0.25
+(odds.agnst = (failure)/(success)) # Odds against the event (here 4 to 1), same as q/p
+# [1] 4
 ```
 
 &lt;!-- In the calculation above, I'm NOT using the probability of successes as the division by 100 (to make it a probability) would cancel out and make it harder to get a quick intuition from the toy example --&gt;
@@ -1631,8 +1657,11 @@ Conversely, the horse  odds of failing is 4:1 (read 4 *to* 1).
 The horse is 4 times more *likely* to fail than to succeed in a race. Odds can also be represented as ratios (and integer ratios).
 
 ???
-- If the `odds = 1` or `log(odds)= 0`: 
+- If the `odds = 1` or `log(odds) = 0`: 
   * it means that we are as likely to win, as we are likely to lose 
+- If the `odds &lt; 1` or `log(odds) &lt; 0`: More odds to loose
+- If the `odds &gt; 1` or `log(odds &gt; 0`: More odds to win 
+
 
 - Another example: for a 6-sided die, 
   * the odds of rolling a 6 is 1:5 (one TO 5)
@@ -1652,9 +1681,11 @@ The horse is 4 times more *likely* to fail than to succeed in a race. Odds can a
 
 ```r
 tot.nb.ev = 100; success = 20
-probability.favor = (success)/(tot.nb.ev) # probability of event (here 20%)
-probability.favor # fractions(probability.favor)
+failure = tot.nb.ev-success
+(probability.favor = (success)/(tot.nb.ev)) # probability of event (here 20%), fractions(probability.favor)
 # [1] 0.2
+(q = failure/tot.nb.ev)
+# [1] 0.8
 ```
 - So the horse *wins* 1/5 or 20% of the times. 
 - The probability of a particular outcome (say getting a *head* for a coin) for a particular event (tossing a coin) is the number of a particular outcome divided by the total number of results from the event. 
@@ -1677,26 +1708,24 @@ probability.favor # fractions(probability.favor)
 ```r
 # Get some LOG ODDS numbers 
 log_odds = seq(from = -5, to = 5, by = .25)
-# Transformed into odds 
-odds = exp(log_odds)
+odds = exp(log_odds) # Transformed into odds 
+
 # Make inverse logit function 
-inv.logit &lt;- function(x) {exp(x)/(1 + exp(x))} # takes log odds as input 
-inv.logit2 &lt;- function(x) {1/(1 + exp(-x))} # takes log odds as input 
-p = inv.logit(log_odds) # This is the same as  p = odds/(1 + odds)
-p2 = inv.logit(log_odds) 
-# Probability of failure (1-p)
-q = 1-p
+inv.logit = function(x) {exp(x)/(1 + exp(x))} # takes log odds as input. Same as function(x){1/(1 + exp(-x))}
+
+p = inv.logit(log_odds) # This is  p = odds/(1 + odds) 
+q = 1-p # Probability of failure (1-p)
 
 # Store log_odds other data to plot 
 d = data.frame(log_odds, odds, p, q) 
-format(ht(d,3),digits = 2, scientific = F)
-#         log_odds     odds      p      q
+format(x = ht(d,3),digits = 2, scientific = F)
+*#         log_odds     odds      p      q
 # head.1      -5.0   0.0067 0.0067 0.9933
-# head.2      -4.8   0.0087 0.0086 0.9914
+*# head.2      -4.8   0.0087 0.0086 0.9914
 # head.3      -4.5   0.0111 0.0110 0.9890
-# tail.39      4.5  90.0171 0.9890 0.0110
+*# tail.39      4.5  90.0171 0.9890 0.0110
 # tail.40      4.8 115.5843 0.9914 0.0086
-# tail.41      5.0 148.4132 0.9933 0.0067
+*# tail.41      5.0 148.4132 0.9933 0.0067
 ```
 
 ???
@@ -1728,26 +1757,48 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
 
 ???
 - You can recognize from the third graph, the familiar shape of a logistic regression. This is purely due to the transformation of space from [0,1] to ]-infinity, infinity[. 
+- [Logistic Regression / Odds / Odds Ratio / Risk](https://mmuratarat.github.io/2019-09-05/odds-ratio-logistic-regression)
 
 ---
-# Probability and odds 
+# Probability and p-values
 
 - What is the difference between a probability and a p-value?
 --
 
-- A p-value consists of 3 parts. They are the :
-  1. *Probability* that random chance generated the data (or would give the result we got) **PLUS**
-  2. *Probability* of observing something else that is equally rare **PLUS**
-  3. *Probability* of observing something else that is rarer (or more extreme).
+- A p-value is not only the probability of *a specific event*. 
+- A p-value consists of [3 parts.](https://towardsdatascience.com/p-value-hypothesis-testing-and-statistical-significance-63bdd7277e66) They are the :
+  1. *Probability* of an event 'A' or that random chance _generated the data_ 'A' (or would give the result we got) **PLUS**
+  2. *Probability* of observing something else (other events) that is _equally rare_ **PLUS**
+  3. *Probability* of observing something else that is rarer (or have less chance to occur or more extreme) than the event 'A'.
+- **Note 1:** a p-value for *continuous variables* is the _area under the curve AT the value and GREATER or LOWER the CRITICAL value or BOTH (greater *and* lower) depending on the test._ 
 ???
 - Let's just spend some time explaining the DIFFERENCE between a probability and a *p-value*. 
-- Note also that the p-value for CONTINUOUS variables is the area under the curve AT the value and GREATER or LOWER the CRITICAL value or BOTH depending on the test. 
 - See [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&amp;ab_channel=StatQuestwithJoshStarmer), [How to calculate p-values ](https://www.youtube.com/watch?v=JQc3yx0-Q9E&amp;t=0s&amp;ab_channel=StatQuestwithJoshStarmer) and [p-values: What they are and how to interpret them](https://www.youtube.com/watch?v=vemZtEM63GY&amp;ab_channel=StatQuestwithJoshStarmer)
+- For example flip a coin 2 times. You can get HH, HT, TH, TT. The probability of getting HH is 0.25, but the P-VALUE for getting HH is 0.5 (HH ~ 0.25, what is equally rare; TT~0.25, Is there anything rarer? no, so .25*2 = 0.5)
+- You can SUM the probabilities for DISCRETE events, but when it comes to CONTINUOUS events (ones where there are an infinity different values possible), then we use the DENSITY curve, which now the p-value becomes the AREA under the curve . 
 --
 
-- **NOTE:** the probability of an event occurring *is not the same* as the p-value, since the p-value is the sum of 3 parts.
-  - We add part 2. and 3. because it gives us information about the *specialness* of this rare event. 
+- **NOTE 2:** the **probability of an event occurring** *is not the same* as the **p-value** (sum of the 3 parts).
+  - We add part 2. and 3. because it gives us information about the **specialness** of this rare event. 
   - In other words, we want to know if the event we measured is statistically special or, as you might have heard it, statistically significant!
+
+---
+# Probability and p-values
+
+What is the p-value 1. for getting a human height of 108.04 cm? 2. What is the probability of having a height between 109.9995 and 110.0005 cm? What is the p-value for someone of height 110 cm?. Below are the distributions of hypothetical heights with mean = 110 and sd = 1.
+
+&lt;img src="workshopXX-en_files/figure-html/probability_normal_pval-1.png" width="648" style="display: block; margin: auto;" /&gt;
+
+```
+#         lb       ub
+# 1 109.9995 110.0005
+```
+--
+The answer is 1. 0.05 or 5%, 2. 0.04%, 3. 1 or 100%!
+
+
+???
+- Example taken, with modifications from [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&amp;ab_channel=StatQuestwithJoshStarmer)
 
 ---
 # Probability distributions are crucial for simulations
@@ -1844,7 +1895,6 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
 
 - What if you get even more numbers (say 100) from the same random process:
 
-.tiny[
 
 ```
 #   [1] 13.9 14.5 18.1 15.1 15.3 18.4 15.9 12.5 13.6 14.1 17.4 15.7 15.8 15.2 13.9
@@ -1855,7 +1905,6 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
 #  [76] 17.1 14.4 12.6 15.4 14.7 15.0 15.8 14.3 16.3 14.6 15.7 17.2 15.9 14.3 17.3
 #  [91] 17.0 16.1 15.5 13.7 17.7 13.8 19.4 18.1 14.5 12.9
 ```
-]
 
 ???
 - With more and more data, we can get a better intuition of the underlying distribution that generated the data. 
@@ -1890,12 +1939,15 @@ name: table-distributions
 
 
 ```r
-## probability of &gt; 2 people with the same birthday
-pbirthday(23, coincident = 3)
-## 0.9 probability of &gt;=3 coincident birthdays
-qbirthday(coincident = 3, prob = 0.9) # Gives the number of people
-## Chance of &gt;=4  coincident birthdays in 300 people
-pbirthday(300, coincident = 4)
+# probability of &gt; 2 people with the same birthday
+(a = pbirthday(23, coincident = 3))
+# [1] 0.01441541
+# 0.9 probability of &gt;=3 coincident birthdays
+(a = qbirthday(coincident = 3, prob = 0.9)) # Gives the number of people
+# [1] 135
+# Chance of &gt;=4  coincident birthdays in 300 people
+(a = pbirthday(300, coincident = 4))
+# [1] 0.9740397
 ```
 
 
@@ -1903,6 +1955,8 @@ pbirthday(300, coincident = 4)
 - Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
 - In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
 - Here is a table showing the nomenclature used in R to generate data of 
+
+- I added a cool function in R for Probability of coincidences called `pbirthday`
 
 
 ```r
@@ -2021,8 +2075,7 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
   2. Continuous (infinite decimal number of possible values, e.g., `0.1`,`0.62113`,...)
 
 
-.small[
-| Distribution | Definition | Type of data | Example |
+| Distribution | Definition | Data type  | Example |
 | ------------ | ---------- | ------------ | ------------ |
 | Binomial	   | probability of *n* repeated *yes/no* experiments with probability *p* of *success* | discrete; yes/no; 0/1 | Number of heads in a row after 3 tosses |
 | Poisson	     | probability of a number of cases happening in a defined range of time or space given a constant rate | discrete; | ticks of a radiation counter, DNA mutation, colonization of animals on remote islands (something per unit time or space for example) |
@@ -2037,10 +2090,7 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 &lt;!-- | Chi-Square	 |            |              | --&gt;
 &lt;!-- | F	           |            |              | --&gt;
 
-- see [Probability Cheat Sheet (Peleg Michaeli)](https://web.cs.elte.hu/~mesti/valszam/kepletek) for more details
-- see [Probability Cheat Sheet (John Fieberg)](https://github.com/jfieberg/probability_cheatsheet) for more details
-- see [Probability Cheat Sheet (William Chen)](https://github.com/wzchen/probability_cheatsheet) for more details
-]
+- see [Probability Cheat Sheet from P. Michaeli](https://web.cs.elte.hu/~mesti/valszam/kepletek), [from J. Fieberg](https://github.com/jfieberg/probability_cheatsheet), or [from W. Chen](https://github.com/wzchen/probability_cheatsheet) for more details
 
 ???
 - This is a small reminder of what are some of the important distributions with some examples. We will explore some of them in more details later in the talk. 
@@ -2052,7 +2102,10 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 - See "Figure 6A.15 from Probabilistic approaches to risk by Aswath Damodaran"
 
 &lt;!-- ![:scale 100%](images/probabilistic.png) --&gt;
+.center[
 ![:scale 90%](images/Prob.distrib.choices.png)
+]
+
 ???
 This figure contains a decision graph that *could* help figure out what distribution you are facing. BUT, it doesn't guarantee that you'll find the right distribution. 
 
@@ -2073,7 +2126,9 @@ This figure contains a decision graph that *could* help figure out what distribu
 
 The image below shows a small roadmap demonstrating the link between different statistical distributions. 
 
+.center[
 ![:scale 70%](images/Relationships_among_some_of_univariate_probability_distributions.jpg)
+]
 ???
 - Source https://en.wikipedia.org/wiki/Relationships_among_probability_distributions and http://www.math.wm.edu/~leemis/2008amstat.pdf (Ehsan.azhdari)
 - Leemis, L. M., and J. T. McQueston. 2008. Univariate Distribution Relationships. The American Statistician 62:45–53.
@@ -2085,9 +2140,7 @@ The image below shows a small roadmap demonstrating the link between different s
 - Some distributions can be recreated in `R` even if they haven't their own function name (e.g., Bernoulli). 
   * Bernoulli distribution can be simulated with a binomial distribution with `size = 1`.
 
-.tiny[
 &lt;img src="workshopXX-en_files/figure-html/equivalence_between_distributions_Bern_binom-1.png" width="504" style="display: block; margin: auto;" /&gt;
-]
 
 
 
@@ -2304,7 +2357,7 @@ Use the binomial distribution to answer this question.
 ---
 ## Challenge 3 - Solution ![:cube]()
 
-What is the probability (in %), for getting 4 heads or 4 tails from tossing 4 times a fair coin? 
+What is the probability (in %), of getting 4 heads or 4 tails from 4 tosses of a fair coin? 
 
 ```r
 mybin &lt;- function(x,n,p) { choose(n, x)* p^x* (1-p)^(n-x) } 
@@ -2585,7 +2638,7 @@ abline(h=seq(0,1, by = .1),
 .pull-right[
 For the density distribution, the *area* under the curve between two points is the *probability*. For example, the 95% probability (red region), and 2 tails 2.5% (blue region).
 
-&lt;img src="workshopXX-en_files/figure-html/Density_normal_dissection_all_info-1.png" width="360" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/Density_normal_dissection_all_info-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ???
@@ -2604,13 +2657,13 @@ If X is a random variable distributed with a *Standard normal distribution*, wha
 .pull-left[
 
 ```r
-pnorm(1.645)
+pnorm(1.645) # Gives the probability at X 
 # [1] 0.9500151
 
-qnorm(p = 0.05, lower.tail = F)
+qnorm(p = 0.05, lower.tail = F) # Gives X at a prob.
 # [1] 1.644854
 
-qnorm(p = 0.025, lower.tail = F)
+qnorm(p = 0.025, lower.tail = F) # Value for 5% in both tails
 # [1] 1.959964
 ```
 ]
@@ -2626,14 +2679,13 @@ qnorm(p = 0.025, lower.tail = F)
 ]
 
 ???
-This is the visual representation of what is on the left for the 5% probability. The value of x between the blue and red polygon is ~1.96
+This is the visual representation of what is on the left for the 5% probability. The value of x between the blue and red polygon is ~1.64.
 
 ---
 # Normal distribution 
 
 
 
-.tiny[
 
 
 ```r
@@ -2647,7 +2699,6 @@ draw.normal(where = "right", prob = 0.05  )
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area-1.png" width="648" style="display: block; margin: auto;" /&gt;
-]
 
 ???
 - These are different standard normal distributions where we ploted different probabilities (area under the curve), for different RANGES of X. Compare the 1st and the second row-middle graph and the last graph. The three are 95% in the red portion, BUT the tails have different areas. 
@@ -2657,7 +2708,6 @@ draw.normal(where = "right", prob = 0.05  )
 
 Find the probability of finding data relative to a standard deviation number 
 
-.small[
 
 ```r
 sd = 1
@@ -2666,7 +2716,6 @@ probability.right.side = (pnorm(q = c(sd*1,sd*2,sd*3),lower.tail = T)*100)
 percent.data.under.curve = probability.right.side - probability.left.side
 p.from.mean = round(percent.data.under.curve,2)
 ```
-]
 
 - So from the mean of the standard normal distribution:
   * if you are at `\(\mu \pm 1 \sigma\)` , you have 68.27% of the data. 
@@ -2686,7 +2735,7 @@ Find the "x" value (quantile) based on the probability (area under the curve bet
 
 
 ```r
-qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)
+qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F) # notice the "lower.tail"
 # [1] -0.6744898 -1.6448536 -1.9599640 -2.5758293
 qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 # [1] 0.6744898 1.6448536 1.9599640 2.5758293
@@ -2699,8 +2748,9 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area3-1.png" width="1008" style="display: block; margin: auto;" /&gt;
 
 ???
+- `qnorm(p = 0;.75, mean = 0, sd = 1, lower.tail = F)` means the value "x" at which 75% of the data (area under the normal curve) is below that value 
 - We could also look at the values of X to which we would observe a certain probability of data on EACH SIDE of the mean
-- Note that instead of looking at the probabilities in the lower and upper tails, we could simply take the other side of the probability (substrating the probability by 1 `qnorm(p = 1-c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)`)
+- Note that instead of looking at the probabilities in the lower and upper tails, we could simply take the other side of the probability (subtracting the probability by 1 `qnorm(p = 1-c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = F)`)
 
 ---
 # Normal distribution
@@ -2962,7 +3012,6 @@ curve(dnorm, from = -10, to =10, add =TRUE)}
 
 - The CLT could be shown by adding more and more random variables distributed as an exponential with rate = 1. 
 
-.tiny[
 
 ```r
 n = 1000 # Number of points 
@@ -2974,7 +3023,6 @@ for(i in c(2, 50, 1000, 5000)){
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/simulation_clt_1-1.png" width="576" style="display: block; margin: auto;" /&gt;
-]
 
 ???
 - Here we generate a bunch of of values from an exponential distribution
@@ -3118,7 +3166,7 @@ ggplot2::autoplot(vegan::rda(data)) + theme_classic() +
 &lt;img src="workshopXX-en_files/figure-html/multivar_norm_pca_plot-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
-# Simulate a PCA
+# Multivariate normal: PCA simulation
 
 
 ```r
@@ -3144,7 +3192,7 @@ summary(m1 &lt;- prcomp(Amat, scale= T))
 ```
 
 ---
-# Simulate a PCA
+# Multivariate normal: PCA simulation
 
 
 ```r
@@ -3194,134 +3242,6 @@ plot(fit.pois)
 #################################
 ---
 class: inverse, center, middle
-name: simulating-power
-# Simulating data for power analysis
-
-???
-Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
-- Bolker, B. M. 2015. Ecological Models and Data in R. (see chapter 5, p. 209)
-- [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&amp;ab_channel=DaCCoTABiostatsCore)
-- [Power Analysis, Clearly Explained!!!](https://www.youtube.com/watch?v=VX_M3tIyiYk&amp;ab_channel=StatQuestwithJoshStarmer)
-- [Power Analysis in R: Introduction](https://www.youtube.com/watch?v=wYZ6oD_cgMg&amp;ab_channel=DaCCoTABiostatsCore)
-- [DACCOTA Statistical Resources](https://med.und.edu/daccota/berdc-resources.html)
-
----
-# Power analysis (proportions)
-
-- The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
-- We think we have a coin, which has a 75% chance of landing on 'heads':
-
-
-```r
-p1 = .75 # Proportion to test 
-p2 = .50 # proportion of the null hypothesis 
-alpha = 0.05 # Type 1 error 
-pwr = 0.80 # power or 1-beta = power. Beta is the type II error 
-coin.p.power = power.prop.test(p1 = p1, p2 = p2, sig.level = alpha, power = pwr)
-n = ceiling(coin.p.power$n) # get the sample size from the power analysis
-coin.pip = rbinom(n, size = 1, prob = p1) # Generate coin tosses 
-p.table = table(coin.pip)[c(2,1)] # Get the number of 1 and 0s  
-(ptest = prop.test(p.table, alternative = "greater")) # Do the test 
-# 
-# 	1-sample proportions test with continuity correction
-# 
-# data:  p.table, null probability 0.5
-# X-squared = 1.3966, df = 1, p-value = 0.1187
-# alternative hypothesis: true p is greater than 0.5
-# 95 percent confidence interval:
-#  0.4697935 1.0000000
-# sample estimates:
-#         p 
-# 0.5862069
-```
-
-
-???
-- Power analysis are useful to get a sense of the
-  * sample size required to run an analysis
-  * know the power 
-  * get the effect size
-  * or the significance level
-- What we can do is prepare the power analysis to what we want to test, then generate data the we could use to see how this would modify the result of our test. 
-- In this first example, we are looking at a proportion power test.
-
-```
-# coin.pip = rbinom(1,size = n,prob = p1) # similar to above 
-# prop.test(x = coin.pip, n = n,alternative = "greater")
-```
-
-- For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
-
----
-# Power analysis (proportions)
-
-- from the output we got (previous slide), we can plot the chi-square distribution with the df and see where our statistics ends in the graph. We can see that the p-value must be pretty small. 
-
-
-```r
-curve(dchisq(x, df = ptest$parameter), 
-      xlim = c(0, ceiling(max(ptest$statistic))))
-abline(v = ptest$statistic, lty = 3)
-```
-
-&lt;img src="workshopXX-en_files/figure-html/show_the_pwr-1.png" width="504" style="display: block; margin: auto;" /&gt;
---
-
-- The p-value is 0.119.
-
----
-# Power analysis (linear model)
-
-.pull-left[
-
-```r
-library(pwr)
-r2 = seq(0,0.9,by =.1)
-f2 &lt;- function(r2) {r2/(1-r2)}
-```
-]
-
-.pull-right[
-
-```r
-plot(f2(r2)~r2)
-curve(expr = (x/(1-x)),add = T)
-```
-
-&lt;img src="workshopXX-en_files/figure-html/get_eff_size_plot-1.png" width="504" style="display: block; margin: auto;" /&gt;
-]
-
-
-```r
-nb.coef.in.model = 2
-pwr.lm = pwr.f2.test(u = nb.coef.in.model, f2 = f2(.3), sig.level = 0.001, power = 0.8)
-
-# sample size (n = v + u + 1)
-n = ceiling(pwr.lm$v + nb.coef.in.model + 1)
-n
-# [1] 53
-```
-
-
-???
-- based on the number of coefficients you have in a model, and the effect size you think you're going to have (perhaps based on the literature), you can find the number of samples you'd require in ordre to get find a statistical difference at the level that interests you. 
-- Refer to the [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package
-- See also the package `pwr2ppl`
-
----
-# Power analysis (GLMM)
-
-- The `simr` package uses simulations to perform power analysis for Generalised Linear Mixed Models (GLMMs) with the `lme4` packge
-
-???
-
-- See [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&amp;ab_channel=DaCCoTABiostatsCore)
-- In case you are wondering what are S4 classes, see [The S4 object system](http://adv-r.had.co.nz/S4.html)
-
-
-#################################
----
-class: inverse, center, middle
 name: sim-data-models
 # Simulating data for models
 
@@ -3365,12 +3285,21 @@ Reference for the section
 ---
 # Linear model (lm) refresher
 
-- You can add the confidence limits for the expected values (or uncertainty around the mean predictions; blue shaded polygon) to the line and the 95% central quantiles of the Normal distribution (grey shaded polygon)
+- You can add:
+  1. the confidence limits for the expected values (confidence interval or uncertainty around the **mean predictions (y)** for a value of x given the parameters of the model; blue shaded polygon `predict(lm.out, interval = "confidence")`; at mean of x and y, the uncertainty comes only from the intercept) to the line and
+  2. the 95% central quantiles of the Normal distribution (or prediction interval, grey shaded polygon for the simulated one; compared with red shading lines which is the theoretical one `predict(lm.out, interval="prediction")`)
+
+
+```
+# NULL
+# NULL
+```
 
 &lt;img src="workshopXX-en_files/figure-html/simulate.gaussian.model-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
 - Idea from https://www.barelysignificant.com/post/glm/
+- The reason the blue area gets smaller in the middle is that the uncertainty we have comes from the intercept only and not the slope, as this one can pivot on the mean (with changing slope). The standard error (uncertainty of the predicted values changes as we move away from the mean) of the predicted value is smaller at the mean of x. 
 
 
 ---
@@ -3399,6 +3328,23 @@ see https://stats.stackexchange.com/questions/124818/logistic-regression-error-t
 &lt;!-- For poisson (there is no 'error' term like linear regression, since there is inherent variability)?? --&gt;
 &lt;!-- logistic regression there is an error (or randomness hidden in the Bernoulli (or binomial(size =1)) with probability p)  --&gt;
 &lt;!-- Simulate logistic regression https://stats.stackexchange.com/questions/46523/how-to-simulate-artificial-data-for-logistic-regression/46525 --&gt;
+
+
+---
+# Generalized linear model (GLM) refresher
+
+- As we have seen, the idea being linear regression is to model the expected value. We are doing the same thing for a poisson regression model. 
+
+.pull-left[
+&lt;img src="workshopXX-en_files/figure-html/glm_assumtion_expected_mean-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+.pull-right[
+![:scale 50%](images/poisson_interactive.png)
+]
 
 
 ---
@@ -3444,17 +3390,18 @@ Assumptions? [see Wikipedia](https://en.wikipedia.org/wiki/Student%27s_t-test#As
 ---
 # GLM: Linear model
 
-- We start by generating a linear model with an intercept and slope for 100 points, an the error in the measurements.
+- We start by generating a linear model with an intercept and slope for 100 points (here random uniform between 0 and 1), an the error in the measurements.
 
 .pull-left[
 
 ```r
 set.seed(12345678)
 n = 100; beta0 = 2.5; beta1 = 0.8
-x.lm = rnorm(n = n, mean = 10, sd = 1)
+x.lm = runif(n = n) # or it could be something else! rnorm(n = n, mean = 10, sd = 1)
 err = rnorm(n = n, mean = 0, sd = 1)
 # Linear combination 
-y.lm = beta0 + beta1*x.lm + err
+mu = beta0 + beta1*x.lm 
+y.lm = mu + err # same as y.lm = rnorm(n = n, mu, sd = 1)
 # Make a dataframe of the data 
 df.lm = data.frame(x = x.lm, y = y.lm)
 ```
@@ -3468,11 +3415,11 @@ df.lm = data.frame(x = x.lm, y = y.lm)
 ```r
 round(coefficients(summary(lm.out)), 4)
 #             Estimate Std. Error t value Pr(&gt;|t|)
-# (Intercept)   2.2124     0.9828  2.2512   0.0266
-# x             0.8433     0.0986  8.5504   0.0000
+# (Intercept)   2.4726     0.1635 15.1185   0.0000
+# x             0.8175     0.2779  2.9413   0.0041
 # Adjusted R^2
 summary(lm.out)$adj.r.squared
-# [1] 0.4214216
+# [1] 0.0717415
 # summary(lm.out)$fstatistic
 # anova(lm.out)
 ```
@@ -3483,26 +3430,25 @@ summary(lm.out)$adj.r.squared
 ---
 # GLM: Linear model
 
-- You can simulate the response (fitted line), from a model that you created. 
+- You can `simulate` the response (fitted line), from a distribution used in a fitted model. 
 
 
 ```r
-sim.lm = simulate(lm.out, nsim = 2000, seed = 12)
-r.x = range(c(y.lm, rowMeans(sim.lm), fitted(lm.out)))
-hist(rowMeans(sim.lm), xlim = r.x, main = "Hist simulation")
-hist(fitted(lm.out), xlim = r.x, main = "Hist fitted")
-hist(y.lm, xlim = r.x, main = "Hist of response")
+*sim.lm = simulate(lm.out, nsim = 2000, seed = 12) # simulate based on predicted value and sigma of model
+rx = range(c(rowMeans(sim.lm), fitted(lm.out)))
+hist(rowMeans(sim.lm),xlim=rx,main="Hist simulation",xlab="");title(xlab="rowMeans(sim.lm)",line=2.2,cex.lab=1.2)
+hist(fitted(lm.out), xlim = rx,main="Hist fitted",xlab="");title(xlab="fitted(lm.out)",line=2.2,cex.lab=1.2)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/simulate_lm_resimulate_from_model-1.png" width="576" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/simulate_lm_resimulate_from_model-1.png" width="936" style="display: block; margin: auto;" /&gt;
 
 ```r
-c(mean(rowMeans(sim.lm)), mean(x.lm),  mean(fitted(lm.out))) # compare 
-# [1] 10.579771  9.920725 10.578551
-rbind(head(rowMeans(sim.lm)), head(fitted(lm.out)))
+c(mean(rowMeans(sim.lm)), mean(y.lm),  mean(fitted(lm.out))) # compare
+# [1] 2.892684 2.891622 2.891622
+rbind(head(rowMeans(sim.lm)), head(fitted(lm.out))) # Average of all simulations (in row) gives the fitted values
 #             1        2        3        4        5        6
-# [1,] 11.60778 11.97394 8.641016 10.44559 11.38726 10.00659
-# [2,] 11.61342 12.01019 8.639148 10.42893 11.39794 10.01095
+# [1,] 3.182545 2.677072 3.248524 3.210164 2.470363 2.895410
+# [2,] 3.187451 2.708652 3.246897 3.195649 2.479667 2.899208
 ```
 
 ???
@@ -3515,7 +3461,7 @@ head(simulate(lm.out, nsim=nsim, seed = 1))
 
 set.seed(1)
 for(i in 1:nsim) {
-  tmp &lt;- predict(lm.out) + rnorm(length(predict(lm.out)), 0, summary(lm.out)$sigma)
+  tmp &lt;- fitted(lm.out) + rnorm(length(predict(lm.out)), 0, summary(lm.out)$sigma)
   res &lt;- if (i==1) tmp else cbind(res, tmp)
 }
 head(res)
@@ -3526,10 +3472,10 @@ head(res)
 # GLM: Linear model
 
 - Now that we have the core elements to generate a lm, we can put the simulation inside a function and vary some parameters
-- If we are interested in how our confidence in the slope estimate changes based on sample size we could replicate the simulation a certain number of times
+- If we are interested in how our confidence in the slope estimate changes based on sample size we could `replicate` the simulation a certain number of times
   * We could plot the density of the estimates that we'd get out of the simulations. 
-  * Below, slopes estimates were extracted from each simulation with various sample sizes. 
-  * As the sample size increases, our slope estimation gets better to the "true" underlying value. 
+  * Below, **slopes estimates were extracted** from each simulation with various sample sizes. 
+  * As the sample size increases, our slope estimation gets closer to the "true" underlying value. 
 
 &lt;img src="workshopXX-en_files/figure-html/lm_simulate_slope-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
@@ -3560,7 +3506,6 @@ head(res)
 
 &lt;img src="workshopXX-en_files/figure-html/lm_simulate_2x-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
-.tiny[
 
 ```
 # Coefficients table:
@@ -3571,7 +3516,6 @@ head(res)
 # R Squared:
 # [1] 0.9083729
 ```
-]
 
 ???
 
@@ -3591,7 +3535,6 @@ err = rnorm(n = n, mean = 0, sd = 1)
 
 - Simulate 1 numerical variable ( `\(x_1\)` ) separated in 2 levels (Control, Treatment). 
 
-.small[
 
 ```r
 set.seed(12345678)
@@ -3615,7 +3558,6 @@ df.lm = data.frame(x = x.lm, y = y.lm, gr = gr)
 b.5 = scales::alpha("black",alpha = .5); r.5 = scales::alpha("red",alpha = .5)
 lm.out = lm(y~x+gr, data = df.lm);   lmcoef &lt;- lm.out$coefficients
 ```
-]
 
 
 
@@ -3728,7 +3670,6 @@ err.lm = rnorm(n = n, mean = 0, sd = 1)
 ---
 # GLM: Linear model (interaction; discrete)
 
-.small[
 
 ```r
 plot(x = df.lm[df.lm$x1 == 0, ]$x2, y = df.lm[df.lm$x1 == 0, ]$y, # Add x1 = 0
@@ -3742,7 +3683,6 @@ abline(a = coef(lm.out)[1] + coef(lm.out)[2],
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/lm_sim_interaction-1.png" width="360" style="display: block; margin: auto;" /&gt;
-]
 
 ???
 See [Tutorial 11: Interaction terms, by Johannes Karreth](http://www.jkarreth.net/files/RPOS517_Day11_Interact.html)
@@ -4078,19 +4018,21 @@ lines(x = newdata$x1, y = newdata$y, col = "red",lwd = 2)
 
 
 ```
-#              Estimate Std. Error   z value   Pr(&gt;|z|)
-# (Intercept) -8.901572  4.5911357 -1.938861 0.05251832
-# x1           1.600191  0.7896567  2.026439 0.04271982
+#              Estimate Std. Error   z value     Pr(&gt;|z|)
+# (Intercept) -4.752291  0.7031429 -6.758641 1.392917e-11
+# x1           0.835486  0.1179451  7.083686 1.403694e-12
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/glm_logistic_odd_prob_linear-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ```
-# Probability at intercept is 0.0001361562
-# Probability for an increase in 1 sd of X is 0.8320451
+# Probability at intercept is 0.008558029
+# Probability for an increase in 1 sd of X is 0.6975137
 ```
 
 ???
+
+- Logistic models are basically, 
 
 ```
 x1 = rnorm(n = n, mean = 6, sd = 1)
@@ -4311,7 +4253,6 @@ One implementation of that could be ( `\(\beta_1\)` and `\(\beta_2\)` would repr
 - For the previous simulation, here is how the data was generated 
 
 .pull-left[
-.tiny[
 
 ```r
 set.seed(16)
@@ -4336,10 +4277,8 @@ n.adt = length(which(age =="Adt"))
 age.df = data.frame(age,length = NA)
 ```
 ]
-]
 
 .pull-right[
-.tiny[
 
 ```r
 # Generating the length of the fish depending on the age it has 
@@ -4387,8 +4326,6 @@ f.dat$t.lvl = with(f.dat, beta0 + beta1*length +lake.rdm.eff+fish.rdm.eff+ id.er
 f.dat$z_lgt = scale(f.dat$length) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
 f.dat$z.t.lvl = scale(f.dat$t.lvl) #(f.dat$Lake - mean(f.dat$length)) /sd(f.dat$length)
 ```
-]
-
 ]
 
 
@@ -4806,6 +4743,134 @@ map.grid = mapView(only.park,
 #################################
 ---
 class: inverse, center, middle
+name: simulating-power
+# Simulating data for power analysis
+
+???
+Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
+- Bolker, B. M. 2015. Ecological Models and Data in R. (see chapter 5, p. 209)
+- [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&amp;ab_channel=DaCCoTABiostatsCore)
+- [Power Analysis, Clearly Explained!!!](https://www.youtube.com/watch?v=VX_M3tIyiYk&amp;ab_channel=StatQuestwithJoshStarmer)
+- [Power Analysis in R: Introduction](https://www.youtube.com/watch?v=wYZ6oD_cgMg&amp;ab_channel=DaCCoTABiostatsCore)
+- [DACCOTA Statistical Resources](https://med.und.edu/daccota/berdc-resources.html)
+
+---
+# Power analysis (proportions)
+
+- The [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package explains how to perform power analysis. 
+- We think we have a coin, which has a 75% chance of landing on 'heads':
+
+
+```r
+p1 = .75 # Proportion to test 
+p2 = .50 # proportion of the null hypothesis 
+alpha = 0.05 # Type 1 error 
+pwr = 0.80 # power or 1-beta = power. Beta is the type II error 
+coin.p.power = power.prop.test(p1 = p1, p2 = p2, sig.level = alpha, power = pwr)
+n = ceiling(coin.p.power$n) # get the sample size from the power analysis
+coin.pip = rbinom(n, size = 1, prob = p1) # Generate coin tosses 
+p.table = table(coin.pip)[c(2,1)] # Get the number of 1 and 0s  
+(ptest = prop.test(p.table, alternative = "greater")) # Do the test 
+# 
+# 	1-sample proportions test with continuity correction
+# 
+# data:  p.table, null probability 0.5
+# X-squared = 6.2241, df = 1, p-value = 0.006301
+# alternative hypothesis: true p is greater than 0.5
+# 95 percent confidence interval:
+#  0.5564947 1.0000000
+# sample estimates:
+#         p 
+# 0.6724138
+```
+
+
+???
+- Power analysis are useful to get a sense of the
+  * sample size required to run an analysis
+  * know the power 
+  * get the effect size
+  * or the significance level
+- What we can do is prepare the power analysis to what we want to test, then generate data the we could use to see how this would modify the result of our test. 
+- In this first example, we are looking at a proportion power test.
+
+```
+# coin.pip = rbinom(1,size = n,prob = p1) # similar to above 
+# prop.test(x = coin.pip, n = n,alternative = "greater")
+```
+
+- For the moment, please refer to [this link](https://www.r-bloggers.com/2020/05/power-analysis-by-data-simulation-in-r-part-ii/).
+
+---
+# Power analysis (proportions)
+
+- from the output we got (previous slide), we can plot the chi-square distribution with the df and see where our statistics ends in the graph. We can see that the p-value must be pretty small. 
+
+
+```r
+curve(dchisq(x, df = ptest$parameter), 
+      xlim = c(0, ceiling(max(ptest$statistic))))
+abline(v = ptest$statistic, lty = 3)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/show_the_pwr-1.png" width="504" style="display: block; margin: auto;" /&gt;
+--
+
+- The p-value is 0.0063.
+
+---
+# Power analysis (linear model)
+
+.pull-left[
+
+```r
+library(pwr)
+r2 = seq(0,0.9,by =.1)
+f2 &lt;- function(r2) {r2/(1-r2)}
+```
+]
+
+.pull-right[
+
+```r
+plot(f2(r2)~r2)
+curve(expr = (x/(1-x)),add = T)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/get_eff_size_plot-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+
+```r
+nb.coef.in.model = 2
+pwr.lm = pwr.f2.test(u = nb.coef.in.model, f2 = f2(.3), sig.level = 0.001, power = 0.8)
+
+# sample size (n = v + u + 1)
+n = ceiling(pwr.lm$v + nb.coef.in.model + 1)
+n
+# [1] 53
+```
+
+
+???
+- based on the number of coefficients you have in a model, and the effect size you think you're going to have (perhaps based on the literature), you can find the number of samples you'd require in ordre to get find a statistical difference at the level that interests you. 
+- Refer to the [vignette](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) for the `pwr` package
+- See also the package `pwr2ppl`
+
+---
+# Power analysis (GLMM)
+
+- The `simr` package uses simulations to perform power analysis for Generalised Linear Mixed Models (GLMMs) with the `lme4` packge
+
+???
+
+- See [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&amp;ab_channel=DaCCoTABiostatsCore)
+- In case you are wondering what are S4 classes, see [The S4 object system](http://adv-r.had.co.nz/S4.html)
+
+
+#################################
+---
+class: inverse, center, middle
 name: advanced-simulations
 # Advanced simulations
 
@@ -4825,7 +4890,7 @@ name: advanced-simulations
 
 ---
 # Advanced simulations
-.tiny[
+.tiny-code[
 
 ```r
 # Defining the population 
@@ -4869,7 +4934,6 @@ sample.mean.pop.est &lt;- function(x,n, sample.size, ylim = NULL) {
 ---
 # Advanced simulations
 
-.small[
 
 ```r
 par(mfrow=c(2,2), lwd = .3)
@@ -4880,7 +4944,6 @@ sample.mean.pop.est(x = x, n = n, sample.size = 500, ylim = 300)
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/simulate_sampling_plots-1.png" width="432" style="display: block; margin: auto;" /&gt;
-]
 
 ---
 # Advanced simulations (natural selection)
@@ -5027,8 +5090,9 @@ class: inverse, center, bottom
 <script src="qcbsR-macros.js"></script>
 <script>var slideshow = remark.create({
 "ratio": "16:9",
-"highlightStyle": "github",
+"highlightStyle": "googlecode",
 "highlightLines": true,
+"highlightLanguage": "r",
 "countIncrementalSlides": true
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
