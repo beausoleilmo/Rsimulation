@@ -18,7 +18,7 @@ html {
 
 .remark-slide-content {
   padding: 0px;
-  color: #062c45;
+  color: #000000; /*was #062c45; */
 }
 
 .remark-slide-content p {
@@ -48,9 +48,6 @@ html {
   padding: .4em;
   background: #f8f8f8;
   margin: 0 2px;
-}
-
-.remark-code {
   padding-left: .5rem !important;
 }
 
@@ -77,6 +74,20 @@ h1 .remark-inline-code {
   -moz-appearance: none;
   appearance: none;
 }
+
+/* R block of code */
+/*
+.tiny-code code.r {
+  font-weight: bold;
+  font-size: .6rem;
+}
+
+.tiny-code code[class="remark-code"] {
+  font-size: .6rem;
+  display: block;
+  border: 0px solid red;
+}
+*/
 
 pre {
   margin: .4rem 0rem;
@@ -222,6 +233,20 @@ a:hover {
   font-size: 60%;
 }
 
+
+/* Tiny R block of code */
+.tiny-code code.r {
+  font-weight: bold;
+  font-size: .6rem;
+}
+
+/* Tiny ouput */
+.tiny-code code[class="remark-code"] {
+  font-size: .6rem;
+  display: block;
+  border: 0px solid red;
+}
+
 /* help style */
 
 .remark-help-content h1 {
@@ -320,8 +345,10 @@ table {
 table, td, th {
   border-collapse: collapse;
   width: auto;
+  text-align: left;
   padding: 5px 20px;
 }
+
 
 .shrink {
   margin: auto;
