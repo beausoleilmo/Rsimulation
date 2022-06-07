@@ -637,22 +637,22 @@ p.marg2
 
 
 ## ----r_tips1, eval=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------
-## # Description  ------------------------------------------------------------
-## # This is the description section as previously presented
-## 
-## # Libraries ---------------------------------------------------------------
-## # Here load the libraries used in the script
-## library(ggplot2)
-## 
-## # Functions ---------------------------------------------------------------
-## # Add and describe the functions used in the script
-## ## Add more information
-## function.name = function(var){tmp=2+var; return(tmp)}
-## 
-## # Plots -------------------------------------------------------------------
-## # Plotting the data simulated
-## ## Add more information
-## plot(function.name(1:10)+rnorm(10))
+# # Description  ------------------------------------------------------------
+# # This is the description section as previously presented
+# 
+# # Libraries ---------------------------------------------------------------
+# # Here load the libraries used in the script
+# library(ggplot2)
+# 
+# # Functions ---------------------------------------------------------------
+# # Add and describe the functions used in the script
+# ## Add more information
+# function.name = function(var){tmp=2+var; return(tmp)}
+# 
+# # Plots -------------------------------------------------------------------
+# # Plotting the data simulated
+# ## Add more information
+# plot(function.name(1:10)+rnorm(10))
 
 
 ## ----set.seed_function, echo=FALSE---------------------------------------------------------------------------------------------------------------------------------------
@@ -837,14 +837,14 @@ deck$col = ifelse(deck$suits %in% c("Diamonds","Hearts"),"red","black")
 
 
 ## ----outer.example.nt, eval=FALSE----------------------------------------------------------------------------------------------------------------------------------------
-## x <- 1:10; names(x) <- x
-## # Multiplication & Power Tables
-## x %o% x # same as outer(x, x, "*")
-## x.mul = outer(x, x, "*")
-## x.sub = outer(x, x, "-")
-## x.add = outer(x, x, "+")
-## x.div = outer(x, x, "/")
-## 
+# x <- 1:10; names(x) <- x
+# # Multiplication & Power Tables
+# x %o% x # same as outer(x, x, "*")
+# x.mul = outer(x, x, "*")
+# x.sub = outer(x, x, "-")
+# x.add = outer(x, x, "+")
+# x.div = outer(x, x, "/")
+# 
 
 
 ## ----outer.example, echo=FALSE, fig.width=8,fig.height=5-----------------------------------------------------------------------------------------------------------------
@@ -899,38 +899,38 @@ y <- 2:8; names(y) <- paste(y,":", sep = "")
 
 
 ## ----wallpapeR, eval=FALSE-----------------------------------------------------------------------------------------------------------------------------------------------
-## #<<
-## par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
-## x = 1:70; y = 1:70 # make variables
-## x.val = (x^2);   y.val = y
-## xy.out = outer(x.val, y.val, "-") # manipulate the variables
-## nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
-## #<<
-## 
-## xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
-## image(t(xy.out),xaxt = "n", yaxt = "n", bty = "n",
-##       col = hcl.colors(1000, palette = hcl.pals()[rdm.nb])) # 61,93 looks good
+# #<<
+# par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
+# x = 1:70; y = 1:70 # make variables
+# x.val = (x^2);   y.val = y
+# xy.out = outer(x.val, y.val, "-") # manipulate the variables
+# nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
+# #<<
+# 
+# xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
+# image(t(xy.out),xaxt = "n", yaxt = "n", bty = "n",
+#       col = hcl.colors(1000, palette = hcl.pals()[rdm.nb])) # 61,93 looks good
 
 
 ## ----waller, echo=FALSE, eval=FALSE--------------------------------------------------------------------------------------------------------------------------------------
-## # Make computer wallpapers
-## # png("~/Desktop/wallpapers_sunwaves.png", res = 300, units = "px",
-## #     width = 1920, # add your screen resolution here
-## #     height = 1080)
-## set.seed(9)
-## par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
-## x = 1:70; y = 1:70 # make variables
-## x.val = (x^2);   y.val = y
-## xy.out = outer(x.val, y.val, "-") # manipulate the variables
-## nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
-## rdm.nb = sample(c(1:nb.col.pal), size = 1); print(rdm.nb) # Get random number
-## xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
-## # f.na.iamge = which(is.na(xy.out))
-## # xy.out[f.na.iamge] <- rnorm(length(f.na.iamge),mean = mean(tan(x)))
-## image(t(xy.out),
-##       col = hcl.colors(1000, palette = hcl.pals()[rdm.nb]), # 61,93 looks good
-##       xaxt = "n", yaxt = "n", bty = "n")
-## # dev.off()
+# # Make computer wallpapers
+# # png("~/Desktop/wallpapers_sunwaves.png", res = 300, units = "px",
+# #     width = 1920, # add your screen resolution here
+# #     height = 1080)
+# set.seed(9)
+# par(bg = NA, mar = c(0,0,0,0)) # will take the whole screen
+# x = 1:70; y = 1:70 # make variables
+# x.val = (x^2);   y.val = y
+# xy.out = outer(x.val, y.val, "-") # manipulate the variables
+# nb.col.pal = length(grDevices::hcl.pals()) # find all palettes in hcl.pals
+# rdm.nb = sample(c(1:nb.col.pal), size = 1); print(rdm.nb) # Get random number
+# xy.out = xy.out + rnorm(length(xy.out), mean = 0, sd = 200) # Prettify with RDM
+# # f.na.iamge = which(is.na(xy.out))
+# # xy.out[f.na.iamge] <- rnorm(length(f.na.iamge),mean = mean(tan(x)))
+# image(t(xy.out),
+#       col = hcl.colors(1000, palette = hcl.pals()[rdm.nb]), # 61,93 looks good
+#       xaxt = "n", yaxt = "n", bty = "n")
+# # dev.off()
 
 
 ## ----wallpapeR_solution, fig.width=6, fig.height=2-----------------------------------------------------------------------------------------------------------------------
@@ -947,7 +947,7 @@ image(t(xy.out),xaxt = "n", yaxt = "n", bty = "n",
 
 
 ## ----show_sample, eval=FALSE---------------------------------------------------------------------------------------------------------------------------------------------
-## sample()
+# sample()
 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1255,13 +1255,13 @@ hist(random.var.normal[1:100], main = "Hisogram of random variable", xlab = "x")
 
 
 ## ----happy_birthday, echo=c(-1), eval=FALSE------------------------------------------------------------------------------------------------------------------------------
-## # from the ??birthday page in R help
-## ## probability of > 2 people with the same birthday
-## pbirthday(23, coincident = 3)
-## ## 0.9 probability of >=3 coincident birthdays
-## qbirthday(coincident = 3, prob = 0.9) # Gives the number of people
-## ## Chance of >=4  coincident birthdays in 300 people
-## pbirthday(300, coincident = 4)
+# # from the ??birthday page in R help
+# ## probability of > 2 people with the same birthday
+# pbirthday(23, coincident = 3)
+# ## 0.9 probability of >=3 coincident birthdays
+# qbirthday(coincident = 3, prob = 0.9) # Gives the number of people
+# ## Chance of >=4  coincident birthdays in 300 people
+# pbirthday(300, coincident = 4)
 
 
 ## ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1419,40 +1419,40 @@ barplot(height = y_binom,
 
 
 ## ----simulate_coin_flips_plot, echo=FALSE, eval=FALSE--------------------------------------------------------------------------------------------------------------------
-## # Coin flips visualize
-## set.seed(1235)
-## 
-## nb.flips = 10
-## set.seed(98765)
-## coin.flips = rbinom(n = nb.flips, size = 1, prob = 0.5)
-## heads.tails = ifelse(coin.flips==1,"H","T")
-## radius =1
-## # initialize a plot
-## plot(x = c(0, nb.flips*(radius+.5)), y = c(-.5, 1), type = "n",
-##      axes = F,
-##      asp = 1,
-##      ylab = "", xlab = "")
-## w = 0
-## pos=0
-## for (i in 1:nb.flips) {
-##   if (i %% 5 == 0) {
-##     pos = pos + 2.5
-##     w = 0
-##   }
-## 
-##   # prepare "circle data"
-##   radius = 1
-##   center_x = w + 1
-##   center_y = pos
-##   theta = seq(0, 2 * pi, length = 200) # angles for drawing points around the circle
-## 
-##   # draw the circle
-##   lines(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y)
-##   polygon(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y, col = scales::alpha("beige",.5))
-##   text(center_x,center_y,labels = heads.tails[i], cex = 3)
-##   w = w + 2*radius+.5
-## }
-## 
+# # Coin flips visualize
+# set.seed(1235)
+# 
+# nb.flips = 10
+# set.seed(98765)
+# coin.flips = rbinom(n = nb.flips, size = 1, prob = 0.5)
+# heads.tails = ifelse(coin.flips==1,"H","T")
+# radius =1
+# # initialize a plot
+# plot(x = c(0, nb.flips*(radius+.5)), y = c(-.5, 1), type = "n",
+#      axes = F,
+#      asp = 1,
+#      ylab = "", xlab = "")
+# w = 0
+# pos=0
+# for (i in 1:nb.flips) {
+#   if (i %% 5 == 0) {
+#     pos = pos + 2.5
+#     w = 0
+#   }
+# 
+#   # prepare "circle data"
+#   radius = 1
+#   center_x = w + 1
+#   center_y = pos
+#   theta = seq(0, 2 * pi, length = 200) # angles for drawing points around the circle
+# 
+#   # draw the circle
+#   lines(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y)
+#   polygon(x = radius * cos(theta) + center_x, y = radius * sin(theta) + center_y, col = scales::alpha("beige",.5))
+#   text(center_x,center_y,labels = heads.tails[i], cex = 3)
+#   w = w + 2*radius+.5
+# }
+# 
 
 
 ## ----dbinmon_prob.5------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2077,7 +2077,7 @@ abline(h=seq(0,1, by = .1), lty = 3, lwd = .3)
 
 
 ## ----rnom_function, eval=FALSE-------------------------------------------------------------------------------------------------------------------------------------------
-## rnorm()
+# rnorm()
 
 
 ## ----rnom_function_example-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -2101,8 +2101,8 @@ pbinom(0,size = size,prob = prob,lower.tail = F)
 
 
 ## ----clt_challenger, eval=FALSE------------------------------------------------------------------------------------------------------------------------------------------
-## set.seed(42)
-## sample(1:6, size = 1, replace = TRUE)
+# set.seed(42)
+# sample(1:6, size = 1, replace = TRUE)
 
 
 ## ----clt_challenger_ans, echo=c(-1), fig.width=11,fig.height=3.5---------------------------------------------------------------------------------------------------------
@@ -2151,12 +2151,12 @@ runifdisc<-function(n, min=0, max=1) sample(min:max, n, replace=T)
 
 
 ## ----CLT_uniform_example_dice, echo=-1, eval=FALSE, fig.width=8,fig.height=5---------------------------------------------------------------------------------------------
-## par(mfrow=c(2,2)) # set window
-## # Generate multiple additions of random variables
-## for(i in c(2, 50, 1000, 5000)){
-##   clt = replicate(i, runifdisc(n),simplify = FALSE)
-##   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram
-## }
+# par(mfrow=c(2,2)) # set window
+# # Generate multiple additions of random variables
+# for(i in c(2, 50, 1000, 5000)){
+#   clt = replicate(i, runifdisc(n),simplify = FALSE)
+#   hist(apply(do.call(cbind,clt),1,sum), main = paste("Histogram of",i,"variables"),xlab = "x") # Draw the histogram
+# }
 
 
 ## ----CLT_uniform_example_dice_hist, echo=FALSE, fig.width=8,fig.height=5-------------------------------------------------------------------------------------------------
@@ -3692,15 +3692,15 @@ points(x,y,pch=16,col="green",cex=1.5)
 
 
 ## ----rdm_points_in_polygon_code, eval=FALSE, fig.width=8, fig.height=3---------------------------------------------------------------------------------------------------
-## library(sf); library(ggplot2)
-## polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4,
-##                         3, 4, 2.5, 5, 1, 4,
-##                         0, 5, 1, 3, 2, 2), ncol=2, byrow=T))
-## polygon = sf::st_polygon(polygon) # Create an sf polygon
-## points = sf::st_sample(polygon, size=50) # Sample 50 rdm pts in the polygon
-## # Plot using the ggplot geom_sf function.
-## pol.sf = ggplot() + geom_sf(aes(), data=polygon) +
-##   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
+# library(sf); library(ggplot2)
+# polygon = list(matrix(c(2, 2, 3, 3, 2.5, 4,
+#                         3, 4, 2.5, 5, 1, 4,
+#                         0, 5, 1, 3, 2, 2), ncol=2, byrow=T))
+# polygon = sf::st_polygon(polygon) # Create an sf polygon
+# points = sf::st_sample(polygon, size=50) # Sample 50 rdm pts in the polygon
+# # Plot using the ggplot geom_sf function.
+# pol.sf = ggplot() + geom_sf(aes(), data=polygon) +
+#   geom_sf(aes(), col = alpha("black",.4), data=points) + theme_classic()
 
 
 ## ----rdm_points_in_polygon, echo=FALSE, fig.width=8, fig.height=3--------------------------------------------------------------------------------------------------------
