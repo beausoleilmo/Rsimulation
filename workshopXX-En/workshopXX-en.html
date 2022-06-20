@@ -4,7 +4,7 @@
     <title>Workshop 11: Simulations in R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Québec Centre for Biodiversity Science" />
-    <script src="assets/header-attrs-2.13/header-attrs.js"></script>
+    <script src="assets/header-attrs-2.14/header-attrs.js"></script>
     <link href="assets/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
@@ -113,6 +113,8 @@ See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topic
 ???
 
 - Hopefully, this is what people will get out of this workshop. 
+- The idea of my workshop is to plant a seed in the heads of biologists that it is possible to test biological ideas or hypotheses in silico.
+
 
 Ultimately, I would like the students to be able
 
@@ -130,6 +132,12 @@ Consider that it takes time to develop a 'programers' intuition when coding. The
 - I certainly have a lot to learn and I wish that our learning environment is welcoming to committing errors and learning from them 
 
 ???
+- Here is a pool of jokes to tell at one point or another [from this source](https://www.barrypopik.com/index.php/new_york_city/entry/two_random_variables_were_talking_in_a_bar)
+- "Two random variables were talking in a bar. They thought they were being discrete, but I heard their chatter continuously."
+- 2 variables go in a bar multiple times. One always selects a new drink each time with a dice and the other selects always the same drink. One variable says to the other, dude, you're so random. 
+- Infinitely many mathematicians walk into a bar. The first says, "I'll have a beer." The second says, "I'll have half a beer." The third says, "I'll have a quarter of a beer." The barman pulls out just two beers. The mathematicians are all like, "That's all you're giving us? How drunk do you expect us to get on that?" The bartender says, "Come on guys.  Know your limits."
+[Source here](https://williambiersack.weebly.com/math-jokes.html)  Explanation: This is a reference to a converging infinite series. The limit of this: from n=1 to infinity is the sum (1/2n) = 1 + 1/2 + 1/4 + 1/8 + ...  = 1 
+
 #################################
 ---
 class: inverse, center, middle
@@ -153,6 +161,7 @@ In this section, we will explore
 - When do you think they are helpful? 
 - What is a model? Can you give examples of models that are not statistical models? 
 ???
+- Have you ever had a [probability theory course](https://bookdown.org/kevin_davisross/probsim-book/) and learnt important [random variable distributions](#explore-under-stat-process) that are often seen in biology? 
 - Have you ever performed a simulation in R?  Elsewhere? (bootstrapping? Permutations? Bayesian using MCMC?, a secret Santa?)
 - What are simulations for? Would simulations be useful for your current or future work? 
 - Why do you think they are important? 
@@ -1041,7 +1050,7 @@ http://faculty.washington.edu/kenrice/sisg/sisg-lie11-05.pdf
 
 - Below is an example using sample to generate 
   * permutation of the data (orange lines) and 
-  * Bootstrap leaving-'one'-out data points (here leaving 20 out), recalculating the lm
+  * Bootstrap, leave-'one'-out data points (here leaving 20 out), recalculating the lm (red lines)
 
 
 ```r
@@ -1055,6 +1064,9 @@ bootstrap.df = replicate(n = 200, expr = bootstrap.fun(df.lm), simplify = FALSE)
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/permutations_bootstrap_df_lm-1.png" width="504" style="display: block; margin: auto;" /&gt;
+???
+- 200 Permutation the response variable. 
+- 200 Bootstrap of data minus 20 random data points each time 
 
 
 ---
@@ -1065,14 +1077,16 @@ bootstrap.df = replicate(n = 200, expr = bootstrap.fun(df.lm), simplify = FALSE)
 
 ```r
 set.seed(42)
-# GEt a sequence of dates
+# Get a sequence of dates
 datae.seq = seq(from = as.Date('2010/01/01'), 
                 to = as.Date('2022/01/01'), 
                 by = "day")
+
 # Look at beginning and end of sequence 
 head(datae.seq, 4); tail(datae.seq, 4)
 # [1] "2010-01-01" "2010-01-02" "2010-01-03" "2010-01-04"
 # [1] "2021-12-29" "2021-12-30" "2021-12-31" "2022-01-01"
+
 # Get only 5 elements of the generated sequence 
 sample(datae.seq, 5)
 # [1] "2017-02-21" "2021-02-20" "2016-06-26" "2013-01-02" "2013-06-05"
@@ -1561,6 +1575,7 @@ name: explore-under-stat-process
 - Let's explore the basic concepts like probability and odds.  
 - This is important when you start simulating data (e.g., logistic model), but also understand how to interpret some of the equations that we'll see later when we want to develop simulations for certain models  
 - See `MASS::fractions(.25)` to convert a decimal to a fraction! 
+- See this explation for [prob vs odds](https://www.youtube.com/watch?v=Vu4x2DKn12g&amp;ab_channel=Mario%27sMathTutoring)
 --
 
 - probability ranges between 0 and 1, but odds range from 0 to `\(\infty\)`. 
@@ -1770,7 +1785,7 @@ https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_confidence_intervals/BS704_
   1. *Probability* of an event 'A' or that random chance _generated the data_ 'A' (or would give the result we got) **PLUS**
   2. *Probability* of observing something else (other events) that is _equally rare_ **PLUS**
   3. *Probability* of observing something else that is rarer (or have less chance to occur or more extreme) than the event 'A'.
-- **Note 1:** a p-value for *continuous variables* is the _area under the curve AT the value and GREATER or LOWER the CRITICAL value or BOTH (greater *and* lower) depending on the test._ 
+- **NOTE 1:** a p-value for *continuous variables* is the _area under the curve AT the value and GREATER or LOWER the CRITICAL value or BOTH (greater *and* lower) depending on the test._ 
 ???
 - Let's just spend some time explaining the DIFFERENCE between a probability and a *p-value*. 
 - See [StatQuest: P Values, clearly explained](https://www.youtube.com/watch?v=5Z9OIYA8He8&amp;ab_channel=StatQuestwithJoshStarmer), [How to calculate p-values ](https://www.youtube.com/watch?v=JQc3yx0-Q9E&amp;t=0s&amp;ab_channel=StatQuestwithJoshStarmer) and [p-values: What they are and how to interpret them](https://www.youtube.com/watch?v=vemZtEM63GY&amp;ab_channel=StatQuestwithJoshStarmer)
@@ -1956,7 +1971,7 @@ name: table-distributions
 - In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
 - Here is a table showing the nomenclature used in R to generate data of 
 
-- I added a cool function in R for Probability of coincidences called `pbirthday`
+- I added a cool function in R for Probability of coincidences called `pbirthday` (birthday paradox)
 
 
 ```r
@@ -1970,7 +1985,42 @@ get.probs = mapply(pbirthday, n = n.seq, classes = 365, coincident = coin)
 plot(get.probs~n.seq, type = "l"); abline(h = 0.5, v = qbirthday(p = 0.5,coincident = coin), lty = 3)
 ```
 
-&lt;img src="workshopXX-en_files/figure-html/unnamed-chunk-4-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshopXX-en_files/figure-html/pbirthday_plot1-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+- See alos this derivation:
+
+```r
+# birthday paradox
+# scaling exponents in mathematics
+n.people = 23
+day.of.year = sample(1:365,n.people, replace = TRUE)
+day.of.year
+#  [1] 225 255  49  42 139  65 354 203 113 318 242 223  14 232 344  37 361  93 138
+# [20]  49  52 150 172
+happy.birthday = function(n.people = 20) {
+  day.of.year = sample(1:365,n.people, replace = TRUE)
+  length(which(table(day.of.year)&gt;2))
+}
+barplot(table(replicate(10,happy.birthday(n.people = 40))))
+```
+
+&lt;img src="workshopXX-en_files/figure-html/pbirthday_plot2_derivation-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+```r
+pbirthday(40,classes = 365)
+# [1] 0.8912318
+prod(c(1-(1:182/365)))
+# [1] 4.780018e-25
+
+hbirthd &lt;- function(n.p = 5) {
+  1-prod(365:c(365-c(n.p-1)))/365^n.p
+}
+n.p = 2:65
+plot(x = n.p,mapply(hbirthd, n.p = n.p), type = "l");abline(h = 0.5, v = qbirthday(), lty = 3)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/pbirthday_plot2_derivation-2.png" width="432" style="display: block; margin: auto;" /&gt;
+
 
 
 ---
@@ -1984,7 +2034,7 @@ plot(get.probs~n.seq, type = "l"); abline(h = 0.5, v = qbirthday(p = 0.5,coincid
 | Cauchy                         | `pcauchy`    | `qcauchy`   | `dcauchy`	  | `rcauchy`   | location, scale    | `\(f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty\)` |
 | Chi-Square	                   | `pchisq`	    | `qchisq`    | `dchisq`	  | `rchisq`    | df                 | `\(f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0\)` |
 | Exponential	                   | `pexp`       | `qexp`	    | `dexp`	    | `rexp`      | rate               | `\(f(x) = \lambda e^{-\lambda x}\)` (when `\(x \geq 0\)`, otherwise, 0) |
-| F	(Fisher's F)                 | `pf`	        | `qf`	      | `df`	      | `rf`        | df1, df2           | `\(f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0\)` |
+| F	(Fisher's F)                 | `pf`	        | `qf`	      | `df`	      | `rf`        | df1, df2           | `\(f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \ge 0\)` |
 | Gamma	                         | `pgamma`	    | `qgamma`    | `dgamma`	  | `rgamma`    | shape              | `\(f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0\)` |
 | Geometric	                     | `pgeom`	    | `qgeom`	    | `dgeom`	    | `rgeom`     | prob.              | `\(f(x) = p(1-p)^{x}, x = 0,1,2,...\)` |
 | Hypergeometric                 | `phyper`	    | `qhyper`    | `dhyper`	  | `rhyper`    | m, n, k            | `\(f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n\)` |
@@ -2027,7 +2077,7 @@ plot(get.probs~n.seq, type = "l"); abline(h = 0.5, v = qbirthday(p = 0.5,coincid
 | Cauchy       | `pcauchy` | `qcauchy` | `dcauchy`	| `rcauchy`                                                 | location, scale    | `\(f(x) = \frac{1}{\pi} \frac{1}{x^2+1}, -\infty \lt x \lt \infty\)` |
 | &lt;span style="background-color: #FFFF00"&gt;**Chi-Square**&lt;/span&gt;	 | `pchisq`	 | `qchisq`	 | `dchisq`	| `rchisq`  | df                 | `\(f(x) = x^{(k/2)-1} \frac{e^{-x/2}}{( 2^{k/2} \Gamma(k/2) )}, x \gt 0\)` |
 | &lt;span style="background-color: #FFFF00"&gt;**Exponential**&lt;/span&gt;	 | `pexp` | `qexp` | `dexp`	| `rexp`          | rate               | `\(f(x) = \lambda e^{-\lambda x}\)` (when `\(x \geq 0\)`, otherwise, 0) |
-| &lt;span style="background-color: #FFFF00"&gt;**F (Fisher's F)**&lt;/span&gt;	           | `pf`	  | `qf` | `df`	| `rf`    | df1, df2           | `\(f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \gt 0\)` |
+| &lt;span style="background-color: #FFFF00"&gt;**F (Fisher's F)**&lt;/span&gt;	           | `pf`	  | `qf` | `df`	| `rf`    | df1, df2           | `\(f(x) = \frac{\Gamma[(r_1+r_2)/2](r_1/r_2)^{r_1/2}}{\Gamma(r_1/2)\Gamma(r_2/2)}\frac{(x)^{r_1/2-1}}{(1+r_1x/r_2)^{(r_1+r_2)/2)}}, x \ge 0\)` |
 | Gamma	       | `pgamma`	 | `qgamma`	| `dgamma`	| `rgamma`                                                     | shape             | `\(f(x) = \frac{\lambda^c x^{c-1}e^{-\lambda x}}{\Gamma(c)}, x \gt 0\)` |
 | Geometric	   | `pgeom`	 | `qgeom`	| `dgeom`	| `rgeom`                                                        | prob.             | `\(f(x)=p(1-p)^{x}, x = 0,1,2,...\)` |
 | Hypergeometric | `phyper`	| `qhyper`	| `dhyper`	| `rhyper`                                                   | m, n, k           | `\(f(x) = \frac{{N-D\choose n-x}{D \choose x}}{{N \choose n}}, x = 0,1,2,...,n\)` |
@@ -2063,9 +2113,15 @@ https://en.wikipedia.org/wiki/Relationships_among_probability_distributions
 
 &lt;img src="workshopXX-en_files/figure-html/Statistical_dist-1.png" width="1008" style="display: block; margin: auto;" /&gt;
 ???
-- This is a subset of the distributions highlighted from the previous slide. 
+- This is a subset of the distributions highlighted from the previous slide.
+- There are multiple Families of distribution for each type 
 - there are 2 distributions with discrete variables 
-- the rest are distributions of continuous variables  
+- the rest are distributions of continuous variables
+- Note the F (Fisher's) distribution. It is determined by the degrees of freedom in the numerator and denominator 
+  * the distribution is right-skewed 
+  * sample variance can't be &lt;0 so only positive values 
+  * The order of DF matters 
+  * [An introduction to the F-Distribution](https://www.youtube.com/watch?v=G_RDxAZJ-ug&amp;ab_channel=jbstatistics)
 
 ---
 # Summary of important distribution 
@@ -3138,7 +3194,7 @@ library(MASS)
 covmat &lt;- matrix(c(1.0,   0.2,   0.6, # variance covariance matrix of the data 
                    0.2,   2.0,  -0.5, # Positive-definite symmetric matrix
                    0.6,  -0.5,   1.0), nrow=3) 
-data &lt;- mvrnorm(n = 300, 
+data &lt;- mvrnorm(n = 300,  
                 mu = c(1,-1,0), # mean of the data 
                 Sigma=covmat) # generate random data that match that variance covariance matrix
 plot(data[,1:2], pch = 19, col = b.5); abline(h=0,v=0,lty = 3)
@@ -3164,6 +3220,47 @@ ggplot2::autoplot(vegan::rda(data)) + theme_classic() +
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/multivar_norm_pca_plot-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+# Multivariate normal distribution
+
+- You can also generate multiple normal distributions at once **with a correlation matrix** between the variables to get the covariance matrix. 
+- The diagonal are variances for each variable, the upper and lower triangles are the same and refer to the covariance *between* the variables. The `faux` package can help you simulate factorial designs and multiple normal correlated variables (see `rnorm_multi`). 
+
+
+```r
+library(faux); set.seed(12345); n = 500 #number of values to generate for the variable x
+traits = rnorm_multi(n = n, # ??rnorm_multi
+                     mu = c(11.317531, 10.470744, 9.377967), # Mean of 3 variables
+                     sd = c( 0.6247866, 0.7134755, 0.5502800), # SD of variables 
+                     r = c(0.4887644, 0.4678446, 0.7056161), # correlation between variables 
+                     varnames = c("Beak length", "Beak depth", "Beak width"), empirical = TRUE)
+plot(traits[,1:2],col=b.5,pch=19,main="Simulated data",xlab="");title(xlab="Beak length",ylab="",line=2.2,cex.lab=1.2)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/multivar_norm_cov_and_correlation-1.png" width="360" style="display: block; margin: auto;" /&gt;
+???
+- Compare the data generated with the values set in the function
+
+```r
+cov(traits); cor(traits) # you can verify that these were the input in the function 
+#             Beak length Beak depth Beak width
+# Beak length   0.3903583  0.2178765  0.1608485
+# Beak depth    0.2178765  0.5090473  0.2770329
+# Beak width    0.1608485  0.2770329  0.3028081
+#             Beak length Beak depth Beak width
+# Beak length   1.0000000  0.4887644  0.4678446
+# Beak depth    0.4887644  1.0000000  0.7056161
+# Beak width    0.4678446  0.7056161  1.0000000
+```
+- Play at [Guess the correlation](http://guessthecorrelation.com)
+- See this post [Obtaining covariance matrix from correlation matrix](https://stats.stackexchange.com/questions/62850/obtaining-covariance-matrix-from-correlation-matrix/407954#407954)
+
+`\(\mathbf{\rho} = \mathbf{V}^{1/2}\mathbf{\Sigma}\mathbf{V}^{1/2}\)`
+
+`\(\left(\begin{array}{ccc}\sigma_{11} &amp; \sigma_{12} &amp; \sigma_{13} \\ \sigma_{21} &amp; \sigma_{22} &amp; \sigma_{23} \\ \sigma_{31} &amp; \sigma_{32} &amp; \sigma_{33}\end{array}\right) = \left(\begin{array}{ccc}\sqrt{\sigma_{11}} &amp; 0 &amp; 0 \\ 0 &amp; \sqrt{\sigma_{22}} &amp; 0 \\ 0 &amp; 0 &amp; \sqrt{\sigma_{33}}\end{array}\right) \left(\begin{array}{ccc}\rho_{11} &amp; \rho_{12} &amp; \rho_{13} \\ \rho_{21} &amp; \rho_{22} &amp; \rho_{23} \\ \rho_{31} &amp; \rho_{32} &amp; \rho_{33}\end{array}\right) \left(\begin{array}{ccc}\sqrt{\sigma_{11}} &amp; 0 &amp; 0 \\ 0 &amp; \sqrt{\sigma_{22}} &amp; 0 \\ 0 &amp; 0 &amp; \sqrt{\sigma_{33}}\end{array}\right)\)`
+
+`\(\left(\begin{array}{ccc}\rho_{11} &amp; \rho_{12} &amp; \rho_{13} \\ \rho_{21} &amp; \rho_{22} &amp; \rho_{23} \\ \rho_{31} &amp; \rho_{32} &amp; \rho_{33}\end{array}\right)=\left(\begin{array}{ccc}\sqrt{\sigma_{11}} &amp; 0 &amp; 0 \\ 0 &amp; \sqrt{\sigma_{22}} &amp; 0 \\ 0 &amp; 0 &amp; \sqrt{\sigma_{33}}\end{array}\right)^{-1}\left(\begin{array}{ccc}\sigma_{11} &amp; \sigma_{12} &amp; \sigma_{13} \\ \sigma_{21} &amp; \sigma_{22} &amp; \sigma_{23} \\ \sigma_{31} &amp; \sigma_{32} &amp; \sigma_{33}\end{array}\right)\left(\begin{array}{ccc}\sqrt{\sigma_{11}} &amp; 0 &amp; 0 \\ 0 &amp; \sqrt{\sigma_{22}} &amp; 0 \\ 0 &amp; 0 &amp; \sqrt{\sigma_{33}}\end{array}\right)^{-1}\)`
 
 ---
 # Multivariate normal: PCA simulation
@@ -3289,17 +3386,15 @@ Reference for the section
   1. the confidence limits for the expected values (confidence interval or uncertainty around the **mean predictions (y)** for a value of x given the parameters of the model; blue shaded polygon `predict(lm.out, interval = "confidence")`; at mean of x and y, the uncertainty comes only from the intercept) to the line and
   2. the 95% central quantiles of the Normal distribution (or prediction interval, grey shaded polygon for the simulated one; compared with red shading lines which is the theoretical one `predict(lm.out, interval="prediction")`)
 
-
-```
-# NULL
-# NULL
-```
-
 &lt;img src="workshopXX-en_files/figure-html/simulate.gaussian.model-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
 - Idea from https://www.barelysignificant.com/post/glm/
 - The reason the blue area gets smaller in the middle is that the uncertainty we have comes from the intercept only and not the slope, as this one can pivot on the mean (with changing slope). The standard error (uncertainty of the predicted values changes as we move away from the mean) of the predicted value is smaller at the mean of x. 
+- Grey: simulated 95% central quantiles of the Normal distribution (or prediction interval, grey shaded polygon for the simulated one; compared with red shading lines which is the theoretical one `predict(lm.out, interval="prediction")`)
+- Blue: the confidence limits for the expected values (confidence interval or uncertainty around the **mean predictions (y)** for a value of x given the parameters of the model; blue shaded polygon `predict(lm.out, interval = "confidence")`; at mean of x and y, the uncertainty comes only from the intercept) to the line and
+- Red: 200 Bootstrap leaving out 20 data points 
+- Orange: Permutation of the response variable (breaking up the association between x and y)
 
 
 ---
