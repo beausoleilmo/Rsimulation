@@ -1,0 +1,101 @@
+# Bookdown basics {#basics}
+
+This material uses the **bookdown** package and was built based on '[A Minimal Book Example](https://github.com/rstudio/bookdown-demo)'as well a excerpts and concepts from '[bookdown: Authoring Books and Technical Documents with R Markdown](https://github.com/rstudio/bookdown)', as well as from other available online resources (especially, [link](link)).
+
+Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com. When you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+The **bookdown** package can be installed from CRAN or Github:
+
+```{r eval=FALSE}
+install.packages("bookdown")
+# or the development version
+# devtools::install_github("rstudio/bookdown")
+```
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+## Organization
+
+Subsections can be created using pound signs (`#`):
+
+```{r eval=FALSE}
+# First-level header (only for the title)
+
+## Second-level header
+
+### Third-level header
+```
+
+The default use of the headers will produce numbers. This can be disabled using `{-}`after the header, e.g., `## Learning objectives {-}`.
+
+## Cross-referencing
+
+You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro) using `\@ref(intro)`. If you do not manually label them, there will be automatic labels anyway, e.g., we can reference Chapter \@ref(citations) using the name of the chapter: `\@(citations)`.
+
+## Code chunks
+
+R code can be embedded into the books like so:
+
+````markdown
+`r ''````{r}
+library(palmerpenguins)
+
+penguins[1:2,]
+```
+````
+
+Which yields:
+```{r}
+library(palmerpenguins)
+
+penguins[1:2,]
+```
+
+:::noway
+Please refrain from using multiple `#` signs when writing annotations inside the code chunks as this could be interpreted by Bookdown as a new header instead of an annotation.
+:::
+
+
+### Workshop script
+
+For participants who wish to have the code used during the workshop so that they can easily follow along, we will now automatically create a script using `knitr::purl()`.
+
+`purl()` will automatically extract the code from all the code chunks used in the book. If you consider that a particular code chunk should not be included in the final script, the `purl=FALSE` option can be used when creating the chunk. Note that `purl=TRUE` by default. For example, the following chunk would not be included in the script:
+
+````markdown
+`r ''````{r purl=FALSE}
+library(palmerpenguins)
+
+penguins[1:2,]
+```
+````
+
+Given that `purl()` will also extract any comments in chunk, it is encourage to annotate the code in the chunks as much as possible so that the script will be detailed for anyone wishing to use it that was not able to attend the workshop.
+
+## Figures and tables
+
+Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+
+```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
+par(mar = c(4, 4, .1, .1))
+
+plot(penguins[, c("species", "body_mass_g")])
+```
+
+Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig) using `\@ref(fig:nice-fig)`. Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab) using `\@ref(tab:nice-tab)`.
+
+```{r nice-tab, tidy=FALSE}
+knitr::kable(
+  head(penguins[ , 1:7], 20), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+```
+
+## Citations
+
+You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@knitr2015]. See Chapter \@ref(citations) for more information on how to make citations.

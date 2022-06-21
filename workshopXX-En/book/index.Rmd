@@ -1,0 +1,34 @@
+--- 
+title: "QCBS R Workshop Series"
+subtitle: "A template guide for the written material"
+author:
+- QCBS R Workshop Series^[The QCBS R Workshop Series is part of the Québec Centre for Biodiversity Science, and is maintained by the series coordinators and graduent student, postdoctoral, and research professional members. https://www.qcbs.ca]
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: ["packages.bib", "example.bib"]
+biblio-style: apalike
+link-citations: yes
+cover-image: assets/images/logo/csbq_logo_accueil.png
+github-repo: "qcbsRworkshops/templateWorkshops"
+description: "A work-in-progress"
+favicon: "assets/images/favicon.ico"
+always_allow_html: yes
+url: 'https\://github.com/qcbsRworkshops/'
+config:
+  edit:
+    link: https://github.com/qcbsRworkshops/templateWorkshops/edit/main/book-template/%s
+    text: "Suggest changes"
+---
+
+# Preface {-}
+
+This is a _template_ book written in **Markdown** and its purpose is to serve as a basis for the QCBS R Workshop Series and to serve as a guide for developers and contributors willing to modify the written material.
+
+New changes are coming soon!
+
+
+
+```{r include=FALSE}
+options(repos = structure(c(CRAN = "http://cran.r-project.org")))
+```

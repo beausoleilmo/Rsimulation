@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 References and citations | QCBS R Workshop Series</title>
+  <meta name="description" content="A work-in-progress" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 References and citations | QCBS R Workshop Series" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="A work-in-progress" />
+  <meta name="github-repo" content="qcbsRworkshops/templateWorkshops" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 References and citations | QCBS R Workshop Series" />
+  
+  <meta name="twitter:description" content="A work-in-progress" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Chapter 4 References and citations | QCBS R Workshop Series" />
+
+
+<meta name="date" content="2022-02-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="structure.html"/>
+<link rel="next" href="additional-resources.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>1</b> Bookdown basics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="basics.html"><a href="basics.html#organization"><i class="fa fa-check"></i><b>1.1</b> Organization</a></li>
+<li class="chapter" data-level="1.2" data-path="basics.html"><a href="basics.html#cross-referencing"><i class="fa fa-check"></i><b>1.2</b> Cross-referencing</a></li>
+<li class="chapter" data-level="1.3" data-path="basics.html"><a href="basics.html#code-chunks"><i class="fa fa-check"></i><b>1.3</b> Code chunks</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="basics.html"><a href="basics.html#workshop-script"><i class="fa fa-check"></i><b>1.3.1</b> Workshop script</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="basics.html"><a href="basics.html#figures-and-tables"><i class="fa fa-check"></i><b>1.4</b> Figures and tables</a></li>
+<li class="chapter" data-level="1.5" data-path="basics.html"><a href="basics.html#citations"><i class="fa fa-check"></i><b>1.5</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="format.html"><a href="format.html"><i class="fa fa-check"></i><b>2</b> Special formatting</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="format.html"><a href="format.html#formatting"><i class="fa fa-check"></i><b>2.1</b> Formatting</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="format.html"><a href="format.html#columns"><i class="fa fa-check"></i><b>2.1.1</b> Columns</a></li>
+<li class="chapter" data-level="2.1.2" data-path="format.html"><a href="format.html#special-notes-and-tips"><i class="fa fa-check"></i><b>2.1.2</b> Special notes and tips</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>3</b> Workshop structure</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure.html"><a href="structure.html#objective"><i class="fa fa-check"></i><b>3.1</b> Objective</a></li>
+<li class="chapter" data-level="3.2" data-path="structure.html"><a href="structure.html#the-index.rmd-file"><i class="fa fa-check"></i><b>3.2</b> The <code>index.Rmd</code> file</a></li>
+<li class="chapter" data-level="3.3" data-path="structure.html"><a href="structure.html#additional-resources-chapter"><i class="fa fa-check"></i><b>3.3</b> Additional Resources chapter</a></li>
+<li class="chapter" data-level="" data-path="structure.html"><a href="structure.html#example"><i class="fa fa-check"></i>Example</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="references-and-citations.html"><a href="references-and-citations.html"><i class="fa fa-check"></i><b>4</b> References and citations</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="references-and-citations.html"><a href="references-and-citations.html#the-bibtex-format"><i class="fa fa-check"></i><b>4.1</b> The BibTeX format</a></li>
+<li class="chapter" data-level="4.2" data-path="references-and-citations.html"><a href="references-and-citations.html#creating-a-bibtex-database"><i class="fa fa-check"></i><b>4.2</b> Creating a BibTeX database</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="references-and-citations.html"><a href="references-and-citations.html#r-packages"><i class="fa fa-check"></i><b>4.2.1</b> R packages</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="references-and-citations.html"><a href="references-and-citations.html#adding-the-bibtex-database"><i class="fa fa-check"></i><b>4.3</b> Adding the BibTeX database</a></li>
+<li class="chapter" data-level="4.4" data-path="references-and-citations.html"><a href="references-and-citations.html#the-xx-references.rmd-file"><i class="fa fa-check"></i><b>4.4</b> The <code>XX-references.Rmd</code> file</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="references-and-citations.html"><a href="references-and-citations.html#including-other-resources"><i class="fa fa-check"></i><b>4.4.1</b> Including other resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i>Additional resources</a>
+<ul>
+<li class="chapter" data-level="" data-path="additional-resources.html"><a href="additional-resources.html#references"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">QCBS R Workshop Series</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+<!-- 
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+--!>
+<div id="references-and-citations" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> References and citations</h1>
+<p>In development.</p>
+<p>We already covered the basics on how to insert an inline citation on Chapter <a href="basics.html#basics">1</a>. However, those examples only work for this book because they are the packages we are using to create the book. If we wanted to cite another package or a book, article, we first have to create the bibliography entries for them.</p>
+<div id="the-bibtex-format" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> The BibTeX format</h2>
+<p>Bookdown uses <code>pandoc-citeproc</code> for its html output. Many bibliography formats can be used by <code>pandoc-citeproc</code>, but <a href="http://www.bibtex.org/">BibTex</a> is quite simple and relatively standard so we will use it for our books.</p>
+<p>Here is a basic example of a BibTex entry:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="references-and-citations.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">@</span>Book{abramowitz<span class="sc">+</span>stegun,</span>
+<span id="cb17-2"><a href="references-and-citations.html#cb17-2" aria-hidden="true" tabindex="-1"></a> author    <span class="ot">=</span> <span class="st">&quot;Milton {Abramowitz} and Irene A. {Stegun}&quot;</span>,</span>
+<span id="cb17-3"><a href="references-and-citations.html#cb17-3" aria-hidden="true" tabindex="-1"></a> title     <span class="ot">=</span> <span class="st">&quot;Handbook of Mathematical Functions with</span></span>
+<span id="cb17-4"><a href="references-and-citations.html#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">              Formulas, Graphs, and Mathematical Tables&quot;</span>,</span>
+<span id="cb17-5"><a href="references-and-citations.html#cb17-5" aria-hidden="true" tabindex="-1"></a> publisher <span class="ot">=</span> <span class="st">&quot;Dover&quot;</span>,</span>
+<span id="cb17-6"><a href="references-and-citations.html#cb17-6" aria-hidden="true" tabindex="-1"></a> year      <span class="ot">=</span>  <span class="dv">1964</span>,</span>
+<span id="cb17-7"><a href="references-and-citations.html#cb17-7" aria-hidden="true" tabindex="-1"></a> address   <span class="ot">=</span> <span class="st">&quot;New York City&quot;</span>,</span>
+<span id="cb17-8"><a href="references-and-citations.html#cb17-8" aria-hidden="true" tabindex="-1"></a> edition   <span class="ot">=</span> <span class="st">&quot;ninth Dover printing, tenth GPO printing&quot;</span></span>
+<span id="cb17-9"><a href="references-and-citations.html#cb17-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now let’s see what the structure of the entry is:</p>
+<ul>
+<li>Each entry starts with a type (e.g. <code>@Book{</code>) such as <code>article</code> or <code>book</code>, among others.</li>
+<li>It is then followed by a citation-key (e.g. <code>abramowitz+stegun,</code>) which can be used to produce the inline citations. So if we wanted to cite our example book we would use <code>@abramowitz+stegun</code> to produce this citation: <span class="citation"><a href="#ref-abramowitz+stegun" role="doc-biblioref">Abramowitz and Stegun</a> (<a href="#ref-abramowitz+stegun" role="doc-biblioref">1964</a>)</span>.</li>
+<li>Finally, the entry has multiple tags which give the characteristics of the entry (e.g. author, title, year, etc.)
+<ul>
+<li>There are some required tags for each type of entry as well as some optional ones.</li>
+</ul></li>
+</ul>
+<p>You can find a list of the different types and the required and optional tags for each type <a href="https://en.wikipedia.org/wiki/BibTeX">here</a>.</p>
+</div>
+<div id="creating-a-bibtex-database" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Creating a BibTeX database</h2>
+<p>Now that we know the basics about BibTeX, we can apply it. For this, we have to create a BibTeX database which is a plain-text file with a <code>.bib</code> extension. For example, we created an <code>example.bib</code>file so that we could use the <span class="citation"><a href="#ref-abramowitz+stegun" role="doc-biblioref">Abramowitz and Stegun</a> (<a href="#ref-abramowitz+stegun" role="doc-biblioref">1964</a>)</span> citation.</p>
+<p>The file name for the database of each workshop should be <code>workshop-X-citations.bib</code>.</p>
+<div id="r-packages" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> R packages</h3>
+<p>If you wish to cite any R packages, <strong>knitr</strong> contains the helper function <code>write_bib()</code> that automatically produces the BibTeX entries for the selected packages and creates a datbase for the packages. Here is an example that this template uses to produce citations such as this one for <strong>bookdown</strong> <span class="citation">(<a href="#ref-R-bookdown" role="doc-biblioref">Xie 2021</a>)</span>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="references-and-citations.html#cb18-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">write_bib</span>(<span class="fu">c</span>(</span>
+<span id="cb18-2"><a href="references-and-citations.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.packages</span>(), <span class="st">&#39;bookdown&#39;</span>, <span class="st">&#39;knitr&#39;</span>, <span class="st">&#39;rmarkdown&#39;</span></span>
+<span id="cb18-3"><a href="references-and-citations.html#cb18-3" aria-hidden="true" tabindex="-1"></a>), <span class="st">&#39;packages.bib&#39;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="adding-the-bibtex-database" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Adding the BibTeX database</h2>
+<p>To include the database in the book, you must:</p>
+<ul>
+<li>Save the <code>.bib</code> file in the <code>book-en</code> or <code>book-fr</code> folder.</li>
+<li>Add the file name to the <code>bibliography</code> field in the YAML metadata section of the <code>index.Rmd</code> file.
+<ul>
+<li>Multiple database files can be included. For example, the <code>bibliography</code> field of this template looks like this:</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="references-and-citations.html#cb19-1" aria-hidden="true" tabindex="-1"></a>bibliography<span class="sc">:</span> [packages.bib, example.bib]</span></code></pre></div>
+</div>
+<div id="the-xx-references.rmd-file" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> The <code>XX-references.Rmd</code> file</h2>
+<p>The basic format of this Rmd file should only contain the following expression:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="references-and-citations.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">r if (knitr::is_html_output()) &#39;# Additional resources {-}&#39;</span><span class="st">`</span></span>
+<span id="cb20-2"><a href="references-and-citations.html#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="references-and-citations.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="do">### References {-}</span></span></code></pre></div>
+<p>This will output only the references we included in the main BibTeX database (i.e. the <code>workshop-X-citations.bib</code> file) and any packages we cited inside the book.</p>
+<ul>
+<li>Note that this will not include the rest of the package reference entries created by <strong>knitr</strong> if they were not cited inside the book.</li>
+</ul>
+<div id="including-other-resources" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Including other resources</h3>
+<p>Most of the wikis for the QCBS R Workshop Series contain a section at the end where we offer additional resources for the participants interested in more information about the subject of the workshop.</p>
+<p>To include these into this last chapter of the book, you can add a new subsection after the basic expression showed above. In this book, we have included a link to the <strong>bookdown</strong> manual as an additional resource like this:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="references-and-citations.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">r if (knitr::is_html_output()) &#39;</span></span>
+<span id="cb21-2"><a href="references-and-citations.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="at"># Additional resources {-}</span></span>
+<span id="cb21-3"><a href="references-and-citations.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="at">&#39;</span><span class="st">`</span></span>
+<span id="cb21-4"><a href="references-and-citations.html#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="references-and-citations.html#cb21-5" aria-hidden="true" tabindex="-1"></a>For more information on how to use bookdown, you can check the bookdown manual [here](https<span class="sc">:</span><span class="er">//</span>bookdown.org<span class="sc">/</span>yihui<span class="sc">/</span>bookdown<span class="sc">/</span>).</span>
+<span id="cb21-6"><a href="references-and-citations.html#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="references-and-citations.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="do">### References {-}</span></span></code></pre></div>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-abramowitz+stegun" class="csl-entry">
+Abramowitz, Milton, and Irene A. Stegun. 1964. <em>Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables</em>. Ninth Dover printing, tenth GPO printing. New York City: Dover.
+</div>
+<div id="ref-R-bookdown" class="csl-entry">
+———. 2021. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.
+</div>
+</div>
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="structure.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="additional-resources.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

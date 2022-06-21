@@ -1,0 +1,7 @@
+`r if (knitr::is_html_output()) '
+# Additional resources {-}
+'`
+
+For more information on using bookdown, you can check the bookdown manual [here](https://bookdown.org/yihui/bookdown/).
+
+## References {-}

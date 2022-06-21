@@ -43,14 +43,17 @@ It was proposed that this workshop could be recorded (with or without an audienc
 # Disclaimer
 
 - I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
+- Some sloppy mathematical notation is used. If you know how to improve it, please suggest some modifications.  
+- Not all the code is shown in the presentation to reproduce the examples. 
+  * You have to go in the 
+    * [presentation RMarkdown files](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/workshopXX-en.Rmd) or 
+    * the script file [Workshop R script](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/workshopXX-en.r), which requires the [0.0_initialize.R](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/0.0_initialize.R) and other scripts specified within. 
+    * Don't forget to change the paths associated with some files to load everything. 
 - In addition, this is a work in progress. Any input you have is more than welcome. 
-- Some sloppy mathematical notation is  used. It'd help to be more rigorous if you could provide ways to write the notation better. 
-- Not all the code is shown in the presentation to reproduce the examples. You have to go in the [presentation RMarkdown files](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/workshopXX-en.Rmd) or the script file [Workshop R script](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/workshopXX-en.r), which requires the [0.0_initialize.R](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/0.0_initialize.R) and other scripts specified within. Don't forget to change the paths associated with some files to load everything. 
 
 ???
-
-Might not apply to you
-
+- Might not apply to you
+- `wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/beausoleilmo/Rsimulation/main/workshopXX-En/scripts/workshopXX-en.r`
 
 ---
 # Outline
@@ -90,10 +93,9 @@ For this workshop it is useful to have a solid understanding of
 
 See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topics. Select the [R workshops](http://r.qcbs.ca/workshops/) needed.
 
-- We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop. 
-- We are going to be more explicitly show assumptions of models and use for loops in this workshop 
-
-- You should also have installed [R on CRAN here](https://cran.r-project.org) <svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg> and you could get [RStudio](https://www.rstudio.com) as well. 
+- We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop.
+- We are going to be more explicitly show assumptions of models and use for loops in this workshop
+- You should also have installed [R on CRAN here](https://cran.r-project.org) <svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg> and you could get [RStudio](https://www.rstudio.com) as well.
 
 ???
 
@@ -136,7 +138,7 @@ Consider that it takes time to develop a 'programers' intuition when coding. The
 - "Two random variables were talking in a bar. They thought they were being discrete, but I heard their chatter continuously."
 - 2 variables go in a bar multiple times. One always selects a new drink each time with a dice and the other selects always the same drink. One variable says to the other, dude, you're so random. 
 - Infinitely many mathematicians walk into a bar. The first says, "I'll have a beer." The second says, "I'll have half a beer." The third says, "I'll have a quarter of a beer." The barman pulls out just two beers. The mathematicians are all like, "That's all you're giving us? How drunk do you expect us to get on that?" The bartender says, "Come on guys.  Know your limits."
-[Source here](https://williambiersack.weebly.com/math-jokes.html)  Explanation: This is a reference to a converging infinite series. The limit of this: from n=1 to infinity is the sum (1/2n) = 1 + 1/2 + 1/4 + 1/8 + ...  = 1 
+[Source here](https://williambiersack.weebly.com/math-jokes.html)  Explanation: This is a reference to a converging infinite series. The limit of this: from n=0 to infinity is the sum (1/2^n) = 1 + 1/2 + 1/4 + 1/8 + ...  = 2 since `\(\sum_{n=1}^{\infty}(1/2)^n=1\)`. see [this article](https://en.wikipedia.org/wiki/1/2_%2B_1/4_%2B_1/8_%2B_1/16_%2B_⋯)
 
 #################################
 ---
@@ -174,6 +176,11 @@ In this section, we will explore
     - A **map** (which is a **representation of our world** to NAVIGATE in it)
       * they are abstractions of the real world (It is not the real world) 
       * The only map that is right is the 1:1 real map which would not be useful to make a sense of how the world is. Imagine that to go to the pharmacy, I need to give you all the genetic sequences of the trees that you encounter to get the directions. This would be insane! Therefore, we **simplify** and just extract what is useful for a particular situation. 
+    - 3D model that is created from a 2D drawing (floor plan in architecture)
+    - Lego model of a giraffe
+    - Model of Dinosaur based on bones and assumptions we have of the type of organism they were.
+    - Toy, Scale Model Kit of a spacecraft or a car or boat... 
+    - Role model: someone or something that excels in its domain and can be used as an example of a quality or skill. "Un ou une role model est une personnalité dont le comportement, l'exemple ou le succès est (ou peut être) imité par des tiers, notamment par des personnes plus jeunes" (source [wikipedia](https://fr.wikipedia.org/wiki/Role_model_(sociologie)))
     - Basically our task is to take **statistical Clay and model it** as we wish based on some idea. In this workshop, I want you to be able to play a bit more with statistical plasticine. "Pâte à modelée" (Plasticine, Play-Doh)
 
     - The goal is to make part of our world easier to understand, define, quantify, vizualize, simulate, etc. See [Scientific modelling](https://en.wikipedia.org/wiki/Scientific_modelling)
@@ -900,12 +907,11 @@ plot(function.name(1:10)+rnorm(10))
 - It **takes practice to code simulations**: the more you code, the more you develop tricks. 
 - Always try to **relate your simulation to a certain question of interest.** This will bring more meaning to the insights that you are trying to make. 
 
-In this section, we will discover functions that might help when coding simulations in R. 
+In this section, we will discover functions that might help when coding simulations in R.
 
---
 
-| Function  | Definition | 
-| --------- | ---------- | 
+| Function  | Definition |
+| --------- | ---------- |
 | set.seed  | Control the Random Number Generation |
 | sample	  | Random Samples and Permutations | 
 | rep   	  | Replicate Elements of Vectors and Lists | 
@@ -914,7 +920,13 @@ In this section, we will discover functions that might help when coding simulati
 | replicate (see sapply)  | Wrapper of sapply for repeated evaluation of an expression | 
 | for, if, while, next, break | Control Flow | 
 | p, d, r, +'name of dist.' | [See the table of distributions in R](#table-distributions) | 
-| plot, hist, points, lines, curve  | Plotting functions | 
+| plot, hist, points, lines, curve  | Plotting functions |
+
+
+???
+- When building up a Simulations, we are writing our code iteratively. You have to place yourself in a mindset of problem solving and finding the tools and tricks you need in order to 'resolve' the challenge that is presented to you.
+- There are often a lot of different ways to code the exact same problem or situation. You might need to go back and read more on the subject. That is part of the joy or learning by doing. 
+- Here are some useful functions that are central for some problems in simulations
 
 
 ---
@@ -977,7 +989,7 @@ sample(x = as.factor(month.abb), size = 5, replace = FALSE)
 ```
 
 ???
-- Very versatile 
+- `sample()` is a very versatile function that can be used in a variety of places. 
 
 ---
 # Functions useful in simulations (sample)
@@ -1950,7 +1962,25 @@ name: table-distributions
 | d	   | *density* function (probability density function or PDF) | gives probability that a random variables have for a specific value if the random variable  |
 | r	   | *random*  variable coming from a certain distribution | We use this to generate random numbers from a specific distribution |
 
-- In the next slide, you'll see some built in functions to use these distributions 
+- In the next slides, you'll see some built in functions to use these distributions 
+
+???
+- Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
+- In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
+- Here is a table showing the nomenclature used in R to generate data of 
+
+---
+# Functions for various distributions
+
+- Here is an example of the `d`, `p`, `r`, `q` functions for the normal distribution. 
+- Note that `lower.tail = TRUE` by default. It means that the probability is calculated from the "left" whereas `lower.tail = FALSE` means that the probability will be calculated from the "right". 
+
+&lt;img src="workshopXX-en_files/figure-html/pqrd_distribution_example_normal-1.png" width="936" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+# Functions for various distributions (special)
 
 
 ```r
@@ -1967,10 +1997,6 @@ name: table-distributions
 
 
 ???
-- Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
-- In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
-- Here is a table showing the nomenclature used in R to generate data of 
-
 - I added a cool function in R for Probability of coincidences called `pbirthday` (birthday paradox)
 
 
@@ -1995,8 +2021,8 @@ plot(get.probs~n.seq, type = "l"); abline(h = 0.5, v = qbirthday(p = 0.5,coincid
 n.people = 23
 day.of.year = sample(1:365,n.people, replace = TRUE)
 day.of.year
-#  [1] 225 255  49  42 139  65 354 203 113 318 242 223  14 232 344  37 361  93 138
-# [20]  49  52 150 172
+#  [1]  82 111 164 315 237   8 144  15 264  54  80 100 150 221 330 141  61 139 193
+# [20] 265 236 144  52
 happy.birthday = function(n.people = 20) {
   day.of.year = sample(1:365,n.people, replace = TRUE)
   length(which(table(day.of.year)&gt;2))
@@ -4844,10 +4870,62 @@ name: simulating-power
 ???
 Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
 - Bolker, B. M. 2015. Ecological Models and Data in R. (see chapter 5, p. 209)
+- [Power Analysis by Data Simulation in R - Part I](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-i/)
+- [Power Analysis by Data Simulation in R - Part II](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-ii/)
+- [Power Analysis by Data Simulation in R - Part III](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iii/)
+- [Power Analysis by Data Simulation in R - Part IV](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iv/)
 - [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&amp;ab_channel=DaCCoTABiostatsCore)
 - [Power Analysis, Clearly Explained!!!](https://www.youtube.com/watch?v=VX_M3tIyiYk&amp;ab_channel=StatQuestwithJoshStarmer)
 - [Power Analysis in R: Introduction](https://www.youtube.com/watch?v=wYZ6oD_cgMg&amp;ab_channel=DaCCoTABiostatsCore)
 - [DACCOTA Statistical Resources](https://med.und.edu/daccota/berdc-resources.html)
+
+---
+# Power analysis
+
+Resources: 
+
+- [Power Analysis by Data Simulation in R - Part I](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-i/)
+- [Power Analysis by Data Simulation in R - Part II](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-ii/)
+- [Power Analysis by Data Simulation in R - Part III](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iii/)
+- [Power Analysis by Data Simulation in R - Part IV](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iv/)
+
+???
+- "If a certain effect of interest exists (e.g. a difference between two groups) power is the chance that we actually find the effect in a given study." See [from Julian Quandt; Power Analysis by Data Simulation in R - Part I](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-i/)
+- [Simulating Power with the paramtest Package](https://cran.r-project.org/web/packages/paramtest/vignettes/Simulating-Power.html)
+- [Simulation for Power Analysis](https://nickch-k.github.io/EconometricsSlides/Week_08/Power_Simulations.html)
+- [Script: Power Analysis Simulations in R](https://egap.org/resource/script-power-analysis-simulations-in-r/)
+- [Using R for Simulation (pdf)](http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/power.pdf)
+
+---
+# Power analysis
+
+- Power ( `\(1-\beta\)` ) is the chance (probability) that we *actually find the effect* in a given study. 
+- So "power" is actually a probability that can change depending on multiple factors 
+  1. sample size, 
+  2. type I error (or significance alpha level), and 
+  3. the effect size or the magnitude of the alternative hypothesis
+
+| Null hypothesis is... | TRUE | FALSE |
+| --------------------- | ---- | ----- |
+| Rejected     |  Type I error (FP) `\(\alpha\)`                         |    Correct decision (true positive, TP) `\(1-\beta\)`   |
+| Not rejected |  Correct decision (true negative, TN) `\(1-\alpha\)`   |   Type II error (FN) `\(\beta\)`                         |
+
+
+
+
+&lt;!-- ![:scale 30%](images/power.gif/power.to.the.people.gif) --&gt;
+
+
+
+
+&lt;!-- ![:scale 30%](images/power.gif/power.to.the.number.gif) --&gt;
+
+
+&lt;!-- ![:scale 30%](images/power.gif/power.to.the.alpha.gif) --&gt;
+
+
+
+![:scale 100%](images/power.gif/power.to.the.all.gif)
 
 ---
 # Power analysis (proportions)

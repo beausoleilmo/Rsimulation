@@ -58,14 +58,17 @@ It was proposed that this workshop could be recorded (with or without an audienc
 # Disclaimer
 
 - I am not a statistician and do not pretend to fully understand all the implications of what will be presented. 
+- Some sloppy mathematical notation is used. If you know how to improve it, please suggest some modifications.  
+- Not all the code is shown in the presentation to reproduce the examples. 
+  * You have to go in the 
+    * [presentation RMarkdown files](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/workshopXX-en.Rmd) or 
+    * the script file [Workshop R script](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/workshopXX-en.r), which requires the [0.0_initialize.R](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/0.0_initialize.R) and other scripts specified within. 
+    * Don't forget to change the paths associated with some files to load everything. 
 - In addition, this is a work in progress. Any input you have is more than welcome. 
-- Some sloppy mathematical notation is  used. It'd help to be more rigorous if you could provide ways to write the notation better. 
-- Not all the code is shown in the presentation to reproduce the examples. You have to go in the [presentation RMarkdown files](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/workshopXX-en.Rmd) or the script file [Workshop R script](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/workshopXX-en.r), which requires the [0.0_initialize.R](https://github.com/beausoleilmo/Rsimulation/blob/6786d553e657db08ae28a31c5a4764dade704400/workshopXX-En/scripts/0.0_initialize.R) and other scripts specified within. Don't forget to change the paths associated with some files to load everything. 
 
 ???
-
-Might not apply to you
-
+- Might not apply to you
+- `wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/beausoleilmo/Rsimulation/main/workshopXX-En/scripts/workshopXX-en.r`
 
 ---
 # Outline
@@ -105,10 +108,9 @@ For this workshop it is useful to have a solid understanding of
 
 See the [QCBS R workshops](https://r.qcbs.ca/) if you want to revise these topics. Select the [R workshops](http://r.qcbs.ca/workshops/) needed.
 
-- We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop. 
-- We are going to be more explicitly show assumptions of models and use for loops in this workshop 
-
-- You should also have installed [R on CRAN here](https://cran.r-project.org) `r fa("r-project", fill = "steelblue")` and you could get [RStudio](https://www.rstudio.com) as well. 
+- We are going to review some aspects of these workshops, but getting some experience from those subjects can clearly help you for this workshop.
+- We are going to be more explicitly show assumptions of models and use for loops in this workshop
+- You should also have installed [R on CRAN here](https://cran.r-project.org) `r fa("r-project", fill = "steelblue")` and you could get [RStudio](https://www.rstudio.com) as well.
 
 ???
 
@@ -151,7 +153,7 @@ Consider that it takes time to develop a 'programers' intuition when coding. The
 - "Two random variables were talking in a bar. They thought they were being discrete, but I heard their chatter continuously."
 - 2 variables go in a bar multiple times. One always selects a new drink each time with a dice and the other selects always the same drink. One variable says to the other, dude, you're so random. 
 - Infinitely many mathematicians walk into a bar. The first says, "I'll have a beer." The second says, "I'll have half a beer." The third says, "I'll have a quarter of a beer." The barman pulls out just two beers. The mathematicians are all like, "That's all you're giving us? How drunk do you expect us to get on that?" The bartender says, "Come on guys.  Know your limits."
-[Source here](https://williambiersack.weebly.com/math-jokes.html)  Explanation: This is a reference to a converging infinite series. The limit of this: from n=1 to infinity is the sum (1/2n) = 1 + 1/2 + 1/4 + 1/8 + ...  = 1 
+[Source here](https://williambiersack.weebly.com/math-jokes.html)  Explanation: This is a reference to a converging infinite series. The limit of this: from n=0 to infinity is the sum (1/2^n) = 1 + 1/2 + 1/4 + 1/8 + ...  = 2 since $\sum_{n=1}^{\infty}(1/2)^n=1$. see [this article](https://en.wikipedia.org/wiki/1/2_%2B_1/4_%2B_1/8_%2B_1/16_%2B_⋯)
 
 #################################
 ---
@@ -189,6 +191,11 @@ In this section, we will explore
     - A **map** (which is a **representation of our world** to NAVIGATE in it)
       * they are abstractions of the real world (It is not the real world) 
       * The only map that is right is the 1:1 real map which would not be useful to make a sense of how the world is. Imagine that to go to the pharmacy, I need to give you all the genetic sequences of the trees that you encounter to get the directions. This would be insane! Therefore, we **simplify** and just extract what is useful for a particular situation. 
+    - 3D model that is created from a 2D drawing (floor plan in architecture)
+    - Lego model of a giraffe
+    - Model of Dinosaur based on bones and assumptions we have of the type of organism they were.
+    - Toy, Scale Model Kit of a spacecraft or a car or boat... 
+    - Role model: someone or something that excels in its domain and can be used as an example of a quality or skill. "Un ou une role model est une personnalité dont le comportement, l'exemple ou le succès est (ou peut être) imité par des tiers, notamment par des personnes plus jeunes" (source [wikipedia](https://fr.wikipedia.org/wiki/Role_model_(sociologie)))
     - Basically our task is to take **statistical Clay and model it** as we wish based on some idea. In this workshop, I want you to be able to play a bit more with statistical plasticine. "Pâte à modelée" (Plasticine, Play-Doh)
 
     - The goal is to make part of our world easier to understand, define, quantify, vizualize, simulate, etc. See [Scientific modelling](https://en.wikipedia.org/wiki/Scientific_modelling)
@@ -1489,12 +1496,11 @@ plot(function.name(1:10)+rnorm(10))
 - It **takes practice to code simulations**: the more you code, the more you develop tricks. 
 - Always try to **relate your simulation to a certain question of interest.** This will bring more meaning to the insights that you are trying to make. 
 
-In this section, we will discover functions that might help when coding simulations in R. 
+In this section, we will discover functions that might help when coding simulations in R.
 
---
 
-| Function  | Definition | 
-| --------- | ---------- | 
+| Function  | Definition |
+| --------- | ---------- |
 | set.seed  | Control the Random Number Generation |
 | sample	  | Random Samples and Permutations | 
 | rep   	  | Replicate Elements of Vectors and Lists | 
@@ -1503,7 +1509,13 @@ In this section, we will discover functions that might help when coding simulati
 | replicate (see sapply)  | Wrapper of sapply for repeated evaluation of an expression | 
 | for, if, while, next, break | Control Flow | 
 | p, d, r, +'name of dist.' | [See the table of distributions in R](#table-distributions) | 
-| plot, hist, points, lines, curve  | Plotting functions | 
+| plot, hist, points, lines, curve  | Plotting functions |
+
+
+???
+- When building up a Simulations, we are writing our code iteratively. You have to place yourself in a mindset of problem solving and finding the tools and tricks you need in order to 'resolve' the challenge that is presented to you.
+- There are often a lot of different ways to code the exact same problem or situation. You might need to go back and read more on the subject. That is part of the joy or learning by doing. 
+- Here are some useful functions that are central for some problems in simulations
 
 
 ---
@@ -1559,7 +1571,7 @@ sample(x = as.factor(month.abb), size = 5, replace = FALSE)
 ```
 
 ???
-- Very versatile 
+- `sample()` is a very versatile function that can be used in a variety of places. 
 
 ---
 # Functions useful in simulations (sample)
@@ -2730,7 +2742,58 @@ name: table-distributions
 | d	   | *density* function (probability density function or PDF) | gives probability that a random variables have for a specific value if the random variable  |
 | r	   | *random*  variable coming from a certain distribution | We use this to generate random numbers from a specific distribution |
 
-- In the next slide, you'll see some built in functions to use these distributions 
+- In the next slides, you'll see some built in functions to use these distributions 
+
+???
+- Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
+- In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
+- Here is a table showing the nomenclature used in R to generate data of 
+
+---
+# Functions for various distributions
+
+- Here is an example of the `d`, `p`, `r`, `q` functions for the normal distribution. 
+- Note that `lower.tail = TRUE` by default. It means that the probability is calculated from the "left" whereas `lower.tail = FALSE` means that the probability will be calculated from the "right". 
+
+```{r pqrd_distribution_example_normal, echo=FALSE, fig.width=13,fig.height=5}
+par(mar=c(3,4.5,.5,3))
+cex.lab = 1.5
+curve(dnorm(x,0,1), from = -5, to = 5,  lwd = 5, xlab = "", cex.lab = cex.lab, 
+      ylab = "Std. normal, dnorm(x, mean=0, sd=1)",
+      yaxt="n", xaxt="n")
+curve(pnorm(x,0,1)*.4, from = -5, to = 5, add=TRUE, col = "red", lwd = 4)
+curve(pnorm(x,0,1,lower.tail = FALSE)*.4, from = -5, to = 5, add=TRUE, col = "blue", lwd = 4)
+axis(c(2),cex.axis=cex.lab)
+axis(c(1),cex.axis=cex.lab)
+axis(4,at = seq(0,0.4, by = .1), labels = seq(0,1, length.out = 5), col = "red",col.axis = 'red', col.ticks = "red", 
+     cex = cex.lab,
+     cex.lab = cex.lab,
+     cex.axis = cex.lab)
+probs = c(.0001,.001, .01,.1,.25,.5,.8,.9,.95,.975,.99, .999)
+points(x = qnorm(probs,lower.tail = T),y = probs*.4, pch = 19, col = scales::alpha("red", .5))
+points(x = qnorm(probs,lower.tail = F),y = probs*.4, pch = 19, col = scales::alpha("blue", .5))
+abline(v = qnorm(c(.95,.975,.999),lower.tail = T), col = scales::alpha("grey",.5))
+abline(v = qnorm(c(.95,.975,.999),lower.tail = F), col = scales::alpha("grey",.5))
+text(x = qnorm(c(.95,.975,.999),lower.tail = T),y = .2, labels = round(qnorm(c(.95,.975,.999),lower.tail = T),2),srt = 90)
+segments(x0 = qnorm(c(.975),lower.tail = T),y0 = 0.975*.4,x1 = 10,y1 = 0.975*.4, col = "red", lty = 3)
+segments(x0 = qnorm(c(.95),lower.tail = T),y0 = 0.95*.4,x1 = 10,y1 = 0.95*.4, col = "red"   , lty = 3)
+text(x = qnorm(c(.975),lower.tail = T),y = .975*.4, labels = .975,col = "red", pos = 3)
+text(x = qnorm(c(.95),lower.tail = T),y = .95*.4, labels = .95,col = "red", pos = 1)
+title(xlab = "x", line=2, cex.lab=cex.lab)
+legend(x = -4.5,y = .35, legend = c("dnorm", "pnorm, lt=T", "pnorm, lt=F","rnorm(100)","qnorm, lt=T","qnorm, lt=F"), 
+       lty = c(1,1,1, 1, rep(NA,2)), lwd = c(5,4,4,4,rep(NA,2)), 
+       pch = c(rep(NA,4),19, 19),
+       col = c("black","red","blue","green","red","blue"),
+       bg = scales::alpha("white",.8), 
+       cex =1.7)
+set.seed(11)
+lines(density(rnorm(100)), col = scales::alpha("green", .8), lwd = 5)
+```
+
+
+
+---
+# Functions for various distributions (special)
 
 ```{r happy_birthday, echo=c(-1), eval=TRUE}
 # from the ??birthday page in R help 
@@ -2744,10 +2807,6 @@ name: table-distributions
 
 
 ???
-- Fortunately, we don't need to remeasure and rediscover all statistical distributions. 
-- In `R`, there are many functions that are available to play with these distributions, or even extract some pseudo-randomly generate values and use them to perform simulations. 
-- Here is a table showing the nomenclature used in R to generate data of 
-
 - I added a cool function in R for Probability of coincidences called `pbirthday` (birthday paradox)
 
 ```{r pbirthday_plot1}
@@ -4038,7 +4097,18 @@ text(x.val+1, y = .6, labels = round(x.val,2))
 
 ```{r normal_statistics_areas_1, echo=FALSE, fig.width=7,fig.height=5}
 par(mfrow=c(1,1), mar = c(4,4,0,1))
-hypothesis.testing <- function(mean.pop=2, mean.sn = 0,prob = .05, sd.sn =1, sd = 1, n=NULL) {
+hypothesis.testing <- function(mean.pop=2, mean.sn = 0,
+                               prob = .05, sd.sn =1, sd = 1, 
+                               n = NULL, # If sample size is changed, the standard error of the normal distribution will change
+                               range.y = NULL, 
+                               title="",
+                               pos.arrow.pop = c(-3,-2, .2,.1),
+                               pos.arrow.samp = c(5, 4, .2,.1), 
+                               legend = NULL, 
+                               samptext = "Sampling \ndistribution \nof population",
+                               samptext.pos = c(4, .25),
+                               poptext.pos = c(-4, .25),
+                               poptext = "Sampling \ndistribution \nif H0 is true") {
   
 if(!is.null(n)){
   se = sd/sqrt(n)
@@ -4057,17 +4127,19 @@ col3=rgb(0.8, 0.4, 0.2, alpha = 0.5)
 
 dval=dnorm(x, mean = mean, sd = sd.sn)
 dval2= dnorm(x, mean = mean2, sd = sd)
-curve(dnorm(x, mean = mean, sd = sd.sn),-6,10, n = 10000,xlim = c(-5, 7), 
-      ylim = range(0,1,max(dval,dval2)),
+if (is.null(range.y)) {
+  range.y = range(0,1,max(dval,dval2))
+}
+curve(dnorm(x, mean = mean, sd = sd.sn),-6,10, n = 10000,
+      xlim = c(-5, 7), main =title,
+      ylim = range.y,
       xlab = "", lwd =3 )
+title(xlab = "x", line=2.2, cex.lab=1.2)
 # dnorm can have values that are GREATER THAN 1 # see https://stackoverflow.com/questions/42661973/r-density-plot-y-axis-larger-than-1
-text(x = -4, y = .25,labels = "Sampling \ndistribution \nif H0 is true",adj = 0,pos = 4, cex=cex)
-arrows(x0 = -3,x1 = -2, y0 = .2,y1 = .1,code = 2,length=.1)
+text(x = poptext.pos[1], y = poptext.pos[2],labels = poptext,adj = 0,pos = 4, cex=cex)
 
 null.test =qnorm(p = p, mean = mean, sd=sd.sn,lower.tail = F)
 abline(v = null.test)
-
-
 
 # Add the right (solid) polygon 
 lb <- qnorm(pnorm(null.test,mean = mean,sd = sd.sn),mean,sd = sd.sn) # Lower bound
@@ -4077,10 +4149,11 @@ y <- dnorm(x2, mean = mean, sd = sd.sn) # Density
 polygon(c(lb, x2, ub), c(0,y,0), col = col3,
         # density = 10, angle = -45, 
         lwd = 2)
+# Arrow on top of the drawing
+arrows(x0 = pos.arrow.pop[1],x1 = pos.arrow.pop[2], y0 = pos.arrow.pop[3], y1 = pos.arrow.pop[4],code = 2,length=.1)
 
 curve(dnorm(x, mean = mean2, sd = sd),-6,10, n = 10000, xlim = c(-5, 8), ylim = c(0,0.6),col = "red",add = T, lwd =3 )
-text(x = 4, y = .25,labels = "Sampling \ndistribution \nof population",adj = 0,pos = 4, cex=cex)
-arrows(x0 = 5,x1 = 4, y0 = .2,y1 = .1,code = 2,length=.1)
+text(x = samptext.pos[1], y = samptext.pos[2],labels = samptext,adj = 0,pos = 4, cex=cex)
 
 # add the polygon to the left  
 lb <- min(x) # Lower bound
@@ -4097,17 +4170,34 @@ x2 <- seq(lb, ub, length = 100) # New Grid
 y <- dnorm(x2, mean2, sd) # Density
 polygon(c(lb, x2, ub), c(0,y,0), col = col2,density = 16, angle = -45, lwd = 2)
 # text(x = 2, y = .2,labels = paste0((1-p)*100,"%"),adj = 0,pos = 4, cex=cex)
+# Arrow on top of the drawing
+arrows(x0 = pos.arrow.samp[1],x1 = pos.arrow.samp[2], y0 = pos.arrow.samp[3], y1 = pos.arrow.samp[4],code = 2,length=.1)
 
-
-legend("topleft",
-       legend = c("Type 1 error", "Type 2 error", "Power"),
+if (is.null(legend)) {
+  legend = "topleft"
+  legend(legend,
+       legend = c(expression(paste("Type 1 error = ",alpha)), 
+                  expression(paste("Type 2 error = ",beta)), 
+                  expression(paste("Power = 1-",beta))),
        density = c(NA,10,16),
        angle = c( NA, 45, -45), 
        col =c(col3, col1,col2),
        fill = c(col3,col1,col2),
        ncol = 1,
-       cex = 1, bg = "white"
-)
+       cex = 1, bg = scales::alpha("white",.8))
+} else {
+    legend(legend,
+       legend = c(expression(paste("Type 1 error = ",alpha)), 
+                  expression(paste("Type 2 error = ",beta)), 
+                  expression(paste("Power = 1-",beta))),
+       density = c(NA,10,16),
+       angle = c( NA, 45, -45), 
+       col =c(col3, col1,col2),
+       fill = c(col3,col1,col2),
+       ncol = 1,
+       cex = 1, bg = scales::alpha("white",.8))
+}
+
 # text(x = 2, y = .2,labels = paste0((1-p)*100,"%"),adj = 0,pos = 4, cex=cex)
 
 }
@@ -4814,7 +4904,7 @@ Reference for the section
   1. the confidence limits for the expected values (confidence interval or uncertainty around the **mean predictions (y)** for a value of x given the parameters of the model; blue shaded polygon `predict(lm.out, interval = "confidence")`; at mean of x and y, the uncertainty comes only from the intercept) to the line and
   2. the 95% central quantiles of the Normal distribution (or prediction interval, grey shaded polygon for the simulated one; compared with red shading lines which is the theoretical one `predict(lm.out, interval="prediction")`)
 
-```{r simulate.gaussian.model, echo=FALSE, fig.width=8,fig.height=6}
+```{r simulate.gaussian.model, echo=FALSE, fig.width=8,fig.height=4}
 
 sim.lm = simulate(lm.out, nsim = 1e5, seed = 12) %>% data.frame
 lower_ci_sim <- apply(sim.lm, 1, function(x) quantile(x, probs = 0.025) )
@@ -7010,10 +7100,142 @@ name: simulating-power
 ???
 Now that we have a better understanding of distributions and how to play with them, we are going to look into the subject of power analysis.
 - Bolker, B. M. 2015. Ecological Models and Data in R. (see chapter 5, p. 209)
+- [Power Analysis by Data Simulation in R - Part I](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-i/)
+- [Power Analysis by Data Simulation in R - Part II](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-ii/)
+- [Power Analysis by Data Simulation in R - Part III](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iii/)
+- [Power Analysis by Data Simulation in R - Part IV](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iv/)
 - [Power Analysis in R with GLMMs: Introduction](https://www.youtube.com/watch?v=nh6zh9sN3As&ab_channel=DaCCoTABiostatsCore)
 - [Power Analysis, Clearly Explained!!!](https://www.youtube.com/watch?v=VX_M3tIyiYk&ab_channel=StatQuestwithJoshStarmer)
 - [Power Analysis in R: Introduction](https://www.youtube.com/watch?v=wYZ6oD_cgMg&ab_channel=DaCCoTABiostatsCore)
 - [DACCOTA Statistical Resources](https://med.und.edu/daccota/berdc-resources.html)
+
+---
+# Power analysis
+
+Resources: 
+
+- [Power Analysis by Data Simulation in R - Part I](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-i/)
+- [Power Analysis by Data Simulation in R - Part II](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-ii/)
+- [Power Analysis by Data Simulation in R - Part III](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iii/)
+- [Power Analysis by Data Simulation in R - Part IV](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iv/)
+
+???
+- "If a certain effect of interest exists (e.g. a difference between two groups) power is the chance that we actually find the effect in a given study." See [from Julian Quandt; Power Analysis by Data Simulation in R - Part I](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-i/)
+- [Simulating Power with the paramtest Package](https://cran.r-project.org/web/packages/paramtest/vignettes/Simulating-Power.html)
+- [Simulation for Power Analysis](https://nickch-k.github.io/EconometricsSlides/Week_08/Power_Simulations.html)
+- [Script: Power Analysis Simulations in R](https://egap.org/resource/script-power-analysis-simulations-in-r/)
+- [Using R for Simulation (pdf)](http://www.columbia.edu/~cjd11/charles_dimaggio/DIRE/resources/R/power.pdf)
+
+---
+# Power analysis
+
+- Power ( $1-\beta$ ) is the chance (probability) that we *actually find the effect* in a given study. 
+- So "power" is actually a probability that can change depending on multiple factors 
+  1. sample size, 
+  2. type I error (or significance alpha level), and 
+  3. the effect size or the magnitude of the alternative hypothesis
+
+| Null hypothesis is... | TRUE | FALSE |
+| --------------------- | ---- | ----- |
+| Rejected     |  Type I error (FP) $\alpha$                         |    Correct decision (true positive, TP) $1-\beta$   |
+| Not rejected |  Correct decision (true negative, TN) $1-\alpha$   |   Type II error (FN) $\beta$                         |
+
+
+```{r normal_statistics_areas_power_analysis_mean, echo=FALSE, fig.width=10,fig.height=4}
+dir.create("images/power.gif")
+png(filename = "images/power.gif/power.to.the.people%03d.png", width = 8,height = 5,units = "in",res = 300)
+par(mfrow=c(1,1), mar = c(3,4,2,1), cex = 1.1)
+for (i in seq(1,5,length.out = 10)) {
+  hypothesis.testing(mean.pop = i,sd = 5, n = 10, range.y = c(0,.5), 
+                     poptext = expression("H"[0]*" True"),
+                     title = "Changing the effect size",
+                     samptext.pos = c(i-.99,.31),
+                     pos.arrow.samp = c(i,i,.29,.25),
+                     poptext.pos = c(-4.5,.22),
+                     samptext = paste("Sample \npop. mean=",round(i,1),sep=""))
+}
+garbage = dev.off()
+# This is the SAME code, but naming the png differently so that it can be processed in a different way later! 
+png(filename = "images/power.gif/p2tp%03d.png", width = 8,height = 5,units = "in",res = 300)
+par(mfrow=c(1,1), mar = c(3,4,2,1), cex = 1.1)
+for (i in seq(1,5,length.out = 10)) {
+  hypothesis.testing(mean.pop = i,sd = 5, n = 10, range.y = c(0,.5), 
+                     poptext = expression("H"[0]*" True"),
+                     title = "Changing the effect size",
+                     samptext.pos = c(i-.99,.31),
+                     pos.arrow.samp = c(i,i,.29,.25),
+                     poptext.pos = c(-4.5,.22),
+                     samptext = paste("Sample \npop. mean=",round(i,1),sep=""))
+}
+garbage = dev.off()
+# Requires imagemagick
+# https://imagemagick.org/index.php
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/power.to.the.people*.png images/power.gif/power.to.the.people.gif")
+```
+
+<!-- ![:scale 30%](images/power.gif/power.to.the.people.gif) -->
+
+
+```{r normal_statistics_areas_power_analysis_n, echo=FALSE, fig.width=10,fig.height=4}
+png(filename = "images/power.gif/power.to.the.number%03d.png", width = 8,height = 5,units = "in",res = 300)
+par(mfrow=c(1,1), mar = c(3,4,2,1), cex = 1.1)
+for (i in seq(10,1000,length.out = 10)) {
+hypothesis.testing(mean.pop = 2,sd = 5, n = i, range.y = c(0,2.5), 
+                   poptext = expression("H"[0]*" True"),
+                   title = "Changing the sample size",
+                     samptext.pos = c(2.8,.31),
+                     pos.arrow.samp = c(2.9,2.5,.30,.25),
+                     pos.arrow.pop = c(-1.5,-1.25,.40,.29),
+                     poptext.pos = c(-2,.5),
+                     samptext = paste("Sample \npop. n=",round(i,1),sep=""))
+
+}
+garbage = dev.off()
+# Requires imagemagick
+# https://imagemagick.org/index.php
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/power.to.the.number*.png images/power.gif/power.to.the.number.gif")
+```
+
+<!-- ![:scale 30%](images/power.gif/power.to.the.number.gif) -->
+```{r normal_statistics_areas_power_analysis_alpha, echo=FALSE, fig.width=10,fig.height=4}
+png(filename = "images/power.gif/power.to.the.alpha%03d.png", width = 8,height = 5,units = "in",res = 300)
+par(mfrow=c(1,1), mar = c(3,4,2,1), cex = 1.1)
+sequ.p = seq(0.025,.99,length.out = 10)
+xp = qnorm(sequ.p,0,1, lower.tail = FALSE)
+xprob = pnorm(q = xp,0,1, lower.tail = FALSE)
+w = 1
+for (i in sequ.p) {
+  hypothesis.testing(mean.pop = 2,sd = 5, n = 10, range.y = c(0,.5), prob = i,
+                     poptext = expression("H"[0]*" True"),
+                     title = "Changing the alpha level",
+                     samptext.pos = c(2-.99,.31),
+                     pos.arrow.samp = c(2,2,.29,.25),
+                     poptext.pos = c(-4,.22),legend = "topright",
+                     samptext = "Sample pop.")
+  text(xp[w], y = .48, labels = paste("q=",round(xp[w],2),sep = ""), srt = 90, pos = 2)
+  text(xp[w]+.50, y = .48, labels = paste("p=",round(xprob[w],2),sep=""), srt = 90,pos = 2)
+  w = w + 1
+}
+garbage = dev.off()
+# Requires imagemagick
+# https://imagemagick.org/index.php
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/power.to.the.alpha*.png images/power.gif/power.to.the.alpha.gif")
+```
+
+<!-- ![:scale 30%](images/power.gif/power.to.the.alpha.gif) -->
+
+```{r combine_gifs, echo=FALSE}
+# Requires imagemagick
+# https://imagemagick.org/index.php
+# all p2tp*.png will be MODIFIED
+system("for f in images/power.gif/p2tp*.png; do /opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert $f ${f/images\\/power.gif\\/p2tp/images\\/power.gif\\/power.to.the.number} +append $f; done")
+
+system("for f in images/power.gif/p2tp*.png; do /opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert $f ${f/images\\/power.gif\\/p2tp/images\\/power.gif\\/power.to.the.alpha} +append $f; done")
+
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/p2tp*.png images/power.gif/power.to.the.all.gif")
+```
+
+![:scale 100%](images/power.gif/power.to.the.all.gif)
 
 ---
 # Power analysis (proportions)

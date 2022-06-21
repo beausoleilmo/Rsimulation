@@ -1,0 +1,30 @@
+# Workshop structure {#structure}
+
+In development.
+
+## Objective
+
+We display here basic guidelines to help the transition from the [QCBS wikipage](wiki.qcbs.ca/r) towards the `bookdown` framework, as well as for the maintenance of the **QCBS R Workshop Series**. 
+
+#### Structure
+
+Following `bookdown`'s default options, headings will be automatically numbered.  If you don’t like this, then you have to un-number them manually. Within any .Rmd you can do this if you:
+
+Add an {-} after each heading you want unnumbered.
+If your section has an ID within brackets already, just add the - in front, for example:
+
+Each **section** of the wiki for each workshop will become its own book **chapter**.
+
+Each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`. The name of the Rmd files should follow this structure: `XX-chapter_name.Rmd` with `XX`being the number of the chapter.
+
+## The `index.Rmd` file
+
+In addition to the chapters, each book contains an `index.Rmd` file which will automatically be the first chapter of all books and which should contain links to the [GitHub page](https://github.com/QCBSRworkshops/templateWorkshops) and [presentation](https://qcbsrworkshops.github.io/templateWorkshops/presentation-template/index.html) for its respective workshop. Notice that this file has no number on its file name. When building the book, bookdown automatically uses the `index.Rmd`file as the first chapter and then follows the numbering of the other files. Take this into account when naming your chapters as your `01-chapter_name.Rmd` will actually be the second chapter and so on.
+
+## Additional Resources chapter
+
+The books should also contain a final chapter called `XX-references.Rmd` which will contain any citations that you used and can also contain any additional material and resources if participants wish to obtain more information on the subject. Please refer to Chapter \@ref(citations) for more information on how create the content of this chapter.
+
+## Example {-}
+
+For example, the English version of the [wiki](https://wiki.qcbs.ca/r_workshop1) for Workshop 1 has 8 sections. So the book would have a total of 10 Rmd files which include the `index.Rmd` file, 8 `XX-chapter_name.Rmd` files numbered `01 - 08`, and the final `9-references.Rmd`file.

@@ -1,0 +1,244 @@
+# Special formatting {#format}
+
+In development.
+
+## Formatting
+
+### Columns
+
+As in the presentations, we are also able to distribute content accross columns here. While we would do this in the presentations using `.pull-right[]` or `.pull-left[]`, here we will have to use the HTML content division element, which is opened by `<div>` and closed by `</div>`.
+
+There are current several different classes of content division that we implemented in this book and that we can specify by adding `class` to the content division element opener. For instance, to add the `two-col` class to `<div>`, we would do the following: `<div class = 'two-col'>`.
+
+Remember that we must always close the HTML `<div>` by including `</div>` at the end of the content we wanted to divide; there is no need to include `class` when closing any HTML elements.
+
+We list below all examples of content dividers that can be used in this book.
+
+#### The simplest two-column split: class `two-col`
+
+To equally divide the content across two equal-sized columns, we include it between `<div class = 'two-col'>` `</div>`. 
+
+<div class = 'two-col'>
+
+1. Introduction à R
+2. Charger et manipuler des données
+3. Introduction à ggplot2
+4. Modèles linéaires
+5. Programmation avec R
+6. Modèles linéaires généralisés
+7. Modèles generales et generalisées linéaires à effets mixtes
+8. Modèles additifs généralisés
+9. Analyses multivariées
+10. Analyses multivariées avancées
+
+</div>
+
+As shown below:
+
+```
+<div class = 'two-col'>
+1. Introduction à R
+2. Charger et manipuler des données
+3. Introduction à ggplot2
+4. Modèles linéaires
+5. Programmation avec R
+6. Modèles linéaires généralisés
+7. Modèles generales et generalisées linéaires à effets mixtes
+8. Modèles additifs généralisés
+9. Analyses multivariées
+10. Analyses multivariées avancées
+</div>
+```
+
+#### The simplest three-column split: class `three-col`
+
+To equally divide the content across two equal-sized columns, we include it between `<div class = 'three-col'>` `</div>`. 
+
+<div class = 'three-col'>
+
+1. Introduction à R
+2. Charger et manipuler des données
+3. Introduction à ggplot2
+4. Modèles linéaires
+5. Programmation avec R
+6. Modèles linéaires généralisés
+7. Modèles generales et generalisées linéaires à effets mixtes
+8. Modèles additifs généralisés
+9. Analyses multivariées
+10. Analyses multivariées avancées
+
+</div>
+
+As shown below:
+
+```
+<div class = 'three-col'>
+1. Introduction à R
+2. Charger et manipuler des données
+3. Introduction à ggplot2
+4. Modèles linéaires
+5. Programmation avec R
+6. Modèles linéaires généralisés
+7. Modèles generales et generalisées linéaires à effets mixtes
+8. Modèles additifs généralisés
+9. Analyses multivariées
+10. Analyses multivariées avancées
+</div>
+```
+
+> Unfortunately, the `two-col` and `three-col` classes are not ideal to split code and output across two distinct columns. See other options below.
+
+#### More flexible split across two columns
+
+##### Even two-column split: classes `split`, `split-left`, and `split-right`
+
+A more flexible way of splitting content across two columns is to use the `split`, `split-left`, and `split-right` classes. `split` will create a `flex` box layout-container and `split-left` and `split-right` can be used to add content to this layout. See an example of its usage below:
+
+> This is the recommended option if you would like to split code and prose across two evenly-sized columns. 
+
+<div class = "split">
+<div class = "split-left">
+**Introduction to standard deviation**
+
+Let us calculate the standard deviation for a population containing the values $1$, $2$, $3$, $4$, and $5$.
+
+We can calculate the standard deviation using the `sd()` function in `R`, as shown below:
+```{r sd-example, echo = TRUE, results = "hide"}
+sd(c(1, 2, 3, 4, 5))
+```
+
+</div>
+
+<div class = "split-right">
+Remember that the **standard deviation** can be calculated as: 
+
+$$\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}$$
+
+The output for the code on the left side is:
+
+```{r sd-example-output, echo = FALSE, ref.label='sd-example'}
+```
+
+</div>
+</div>
+
+The above example has been generated using:
+
+````markdown
+<div class = "split">
+<div class = "split-left">
+**Introduction to standard deviation**
+
+Let us calculate the standard deviation for a population containing the values $1$, $2$, $3$, $4$, and $5$.
+
+In `R`, we could do the following:
+`r ''````{r sd-example, echo = TRUE, results = "hide"}
+    sd(c(1, 2, 3, 4, 5))
+```
+
+</div>
+<div class = "split-right">
+
+Remember that the **standard deviation** can be calculated as: 
+$$\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}$$
+
+The output for the code on the left side is:
+    
+`r ''````{r sd-example-output, echo = FALSE, ref.label='sd-example'}
+```
+</div>
+</div>
+````
+
+##### Uneven two-column uneven-split: classes `split`, `uneven-split-left`, and `uneven-split-right`
+
+To use uneven columns, use the `uneven-split-left`, and `uneven-split-right` classes inside the `split` class.See an example of its usage below:
+
+<div class = "split">
+<div class = "uneven-split-left">
+**Introduction to standard deviation**
+
+Let us calculate the standard deviation for a population containing the values $1$, $2$, $3$, $4$, and $5$.
+
+We can calculate the standard deviation using the `sd()` function in `R`, as shown below:
+```{r sd-example-2, echo = TRUE, results = "hide"}
+sd(c(1, 2, 3, 4, 5))
+```
+
+</div>
+
+<div class = "uneven-split-right">
+Remember that the **standard deviation** can be calculated as: 
+
+$$\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}$$
+
+The output for the code on the left side is:
+
+```{r sd-example-output-2, echo = FALSE, ref.label='sd-example'}
+```
+
+</div>
+</div>
+
+The above example has been generated using:
+
+````markdown
+<div class = "split">
+<div class = "uneven-split-left">
+**Introduction to standard deviation**
+
+Let us calculate the standard deviation for a population containing the values $1$, $2$, $3$, $4$, and $5$.
+
+In `R`, we could do the following:
+`r ''````{r sd-example-2, echo = TRUE, results = "hide"}
+    sd(c(1, 2, 3, 4, 5))
+```
+
+</div>
+<div class = "uneven-split-right">
+
+Remember that the **standard deviation** can be calculated as: 
+$$\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}$$
+
+The output for the code on the left side is:
+    
+`r ''````{r sd-example-output-2, echo = FALSE, ref.label='sd-example'}
+```
+</div>
+</div>
+````
+
+### Special notes and tips
+
+Standard Markdown notes can be obtained by typing `>` at the beginning of the paragraph followed by space.
+
+> For example, like this.
+
+Here, we can also use special note tips by writing `:::` followed by one of the four class names available: `puzzle`, `explanation`, and `noway`.
+
+To make special explanation boxes, use `explanation`:
+
+:::explanation
+
+You use a div tip by writing `:::` following by the name that you assigned to it in the CSS after the `div`.
+
+:::
+
+To pose thoughtful questions to the readers, use `puzzle`:
+
+:::puzzle
+What is the spell that allows wizards to make objects levitate with the flick of their wand?
+:::
+
+To tell readers they must not do something, use `noway`:
+
+:::noway
+You may not begin function names in `R` with numbers.
+:::
+
+
+To show that you are not happy about something, use `angry`:
+
+:::angry
+Do not really use this. This is just a test.
+:::

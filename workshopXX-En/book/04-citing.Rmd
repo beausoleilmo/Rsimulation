@@ -1,0 +1,84 @@
+# References and citations
+
+In development.
+
+We already covered the basics on how to insert an inline citation on Chapter \@ref(basics). However, those examples only work for this book because they are the packages we are using to create the book. If we wanted to cite another package or a book, article, we first have to create the bibliography entries for them.
+
+## The BibTeX format
+Bookdown uses `pandoc-citeproc` for its html output. Many bibliography formats can be used by `pandoc-citeproc`, but [BibTex](http://www.bibtex.org/) is quite simple and relatively standard so we will use it for our books.
+
+Here is a basic example of a BibTex entry:
+```{r eval=FALSE}
+@Book{abramowitz+stegun,
+ author    = "Milton {Abramowitz} and Irene A. {Stegun}",
+ title     = "Handbook of Mathematical Functions with
+              Formulas, Graphs, and Mathematical Tables",
+ publisher = "Dover",
+ year      =  1964,
+ address   = "New York City",
+ edition   = "ninth Dover printing, tenth GPO printing"
+}
+```
+
+Now let's see what the structure of the entry is:
+
+- Each entry starts with a type (e.g. `@Book{`) such as `article` or `book`, among others.
+- It is then followed by a citation-key (e.g. `abramowitz+stegun,`) which can be used to produce the inline citations. So if we wanted to cite our example book we would use `@abramowitz+stegun` to produce this citation: @abramowitz+stegun.
+- Finally, the entry has multiple tags which give the characteristics of the entry (e.g. author, title, year, etc.)
+  - There are some required tags for each type of entry as well as some optional ones.
+
+You can find a list of the different types and the required and optional tags for each type [here](https://en.wikipedia.org/wiki/BibTeX).
+
+## Creating a BibTeX database
+
+Now that we know the basics about BibTeX, we can apply it. For this, we have to create a BibTeX database which is a plain-text file with a `.bib` extension. For example, we created an `example.bib`file so that we could use the @abramowitz+stegun citation.
+
+The file name for the database of each workshop should be `workshop-X-citations.bib`.
+
+### R packages
+
+If you wish to cite any R packages, **knitr** contains the helper function `write_bib()` that automatically produces the BibTeX entries for the selected packages and creates a datbase for the packages. Here is an example that this template uses to produce citations such as this one for **bookdown** [@R-bookdown]:
+```{r eval=FALSE}
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+## Adding the BibTeX database
+
+To include the database in the book, you must:
+
+- Save the `.bib` file in the `book-en` or `book-fr` folder.
+- Add the file name to the `bibliography` field in the YAML metadata section of the `index.Rmd` file.
+  - Multiple database files can be included. For example, the `bibliography` field of this template looks like this:
+```{r eval=FALSE}
+bibliography: [packages.bib, example.bib]
+```
+
+## The `XX-references.Rmd` file
+
+The basic format of this Rmd file should only contain the following expression:
+```{r eval=FALSE}
+`r if (knitr::is_html_output()) '# Additional resources {-}'`
+
+### References {-}
+```
+
+This will output only the references we included in the main BibTeX database (i.e. the `workshop-X-citations.bib` file) and any packages we cited inside the book.
+
+- Note that this will not include the rest of the package reference entries created by **knitr** if they were not cited inside the book.
+
+### Including other resources
+
+Most of the wikis for the QCBS R Workshop Series contain a section at the end where we offer additional resources for the participants interested in more information about the subject of the workshop.
+
+To include these into this last chapter of the book, you can add a new subsection after the basic expression showed above. In this book, we have included a link to the **bookdown** manual as an additional resource like this:
+```{r eval=FALSE}
+`r if (knitr::is_html_output()) '
+# Additional resources {-}
+'`
+
+For more information on how to use bookdown, you can check the bookdown manual [here](https://bookdown.org/yihui/bookdown/).
+
+### References {-}
+```

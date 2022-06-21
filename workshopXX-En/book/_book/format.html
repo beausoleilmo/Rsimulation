@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Special formatting | QCBS R Workshop Series</title>
+  <meta name="description" content="A work-in-progress" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Special formatting | QCBS R Workshop Series" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="A work-in-progress" />
+  <meta name="github-repo" content="qcbsRworkshops/templateWorkshops" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Special formatting | QCBS R Workshop Series" />
+  
+  <meta name="twitter:description" content="A work-in-progress" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Chapter 2 Special formatting | QCBS R Workshop Series" />
+
+
+<meta name="date" content="2022-02-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="basics.html"/>
+<link rel="next" href="structure.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>1</b> Bookdown basics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="basics.html"><a href="basics.html#organization"><i class="fa fa-check"></i><b>1.1</b> Organization</a></li>
+<li class="chapter" data-level="1.2" data-path="basics.html"><a href="basics.html#cross-referencing"><i class="fa fa-check"></i><b>1.2</b> Cross-referencing</a></li>
+<li class="chapter" data-level="1.3" data-path="basics.html"><a href="basics.html#code-chunks"><i class="fa fa-check"></i><b>1.3</b> Code chunks</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="basics.html"><a href="basics.html#workshop-script"><i class="fa fa-check"></i><b>1.3.1</b> Workshop script</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="basics.html"><a href="basics.html#figures-and-tables"><i class="fa fa-check"></i><b>1.4</b> Figures and tables</a></li>
+<li class="chapter" data-level="1.5" data-path="basics.html"><a href="basics.html#citations"><i class="fa fa-check"></i><b>1.5</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="format.html"><a href="format.html"><i class="fa fa-check"></i><b>2</b> Special formatting</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="format.html"><a href="format.html#formatting"><i class="fa fa-check"></i><b>2.1</b> Formatting</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="format.html"><a href="format.html#columns"><i class="fa fa-check"></i><b>2.1.1</b> Columns</a></li>
+<li class="chapter" data-level="2.1.2" data-path="format.html"><a href="format.html#special-notes-and-tips"><i class="fa fa-check"></i><b>2.1.2</b> Special notes and tips</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>3</b> Workshop structure</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure.html"><a href="structure.html#objective"><i class="fa fa-check"></i><b>3.1</b> Objective</a></li>
+<li class="chapter" data-level="3.2" data-path="structure.html"><a href="structure.html#the-index.rmd-file"><i class="fa fa-check"></i><b>3.2</b> The <code>index.Rmd</code> file</a></li>
+<li class="chapter" data-level="3.3" data-path="structure.html"><a href="structure.html#additional-resources-chapter"><i class="fa fa-check"></i><b>3.3</b> Additional Resources chapter</a></li>
+<li class="chapter" data-level="" data-path="structure.html"><a href="structure.html#example"><i class="fa fa-check"></i>Example</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="references-and-citations.html"><a href="references-and-citations.html"><i class="fa fa-check"></i><b>4</b> References and citations</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="references-and-citations.html"><a href="references-and-citations.html#the-bibtex-format"><i class="fa fa-check"></i><b>4.1</b> The BibTeX format</a></li>
+<li class="chapter" data-level="4.2" data-path="references-and-citations.html"><a href="references-and-citations.html#creating-a-bibtex-database"><i class="fa fa-check"></i><b>4.2</b> Creating a BibTeX database</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="references-and-citations.html"><a href="references-and-citations.html#r-packages"><i class="fa fa-check"></i><b>4.2.1</b> R packages</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="references-and-citations.html"><a href="references-and-citations.html#adding-the-bibtex-database"><i class="fa fa-check"></i><b>4.3</b> Adding the BibTeX database</a></li>
+<li class="chapter" data-level="4.4" data-path="references-and-citations.html"><a href="references-and-citations.html#the-xx-references.rmd-file"><i class="fa fa-check"></i><b>4.4</b> The <code>XX-references.Rmd</code> file</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="references-and-citations.html"><a href="references-and-citations.html#including-other-resources"><i class="fa fa-check"></i><b>4.4.1</b> Including other resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i>Additional resources</a>
+<ul>
+<li class="chapter" data-level="" data-path="additional-resources.html"><a href="additional-resources.html#references"><i class="fa fa-check"></i>References</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">QCBS R Workshop Series</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+<!-- 
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+--!>
+<div id="format" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Special formatting</h1>
+<p>In development.</p>
+<div id="formatting" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Formatting</h2>
+<div id="columns" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Columns</h3>
+<p>As in the presentations, we are also able to distribute content accross columns here. While we would do this in the presentations using <code>.pull-right[]</code> or <code>.pull-left[]</code>, here we will have to use the HTML content division element, which is opened by <code>&lt;div&gt;</code> and closed by <code>&lt;/div&gt;</code>.</p>
+<p>There are current several different classes of content division that we implemented in this book and that we can specify by adding <code>class</code> to the content division element opener. For instance, to add the <code>two-col</code> class to <code>&lt;div&gt;</code>, we would do the following: <code>&lt;div class = 'two-col'&gt;</code>.</p>
+<p>Remember that we must always close the HTML <code>&lt;div&gt;</code> by including <code>&lt;/div&gt;</code> at the end of the content we wanted to divide; there is no need to include <code>class</code> when closing any HTML elements.</p>
+<p>We list below all examples of content dividers that can be used in this book.</p>
+<div id="the-simplest-two-column-split-class-two-col" class="section level4" number="2.1.1.1">
+<h4><span class="header-section-number">2.1.1.1</span> The simplest two-column split: class <code>two-col</code></h4>
+<p>To equally divide the content across two equal-sized columns, we include it between <code>&lt;div class = 'two-col'&gt;</code> <code>&lt;/div&gt;</code>.</p>
+<div class="two-col">
+<ol style="list-style-type: decimal">
+<li>Introduction à R</li>
+<li>Charger et manipuler des données</li>
+<li>Introduction à ggplot2</li>
+<li>Modèles linéaires</li>
+<li>Programmation avec R</li>
+<li>Modèles linéaires généralisés</li>
+<li>Modèles generales et generalisées linéaires à effets mixtes</li>
+<li>Modèles additifs généralisés</li>
+<li>Analyses multivariées</li>
+<li>Analyses multivariées avancées</li>
+</ol>
+</div>
+<p>As shown below:</p>
+<pre><code>&lt;div class = &#39;two-col&#39;&gt;
+1. Introduction à R
+2. Charger et manipuler des données
+3. Introduction à ggplot2
+4. Modèles linéaires
+5. Programmation avec R
+6. Modèles linéaires généralisés
+7. Modèles generales et generalisées linéaires à effets mixtes
+8. Modèles additifs généralisés
+9. Analyses multivariées
+10. Analyses multivariées avancées
+&lt;/div&gt;</code></pre>
+</div>
+<div id="the-simplest-three-column-split-class-three-col" class="section level4" number="2.1.1.2">
+<h4><span class="header-section-number">2.1.1.2</span> The simplest three-column split: class <code>three-col</code></h4>
+<p>To equally divide the content across two equal-sized columns, we include it between <code>&lt;div class = 'three-col'&gt;</code> <code>&lt;/div&gt;</code>.</p>
+<div class="three-col">
+<ol style="list-style-type: decimal">
+<li>Introduction à R</li>
+<li>Charger et manipuler des données</li>
+<li>Introduction à ggplot2</li>
+<li>Modèles linéaires</li>
+<li>Programmation avec R</li>
+<li>Modèles linéaires généralisés</li>
+<li>Modèles generales et generalisées linéaires à effets mixtes</li>
+<li>Modèles additifs généralisés</li>
+<li>Analyses multivariées</li>
+<li>Analyses multivariées avancées</li>
+</ol>
+</div>
+<p>As shown below:</p>
+<pre><code>&lt;div class = &#39;three-col&#39;&gt;
+1. Introduction à R
+2. Charger et manipuler des données
+3. Introduction à ggplot2
+4. Modèles linéaires
+5. Programmation avec R
+6. Modèles linéaires généralisés
+7. Modèles generales et generalisées linéaires à effets mixtes
+8. Modèles additifs généralisés
+9. Analyses multivariées
+10. Analyses multivariées avancées
+&lt;/div&gt;</code></pre>
+<blockquote>
+<p>Unfortunately, the <code>two-col</code> and <code>three-col</code> classes are not ideal to split code and output across two distinct columns. See other options below.</p>
+</blockquote>
+</div>
+<div id="more-flexible-split-across-two-columns" class="section level4" number="2.1.1.3">
+<h4><span class="header-section-number">2.1.1.3</span> More flexible split across two columns</h4>
+<div id="even-two-column-split-classes-split-split-left-and-split-right" class="section level5" number="2.1.1.3.1">
+<h5><span class="header-section-number">2.1.1.3.1</span> Even two-column split: classes <code>split</code>, <code>split-left</code>, and <code>split-right</code></h5>
+<p>A more flexible way of splitting content across two columns is to use the <code>split</code>, <code>split-left</code>, and <code>split-right</code> classes. <code>split</code> will create a <code>flex</code> box layout-container and <code>split-left</code> and <code>split-right</code> can be used to add content to this layout. See an example of its usage below:</p>
+<blockquote>
+<p>This is the recommended option if you would like to split code and prose across two evenly-sized columns.</p>
+</blockquote>
+<div class="split">
+<div class="split-left">
+<p><strong>Introduction to standard deviation</strong></p>
+<p>Let us calculate the standard deviation for a population containing the values <span class="math inline">\(1\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(4\)</span>, and <span class="math inline">\(5\)</span>.</p>
+<p>We can calculate the standard deviation using the <code>sd()</code> function in <code>R</code>, as shown below:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="format.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
+</div>
+<div class="split-right">
+<p>Remember that the <strong>standard deviation</strong> can be calculated as:</p>
+<p><span class="math display">\[\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}\]</span></p>
+<p>The output for the code on the left side is:</p>
+<pre><code>## [1] 1.581139</code></pre>
+</div>
+</div>
+<p>The above example has been generated using:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb13-1"><a href="format.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span> <span class="ot">=</span> <span class="st">&quot;split&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb13-2"><a href="format.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span> <span class="ot">=</span> <span class="st">&quot;split-left&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb13-3"><a href="format.html#cb13-3" aria-hidden="true" tabindex="-1"></a>**Introduction to standard deviation**</span>
+<span id="cb13-4"><a href="format.html#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="format.html#cb13-5" aria-hidden="true" tabindex="-1"></a>Let us calculate the standard deviation for a population containing the values $1$, $2$, $3$, $4$, and $5$.</span>
+<span id="cb13-6"><a href="format.html#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="format.html#cb13-7" aria-hidden="true" tabindex="-1"></a>In <span class="in">`R`</span>, we could do the following:</span>
+<span id="cb13-8"><a href="format.html#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sd-example, echo = TRUE, results = &quot;hide&quot;}</span></span>
+<span id="cb13-9"><a href="format.html#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="in">    sd(c(1, 2, 3, 4, 5))</span></span>
+<span id="cb13-10"><a href="format.html#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-11"><a href="format.html#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="format.html#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb13-13"><a href="format.html#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span> <span class="ot">=</span> <span class="st">&quot;split-right&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb13-14"><a href="format.html#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="format.html#cb13-15" aria-hidden="true" tabindex="-1"></a>Remember that the **standard deviation** can be calculated as: </span>
+<span id="cb13-16"><a href="format.html#cb13-16" aria-hidden="true" tabindex="-1"></a>$$\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}$$</span>
+<span id="cb13-17"><a href="format.html#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="format.html#cb13-18" aria-hidden="true" tabindex="-1"></a>The output for the code on the left side is:</span>
+<span id="cb13-19"><a href="format.html#cb13-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-20"><a href="format.html#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sd-example-output, echo = FALSE, ref.label=&#39;sd-example&#39;}</span></span>
+<span id="cb13-21"><a href="format.html#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-22"><a href="format.html#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb13-23"><a href="format.html#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+</div>
+<div id="uneven-two-column-uneven-split-classes-split-uneven-split-left-and-uneven-split-right" class="section level5" number="2.1.1.3.2">
+<h5><span class="header-section-number">2.1.1.3.2</span> Uneven two-column uneven-split: classes <code>split</code>, <code>uneven-split-left</code>, and <code>uneven-split-right</code></h5>
+<p>To use uneven columns, use the <code>uneven-split-left</code>, and <code>uneven-split-right</code> classes inside the <code>split</code> class.See an example of its usage below:</p>
+<div class="split">
+<div class="uneven-split-left">
+<p><strong>Introduction to standard deviation</strong></p>
+<p>Let us calculate the standard deviation for a population containing the values <span class="math inline">\(1\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(4\)</span>, and <span class="math inline">\(5\)</span>.</p>
+<p>We can calculate the standard deviation using the <code>sd()</code> function in <code>R</code>, as shown below:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="format.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
+</div>
+<div class="uneven-split-right">
+<p>Remember that the <strong>standard deviation</strong> can be calculated as:</p>
+<p><span class="math display">\[\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}\]</span></p>
+<p>The output for the code on the left side is:</p>
+<pre><code>## [1] 1.581139</code></pre>
+</div>
+</div>
+<p>The above example has been generated using:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb16-1"><a href="format.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span> <span class="ot">=</span> <span class="st">&quot;split&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb16-2"><a href="format.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span> <span class="ot">=</span> <span class="st">&quot;uneven-split-left&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb16-3"><a href="format.html#cb16-3" aria-hidden="true" tabindex="-1"></a>**Introduction to standard deviation**</span>
+<span id="cb16-4"><a href="format.html#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="format.html#cb16-5" aria-hidden="true" tabindex="-1"></a>Let us calculate the standard deviation for a population containing the values $1$, $2$, $3$, $4$, and $5$.</span>
+<span id="cb16-6"><a href="format.html#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="format.html#cb16-7" aria-hidden="true" tabindex="-1"></a>In <span class="in">`R`</span>, we could do the following:</span>
+<span id="cb16-8"><a href="format.html#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sd-example-2, echo = TRUE, results = &quot;hide&quot;}</span></span>
+<span id="cb16-9"><a href="format.html#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="in">    sd(c(1, 2, 3, 4, 5))</span></span>
+<span id="cb16-10"><a href="format.html#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-11"><a href="format.html#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="format.html#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb16-13"><a href="format.html#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;div</span> <span class="er">class</span> <span class="ot">=</span> <span class="st">&quot;uneven-split-right&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb16-14"><a href="format.html#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="format.html#cb16-15" aria-hidden="true" tabindex="-1"></a>Remember that the **standard deviation** can be calculated as: </span>
+<span id="cb16-16"><a href="format.html#cb16-16" aria-hidden="true" tabindex="-1"></a>$$\sigma = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(x_{i} - \bar{x}\right)^{2}} {n-1}}$$</span>
+<span id="cb16-17"><a href="format.html#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="format.html#cb16-18" aria-hidden="true" tabindex="-1"></a>The output for the code on the left side is:</span>
+<span id="cb16-19"><a href="format.html#cb16-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-20"><a href="format.html#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sd-example-output-2, echo = FALSE, ref.label=&#39;sd-example&#39;}</span></span>
+<span id="cb16-21"><a href="format.html#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-22"><a href="format.html#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb16-23"><a href="format.html#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="special-notes-and-tips" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Special notes and tips</h3>
+<p>Standard Markdown notes can be obtained by typing <code>&gt;</code> at the beginning of the paragraph followed by space.</p>
+<blockquote>
+<p>For example, like this.</p>
+</blockquote>
+<p>Here, we can also use special note tips by writing <code>:::</code> followed by one of the four class names available: <code>puzzle</code>, <code>explanation</code>, and <code>noway</code>.</p>
+<p>To make special explanation boxes, use <code>explanation</code>:</p>
+<div class="explanation">
+<p>You use a div tip by writing <code>:::</code> following by the name that you assigned to it in the CSS after the <code>div</code>.</p>
+</div>
+<p>To pose thoughtful questions to the readers, use <code>puzzle</code>:</p>
+<div class="puzzle">
+<p>What is the spell that allows wizards to make objects levitate with the flick of their wand?</p>
+</div>
+<p>To tell readers they must not do something, use <code>noway</code>:</p>
+<div class="noway">
+<p>You may not begin function names in <code>R</code> with numbers.</p>
+</div>
+<p>To show that you are not happy about something, use <code>angry</code>:</p>
+<div class="angry">
+<p>Do not really use this. This is just a test.</p>
+</div>
+
+</div>
+</div>
+</div>
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="basics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="structure.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
