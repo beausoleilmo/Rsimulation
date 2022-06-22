@@ -231,6 +231,20 @@ Some examples
 - let's start with what are simulations
 
 ---
+# Survey: defining models 
+
+.center[
+![:scale 50%](images/wordCloud_model.png)
+]
+
+???
+- A model is a [**simplified** (schematic)] [**theoretical**] structure [or **representation**] [**of a system** or object, which can be statistical, mathematical, physical, etc.] **that helps explain** [or **gain information about**] the "**real world**", or against which the "real world" is measured. 
+- Models can be [imitated or emulate] represented by a [system of equations, variables, and calculations] to predict or make the output from input database, [frame a hypothesis in order to generate testable predictions].
+- something “perfect” from which we may base ourselves or from which we hope to emulate.
+- They may or may not represent what can actually be observed and replicated in reality. 
+
+
+---
 # Usefulness of models
 
 &lt;br&gt;
@@ -261,6 +275,16 @@ But mathematical models also have their limitations. The results of an analysis 
 - Would be unproductive to say that all **maps** are wrong and dismiss them because of that. They are still very **useful**! 
 
 
+---
+# Survey: defining simulations 
+
+.center[
+![:scale 50%](images/wordCloud_defin.png)
+]
+
+???
+- [Performance or] **imitation** (approximation of reality) of the operation of a real-word process or system over time, which can include the creation of dataset (not "real" data) with specific **parameters** (**distributions**) to **test a model**, **understand a behaviour**, etc. **Understand better what a type of data can say**. **Predict** the behaviour of a phenomenon or relationships
+
 
 ---
 # Defining simulations
@@ -283,6 +307,22 @@ But mathematical models also have their limitations. The results of an analysis 
   * mathematical models in computer (*in silico*)
 - See [Beginner’s Guide to Simulating Data](http://www.page-gould.com/simulation/Guide-to-Simulation-for-R.html)
 - Whitlock and Schluter define "Simulation" (chapter 19, 2020, 3rd edition) as "Simulation uses a computer to imitate the process of repeated sampling from a population to approximate the null distribution of a test statistic".
+
+---
+# Survey: would simulations be useful for you?
+
+.center[
+![:scale 50%](images/wordCloud_useif.png)
+]
+
+???
+- Usefulness? 
+  * Make predictions
+  * Test hypothesis Ethically (understand phenomena without needing permits and sampling animals) 
+  * test models and their potential problems (assumptions), tweak parameters 
+  * test extreme cases. 
+  * Design experiments and power analysis 
+
 
 
 ---
@@ -900,6 +940,29 @@ plot(function.name(1:10)+rnorm(10))
 - Time to run a simulation is important: knowing that some functions are faster in R can make a difference for a slow simulation with a fast one.
 
 ---
+# Tips when performing simulation
+
+- Structure your work space in a way that is easy to track: 
+  1. README.txt       # explain the project and minimal details on how to navigate the project, and metadata
+  2. data             # Place all the data in this folder 
+    1. raw            # it is suggested to 'lock' the raw data, so you don't accidentaly modify the data 
+    2. processed      # This would be the 'clean' data 
+  3. output           # This is what you generate in `R`
+    1. plots          # Export the plots with `pdf`, `png`, `svg`, or anyother function to save your plots
+    2. data           # This would be intermediate data, tables, and other intermediate manipulation of data 
+  4. scripts          # In this folder, place the scripts (You can have a 'initialize.R' script and 'runall.R' script to be able to reproduce the analysis. Check out the `sessionInfo()` function)
+    1. functions      # You might want to generate your own custom functions. They can be placed here or in the 'initialize.R' script. 
+  5. temp             # If needed, place temporary files and want to delete them after
+
+???
+- [Structuring R projects](https://www.r-bloggers.com/2018/08/structuring-r-projects/)
+- [An Introduction to R](https://intro2r.com/dir-struct.html)
+- [RStudio Projects and Working Directories: A Beginner's Guide](https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner%27s-guide/)
+- [R best practices](https://kdestasio.github.io/post/r_best_practices/)
+- [How to organize your analyses with R Studio Projects](https://www.rforecology.com/post/organizing-your-r-studio-projects/)
+
+
+---
 # Building simulations is an iterative process 
 
 .alert[ATTENTION]. Usually, coding simulation is written in **small increments** and then put together in a cohesive function that will make what we are looking for. 
@@ -1115,7 +1178,7 @@ sample(datae.seq, 5)
 
 ```r
 set.seed(50)
-p_dice = c(1,1,1,1,1,5) # Here we have twice the change of landing on 6
+p_dice = c(1,1,1,1,1,5) # Here we have 5 times the change of landing on 6
                         # Same as writing p_dice/sum(p_dice) or the prob.
 nb.tosses = 100
 die_results &lt;- sample(x = 1:6, # or seq(from = 1, to=6, by=1)
@@ -2251,7 +2314,7 @@ name: statistical-distributions
 
 $$f(x) = {n \choose x} p^x(1-p)^{n-x} $$
 where 
-- `\(p\)` is the probability of success in a single trial (so `\((1-p)\)` is the probability of failure, sometimes seen as `\(q\)`)
+- `\(p\)` is the probability of success in a single trial ($(1-p)=q$ is the probability of failure)
 - `\(n\)` is the number of trials 
 - `\(x\)` is the number of trials that are successes
 - `\({n \choose x} = \frac{n!}{r!(n-r)!}\)` is the number of combinations where the order doesn't matter. 
@@ -2302,16 +2365,64 @@ abline(h = seq(0,70,by = 10), lty = 3)
 
 
 ---
+# Binomial distribution in `R`
+
+- In `R`, you can generate binomial distributed variables with the `rbinom` function. 
+
+```
+rbinom(n = number of repetitions, # or number of 'experiments' or observations
+       size = sample size, # between 0 and up to the size (0:size)
+       p = probability of success)
+```
+
+- Think of it as the number of times you'd get a success, with probability `\(p\)`, for a number of times you repeat the experiment. 
+
+
+```r
+set.seed(12345)
+# 1000 experiments where each time, e.g., flipping a coin, I can either have a
+table(rbinom(n = 1000, size=1, prob=0.5), dnn=NULL) # success or failure with p=.5
+#   0   1 
+# 469 531
+# 1 experiment with 1000 coins summing all successes with p=.5
+rbinom(n = 1, size=1000, prob=0.5)
+# [1] 476
+# 1000 experiments where each time, for example flipping 10 coins, where I 
+rbind(random = table(rbinom(n = 1000, size=10, prob=0.5), dnn=NULL)/1000,# sum the success with p=.5
+      theory = round(dbinom(x = 0:10, size=10, prob=0.5),3))
+#            0     1     2     3     4     5     6     7     8     9    10
+# random 0.001 0.009 0.045 0.105 0.191 0.260 0.211 0.107 0.058 0.012 0.001
+# theory 0.001 0.010 0.044 0.117 0.205 0.246 0.205 0.117 0.044 0.010 0.001
+```
+???
+- The structure of the function is shown in `R` notation.
+
+
+---
 # Binomial distribution
 
 - Example 1: probability of having a certain number of offspring with a certain genotype (e.g., Aa) given the genotypes of the parents 
   - If a male (AA) mates a female (Aa), what is the probability that 6 of their 7 offspring is Aa (7 choose 6)
   - The probability of getting Aa from AA x Aa is [1/2 AA and 1/2 Aa], 
   - `\(P(6|7) = {7 \choose 6} (1/2)^6(1-1/2)^{7-6} = 7/128\)` (about 0.055)
+
+
+```r
+dbinom(x = 6,7,prob = .5)
+# [1] 0.0546875
+```
+
 - Example 2: Probability of having 3 daughters if you have 5 children.
   * if you have 5 children, these are independent trials, so n = 5
   * "success" is the probability that the child is a daughter (p = 1/2)
   * `\(P(3|5) = {5 \choose 3} (1/2)^3(1-1/2)^{5-3} = 5/16\)` (about 0.31)
+
+
+```r
+dbinom(x = 3,5,prob = .5) 
+# [1] 0.3125
+```
+
 
 ???
 genotype examples
@@ -2321,12 +2432,16 @@ The Punnett square for the male and female union
 | ------- | - | - | 
 | A	      | AA | Aa	| 
 
+
+
 Daughter examples
+
+
 - You could also discuss this simpler case: 
 - what is the probability of getting 2 daughters out of 3 children
 
 ```r
-dbinom(2,3,prob = .5) # 0.375
+dbinom(2,3,prob = .5)
 # [1] 0.375
 ```
 
@@ -2351,56 +2466,37 @@ dbinom(2,3,prob = .5) # 0.375
 
 
 ```r
-n = 7; x = 6; prob = 0.5
-plot(0:8, dbinom(x = 0:8, size=n, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.4), ylab = "Probability", main = "s=7 and s=5; p=0.5 "); add.l(.05)
-points(x = x, y = dbinom(x = x, size=n, prob=0.5), pch =19, col = col.b)
+plot(0:8, dbinom(x = 0:8, size=7, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.4), ylab = "Probability", main = "s=7 (blue) and s=5 (red); p=0.5 "); add.l(.05)
+points(x = 6, y = dbinom(x = 6, size=7, prob=0.5), pch =19, col = col.b)
 
 lines(c(0:8)+0.1, dbinom(x = 0:8, size=5, prob=0.5),type='h', col = col.r, lwd=lwd)
 points(x = 3+.1, y = dbinom(x = 3, size=5, prob=0.5), pch =19, col = col.r)
+legend("topright",legend = c("Genetics","Daughter"), lty =c(1), col = c("blue","red"), lwd = 3)
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/dbinom_plot_ex-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
 - blue = genotype examples
+
+```r
+dbinom(x = 6,7,prob = .5)
+# [1] 0.0546875
+```
+
 - Red = Daughter examples
+
+```r
+dbinom(x = 3,5,prob = .5) 
+# [1] 0.3125
+```
+
 - Examples taken from 
   * [Polynomial Applications Binomial Distribution](http://www.biology.arizona.edu/biomath/tutorials/polynomial/applications/BinomialEx3.html)
   * [Biology 300 Notes on the binomial distribution](https://www.zoology.ubc.ca/~bio300b/binomialnotes.html)
   * [The Binomial Distribution: A Probability Model for a Discrete Outcome](https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probability7.html)
 
 
----
-# Binomial distribution
-
-- In `R`, you can generate binomial distributed variables with the `rbinom` function. 
-
-```
-rbinom(n = number of repetitions,
-       size = sample size, # between 0 and up to the size 
-       p = probability of success)
-```
-
-- Think of it as the number of times you'd get a success, with probability `\(p\)`, for a number of times you repeat the experiment. 
-
-
-```r
-set.seed(12345)
-# 1000 experiments where each time, e.g., flipping a coin, I can either have a
-table(rbinom(n = 1000, size=1, prob=0.5), dnn=NULL) # success or failure with p=.5
-#   0   1 
-# 469 531
-# 1 experiment where I have 1000 coins Where I sum all successes with p=.5
-table(rbinom(n = 1, size=1000, prob=0.5), dnn=NULL) 
-# 476 
-#   1
-# 1000 experiments where each time, for example flipping 10 coins, where I 
-table(rbinom(n = 1000, size=10, prob=0.5), dnn=NULL) # sum the success with p=.5
-#   0   1   2   3   4   5   6   7   8   9  10 
-#   1   9  45 105 191 260 211 107  58  12   1
-```
-???
-- The structure of the function is shown in R notation .
 
 ---
 # Binomial distribution
@@ -2409,32 +2505,49 @@ table(rbinom(n = 1000, size=10, prob=0.5), dnn=NULL) # sum the success with p=.5
 
 ```r
 # For dbinom, x is the vector of quantiles 
-plot(0:1, dbinom(x = 0:1, size=1, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "s=1, p=.5"); add.l()
-plot(0:20, dbinom(x = 0:20, size=20, prob=0.4),type='h', col = col.b, lwd=lwd, ylim = c(0,.2), ylab = "Probability", main = "s=20, p=.4");add.l()
-plot(0:23, dbinom(x = 0:23, size=20, prob=0.9),type='h', col = col.b, lwd=lwd, ylim = c(0,0.3), ylab = "Probability", main = "s=20, p=.9");add.l()
-plot(40:110, dbinom(x = 40:110, size=150, prob=0.5),type='h', col = col.b, lwd=lwd, ylim = c(0,.15), ylab = "Probability", main = "s=150, p=.5");add.l()
+plot(0:1, dbinom(x = 0:1, size=1, prob=0.5),type='h', col=col.b, lwd=lwd, ylim=c(0,1), ylab="Probability", main = "s=1, p=.5"); add.l()
+plot(0:20, dbinom(x=0:20, size=20, prob=0.4), type='h', col=col.b, lwd=lwd, ylim=c(0,.2), ylab="", main = "s=20, p=.4");add.l()
+plot(0:23, dbinom(x=0:23, size=20, prob=0.9), type='h', col=col.b, lwd=lwd, ylim=c(0,0.3), ylab="", main = "s=20, p=.9");add.l()
+plot(40:110, dbinom(x=40:110, size=150, prob=0.5), type='h', col=col.b, lwd=lwd, ylim=c(0,.15), ylab="Probability", main="s=150, p=.5");add.l()
 
 
-# hist(rbinom(n = 100000, size=50, prob=0.5), xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.5", probability = F)
-plot(40:51, dbinom(x = 40:51, size=50, prob=0.99),type='h', col = col.b, lwd=lwd, ylim = c(0,.8), ylab = "Probability", main = "s=50, p=.99");add.l()
+plot(40:51, dbinom(x = 40:51, size=50, prob=0.99),type='h', col = col.b, lwd=lwd, ylim = c(0,.8), ylab = "", main = "s=50, p=.99");add.l()
 hist(rbinom(n = 100000, size=50, prob=0.99),xlab = "Nb of successes", breaks = 100, col = col.b, main = "s=50, p=.99", probability = F)
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/Statistical_dist_binom-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
 ???
+1. One coin with 50% probability of success vs failure 
+2. 20 coins with 40% probability of success vs failure 
+3. 20 coins with 90% probability of success vs failure # Compare with previous graph. Can't go above 20. If you have a coin that lands on a success 90% of the time, you'd expect that the number of successes you sum up is large, which is why the graph is shifted to the right. 
+4. 150 coins with 50% probability of success vs failure. The highest probability is at 75
+5. 50 coins with 99% probability of success vs failure. The highest probability is at 50. 
+6. Same as previous but randomly generated 
 - Some of the distributions may *look* normal, but they are NOT. 
 - If you look at the histograms and plot the "density", you can see that it can go ABOVE 1. It makes more sense to see the probabilities as the AREA under such curve.
 - See [Probability density function vs. probability mass function](https://math.stackexchange.com/questions/23293/probability-density-function-vs-probability-mass-function)
+
+
+```r
+hist(rbinom(n = 100000, size=50, prob=0.5), xlab = "Nb of successes", breaks = 100, 
+     col = col.b, main = "s=50, p=.5", probability = F)
+```
+
+&lt;img src="workshopXX-en_files/figure-html/hist.binom-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
 
 ---
 name: challenge3
 ## Challenge 3 ![:cube]()
 
-What is the probability (in %), of getting 4 heads or 4 tails from 4 tosses of a fair coin? 
+What is the probability (in %), of getting 4 heads *and* 4 tails from 4 tosses of a fair coin? 
 Use the binomial distribution to answer this question. 
 
 ???
+- Fair coin = probability has to be 0.5
+- If Heads = success, then you can have 4 heads and 0 heads. 
+- You need to add up the probability for both.
 
 ---
 ## Challenge 3 - Solution ![:cube]()
@@ -2442,12 +2555,8 @@ Use the binomial distribution to answer this question.
 What is the probability (in %), of getting 4 heads or 4 tails from 4 tosses of a fair coin? 
 
 ```r
-mybin &lt;- function(x,n,p) { choose(n, x)* p^x* (1-p)^(n-x) } 
-mybin(0,4,.5) + mybin(4,4,.5)
+*dbinom(x = 0, size = 4, prob = .5) + dbinom(x = 4, size = 4, prob = .5)
 # [1] 0.125
-dbinom(x = 0,4,.5) + dbinom(x = 4,4,.5)
-# [1] 0.125
-lwd = 5
 curve(dbinom(x,4,.5),0,6, n = 7,type = "h", lwd = lwd)
 curve(dbinom(x,4,.5),0,0, type = "h",add = TRUE, col = "red", lwd = lwd)
 curve(dbinom(x,4,.5),4,4, type = "h",add = TRUE, col = "red", lwd = lwd)
@@ -2455,13 +2564,18 @@ curve(dbinom(x,4,.5),4,4, type = "h",add = TRUE, col = "red", lwd = lwd)
 
 &lt;img src="workshopXX-en_files/figure-html/binom_chall_coin-1.png" width="576" style="display: block; margin: auto;" /&gt;
 
-```r
+???
 
+
+```r
+mybin &lt;- function(x,n,p) { choose(n, x)* p^x* (1-p)^(n-x) } 
+mybin(0,4,.5) + mybin(4,4,.5)
+# [1] 0.125
 0.5^4*2
 # [1] 0.125
 ```
 
-???
+
 
 ---
 # Poisson distribution
@@ -2502,17 +2616,17 @@ curve(dbinom(x,4,.5),4,4, type = "h",add = TRUE, col = "red", lwd = lwd)
 &lt;!-- Poisson example see https://www.pnas.org/content/115/37/9270 --&gt;
 
 ---
-# Poisson distribution
+# Poisson distribution in `R`
 
 - In `R`, you can generate Poisson distributed variables with the `rpois` function. Below is the structure of the function. 
 
 ```
 rpois(n = number of repetitions,
-      lambda = rate)
+      lambda = rate) # doesn't need to be an integer
 ```
 
 - You can think of this function as the number of times you'd get a success, when the number of events per unit of time or space is lambda 
-- E.g., with a camera trap, I see on average 2 wolves/day (lambda is this rate, doesn't need to be an integer), then if I on the field for one day, what could be the number of wolves that I observe? 
+- E.g., with a camera trap, I see on average 2 wolves/day (lambda is this rate), then if I go on the field for one day, what could be the number of wolves that I observe? 
 
 
 ```r
@@ -2529,7 +2643,7 @@ set.seed(5937); rpois(n = 1,lambda = 2)
 
 ```r
 add.l &lt;- function(by=.1) {  abline(h=seq(0,1, by = by), lty = 3, lwd = .3)}
-# For dbinom, x is the vector of quantiles 
+
 plot(0:5, dpois(x = 0:5, lambda=0.05),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "lambda = 0.05");add.l();abline(v = 0.05, lty = 3)
 plot(0:10, dpois(x = 0:10, lambda=1),type='h', col = col.b, lwd=lwd, ylim = c(0,1), ylab = "Probability", main = "lambda = 1"); add.l();abline(v = 1, lty = 3)
 plot(0:20, dpois(x = 0:20, lambda=5),type='h', col = col.b, lwd=lwd, ylim = c(0,0.3), ylab = "Probability", main = "lambda = 5");add.l();abline(v = 5, lty = 3)
@@ -2733,21 +2847,41 @@ For the density distribution, the *area* under the curve between two points is t
 `pnorm(qnorm(1-.025)) = 0.975`
 
 ---
+# Convert a Normal dist. to Standard Normal 
+
+- If your data is normally distributed (i.e., `\(X \sim N(\mu, \sigma)\)`), you can convert the data to be `\(X \sim N(0, 1)\)` with a scaling
+$$Z = \frac{(X-\mu)}{\sigma} $$ 
+
+&lt;img src="workshopXX-en_files/figure-html/Standard_normal_transformation-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+???
+- This is just a quick note to show you how to scale data and what effect it has on a distribution
+- Left: SNorm curve with a theoretical distribution centered at 15 and sd 2. The blue curve is a density of 100 points taken from a normal distribution with the same parameters as the population. 
+- Right: after scaling, you can see that all the data is now at a mean of 0 and a SD of 1. 
+
+
+---
 # Quantile value for a normal distribution 
 
 If X is a random variable distributed with a *Standard normal distribution*, what is the probability of finding X less or equal to `\(1.645\)`. In other words,  `\(P(X\leq 1.645)\)` where `\(X\sim N(0,1)\)`? 
 .pull-left[
 
 ```r
-pnorm(1.645) # Gives the probability at X 
+# Gives the probability at X 
+pnorm(1.645) 
 # [1] 0.9500151
 
-qnorm(p = 0.05, lower.tail = F) # Gives X at a prob.
+# Gives X at a prob.
+qnorm(p = 0.05, lower.tail = F) 
 # [1] 1.644854
 
-qnorm(p = 0.025, lower.tail = F) # Value for 5% in both tails
+# Value for 5% in both tails
+qnorm(p = 0.025, lower.tail = F) 
 # [1] 1.959964
 ```
+
+- `lower.tail = T` means that we are calculating the probability (area under the curve) from the left of the graph *up to the specified value* 
+- `lower.tail = F` means that the probability is calculated from the right of the graph *down to the specified value* 
 ]
 
 ???
@@ -2772,31 +2906,32 @@ This is the visual representation of what is on the left for the 5% probability.
 
 ```r
 # The function is not shown, but can be found in the script (Markdown)
-draw.normal(where = "both",  prob = 0.05/2)
-draw.normal(where = "both",  prob = 0.2/2 )
-draw.normal(where = "both",  prob = 0.5/2 )
-draw.normal(where = "both",  prob = 0.95/2)
-draw.normal(where = "left",  prob = 0.05  )
-draw.normal(where = "right", prob = 0.05  )
+draw.normal(where = "both",  prob = 0.05/2) # 2.5% in each tail
+draw.normal(where = "both",  prob = 0.2/2 ) # 10% in each tail 
+draw.normal(where = "both",  prob = 0.5/2 ) # 25% in each tail 
+draw.normal(where = "both",  prob = 0.95/2) # 47.5 % in each tail
+draw.normal(where = "left",  prob = 0.05  ) # 5% only in the left tail 
+draw.normal(where = "right", prob = 0.05  ) # 5% only in the right tail 
 ```
 
 &lt;img src="workshopXX-en_files/figure-html/normal_dist_area-1.png" width="648" style="display: block; margin: auto;" /&gt;
 
 ???
-- These are different standard normal distributions where we ploted different probabilities (area under the curve), for different RANGES of X. Compare the 1st and the second row-middle graph and the last graph. The three are 95% in the red portion, BUT the tails have different areas. 
+- These are different standard normal distributions where we plotted different probabilities (area under the curve), for different RANGES of X. 
+- Compare the 1st and the second row-middle graph and the last graph. The three are 95% in the red portion, BUT the tails have different areas. 
 
 ---
-# Normal distribution 
+# Normal distribution (`pnorm`)
 
-Find the probability of finding data relative to a standard deviation number 
+Get the probability of finding data relative to a standard deviation number 
 
 
 ```r
 sd = 1
-probability.left.side = (pnorm(q = c(sd*1,sd*2,sd*3),lower.tail = F)*100)
-probability.right.side = (pnorm(q = c(sd*1,sd*2,sd*3),lower.tail = T)*100)
+probability.left.side  = (pnorm(q = c(sd*1, sd*2, sd*3), lower.tail = F))
+probability.right.side = (pnorm(q = c(sd*1, sd*2, sd*3), lower.tail = T))
 percent.data.under.curve = probability.right.side - probability.left.side
-p.from.mean = round(percent.data.under.curve,2)
+p.from.mean = round(percent.data.under.curve*100,2)
 ```
 
 - So from the mean of the standard normal distribution:
@@ -2811,7 +2946,7 @@ p.from.mean = round(percent.data.under.curve,2)
 - We calculated the probability from the LOWER tail (when x = 1, 2, and 3) and the probability from the UPPER tail (when x = 1, 2, and 3) and substracted both to the probability in THE MIDDLE.
 
 ---
-# Normal distribution 
+# Normal distribution (`qnorm`)
 
 Find the "x" value (quantile) based on the probability (area under the curve between 2 values) of a standard normal distribution.
 
@@ -2895,18 +3030,6 @@ qnorm(p = c(.75, .95,.975, .995), mean = 0, sd = 1, lower.tail = T)
 ???
 - After increasing the sample size, you can see that the AREAS under the sample distribution have shifted to having a better POWER, and reducing the type II error. 
 
----
-# Convert a Normal dist. to Standard Normal 
-
-- If your data is normally distributed (i.e., `\(X \sim N(\mu, \sigma)\)`), you can convert the data to be `\(X \sim N(0, 1)\)` with a scaling
-$$Z = \frac{(X-\mu)}{\sigma} $$ 
-
-&lt;img src="workshopXX-en_files/figure-html/Standard_normal_transformation-1.png" width="720" style="display: block; margin: auto;" /&gt;
-
-???
-- This is just a quick note to show you how to scale data and what effect it has on a distribution
-- Left: SNorm curve with a theoretical distribution centered at 15 and sd 2. The blue curve is a density of 100 points taken from a normal distribution with the same parameters as the population. 
-- Right: after scaling, you can see that all the data is now at a mean of 0 and a SD of 1. 
 
 
 ---
@@ -4902,7 +5025,7 @@ Resources:
 - Power ( `\(1-\beta\)` ) is the chance (probability) that we *actually find the effect* in a given study. 
 - So "power" is actually a probability that can change depending on multiple factors 
   1. sample size, 
-  2. type I error (or significance alpha level), and 
+  2. type I error (or significance `\(\alpha\)` level, usually "0.05"), and 
   3. the effect size or the magnitude of the alternative hypothesis
 
 | Null hypothesis is... | TRUE | FALSE |
@@ -4927,6 +5050,73 @@ Resources:
 
 ![:scale 100%](images/power.gif/power.to.the.all.gif)
 
+???
+- POWER: "The **probability** that a fixed level `\(\alpha\)` significance test will reject `\(H_0\)` when a particular alternative value of the parameter is true is called the **POWER** of the test to detect that alternative."
+- The "power of a significance test measures its ability to detect an alternative hypothesis."
+- Source: Moore, D. S., and G. P. McCabe. 2006. Introduction to the practice of statistics. Fifth edition. W.H. Freeman and Company, New York.
+- Power is the probability that we will correctly reject the null hypothesis. see [Statistical Power, Clearly Explained!!!](https://www.youtube.com/watch?v=Rsc5znwR5FA&amp;ab_channel=StatQuestwithJoshStarmer)
+- See also [Type I and II errors](https://www.scribbr.com/statistics/type-i-and-type-ii-errors/)
+- Here the mean is changing but not the standard deviation (both will deterine the overlap between the 2 distributions: one way to take BOTH measures at the same time, is to calculate an effect size "d", or Cohen's d). This will give you an understanding of the overlap! 
+- NOTE: the image in the middle choses the effect of increasing sample size on our CONFIDENCE WE HAVE IN GETTING THE POPULATION MEAN, or SE. 
+
+---
+# Power analysis
+
+- Cohen's d for equal group sizes is `\(\text{Cohen's d} = \frac{M_1-M_2}{\text{pooled sd}}\)` and `\(\text{pooled sd} = \sqrt{\frac{sd_1^2+sd_2^2}{2}}\)` or `\(\text{Cohen's d} = \frac{M_1-M_2}{\sqrt{\frac{sd_1^2+sd_2^2}{2}}}\)`
+- Cohen's d for unequal group sizes is `\(\text{pooled sd} = \sqrt{\frac{(n_1-1)sd_1^2+(n_2-1)sd_2^2}{n_1+n_2-2}}\)`
+
+
+
+
+```
+#   cod.id cod.11 cod.21 cod.51 cod.12 cod.22 cod.52
+# 1   0.08      1      2   4.93   0.58   1.33   3.14
+```
+
+&lt;img src="workshopXX-en_files/figure-html/leonard_cohens_D-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+???
+- think of Cohen's d as the **number of standard deviations between the 2 groups**. So a value of 1, indicates that the means of the 2 groups differ by 1 SD. 
+- range of values to get a better intuition of Cohen's D
+- [0-0.1[ none or very small
+- [0.1-0.5[ small (e.g., difference in height between 15 and 16 years old girls)
+- [0.5-0.8[ medium (e.g., difference in height between 14 and 18 years old girls)
+- [0.8-1.3[ large (e.g., difference in height between 13 and 18 years old girls)
+- [1.3-2.0[ very large
+
+---
+# Power analysis
+
+
+- Simulating a t-test
+
+
+
+
+```r
+sim.ci.t &lt;- function(n = 30) {
+  gr1 = rnorm(n = n, mean = 0, sd = 2)
+  gr2 = rnorm(n = n, mean = 1, sd = 2)
+  ttr = t.test(gr1, gr2, paired = FALSE, var.equal = TRUE, conf.level = 0.95)
+  return(ttr$p.value)
+}
+set.seed(1)
+get.p.vals = replicate(n = 1000,expr = sim.ci.t(),simplify = T)
+alpha.level = 0.05
+mean(get.p.vals&lt;alpha.level) # this is the power, proportion of p-values that we are smaller than the alpha level
+# [1] 0.471
+# table(get.p.vals&lt;alpha.level)
+# prop.table(table(get.p.vals&lt;alpha.level))
+# You can see that mean(get.p.vals&lt;alpha.level) is much lower than the 95% power desired... 
+```
+
+---
+# Power analysis
+
+
+&lt;img src="workshopXX-en_files/figure-html/simulatepval.cod-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+
 ---
 # Power analysis (proportions)
 
@@ -4948,13 +5138,13 @@ p.table = table(coin.pip)[c(2,1)] # Get the number of 1 and 0s
 # 	1-sample proportions test with continuity correction
 # 
 # data:  p.table, null probability 0.5
-# X-squared = 6.2241, df = 1, p-value = 0.006301
+# X-squared = 7.6034, df = 1, p-value = 0.002913
 # alternative hypothesis: true p is greater than 0.5
 # 95 percent confidence interval:
-#  0.5564947 1.0000000
+#  0.5742416 1.0000000
 # sample estimates:
 #         p 
-# 0.6724138
+# 0.6896552
 ```
 
 
@@ -4989,7 +5179,7 @@ abline(v = ptest$statistic, lty = 3)
 &lt;img src="workshopXX-en_files/figure-html/show_the_pwr-1.png" width="504" style="display: block; margin: auto;" /&gt;
 --
 
-- The p-value is 0.0063.
+- The p-value is 0.00291.
 
 ---
 # Power analysis (linear model)
