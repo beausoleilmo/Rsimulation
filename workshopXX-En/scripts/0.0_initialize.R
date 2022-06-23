@@ -13,7 +13,7 @@
 ##########################################################################################
 
 # Load libraries ----------------------------------------------------------
-librarian::shelf(tidyverse, 
+librarian::shelf(tidyverse,
                  broom.mixed,
                  dplyr, DT,
                  cds, 
@@ -26,7 +26,7 @@ librarian::shelf(tidyverse,
                  mapview, MASS, 
                  plotly, purrr, pwr, 
                  remotes, Rlab, 
-                 scales, sf, 
+                 scales, shiny, sf, 
                  TeachingDemos, 
                  viridis, 
                  cran_repo = 'https://cran.r-project.org')
