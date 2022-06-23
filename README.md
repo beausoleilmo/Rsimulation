@@ -2,7 +2,9 @@
 
 A QCBS flavored workshop on how to perform simulations in R. 
 
-All the previous QCBS R workshops give you the building block to do simulations. But knowing how to perform simulations is not a skill that is thaught in the current workshops.
+Here is the [presentation](https://beausoleilmo.github.io/Rsimulation/workshopXX-en.html#1)
+
+All the previous QCBS R workshops give you the building block to do simulations. But knowing how to perform simulations is not a skill that is taught in the current workshops.
 
 This workshop is designed with these learning objectives in mind: 
 
