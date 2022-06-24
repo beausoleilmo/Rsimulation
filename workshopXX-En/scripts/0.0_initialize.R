@@ -8,6 +8,7 @@
   if("librarian" %in% rownames(installed.packages()) == FALSE) {install.packages("librarian")}
   # "scripts/Galton_board.R"
   # "scripts/marginal_plot.R"
+  # Install "ImageMagick" https://imagemagick.org https://imagemagick.org/script/download.php
 # NOTES: 
   # loading a bunch of packages efficiently https://statsandr.com/blog/an-efficient-way-to-install-and-load-r-packages/
 ##########################################################################################
