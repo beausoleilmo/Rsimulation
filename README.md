@@ -25,3 +25,26 @@ We will also explore:
 7. How to do data simulation for models (lm, glm, lmm, in development);
 8. How to apply simulations framework to explore any process. 
 
+# Resources
+
+## R  
+
+  - [R Gallery Book by Kyle W. Brown](https://bookdown.org/content/b298e479-b1ab-49fa-b83d-a57c2b034d49/)
+
+## GLM 
+
+  - [An Introduction to Probability and Simulation by Kevin Ross](https://bookdown.org/kevin_davisross/probsim-book/)
+
+## GLM 
+
+  - [STAT 504 Analysis of Discrete Data 6.1 - Introduction to GLMs](https://online.stat.psu.edu/stat504/lesson/6/6.1)
+  - [Using R to make sense of the generalised linear model](https://www.barelysignificant.com/post/glm/)
+
+## Power analysis 
+
+  - [Four part tutorial to conduct power analysis in R](https://julianquandt.com/categories/power-analysis/)
+  - [Power Analysis by Data Simulation in R - Part I](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-i/)
+  - [Power Analysis by Data Simulation in R - Part II](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-ii/)
+  - [Power Analysis by Data Simulation in R - Part III](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iii/)
+  - [Power Analysis by Data Simulation in R - Part IV
+](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iv/)
