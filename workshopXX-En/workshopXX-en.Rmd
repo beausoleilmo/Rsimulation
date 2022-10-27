@@ -2659,7 +2659,7 @@ What is the p-value 1. for getting a human height of 108.04 cm? 2. What is the p
 ```{r probability_normal_pval, echo=FALSE, eval=TRUE, fig.width=9,fig.height=3}
 par(mfrow = c(1,2), mar=c(3,3,0.1,0.1))
 draw.normal(where = "both",mean = 110,  prob = 0.025,ylim = c(0,.6), col = scales::alpha(c('blue',NA),.5), text = TRUE, text.height = .56)
-draw.normal(where = "middle2",mean = 110,  prob = 0.4998,ylim = c(0,.6), col = scales::alpha(c('blue',NA),.5), text = F, text.height = .56)
+draw.normal(where = "middle2",mean = 110,  prob = 0.4998,ylim = c(0,.6), col = scales::alpha(c('blue',NA),.5), text = F, text.height = .56, middle = c(qnorm(0.4998),qnorm(0.4998, lower.tail = F)))
 ```
 --
 The answer is 1. 0.05 or 5%, 2. 0.04%, 3. 1 or 100%!

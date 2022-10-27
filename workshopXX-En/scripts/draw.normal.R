@@ -31,12 +31,13 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1,
     polygon(c(lb, x2, ub), c(0, y, 0), 
             col = col)
     # col = rgb(0, 0, 1, alpha = 0.5))
-    text(x = -2+mean, y = .2,
+    text(x = -2+mean, y = .1,
          labels = paste0(p*100,"%"),adj = 0,pos = 2, cex=cex)
     
     if (text) {
       text(x = ub, y = .2,
-           labels = paste0(round(qnorm(p),2)),adj = 0,pos = 1,offset = 0, cex=cex)
+           labels = paste0(round(qnorm(p)+mean,2)), 
+           adj = 0, pos = 1, offset = 0, cex=cex)
       arrows(x0 = ub,x1 = ub, y0 = .2,y1 = .1,code = 2,length=.1)
     }
     
@@ -48,12 +49,13 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1,
     polygon(c(lb, x2, ub), c(0,y,0), 
             col = col)
     # col = rgb(0, 0, 1, alpha = 0.5))
-    text(x = 2+mean, y = .2,
+    text(x = 2+mean, y = .1,
          labels = paste0(p*100,"%"),adj = 0,pos = 4, cex=cex)
     
     if (text) {
       text(x = lb, y = .2,
-           labels = paste0(round(qnorm(1-p),2)),adj = 0,pos = 1,offset = 0, cex=cex)
+           labels = paste0(round(qnorm(1-p)+mean,2)),
+           adj = 0, pos = 1, offset = 0, cex=cex)
       arrows(x0 = lb,x1 = lb, y0 = .2,y1 = .1,code = 2,length=.1)
     }
     
@@ -174,8 +176,8 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1,
             col = rgb(0, 0, 1, alpha = 0.5))
     
     text(x = mean(middle+mean), 
-         y = dnorm(mean(middle+mean))+.2,
-         labels = paste0(round(pnorm(middle[2]+mean)-pnorm(middle[1]+mean),digits = 4)*100,"%"),
+         y = dnorm(mean(middle+mean))+.5,
+         labels = paste0(round(pnorm(middle[2])-pnorm(middle[1]),digits = 4)*100,"%"),
          adj = 0,pos = 1, cex=cex)
     
   }
