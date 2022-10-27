@@ -6339,7 +6339,7 @@ dummy.mat[,3] <- ifelse(x=="C",1,0)
 # contrasts(as.factor(x))
 
 # Easier
-library(dummies)
+# library(dummies) # not working anymore
 # dummy(x)
 
 # Set some coefficients
@@ -7284,7 +7284,7 @@ for (i in seq(1,5,length.out = 10)) {
 garbage = dev.off()
 # Requires imagemagick
 # https://imagemagick.org/index.php
-system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/power.to.the.people*.png images/power.gif/power.to.the.people.gif")
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-51/bin/convert -delay 70 images/power.gif/power.to.the.people*.png images/power.gif/power.to.the.people.gif")
 ```
 
 <!-- ![:scale 30%](images/power.gif/power.to.the.people.gif) -->
@@ -7307,7 +7307,7 @@ hypothesis.testing(mean.pop = 2,sd = 5, n = i, range.y = c(0,2.5),
 garbage = dev.off()
 # Requires imagemagick
 # https://imagemagick.org/index.php
-system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/power.to.the.number*.png images/power.gif/power.to.the.number.gif")
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-51/bin/convert -delay 70 images/power.gif/power.to.the.number*.png images/power.gif/power.to.the.number.gif")
 ```
 
 <!-- ![:scale 30%](images/power.gif/power.to.the.number.gif) -->
@@ -7333,7 +7333,7 @@ for (i in sequ.p) {
 garbage = dev.off()
 # Requires imagemagick
 # https://imagemagick.org/index.php
-system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/power.to.the.alpha*.png images/power.gif/power.to.the.alpha.gif")
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-51/bin/convert -delay 70 images/power.gif/power.to.the.alpha*.png images/power.gif/power.to.the.alpha.gif")
 ```
 
 <!-- ![:scale 30%](images/power.gif/power.to.the.alpha.gif) -->
@@ -7342,11 +7342,11 @@ system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/p
 # Requires imagemagick
 # https://imagemagick.org/index.php
 # all p2tp*.png will be MODIFIED
-system("for f in images/power.gif/p2tp*.png; do /opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert $f ${f/images\\/power.gif\\/p2tp/images\\/power.gif\\/power.to.the.number} +append $f; done")
+system("for f in images/power.gif/p2tp*.png; do /opt/homebrew/Cellar/imagemagick/7.1.0-51/bin/convert $f ${f/images\\/power.gif\\/p2tp/images\\/power.gif\\/power.to.the.number} +append $f; done")
 
-system("for f in images/power.gif/p2tp*.png; do /opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert $f ${f/images\\/power.gif\\/p2tp/images\\/power.gif\\/power.to.the.alpha} +append $f; done")
+system("for f in images/power.gif/p2tp*.png; do /opt/homebrew/Cellar/imagemagick/7.1.0-51/bin/convert $f ${f/images\\/power.gif\\/p2tp/images\\/power.gif\\/power.to.the.alpha} +append $f; done")
 
-system("/opt/homebrew/Cellar/imagemagick/7.1.0-33/bin/convert -delay 70 images/power.gif/p2tp*.png images/power.gif/power.to.the.all.gif")
+system("/opt/homebrew/Cellar/imagemagick/7.1.0-51/bin/convert -delay 70 images/power.gif/p2tp*.png images/power.gif/power.to.the.all.gif")
 ```
 
 ![:scale 100%](images/power.gif/power.to.the.all.gif)

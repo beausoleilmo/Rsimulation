@@ -1,13 +1,18 @@
-draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE, text.height = .55, where = c("both","left","right","middle"), middle = c(-1,1)) {
+draw.normal <- function(mean = 0, sd = 1, set.seed=1, 
+                        prob = 0.025, text = FALSE, 
+                        ylim =  c(0,1),
+                        col = scales::alpha(c('blue',NA),.5), 
+                        text.height = .55, 
+                        where = c("both","left","right","middle"), middle = c(-1,1)) {
   set.seed(set.seed)
-  x <- seq(-5, 5, 0.1)
+  x <- seq(-5, 5, 0.1) + mean
   cex = 1
   plot(x, dnorm(x, mean, sd), 
        # main = "Density normal", 
        main = "", 
        type = "l", lwd = 3, col = "black", 
        ylab = "", xlab = "",
-       ylim = c(0,1))
+       ylim = ylim)
   title(xlab = "x", ylab="", line=2.2, cex.lab=1.2)
   
   # abline(v = quantile.normal[!is.infinite(quantile.normal)], lty = 3, lwd = 1, col = c("black")) 
@@ -20,11 +25,13 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
   if(where=="both"){
     # add the polygon to the left  
     lb <- min(x) # Lower bound
-    ub <- qnorm(p)   # Upper bound
+    ub <- qnorm(p)+mean   # Upper bound
     x2 <- seq(min(x), ub, length = 100) # New Grid
-    y <- dnorm(x2, 0, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
-    polygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
-    text(x = -2, y = .2,
+    y <- dnorm(x2, 0+mean, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0, y, 0), 
+            col = col)
+    # col = rgb(0, 0, 1, alpha = 0.5))
+    text(x = -2+mean, y = .2,
          labels = paste0(p*100,"%"),adj = 0,pos = 2, cex=cex)
     
     if (text) {
@@ -34,12 +41,14 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
     }
     
     # add the polygon to the right 
-    lb <- qnorm(1-p) # Lower bound
+    lb <- qnorm(1-p)+mean # Lower bound
     ub <- max(x)   # Upper bound
     x2 <- seq(lb, max(x), length = 100) # New Grid
-    y <- dnorm(x2, 0, 1) # Density
-    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
-    text(x = 2, y = .2,
+    y <- dnorm(x2, 0+mean, 1) # Density
+    polygon(c(lb, x2, ub), c(0,y,0), 
+            col = col)
+    # col = rgb(0, 0, 1, alpha = 0.5))
+    text(x = 2+mean, y = .2,
          labels = paste0(p*100,"%"),adj = 0,pos = 4, cex=cex)
     
     if (text) {
@@ -53,7 +62,8 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
     ub <- qnorm(1-p)   # Upper bound
     x2 <- seq(lb, ub, length = 100) # New Grid
     y <- dnorm(x2, 0, 1) # Density
-    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(1, 0, 0, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0,y,0), 
+            col = rgb(1, 0, 0, alpha = 0.5))
     text(x = mean(x2), y = text.height,
          labels = paste0((1-2*p)*100,"%"),adj = 0,pos = 1, cex=cex)
     
@@ -70,7 +80,9 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
     ub <- qnorm(p)   # Upper bound
     x2 <- seq(min(x), ub, length = 100) # New Grid
     y <- dnorm(x2, 0, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
-    polygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0, y, 0), 
+            col = col)
+    # col = rgb(0, 0, 1, alpha = 0.5))
     text(x = -2, y = .2,
          labels = paste0(p*100,"%"),adj = 0,pos = 2, cex=cex)
     
@@ -85,7 +97,9 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
     ub <- max(x)   # Upper bound
     x2 <- seq(lb, ub, length = 100) # New Grid
     y <- dnorm(x2, 0, 1) # Density
-    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(1, 0, 0, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0,y,0), 
+            col = col)
+    # col = rgb(1, 0, 0, alpha = 0.5))
     text(x = 2, y = .2,
          labels = paste0((1-p)*100,"%"),adj = 0,pos = 4, cex=cex)
     
@@ -103,7 +117,9 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
     ub <- qnorm(1-p)   # Upper bound
     x2 <- seq(min(x), ub, length = 100) # New Grid
     y <- dnorm(x2, 0, 1) # Densitypolygon(c(lb, x2, ub), c(0, y, 0), col = rgb(0, 0, 1, alpha = 0.5))
-    polygon(c(lb, x2, ub), c(0, y, 0), col = rgb(1, 0, 0, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0, y, 0), 
+            col = col)
+    # col = rgb(1, 0, 0, alpha = 0.5))
     text(x = -2, y = .2,
          labels = paste0((1-p)*100,"%"),adj = 0,pos = 2, cex=cex)
     
@@ -118,7 +134,9 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
     ub <- max(x)   # Upper bound
     x2 <- seq(lb, ub, length = 100) # New Grid
     y <- dnorm(x2, 0, 1) # Density
-    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0,y,0), 
+            col = col)
+    # col = rgb(0, 0, 1, alpha = 0.5))
     text(x = 2, y = .2,
          labels = paste0((p)*100,"%"),adj = 0,pos = 4, cex=cex)
     
@@ -136,10 +154,31 @@ draw.normal <- function(mean = 0, sd = 1, set.seed=1, prob = 0.025, text = FALSE
     ub <- (middle[2])   # Upper bound
     x2 <- seq(lb, ub, length = 100) # New Grid
     y <- dnorm(x2, 0, 1) # Density
-    polygon(c(lb, x2, ub), c(0,y,0), col = rgb(0, 0, 1, alpha = 0.5))
+    polygon(c(lb, x2, ub), c(0,y,0), 
+            col = col)
+    # col = rgb(0, 0, 1, alpha = 0.5))
     text(x = mean(middle), y = dnorm(mean(middle))+.2,
          labels = paste0(round(pnorm(middle[2])-pnorm(middle[1]),digits = 4)*100,"%"),adj = 0,pos = 1, cex=cex)
     
   }
+
+
+  if (where=="middle2"){
+    # Add the middle (red) polygon 
+    lb <- (middle[1]+mean) # Lower bound
+    ub <- (middle[2]+mean)   # Upper bound
+    x2 <- seq(lb, ub, length = 100) # New Grid
+    y <- dnorm(x2, 0+mean, 1) # Density
+    
+    polygon(c(lb, x2, ub), c(0,y,0), 
+            col = rgb(0, 0, 1, alpha = 0.5))
+    
+    text(x = mean(middle+mean), 
+         y = dnorm(mean(middle+mean))+.2,
+         labels = paste0(round(pnorm(middle[2]+mean)-pnorm(middle[1]+mean),digits = 4)*100,"%"),
+         adj = 0,pos = 1, cex=cex)
+    
+  }
   
 }
+

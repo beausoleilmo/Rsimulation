@@ -48,3 +48,8 @@ We will also explore:
   - [Power Analysis by Data Simulation in R - Part III](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iii/)
   - [Power Analysis by Data Simulation in R - Part IV
 ](https://julianquandt.com/post/power-analysis-by-data-simulation-in-r-part-iv/)
+
+
+# Development 
+
+  - Update `/opt/homebrew/Cellar/imagemagick/7.1.0-51/bin/convert` to what version of imagemagick was installed 
