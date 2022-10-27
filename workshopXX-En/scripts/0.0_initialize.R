@@ -18,7 +18,7 @@ librarian::shelf(tidyverse,
                  broom.mixed,
                  dplyr, DT,
                  cds, 
-                 dummies, 
+                 # dummies, # not availabie anymore https://cran.r-project.org/web/packages/dummies/index.html
                  fontawesome,
                  fitdistrplus, 
                  gavinsimpson / ggvegan, 
