@@ -3117,6 +3117,13 @@ legend("topright",legend = c("min = 8, max = 9","min = 10, max = 15","min = 16, 
   * The order of DF matters 
   * [An introduction to the F-Distribution](https://www.youtube.com/watch?v=G_RDxAZJ-ug&ab_channel=jbstatistics)
 
+- Note that the log normal is the distribution that if you take the log of, you get a normal distribution, or that if you exponentiate a normal distribution, you get a normal distribution. The mean and sd of the log normal is the value that constructs that normal distribution (when transformed!)
+```
+set.seed(1234)
+plot(density(log(rlnorm(n = 1000,meanlog = 0, sdlog = 1))))
+plot(density(exp(rnorm(n = 1000,mean = 0, sd = 1))))
+```
+
 ---
 # Summary of important distribution 
 
